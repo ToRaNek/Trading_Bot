@@ -105,16 +105,29 @@ class NewsAnalyzer:
         try:
             session = await self.get_session()
             
-            # Chercher par ticker
-            query = f"{symbol} stock"
+            # Calculer la date de début
+            from_date = datetime.now() - timedelta(hours=hours)
+            
+            # Recherche plus large pour NewsAPI
+            company_names = {
+                'AAPL': 'Apple', 'MSFT': 'Microsoft', 'GOOGL': 'Google Alphabet',
+                'AMZN': 'Amazon', 'NVDA': 'Nvidia', 'META': 'Meta Facebook',
+                'TSLA': 'Tesla', 'JPM': 'JPMorgan', 'V': 'Visa', 
+                'NFLX': 'Netflix', 'AMD': 'AMD', 'INTC': 'Intel'
+            }
+            
+            # Utiliser le nom de l'entreprise si disponible, sinon le ticker
+            search_term = company_names.get(symbol, symbol)
+            query = f"{search_term} stock OR {symbol}"
             
             url = "https://newsapi.org/v2/everything"
             params = {
                 'q': query,
+                'from': from_date.strftime('%Y-%m-%dT%H:%M:%S'),
                 'sortBy': 'publishedAt',
                 'language': 'en',
                 'apiKey': self.newsapi_key,
-                'pageSize': 20
+                'pageSize': 30
             }
             
             async with session.get(url, params=params, timeout=10) as response:
@@ -200,12 +213,16 @@ class NewsAnalyzer:
         """Récupère les actualités via Finnhub (meilleur pour la finance)"""
         try:
             session = await self.get_session()
+
+            to_date = datetime.now()
+            from_date = to_date - timedelta(hours=hours)
             
             url = "https://finnhub.io/api/v1/company-news"
             params = {
                 'symbol': symbol,
-                'token': self.finnhub_key,
-                'limit': 20
+                'from': from_date.strftime('%Y-%m-%d'),
+                'to': to_date.strftime('%Y-%m-%d'),
+                'token': self.finnhub_key
             }
             
             async with session.get(url, params=params, timeout=10) as response:
