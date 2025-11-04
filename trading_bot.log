@@ -2665,3 +2665,275 @@ client_session: <aiohttp.client.ClientSession object at 0x0000025269A687D0>
 2025-11-04 22:14:01,672 - TradingBot - INFO - [*] Analysées: 25/25
 2025-11-04 22:16:02,398 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x0000020323E5D310>
+2025-11-04 22:30:25,593 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 22:30:25,594 - TradingBot - INFO - 🚀 Démarrage bot complet...
+2025-11-04 22:30:25,595 - discord.client - INFO - logging in using static token
+2025-11-04 22:30:26,442 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 86b52be0a60a857fafb34bd034a70f96).
+2025-11-04 22:30:28,446 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 22:30:43,846 - TradingBot - INFO - 
+================================================================================
+2025-11-04 22:30:43,846 - TradingBot - INFO - [>>] BACKTEST COMPLET: 15 actions - 6 mois
+2025-11-04 22:30:43,847 - TradingBot - INFO - [>>] Technique + Actualités + Réseaux Sociaux (Twitter/X)
+2025-11-04 22:30:43,847 - TradingBot - INFO - ================================================================================
+2025-11-04 22:30:43,847 - TradingBot - INFO - [>>] Backtest complet TSLA - 6 mois (Tech + News + Social)
+2025-11-04 22:30:44,187 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:30:44,193 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:30:44,589 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:44,672 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:44,672 - TradingBot - INFO -    [2025-06-04] HOLD | Tech:55 AI:50/100 | News:111 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:45,052 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:45,088 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:45,258 - TradingBot - INFO -    [2025-06-05] BUY | Tech:95 AI:53/100 | News:91 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:45,258 - TradingBot - INFO -    ❌ BUY rejeté (AI:53) - Sentiment mixte
+2025-11-04 22:30:45,912 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:45,960 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:46,062 - TradingBot - INFO -    [2025-06-06] BUY | Tech:80 AI:50/100 | News:65 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:46,062 - TradingBot - INFO -    ❌ BUY rejeté (AI:50) - Sentiment mixte
+2025-11-04 22:30:46,668 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:46,710 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:46,812 - TradingBot - INFO -    [2025-06-09] BUY | Tech:80 AI:52/100 | News:35 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:46,813 - TradingBot - INFO -    ❌ BUY rejeté (AI:52) - Sentiment mixte
+2025-11-04 22:30:47,401 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:47,450 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:47,751 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:47,788 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:48,100 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:48,139 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:48,468 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:48,510 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:48,820 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:48,858 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:48,960 - TradingBot - INFO -    [2025-06-16] BUY | Tech:65 AI:50/100 | News:26 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:48,960 - TradingBot - INFO -    ❌ BUY rejeté (AI:50) - Sentiment mixte
+2025-11-04 22:30:49,646 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:49,685 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:49,789 - TradingBot - INFO -    [2025-06-17] BUY | Tech:65 AI:52/100 | News:46 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:49,789 - TradingBot - INFO -    ❌ BUY rejeté (AI:52) - Sentiment mixte
+2025-11-04 22:30:50,381 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:50,421 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:50,524 - TradingBot - INFO -    [2025-06-18] BUY | Tech:65 AI:52/100 | News:74 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:50,524 - TradingBot - INFO -    ❌ BUY rejeté (AI:52) - Sentiment mixte
+2025-11-04 22:30:51,108 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:51,146 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:51,478 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:51,524 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:51,878 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:51,922 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:52,022 - TradingBot - INFO -    [2025-06-24] BUY | Tech:75 AI:51/100 | News:86 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:52,023 - TradingBot - INFO -    ❌ BUY rejeté (AI:51) - Sentiment mixte
+2025-11-04 22:30:52,615 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:52,657 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:52,973 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:53,026 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:53,319 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:53,360 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:53,639 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:53,676 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:54,034 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:54,071 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:54,172 - TradingBot - INFO -    [2025-07-01] BUY | Tech:80 AI:61/100 | News:70 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:54,172 - TradingBot - INFO -    ❌ BUY rejeté (AI:61) - Sentiment modérément positif
+2025-11-04 22:30:54,794 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:54,838 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:55,210 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:55,248 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:55,573 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:55,618 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:55,722 - TradingBot - INFO -    [2025-07-07] BUY | Tech:80 AI:47/100 | News:36 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:55,722 - TradingBot - INFO -    ❌ BUY rejeté (AI:47) - Sentiment mixte
+2025-11-04 22:30:56,331 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:56,374 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:56,521 - TradingBot - INFO -    [2025-07-08] BUY | Tech:80 AI:51/100 | News:78 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:56,522 - TradingBot - INFO -    ❌ BUY rejeté (AI:51) - Sentiment mixte
+2025-11-04 22:30:57,103 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:57,145 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:57,255 - TradingBot - INFO -    [2025-07-09] BUY | Tech:70 AI:65/100 | News:107 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:57,256 - TradingBot - INFO -    ❌ BUY rejeté (AI:65) - Sentiment modérément positif
+2025-11-04 22:30:58,115 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:58,153 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:58,257 - TradingBot - INFO -    [2025-07-10] SELL | Tech:25 AI:49/100 | News:85 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:58,826 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:58,867 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:58,973 - TradingBot - INFO -    [2025-07-11] SELL | Tech:25 AI:47/100 | News:94 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:30:59,577 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:30:59,616 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:30:59,721 - TradingBot - INFO -    [2025-07-14] SELL | Tech:35 AI:49/100 | News:25 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:00,298 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:00,336 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:00,437 - TradingBot - INFO -    [2025-07-15] SELL | Tech:35 AI:49/100 | News:60 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:01,034 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:01,069 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:01,350 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:01,642 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:01,971 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:02,011 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:02,012 - TradingBot - INFO -    [2025-07-18] HOLD | Tech:45 AI:50/100 | News:41 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:02,286 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:02,338 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:02,668 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:02,709 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:02,815 - TradingBot - INFO -    [2025-07-22] SELL | Tech:30 AI:49/100 | News:73 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:03,398 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:03,438 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:03,539 - TradingBot - INFO -    [2025-07-23] SELL | Tech:30 AI:47/100 | News:99 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:04,201 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:04,245 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:04,514 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:04,551 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:04,811 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:04,850 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:05,108 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:05,147 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:05,736 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:05,776 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:06,099 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:06,142 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:06,244 - TradingBot - INFO -    [2025-07-31] SELL | Tech:25 AI:47/100 | News:64 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:06,863 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:06,906 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:07,008 - TradingBot - INFO -    [2025-08-01] SELL | Tech:25 AI:46/100 | News:68 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:07,563 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:07,610 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:07,711 - TradingBot - INFO -    [2025-08-04] SELL | Tech:25 AI:47/100 | News:13 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:08,290 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:08,333 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:08,434 - TradingBot - INFO -    [2025-08-05] SELL | Tech:25 AI:48/100 | News:72 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:09,065 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:09,106 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:09,212 - TradingBot - INFO -    [2025-08-06] SELL | Tech:25 AI:48/100 | News:117 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:09,785 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:09,821 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:10,163 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:10,202 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:10,511 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:10,550 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:10,830 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:10,874 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:11,136 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:11,177 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:11,473 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:11,513 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:11,614 - TradingBot - INFO -    [2025-08-14] BUY | Tech:75 AI:54/100 | News:79 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:11,614 - TradingBot - INFO -    ❌ BUY rejeté (AI:54) - Sentiment mixte
+2025-11-04 22:31:12,233 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:12,274 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:12,377 - TradingBot - INFO -    [2025-08-15] BUY | Tech:75 AI:50/100 | News:63 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:12,377 - TradingBot - INFO -    ❌ BUY rejeté (AI:50) - Sentiment mixte
+2025-11-04 22:31:13,035 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:13,075 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:13,182 - TradingBot - INFO -    [2025-08-18] BUY | Tech:75 AI:51/100 | News:4 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:13,182 - TradingBot - INFO -    ❌ BUY rejeté (AI:51) - Sentiment mixte
+2025-11-04 22:31:13,751 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:13,789 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:13,892 - TradingBot - INFO -    [2025-08-19] BUY | Tech:75 AI:52/100 | News:34 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:13,892 - TradingBot - INFO -    ❌ BUY rejeté (AI:52) - Sentiment mixte
+2025-11-04 22:31:14,501 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:14,541 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:14,643 - TradingBot - INFO -    [2025-08-20] BUY | Tech:75 AI:48/100 | News:84 Social:0📱 (0🟢/0🔴)
+2025-11-04 22:31:14,643 - TradingBot - INFO -    ❌ BUY rejeté (AI:48) - Sentiment mixte
+2025-11-04 22:31:15,268 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:15,303 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:15,655 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:15,694 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:15,960 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:16,013 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:16,289 - TradingBot - INFO -    [Twitter] 0 posts pour $TSLA
+2025-11-04 22:31:16,341 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:31:16,515 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000188714DD090>
+2025-11-04 22:31:16,515 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000188715207D0>, 8820.4519498)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000188714DD1D0>
+2025-11-04 22:31:16,516 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000188714DD310>
+2025-11-04 22:31:16,516 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001887148ADB0>, 8822.0988519)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000188714DDD10>
+2025-11-04 22:36:33,436 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 22:36:33,436 - TradingBot - INFO - 🚀 Démarrage bot complet...
+2025-11-04 22:36:33,438 - discord.client - INFO - logging in using static token
+2025-11-04 22:36:36,527 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: fc0c4fff89f4129b3e7ed087fd306ceb).
+2025-11-04 22:36:38,534 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 22:37:13,574 - discord.ext.commands.bot - ERROR - Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "test" is not found
+2025-11-04 22:37:31,682 - TradingBot - INFO - 
+================================================================================
+2025-11-04 22:37:31,682 - TradingBot - INFO - [>>] BACKTEST COMPLET: 15 actions - 6 mois
+2025-11-04 22:37:31,683 - TradingBot - INFO - [>>] Technique + Actualités + Réseaux Sociaux (Twitter/X)
+2025-11-04 22:37:31,683 - TradingBot - INFO - ================================================================================
+2025-11-04 22:37:31,683 - TradingBot - INFO - [>>] Backtest complet TSLA - 6 mois (Tech + News + Social)
+2025-11-04 22:37:32,012 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:37:32,017 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:37:32,198 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:32,198 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (153j) - API limitée à 7j
+2025-11-04 22:37:32,206 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:32,206 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:32,206 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:32,253 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:32,253 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:32,254 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:32,254 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:32,258 - TradingBot - INFO -    [2025-06-04] HOLD | Tech:55 AI:50/100 | News:111 Social:97📱 (20🟢/28🔴)
+2025-11-04 22:37:32,392 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:32,392 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (152j) - API limitée à 7j
+2025-11-04 22:37:32,393 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:32,393 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:32,393 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:32,434 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:32,435 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:32,435 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:32,435 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:32,597 - TradingBot - INFO -    [2025-06-05] BUY | Tech:95 AI:47/100 | News:91 Social:21📱 (2🟢/7🔴)
+2025-11-04 22:37:32,597 - TradingBot - INFO -    ❌ BUY rejeté (AI:47) - Sentiment mixte
+2025-11-04 22:37:33,100 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:33,101 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (151j) - API limitée à 7j
+2025-11-04 22:37:33,101 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:33,101 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:33,101 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:33,144 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:33,144 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:33,145 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:33,145 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:33,475 - TradingBot - INFO -    [2025-06-06] BUY | Tech:80 AI:51/100 | News:65 Social:45📱 (15🟢/15🔴)
+2025-11-04 22:37:33,475 - TradingBot - INFO -    ❌ BUY rejeté (AI:51) - Sentiment mixte
+2025-11-04 22:37:33,958 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:33,959 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (148j) - API limitée à 7j
+2025-11-04 22:37:33,959 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:33,960 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:33,960 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:34,015 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:34,015 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:34,016 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:34,016 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:34,118 - TradingBot - INFO -    [2025-06-09] BUY | Tech:80 AI:49/100 | News:35 Social:43📱 (7🟢/18🔴)
+2025-11-04 22:37:34,118 - TradingBot - INFO -    ❌ BUY rejeté (AI:49) - Sentiment mixte
+2025-11-04 22:37:34,560 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:34,561 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (147j) - API limitée à 7j
+2025-11-04 22:37:34,561 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:34,561 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:34,562 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:34,599 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:34,599 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:34,600 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:34,601 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:34,753 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:34,754 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (146j) - API limitée à 7j
+2025-11-04 22:37:34,754 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:34,754 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:34,754 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:34,794 - TradingBot - ERROR -    [❌ StockTwits] Erreur HTTP 403
+2025-11-04 22:37:34,794 - TradingBot - ERROR -    [❌] Aucun post trouvé pour $TSLA malgré API configurées!
+2025-11-04 22:37:34,796 - TradingBot - ERROR -    [❌] Erreurs: Twitter: 0 posts trouvés, StockTwits: 0 posts trouvés
+2025-11-04 22:37:34,797 - TradingBot - WARNING -    [💡] Utilisation données synthétiques en fallback
+2025-11-04 22:37:34,936 - TradingBot - INFO -    [🐦] Tentative Twitter pour $TSLA...
+2025-11-04 22:37:34,936 - TradingBot - WARNING -    [⚠️ Twitter] Date trop ancienne (145j) - API limitée à 7j
+2025-11-04 22:37:34,937 - TradingBot - WARNING -    [💡] Pour backtest historique: upgrade vers Academic Research API
+2025-11-04 22:37:34,937 - TradingBot - WARNING -    [💡] Ou utilise des données synthétiques (mode simulation)
+2025-11-04 22:37:34,937 - TradingBot - INFO -    [📊] Tentative StockTwits pour $TSLA...
+2025-11-04 22:37:35,053 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002A638417C50>
+2025-11-04 22:37:35,054 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002A638500BF0>, 9199.9260063)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002A63846FF50>, 9200.7440246)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000002A638417B10>
+2025-11-04 22:37:35,054 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002A6384B9BD0>
