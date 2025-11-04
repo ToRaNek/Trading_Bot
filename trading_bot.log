@@ -2937,3 +2937,1594 @@ connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002A
 connector: <aiohttp.connector.TCPConnector object at 0x000002A638417B10>
 2025-11-04 22:37:35,054 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x000002A6384B9BD0>
+2025-11-04 22:48:12,331 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 22:48:12,332 - TradingBot - INFO - 🚀 Démarrage bot complet GRATUIT...
+2025-11-04 22:48:12,332 - TradingBot - INFO - 🆓 Sources: StockTwits + Reddit + Google News
+2025-11-04 22:48:12,333 - discord.client - INFO - logging in using static token
+2025-11-04 22:48:13,292 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 93818c71e5b2d743311154f8846d2ff6).
+2025-11-04 22:48:15,296 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 22:48:26,453 - TradingBot - INFO - 
+================================================================================
+2025-11-04 22:48:26,453 - TradingBot - INFO - [>>] BACKTEST COMPLET: 15 actions - 6 mois
+2025-11-04 22:48:26,454 - TradingBot - INFO - [>>] 🆓 Technique + Actualités + Réseaux Sociaux GRATUITS
+2025-11-04 22:48:26,454 - TradingBot - INFO - [>>] Sources: StockTwits + Reddit + Google News + Synthétique
+2025-11-04 22:48:26,454 - TradingBot - INFO - ================================================================================
+2025-11-04 22:48:26,454 - TradingBot - INFO - [>>] Backtest complet TSLA - 6 mois (Tech + News + Social GRATUIT)
+2025-11-04 22:48:26,795 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:48:26,800 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:48:27,105 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:27,471 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:28,006 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:28,007 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:48:28,008 - TradingBot - INFO -    [2025-06-04] HOLD | Tech:55 AI:50/100 | News:111 Social:0📱+51🤖 (26🟢/7🔴)
+2025-11-04 22:48:28,211 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:28,483 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:28,519 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:28,520 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:48:28,687 - TradingBot - INFO -    [2025-06-05] BUY | Tech:95 AI:61/100 | News:91 Social:0📱+49🤖 (22🟢/13🔴)
+2025-11-04 22:48:28,687 - TradingBot - INFO -    ❌ BUY rejeté (AI:61) - Sentiment modérément positif
+2025-11-04 22:48:29,214 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:29,493 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:29,531 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:29,533 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:48:29,634 - TradingBot - INFO -    [2025-06-06] BUY | Tech:80 AI:72/100 | News:65 Social:0📱+63🤖 (27🟢/6🔴)
+2025-11-04 22:48:29,634 - TradingBot - INFO -    ✅ BUY @ $295.14 (AI:72) - Sentiment modérément positif + forte activité bullish sur réseaux
+2025-11-04 22:48:30,133 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:30,424 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:30,452 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:30,454 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:48:30,557 - TradingBot - INFO -    [2025-06-09] BUY | Tech:80 AI:72/100 | News:35 Social:0📱+70🤖 (28🟢/14🔴)
+2025-11-04 22:48:31,350 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:31,628 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:31,658 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:31,659 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:48:31,853 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:32,138 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:32,167 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:32,169 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:48:32,383 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:32,655 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:32,690 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:32,691 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:48:32,902 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:33,162 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:33,200 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:33,201 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:48:33,406 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:33,707 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:33,746 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:33,747 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:48:33,849 - TradingBot - INFO -    [2025-06-16] BUY | Tech:65 AI:73/100 | News:26 Social:0📱+69🤖 (32🟢/8🔴)
+2025-11-04 22:48:34,341 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:34,614 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:34,651 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:34,652 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:48:34,753 - TradingBot - INFO -    [2025-06-17] BUY | Tech:65 AI:72/100 | News:46 Social:0📱+54🤖 (20🟢/11🔴)
+2025-11-04 22:48:35,295 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:35,568 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:35,607 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:35,608 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:48:35,711 - TradingBot - INFO -    [2025-06-18] BUY | Tech:65 AI:76/100 | News:74 Social:0📱+68🤖 (33🟢/13🔴)
+2025-11-04 22:48:36,216 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:36,488 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:36,531 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:36,532 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:48:36,737 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:37,009 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:37,053 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:37,054 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:48:37,269 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:37,537 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:37,572 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:37,573 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:48:37,674 - TradingBot - INFO -    [2025-06-24] BUY | Tech:75 AI:66/100 | News:86 Social:0📱+40🤖 (24🟢/7🔴)
+2025-11-04 22:48:38,190 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:38,468 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:38,503 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:38,504 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:48:38,727 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:39,013 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:39,059 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:39,060 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:48:39,328 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:39,581 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:39,619 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:39,621 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:48:39,884 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:40,194 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:40,229 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:40,230 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:48:40,448 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:40,734 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:40,766 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:40,767 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:48:40,869 - TradingBot - INFO -    [2025-07-01] BUY | Tech:80 AI:70/100 | News:70 Social:0📱+47🤖 (26🟢/5🔴)
+2025-11-04 22:48:41,636 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:41,898 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:41,934 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:41,935 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:48:42,202 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:42,461 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:42,497 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:42,498 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:48:42,698 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:42,995 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:43,027 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:43,028 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:48:43,130 - TradingBot - INFO -    [2025-07-07] BUY | Tech:80 AI:62/100 | News:36 Social:0📱+70🤖 (33🟢/12🔴)
+2025-11-04 22:48:43,846 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:44,113 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:44,140 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:44,141 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:48:44,243 - TradingBot - INFO -    [2025-07-08] BUY | Tech:80 AI:76/100 | News:78 Social:0📱+68🤖 (35🟢/16🔴)
+2025-11-04 22:48:44,759 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:45,025 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:45,278 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:54,882 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:48:54,982 - TradingBot - INFO -    [2025-07-09] BUY | Tech:70 AI:79/100 | News:107 Social:0📱+55🤖 (22🟢/10🔴)
+2025-11-04 22:48:55,484 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:55,748 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:55,779 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:55,780 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:48:55,882 - TradingBot - INFO -    [2025-07-10] SELL | Tech:25 AI:48/100 | News:85 Social:0📱+60🤖 (23🟢/12🔴)
+2025-11-04 22:48:56,427 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:56,701 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:56,726 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:56,727 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:48:56,830 - TradingBot - INFO -    [2025-07-11] SELL | Tech:25 AI:47/100 | News:94 Social:0📱+42🤖 (17🟢/9🔴)
+2025-11-04 22:48:57,321 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:57,568 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:57,606 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:57,607 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:48:57,710 - TradingBot - INFO -    [2025-07-14] SELL | Tech:35 AI:43/100 | News:25 Social:0📱+56🤖 (25🟢/10🔴)
+2025-11-04 22:48:58,231 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:58,431 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:58,473 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:58,475 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:48:58,577 - TradingBot - INFO -    [2025-07-15] SELL | Tech:35 AI:44/100 | News:60 Social:0📱+69🤖 (35🟢/14🔴)
+2025-11-04 22:48:59,047 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:59,327 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:59,351 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:59,352 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:48:59,527 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:48:59,806 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:48:59,829 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:48:59,830 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:48:59,997 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:00,272 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:00,295 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:00,296 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:49:00,297 - TradingBot - INFO -    [2025-07-18] HOLD | Tech:45 AI:50/100 | News:41 Social:0📱+60🤖 (23🟢/15🔴)
+2025-11-04 22:49:00,463 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:00,659 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:00,682 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:00,683 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:49:00,921 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:01,154 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:01,185 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:01,186 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:49:01,285 - TradingBot - INFO -    [2025-07-22] SELL | Tech:30 AI:41/100 | News:73 Social:0📱+51🤖 (23🟢/12🔴)
+2025-11-04 22:49:01,863 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:02,135 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:02,165 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:02,166 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:49:02,267 - TradingBot - INFO -    [2025-07-23] SELL | Tech:30 AI:44/100 | News:99 Social:0📱+51🤖 (22🟢/11🔴)
+2025-11-04 22:49:02,795 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:03,052 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:03,095 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:03,096 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:49:03,555 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:03,842 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:03,876 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:03,878 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:49:04,047 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:04,356 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:04,391 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:04,392 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:49:04,587 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:04,871 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:04,897 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:04,898 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:49:05,142 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:05,431 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:05,458 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:05,458 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:49:05,644 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:05,913 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:05,942 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:05,943 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:49:06,061 - TradingBot - INFO -    [2025-07-31] SELL | Tech:25 AI:45/100 | News:64 Social:0📱+43🤖 (17🟢/9🔴)
+2025-11-04 22:49:06,563 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:06,843 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:06,876 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:06,877 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:49:06,979 - TradingBot - INFO -    [2025-08-01] SELL | Tech:25 AI:40/100 | News:68 Social:0📱+46🤖 (28🟢/5🔴)
+2025-11-04 22:49:07,466 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:07,740 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:07,761 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:07,763 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:49:07,871 - TradingBot - INFO -    [2025-08-04] SELL | Tech:25 AI:45/100 | News:13 Social:0📱+64🤖 (28🟢/13🔴)
+2025-11-04 22:49:08,377 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:08,635 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:08,658 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:08,659 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:08,761 - TradingBot - INFO -    [2025-08-05] SELL | Tech:25 AI:45/100 | News:72 Social:0📱+63🤖 (24🟢/11🔴)
+2025-11-04 22:49:09,312 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:09,616 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:09,641 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:09,642 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:49:09,742 - TradingBot - INFO -    [2025-08-06] SELL | Tech:25 AI:43/100 | News:117 Social:0📱+56🤖 (27🟢/12🔴)
+2025-11-04 22:49:10,243 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:10,514 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:10,547 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:10,548 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:49:10,721 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:10,996 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:11,023 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:11,024 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:49:11,247 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:11,527 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:11,561 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:11,562 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:49:11,746 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:12,030 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:12,074 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:12,075 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:49:12,263 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:12,521 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:12,554 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:12,555 - TradingBot - INFO -    [Synthétique] +59 posts (complément intelligent)
+2025-11-04 22:49:12,792 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:13,067 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:13,094 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:13,095 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:49:13,198 - TradingBot - INFO -    [2025-08-14] BUY | Tech:75 AI:54/100 | News:79 Social:0📱+66🤖 (27🟢/18🔴)
+2025-11-04 22:49:13,917 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:14,183 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:14,213 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:14,214 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:49:14,315 - TradingBot - INFO -    [2025-08-15] BUY | Tech:75 AI:61/100 | News:63 Social:0📱+48🤖 (23🟢/10🔴)
+2025-11-04 22:49:14,786 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:15,040 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:15,060 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:15,062 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:49:15,163 - TradingBot - INFO -    [2025-08-18] BUY | Tech:75 AI:71/100 | News:4 Social:0📱+60🤖 (27🟢/13🔴)
+2025-11-04 22:49:15,639 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:15,907 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:15,928 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:15,929 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:49:16,032 - TradingBot - INFO -    [2025-08-19] BUY | Tech:75 AI:72/100 | News:34 Social:0📱+55🤖 (24🟢/10🔴)
+2025-11-04 22:49:16,535 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:16,820 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:16,850 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:16,851 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:49:16,954 - TradingBot - INFO -    [2025-08-20] BUY | Tech:75 AI:52/100 | News:84 Social:0📱+47🤖 (22🟢/10🔴)
+2025-11-04 22:49:17,448 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:17,714 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:17,758 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:17,759 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:17,954 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:18,226 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:18,253 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:18,254 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:18,416 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:18,682 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:18,716 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:18,718 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:49:18,888 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:19,149 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:19,183 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:19,184 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:49:19,357 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:19,624 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:19,645 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:19,646 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:49:20,080 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:20,388 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:20,415 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:20,415 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:49:20,522 - TradingBot - INFO -    [2025-08-28] BUY | Tech:75 AI:51/100 | News:52 Social:0📱+41🤖 (18🟢/9🔴)
+2025-11-04 22:49:21,121 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:21,408 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:21,430 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:21,431 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:49:21,534 - TradingBot - INFO -    [2025-08-29] BUY | Tech:75 AI:62/100 | News:0 Social:0📱+57🤖 (27🟢/9🔴)
+2025-11-04 22:49:22,116 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:22,433 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:22,463 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:22,464 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:49:22,739 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:23,036 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:23,070 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:23,071 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:49:23,527 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:23,815 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:23,841 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:23,842 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:49:24,112 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:24,378 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:24,404 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:24,405 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:49:24,650 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:24,918 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:24,936 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:24,938 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:49:25,037 - TradingBot - INFO -    [2025-09-08] BUY | Tech:75 AI:72/100 | News:0 Social:0📱+62🤖 (29🟢/13🔴)
+2025-11-04 22:49:25,826 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:26,090 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:26,110 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:26,111 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:49:26,213 - TradingBot - INFO -    [2025-09-09] BUY | Tech:75 AI:48/100 | News:0 Social:0📱+50🤖 (15🟢/17🔴)
+2025-11-04 22:49:26,766 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:27,041 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:27,060 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:27,061 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:27,161 - TradingBot - INFO -    [2025-09-10] BUY | Tech:75 AI:50/100 | News:0 Social:0📱+63🤖 (22🟢/17🔴)
+2025-11-04 22:49:27,657 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:27,944 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:27,970 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:27,971 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:49:28,143 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:28,440 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:28,468 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:28,469 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:49:28,687 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:28,948 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:28,973 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:28,975 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:49:29,177 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:29,432 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:29,463 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:29,464 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:49:29,637 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:29,926 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:29,946 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:29,947 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:49:30,155 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:30,439 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:30,462 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:30,463 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:49:30,647 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:30,902 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:31,147 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:31,148 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:49:31,319 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:31,581 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:31,605 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:31,606 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:49:31,778 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:32,090 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:32,114 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:32,115 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:49:32,326 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:32,610 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:32,628 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:32,629 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:49:32,804 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:33,067 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:33,095 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:33,096 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:49:33,348 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:33,609 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:33,636 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:33,637 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:49:33,831 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:34,137 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:34,166 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:34,167 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:49:34,338 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:34,620 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:34,653 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:34,654 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:49:34,835 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:35,016 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:35,068 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:35,069 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:49:35,248 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:35,440 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:35,472 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:35,473 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:49:35,577 - TradingBot - INFO -    [2025-10-02] BUY | Tech:75 AI:77/100 | News:64 Social:0📱+68🤖 (36🟢/11🔴)
+2025-11-04 22:49:36,128 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:36,431 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:36,460 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:36,461 - TradingBot - INFO -    [Synthétique] +52 posts (complément intelligent)
+2025-11-04 22:49:36,625 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:36,918 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:36,942 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:36,943 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:49:37,127 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:37,388 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:37,420 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:37,421 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:49:37,601 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:37,862 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:37,902 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:37,903 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:49:38,112 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:38,384 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:38,427 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:38,428 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:49:38,626 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:38,910 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:38,955 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:38,956 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:49:39,056 - TradingBot - INFO -    [2025-10-10] BUY | Tech:70 AI:51/100 | News:109 Social:0📱+40🤖 (15🟢/10🔴)
+2025-11-04 22:49:39,618 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:39,875 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:39,913 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:39,914 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:49:39,914 - TradingBot - INFO -    [2025-10-13] HOLD | Tech:55 AI:50/100 | News:24 Social:0📱+43🤖 (16🟢/6🔴)
+2025-11-04 22:49:40,173 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:40,422 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:40,457 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:40,459 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:49:40,695 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:40,990 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:41,258 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:41,259 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:49:41,444 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:41,730 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:41,760 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:41,761 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:49:41,970 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:42,235 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:42,274 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:42,275 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:49:42,463 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:42,656 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:42,693 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:42,694 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:49:42,958 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:43,168 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:43,206 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:43,207 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:49:43,393 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:43,583 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:43,622 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:43,623 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:49:43,901 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:44,186 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:44,235 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:44,236 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:49:44,428 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:44,711 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:44,758 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:44,760 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:49:44,956 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:45,229 - TradingBot - INFO -    [Reddit WSB] 4 mentions pour $TSLA
+2025-11-04 22:49:45,263 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:45,264 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:49:45,459 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:45,553 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:45,596 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:45,598 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:49:45,785 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:45,877 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:45,912 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:45,913 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:49:46,090 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:46,183 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:46,210 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:46,211 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:49:46,402 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:46,496 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:46,527 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:46,528 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:49:46,940 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:47,033 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:47,066 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:47,066 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:49:47,248 - TradingBot - INFO -    [StockTwits] 0 posts pour $TSLA
+2025-11-04 22:49:47,340 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:49:47,410 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:49:47,411 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:49:47,411 - TradingBot - INFO -    [OK] 80.96s | Score:90 | Profit:+50.53% | Trades:1
+2025-11-04 22:49:50,423 - TradingBot - INFO - [>>] Backtest complet AAPL - 6 mois (Tech + News + Social GRATUIT)
+2025-11-04 22:49:50,548 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:49:50,553 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:49:50,753 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:50,847 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:51,282 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:51,283 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:49:51,391 - TradingBot - INFO -    [2025-06-04] SELL | Tech:35 AI:13/100 | News:53 Social:0📱+64🤖 (24🟢/3🔴)
+2025-11-04 22:49:51,886 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:51,980 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:52,026 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:52,027 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:52,130 - TradingBot - INFO -    [2025-06-05] BUY | Tech:65 AI:73/100 | News:83 Social:0📱+63🤖 (21🟢/1🔴)
+2025-11-04 22:49:52,130 - TradingBot - INFO -    ✅ BUY @ $200.40 (AI:73) - Sentiment modérément positif + forte activité bullish sur réseaux
+2025-11-04 22:49:52,649 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:52,744 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:52,790 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:52,791 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:49:52,892 - TradingBot - INFO -    [2025-06-06] BUY | Tech:85 AI:63/100 | News:85 Social:0📱+66🤖 (20🟢/9🔴)
+2025-11-04 22:49:53,452 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:53,545 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:53,587 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:53,589 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:49:53,694 - TradingBot - INFO -    [2025-06-09] BUY | Tech:85 AI:100/100 | News:24 Social:0📱+68🤖 (24🟢/7🔴)
+2025-11-04 22:49:54,387 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:54,481 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:54,530 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:54,532 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:49:54,637 - TradingBot - INFO -    [2025-06-10] BUY | Tech:75 AI:53/100 | News:98 Social:0📱+46🤖 (17🟢/2🔴)
+2025-11-04 22:49:55,159 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:55,313 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:55,427 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:55,429 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:49:55,701 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:55,799 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:55,947 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:55,949 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:49:56,565 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:56,772 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:56,894 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:56,896 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:49:57,017 - TradingBot - INFO -    [2025-06-13] BUY | Tech:70 AI:64/100 | News:50 Social:0📱+53🤖 (20🟢/8🔴)
+2025-11-04 22:49:57,493 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:57,596 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:57,661 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:57,662 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:49:57,876 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:57,971 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:58,011 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:58,012 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:49:58,206 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:58,300 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:58,337 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:58,338 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:49:58,547 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:58,640 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:58,684 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:58,685 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:49:58,786 - TradingBot - INFO -    [2025-06-20] SELL | Tech:30 AI:46/100 | News:42 Social:0📱+50🤖 (16🟢/3🔴)
+2025-11-04 22:49:59,498 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:49:59,788 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:49:59,834 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:49:59,835 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:00,100 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:00,307 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:00,347 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:00,348 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:50:00,578 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:00,793 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:00,839 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:00,840 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:01,249 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:01,449 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:01,490 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:01,491 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:50:01,719 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:01,952 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:01,993 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:01,995 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:50:02,189 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:02,388 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:02,431 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:02,432 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:50:02,534 - TradingBot - INFO -    [2025-06-30] SELL | Tech:35 AI:47/100 | News:23 Social:0📱+48🤖 (14🟢/9🔴)
+2025-11-04 22:50:03,041 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:03,214 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:03,264 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:03,266 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:50:03,423 - TradingBot - INFO -    [2025-07-01] SELL | Tech:30 AI:40/100 | News:68 Social:0📱+69🤖 (20🟢/7🔴)
+2025-11-04 22:50:04,007 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:04,225 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:04,273 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:04,274 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:50:04,380 - TradingBot - INFO -    [2025-07-02] SELL | Tech:10 AI:45/100 | News:100 Social:0📱+57🤖 (23🟢/9🔴)
+2025-11-04 22:50:04,916 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:05,095 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:05,143 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:05,144 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:50:05,246 - TradingBot - INFO -    [2025-07-03] SELL | Tech:10 AI:44/100 | News:90 Social:0📱+50🤖 (17🟢/3🔴)
+2025-11-04 22:50:05,843 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:06,022 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:06,068 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:06,069 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:50:06,171 - TradingBot - INFO -    [2025-07-07] SELL | Tech:10 AI:48/100 | News:0 Social:0📱+42🤖 (11🟢/10🔴)
+2025-11-04 22:50:06,737 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:06,912 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:06,955 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:06,957 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:07,056 - TradingBot - INFO -    [2025-07-08] SELL | Tech:10 AI:45/100 | News:0 Social:0📱+64🤖 (22🟢/7🔴)
+2025-11-04 22:50:07,620 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:07,787 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:07,822 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:07,824 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:50:07,923 - TradingBot - INFO -    [2025-07-09] SELL | Tech:10 AI:48/100 | News:0 Social:0📱+51🤖 (16🟢/7🔴)
+2025-11-04 22:50:08,496 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:08,680 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:08,713 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:08,715 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:08,816 - TradingBot - INFO -    [2025-07-10] SELL | Tech:10 AI:46/100 | News:0 Social:0📱+64🤖 (25🟢/8🔴)
+2025-11-04 22:50:09,386 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:09,557 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:09,590 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:09,591 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:50:09,846 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:10,021 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:10,050 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:10,052 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:10,156 - TradingBot - INFO -    [2025-07-14] BUY | Tech:75 AI:62/100 | News:0 Social:0📱+64🤖 (30🟢/7🔴)
+2025-11-04 22:50:10,719 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:10,890 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:10,921 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:10,922 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:11,022 - TradingBot - INFO -    [2025-07-15] BUY | Tech:75 AI:64/100 | News:0 Social:0📱+61🤖 (22🟢/5🔴)
+2025-11-04 22:50:11,582 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:11,779 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:11,812 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:11,813 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:50:11,913 - TradingBot - INFO -    [2025-07-16] BUY | Tech:75 AI:53/100 | News:0 Social:0📱+43🤖 (19🟢/4🔴)
+2025-11-04 22:50:12,478 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:12,664 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:12,696 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:12,697 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:50:12,796 - TradingBot - INFO -    [2025-07-17] BUY | Tech:75 AI:63/100 | News:0 Social:0📱+67🤖 (22🟢/7🔴)
+2025-11-04 22:50:13,378 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:13,556 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:13,590 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:13,591 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:50:13,591 - TradingBot - INFO -    [2025-07-18] HOLD | Tech:55 AI:50/100 | News:0 Social:0📱+54🤖 (20🟢/4🔴)
+2025-11-04 22:50:14,076 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:14,246 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:14,286 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:14,287 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:50:14,389 - TradingBot - INFO -    [2025-07-21] BUY | Tech:75 AI:50/100 | News:0 Social:0📱+42🤖 (13🟢/3🔴)
+2025-11-04 22:50:14,972 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:15,161 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:15,195 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:15,196 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:50:15,451 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:15,635 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:15,680 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:15,681 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:50:15,787 - TradingBot - INFO -    [2025-07-23] BUY | Tech:75 AI:61/100 | News:0 Social:0📱+57🤖 (15🟢/5🔴)
+2025-11-04 22:50:16,355 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:16,542 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:16,577 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:16,578 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:50:16,685 - TradingBot - INFO -    [2025-07-24] BUY | Tech:75 AI:63/100 | News:0 Social:0📱+68🤖 (25🟢/10🔴)
+2025-11-04 22:50:17,272 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:17,443 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:17,483 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:17,484 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:50:17,585 - TradingBot - INFO -    [2025-07-25] BUY | Tech:75 AI:53/100 | News:0 Social:0📱+42🤖 (12🟢/5🔴)
+2025-11-04 22:50:18,139 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:18,319 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:18,365 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:18,366 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:50:18,468 - TradingBot - INFO -    [2025-07-28] BUY | Tech:75 AI:63/100 | News:0 Social:0📱+69🤖 (26🟢/8🔴)
+2025-11-04 22:50:19,032 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:19,210 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:19,256 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:19,257 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:50:19,531 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:19,744 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:19,785 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:19,786 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:50:19,887 - TradingBot - INFO -    [2025-07-30] BUY | Tech:80 AI:64/100 | News:0 Social:0📱+66🤖 (26🟢/7🔴)
+2025-11-04 22:50:20,436 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:20,601 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:20,643 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:20,644 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:50:20,746 - TradingBot - INFO -    [2025-07-31] BUY | Tech:85 AI:51/100 | News:0 Social:0📱+48🤖 (15🟢/7🔴)
+2025-11-04 22:50:21,299 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:21,470 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:21,514 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:21,516 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:50:21,615 - TradingBot - INFO -    [2025-08-01] BUY | Tech:85 AI:71/100 | News:0 Social:0📱+68🤖 (29🟢/5🔴)
+2025-11-04 22:50:22,185 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:22,369 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:22,410 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:22,412 - TradingBot - INFO -    [Synthétique] +59 posts (complément intelligent)
+2025-11-04 22:50:22,512 - TradingBot - INFO -    [2025-08-04] BUY | Tech:80 AI:64/100 | News:0 Social:0📱+59🤖 (20🟢/5🔴)
+2025-11-04 22:50:23,066 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:23,229 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:23,278 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:23,280 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:23,382 - TradingBot - INFO -    [2025-08-05] BUY | Tech:80 AI:64/100 | News:0 Social:0📱+64🤖 (27🟢/9🔴)
+2025-11-04 22:50:23,962 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:24,136 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:24,182 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:24,183 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:50:24,443 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:24,614 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:24,669 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:24,670 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:50:24,771 - TradingBot - INFO -    [2025-08-07] BUY | Tech:65 AI:59/100 | News:0 Social:0📱+62🤖 (13🟢/7🔴)
+2025-11-04 22:50:25,326 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:25,504 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:25,549 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:25,550 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:50:25,658 - TradingBot - INFO -    [2025-08-08] BUY | Tech:65 AI:62/100 | News:0 Social:0📱+63🤖 (19🟢/10🔴)
+2025-11-04 22:50:26,221 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:26,420 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:26,465 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:26,466 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:50:26,728 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:26,920 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:26,967 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:26,968 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:50:27,233 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:27,426 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:27,485 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:27,487 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:50:28,106 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:28,333 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:28,424 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:28,426 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:29,094 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:29,332 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:29,451 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:29,452 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:50:29,839 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:30,074 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:30,306 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:30,307 - TradingBot - INFO -    [Synthétique] +52 posts (complément intelligent)
+2025-11-04 22:50:30,805 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:31,332 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:31,499 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:31,500 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:50:31,838 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:32,123 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:32,178 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:32,179 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:32,283 - TradingBot - INFO -    [2025-08-20] BUY | Tech:75 AI:64/100 | News:82 Social:0📱+64🤖 (19🟢/5🔴)
+2025-11-04 22:50:32,933 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:33,218 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:33,328 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:33,329 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:50:33,657 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:33,937 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:34,092 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:34,094 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:50:34,371 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:34,617 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:34,973 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:34,974 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:50:35,093 - TradingBot - INFO -    [2025-08-25] SELL | Tech:35 AI:49/100 | News:31 Social:0📱+54🤖 (15🟢/8🔴)
+2025-11-04 22:50:35,715 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:35,969 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:36,102 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:36,103 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:50:36,220 - TradingBot - INFO -    [2025-08-26] SELL | Tech:35 AI:45/100 | News:49 Social:0📱+48🤖 (19🟢/6🔴)
+2025-11-04 22:50:36,855 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:37,331 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:37,496 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:37,497 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:50:37,873 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:38,119 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:38,305 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:38,306 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:50:38,638 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:38,942 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:39,098 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:39,099 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:50:39,099 - TradingBot - INFO -    [2025-08-29] HOLD | Tech:55 AI:50/100 | News:71 Social:0📱+70🤖 (24🟢/4🔴)
+2025-11-04 22:50:39,377 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:39,766 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:40,081 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:40,083 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:50:40,384 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:40,651 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:40,759 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:40,760 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:50:41,040 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:41,256 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:41,365 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:41,366 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:50:41,711 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:41,927 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:42,023 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:42,025 - TradingBot - INFO -    [Synthétique] +52 posts (complément intelligent)
+2025-11-04 22:50:42,328 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:42,547 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:42,632 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:42,633 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:50:42,859 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:43,063 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:43,150 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:43,151 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:50:43,252 - TradingBot - INFO -    [2025-09-09] BUY | Tech:75 AI:62/100 | News:39 Social:0📱+70🤖 (20🟢/7🔴)
+2025-11-04 22:50:43,749 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:43,933 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:43,992 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:43,993 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:50:44,196 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:44,376 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:44,422 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:44,423 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:50:44,606 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:44,820 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:44,869 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:44,870 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:45,061 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:46,789 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:46,842 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:46,843 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:47,294 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:47,576 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:47,621 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:47,622 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:50:47,820 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:48,004 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:48,052 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:48,053 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:48,250 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:48,416 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:48,458 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:48,459 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:50:48,658 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:48,822 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:48,866 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:48,867 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:50:48,970 - TradingBot - INFO -    [2025-09-19] BUY | Tech:65 AI:64/100 | News:82 Social:0📱+67🤖 (16🟢/3🔴)
+2025-11-04 22:50:49,477 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:49,653 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:49,713 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:49,714 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:49,904 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:50,103 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:50,154 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:50,155 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:50:50,323 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:50,500 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:50,538 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:50,540 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:50:50,790 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:50,969 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:51,013 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:51,014 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:50:51,206 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:51,373 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:51,418 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:51,419 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:50:51,589 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:51,752 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:51,792 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:51,793 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:50:52,005 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:52,203 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:52,240 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:52,242 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:50:52,429 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:52,604 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:52,646 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:52,647 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:50:52,830 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:53,002 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:53,039 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:53,040 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:50:53,224 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:53,385 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:53,424 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:53,426 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:50:53,608 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:53,912 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:53,950 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:53,951 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:50:54,177 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:54,356 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:54,394 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:54,396 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:50:54,498 - TradingBot - INFO -    [2025-10-07] SELL | Tech:35 AI:43/100 | News:40 Social:0📱+45🤖 (19🟢/4🔴)
+2025-11-04 22:50:55,049 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:55,221 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:55,256 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:55,257 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:50:55,358 - TradingBot - INFO -    [2025-10-08] SELL | Tech:35 AI:50/100 | News:54 Social:0📱+43🤖 (15🟢/1🔴)
+2025-11-04 22:50:55,891 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:56,098 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:56,133 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:56,134 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:50:56,576 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:56,763 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:56,799 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:56,801 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:50:56,903 - TradingBot - INFO -    [2025-10-10] BUY | Tech:65 AI:73/100 | News:65 Social:0📱+67🤖 (23🟢/9🔴)
+2025-11-04 22:50:57,397 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:57,593 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:57,628 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:57,629 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:50:57,733 - TradingBot - INFO -    [2025-10-13] BUY | Tech:65 AI:61/100 | News:23 Social:0📱+42🤖 (16🟢/3🔴)
+2025-11-04 22:50:58,209 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:58,370 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:58,405 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:58,406 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:50:58,595 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:58,769 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:58,806 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:58,807 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:50:58,913 - TradingBot - INFO -    [2025-10-15] BUY | Tech:65 AI:73/100 | News:59 Social:0📱+61🤖 (21🟢/8🔴)
+2025-11-04 22:50:59,450 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:50:59,638 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:50:59,676 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:50:59,677 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:50:59,779 - TradingBot - INFO -    [2025-10-16] BUY | Tech:80 AI:62/100 | News:65 Social:0📱+57🤖 (16🟢/5🔴)
+2025-11-04 22:51:00,538 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:00,734 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:00,764 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:00,765 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:51:00,941 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:01,112 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:01,140 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:01,142 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:51:01,322 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:01,499 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:01,528 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:01,529 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:51:01,692 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:01,884 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:01,916 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:01,917 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:51:02,098 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:02,270 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:02,301 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:02,303 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:51:02,404 - TradingBot - INFO -    [2025-10-23] BUY | Tech:75 AI:64/100 | News:83 Social:0📱+70🤖 (26🟢/7🔴)
+2025-11-04 22:51:03,128 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:03,300 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:51:03,334 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:03,335 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:51:03,646 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:03,851 - TradingBot - INFO -    [Reddit WSB] 3 mentions pour $AAPL
+2025-11-04 22:51:03,884 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:03,885 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:51:04,098 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:04,278 - TradingBot - INFO -    [Reddit WSB] 4 mentions pour $AAPL
+2025-11-04 22:51:04,314 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:04,315 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:51:04,504 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:04,697 - TradingBot - INFO -    [Reddit WSB] 4 mentions pour $AAPL
+2025-11-04 22:51:04,729 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:04,730 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:51:04,934 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:05,109 - TradingBot - INFO -    [Reddit WSB] 4 mentions pour $AAPL
+2025-11-04 22:51:05,153 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:05,154 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:51:05,393 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:05,565 - TradingBot - INFO -    [Reddit WSB] 5 mentions pour $AAPL
+2025-11-04 22:51:05,598 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:05,599 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:51:05,783 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:06,194 - TradingBot - INFO -    [Reddit WSB] 2 mentions pour $AAPL
+2025-11-04 22:51:06,223 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:06,224 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:51:06,429 - TradingBot - INFO -    [StockTwits] 0 posts pour $AAPL
+2025-11-04 22:51:06,626 - TradingBot - INFO -    [Reddit WSB] 1 mentions pour $AAPL
+2025-11-04 22:51:06,658 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:51:06,659 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:51:06,660 - TradingBot - INFO -    [OK] 76.24s | Score:100 | Profit:+34.75% | Trades:1
+2025-11-04 22:51:06,660 - TradingBot - INFO - [~] 2/15 | OK:2 | Restant:~1041s
+2025-11-04 22:51:09,669 - TradingBot - INFO - [>>] Backtest complet NVDA - 6 mois (Tech + News + Social GRATUIT)
+2025-11-04 22:51:09,741 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:51:09,745 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:51:10,235 - TradingBot - INFO -    [StockTwits] 0 posts pour $NVDA
+2025-11-04 22:51:10,810 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $NVDA
+2025-11-04 22:51:11,344 - TradingBot - INFO -    [Google News] 0 articles pour $NVDA
+2025-11-04 22:51:11,346 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:51:11,346 - TradingBot - INFO -    [2025-06-04] HOLD | Tech:60 AI:50/100 | News:133 Social:0📱+68🤖 (32🟢/6🔴)
+2025-11-04 22:51:11,568 - TradingBot - INFO -    [StockTwits] 0 posts pour $NVDA
+2025-11-04 22:51:12,016 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $NVDA
+2025-11-04 22:51:12,052 - TradingBot - INFO -    [Google News] 0 articles pour $NVDA
+2025-11-04 22:51:12,054 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:51:12,158 - TradingBot - INFO -    [2025-06-05] BUY | Tech:75 AI:100/100 | News:150 Social:0📱+64🤖 (28🟢/3🔴)
+2025-11-04 22:51:12,158 - TradingBot - INFO -    ✅ BUY @ $139.97 (AI:100) - Sentiment très positif (News + 64 posts sociaux) + forte activité bullish sur ré
+2025-11-04 22:51:12,739 - TradingBot - INFO -    [StockTwits] 0 posts pour $NVDA
+2025-11-04 22:51:12,913 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002DD82208B90>
+2025-11-04 22:51:12,913 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002DD822450D0>, 10017.966852)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002DD828D7D10>, 10018.3818836)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002DD842D3470>, 10018.5052854)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000002DD82208CD0>
+2025-11-04 22:51:12,914 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002DD82208E10>
+2025-11-04 22:51:12,914 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002DD82244950>, 10017.8624609)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000002DD82209810>
+2025-11-04 22:56:19,772 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 22:56:19,772 - TradingBot - INFO - 🚀 Démarrage bot complet GRATUIT...
+2025-11-04 22:56:19,772 - TradingBot - INFO - 🆓 Sources: Reddit r/wallstreetbets + Google News
+2025-11-04 22:56:19,773 - discord.client - INFO - logging in using static token
+2025-11-04 22:56:20,728 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 961fe80894e6f00b55b89916bf9b9486).
+2025-11-04 22:56:22,744 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 22:56:31,903 - TradingBot - INFO - 
+================================================================================
+2025-11-04 22:56:31,903 - TradingBot - INFO - [>>] BACKTEST COMPLET: 15 actions - 6 mois
+2025-11-04 22:56:31,904 - TradingBot - INFO - [>>] 🆓 Technique + Actualités + Réseaux Sociaux GRATUITS
+2025-11-04 22:56:31,904 - TradingBot - INFO - [>>] Sources: Reddit r/wallstreetbets + Google News + Synthétique
+2025-11-04 22:56:31,904 - TradingBot - INFO - ================================================================================
+2025-11-04 22:56:31,904 - TradingBot - INFO - [>>] Backtest complet TSLA - 6 mois (Tech + News + Social GRATUIT)
+2025-11-04 22:56:32,213 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:56:32,219 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:56:32,722 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:33,345 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:33,346 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:56:33,346 - TradingBot - INFO -    [2025-06-04] HOLD | Tech:55 AI:50/100 | News:111 Social:0📱+50🤖 (23🟢/11🔴)
+2025-11-04 22:56:33,779 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:33,802 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:33,803 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:56:33,990 - TradingBot - INFO -    [2025-06-05] BUY | Tech:95 AI:72/100 | News:91 Social:0📱+67🤖 (31🟢/13🔴)
+2025-11-04 22:56:33,990 - TradingBot - INFO -    ✅ BUY @ $284.70 (AI:72) - Sentiment modérément positif + forte activité bullish sur réseaux
+2025-11-04 22:56:34,727 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:34,745 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:34,746 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:56:34,854 - TradingBot - INFO -    [2025-06-06] BUY | Tech:80 AI:74/100 | News:65 Social:0📱+53🤖 (31🟢/6🔴)
+2025-11-04 22:56:35,625 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:35,646 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:35,647 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:56:35,755 - TradingBot - INFO -    [2025-06-09] BUY | Tech:80 AI:73/100 | News:35 Social:0📱+57🤖 (21🟢/11🔴)
+2025-11-04 22:56:36,467 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:36,485 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:36,486 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:56:36,972 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:36,991 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:36,992 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:56:37,720 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:37,748 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:37,749 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:56:38,503 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:38,523 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:38,525 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:56:38,945 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:38,967 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:38,969 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:56:39,077 - TradingBot - INFO -    [2025-06-16] BUY | Tech:65 AI:52/100 | News:26 Social:0📱+47🤖 (20🟢/10🔴)
+2025-11-04 22:56:39,814 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:39,833 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:39,834 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:56:39,940 - TradingBot - INFO -    [2025-06-17] BUY | Tech:65 AI:71/100 | News:46 Social:0📱+64🤖 (27🟢/14🔴)
+2025-11-04 22:56:40,713 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:40,728 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:40,730 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:56:40,838 - TradingBot - INFO -    [2025-06-18] BUY | Tech:65 AI:64/100 | News:74 Social:0📱+63🤖 (25🟢/12🔴)
+2025-11-04 22:56:41,562 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:41,578 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:41,579 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:56:41,983 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:42,002 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:42,003 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:56:42,508 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:42,529 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:42,530 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:56:42,898 - TradingBot - INFO -    [2025-06-24] BUY | Tech:75 AI:61/100 | News:86 Social:0📱+44🤖 (14🟢/7🔴)
+2025-11-04 22:56:43,645 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:43,663 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:43,664 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:56:44,096 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:44,111 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:44,112 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:56:44,515 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:44,537 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:44,538 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:56:44,975 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:44,992 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:44,993 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:56:47,367 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:47,385 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:47,386 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:56:47,495 - TradingBot - INFO -    [2025-07-01] BUY | Tech:80 AI:94/100 | News:70 Social:0📱+57🤖 (28🟢/6🔴)
+2025-11-04 22:56:48,425 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:48,450 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:48,451 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:56:48,896 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:48,919 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:48,920 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:56:49,346 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:49,369 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:49,371 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:56:49,478 - TradingBot - INFO -    [2025-07-07] BUY | Tech:80 AI:62/100 | News:36 Social:0📱+61🤖 (31🟢/11🔴)
+2025-11-04 22:56:50,222 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:50,247 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:50,248 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:56:50,607 - TradingBot - INFO -    [2025-07-08] BUY | Tech:80 AI:71/100 | News:78 Social:0📱+54🤖 (23🟢/11🔴)
+2025-11-04 22:56:51,322 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:51,351 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:51,352 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:56:51,459 - TradingBot - INFO -    [2025-07-09] BUY | Tech:70 AI:68/100 | News:107 Social:0📱+45🤖 (18🟢/9🔴)
+2025-11-04 22:56:52,175 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:52,196 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:52,197 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:56:52,308 - TradingBot - INFO -    [2025-07-10] SELL | Tech:25 AI:48/100 | News:85 Social:0📱+48🤖 (21🟢/11🔴)
+2025-11-04 22:56:53,050 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:53,070 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:53,071 - TradingBot - INFO -    [Synthétique] +52 posts (complément intelligent)
+2025-11-04 22:56:53,180 - TradingBot - INFO -    [2025-07-11] SELL | Tech:25 AI:47/100 | News:94 Social:0📱+52🤖 (21🟢/13🔴)
+2025-11-04 22:56:53,912 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:53,933 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:53,934 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:56:54,042 - TradingBot - INFO -    [2025-07-14] SELL | Tech:35 AI:47/100 | News:25 Social:0📱+53🤖 (25🟢/8🔴)
+2025-11-04 22:56:54,750 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:54,773 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:54,774 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:56:54,886 - TradingBot - INFO -    [2025-07-15] SELL | Tech:35 AI:43/100 | News:60 Social:0📱+47🤖 (23🟢/8🔴)
+2025-11-04 22:56:55,651 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:55,665 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:55,666 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:56:56,087 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:56,098 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:56,100 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:56:56,536 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:56,548 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:56,550 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:56:56,550 - TradingBot - INFO -    [2025-07-18] HOLD | Tech:45 AI:50/100 | News:41 Social:0📱+64🤖 (31🟢/8🔴)
+2025-11-04 22:56:56,929 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:56,958 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:56,959 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:56:57,388 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:57,409 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:57,410 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:56:57,522 - TradingBot - INFO -    [2025-07-22] SELL | Tech:30 AI:46/100 | News:73 Social:0📱+51🤖 (25🟢/8🔴)
+2025-11-04 22:56:58,257 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:58,278 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:58,279 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:56:58,389 - TradingBot - INFO -    [2025-07-23] SELL | Tech:30 AI:44/100 | News:99 Social:0📱+48🤖 (18🟢/11🔴)
+2025-11-04 22:56:59,132 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:59,143 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:59,144 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:56:59,602 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:56:59,613 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:56:59,614 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:57:00,007 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:00,017 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:00,018 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:57:00,463 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:00,476 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:00,477 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:57:00,870 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:00,881 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:00,882 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:57:01,282 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:01,291 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:01,292 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:57:01,416 - TradingBot - INFO -    [2025-07-31] SELL | Tech:25 AI:44/100 | News:64 Social:0📱+55🤖 (21🟢/12🔴)
+2025-11-04 22:57:02,143 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:02,161 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:02,162 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:02,276 - TradingBot - INFO -    [2025-08-01] SELL | Tech:25 AI:42/100 | News:68 Social:0📱+43🤖 (19🟢/6🔴)
+2025-11-04 22:57:03,058 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:03,072 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:03,073 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:57:03,185 - TradingBot - INFO -    [2025-08-04] SELL | Tech:25 AI:46/100 | News:13 Social:0📱+44🤖 (25🟢/6🔴)
+2025-11-04 22:57:03,869 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:03,878 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:03,880 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:57:03,990 - TradingBot - INFO -    [2025-08-05] SELL | Tech:25 AI:45/100 | News:72 Social:0📱+49🤖 (22🟢/11🔴)
+2025-11-04 22:57:04,784 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:04,800 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:04,802 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:57:04,909 - TradingBot - INFO -    [2025-08-06] SELL | Tech:25 AI:42/100 | News:117 Social:0📱+70🤖 (32🟢/7🔴)
+2025-11-04 22:57:05,670 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:05,683 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:05,684 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:06,094 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:06,113 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:06,114 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:57:06,526 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:06,538 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:06,539 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:57:06,946 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:06,967 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:06,968 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:07,333 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:07,343 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:07,344 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:57:07,692 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:07,712 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:07,713 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:07,820 - TradingBot - INFO -    [2025-08-14] BUY | Tech:75 AI:62/100 | News:79 Social:0📱+53🤖 (26🟢/12🔴)
+2025-11-04 22:57:08,547 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:08,560 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:08,561 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:08,679 - TradingBot - INFO -    [2025-08-15] BUY | Tech:75 AI:74/100 | News:63 Social:0📱+64🤖 (36🟢/13🔴)
+2025-11-04 22:57:09,362 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:09,379 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:09,380 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:57:09,489 - TradingBot - INFO -    [2025-08-18] BUY | Tech:75 AI:52/100 | News:4 Social:0📱+44🤖 (16🟢/9🔴)
+2025-11-04 22:57:10,212 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:10,232 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:10,233 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:57:10,342 - TradingBot - INFO -    [2025-08-19] BUY | Tech:75 AI:71/100 | News:34 Social:0📱+62🤖 (29🟢/12🔴)
+2025-11-04 22:57:11,080 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:11,104 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:11,105 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:57:11,216 - TradingBot - INFO -    [2025-08-20] BUY | Tech:75 AI:63/100 | News:84 Social:0📱+44🤖 (20🟢/6🔴)
+2025-11-04 22:57:11,935 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:11,961 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:11,963 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:57:12,393 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:12,415 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:12,417 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:57:12,827 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:12,850 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:12,851 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:57:13,627 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:13,649 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:13,651 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:57:14,283 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:14,301 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:14,302 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:57:14,626 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:14,642 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:14,643 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:57:14,753 - TradingBot - INFO -    [2025-08-28] BUY | Tech:75 AI:64/100 | News:52 Social:0📱+58🤖 (22🟢/14🔴)
+2025-11-04 22:57:15,603 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:15,617 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:15,618 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:57:15,725 - TradingBot - INFO -    [2025-08-29] BUY | Tech:75 AI:70/100 | News:0 Social:0📱+70🤖 (37🟢/11🔴)
+2025-11-04 22:57:16,523 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:16,533 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:16,534 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:57:16,990 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:17,002 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:17,003 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:57:17,490 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:17,511 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:17,512 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:57:17,903 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:17,927 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:17,928 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:57:18,332 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:18,358 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:18,359 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:57:18,466 - TradingBot - INFO -    [2025-09-08] BUY | Tech:75 AI:63/100 | News:0 Social:0📱+47🤖 (24🟢/3🔴)
+2025-11-04 22:57:19,270 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:19,285 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:19,286 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:57:19,392 - TradingBot - INFO -    [2025-09-09] BUY | Tech:75 AI:51/100 | News:0 Social:0📱+40🤖 (15🟢/10🔴)
+2025-11-04 22:57:20,212 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:20,232 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:20,233 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:57:20,341 - TradingBot - INFO -    [2025-09-10] BUY | Tech:75 AI:71/100 | News:0 Social:0📱+58🤖 (29🟢/11🔴)
+2025-11-04 22:57:21,137 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:21,154 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:21,155 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:21,615 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:21,627 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:21,628 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:57:22,099 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:22,109 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:22,110 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:57:22,572 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:22,587 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:22,588 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:57:23,056 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:23,076 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:23,077 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:57:23,569 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:23,590 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:23,592 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:57:24,093 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:24,115 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:24,116 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:57:24,585 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:24,598 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:24,600 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:57:25,016 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:25,031 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:25,032 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:57:25,420 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:25,430 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:25,431 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:25,911 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:25,920 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:25,921 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:57:26,419 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:26,428 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:26,430 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:57:27,200 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:27,216 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:27,217 - TradingBot - INFO -    [Synthétique] +59 posts (complément intelligent)
+2025-11-04 22:57:28,092 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:28,106 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:28,107 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:57:28,527 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:28,541 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:28,542 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:28,974 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:28,985 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:28,986 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:57:29,116 - TradingBot - INFO -    [2025-10-02] BUY | Tech:75 AI:59/100 | News:0 Social:0📱+51🤖 (19🟢/12🔴)
+2025-11-04 22:57:29,896 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:29,915 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:29,916 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:57:30,319 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:30,340 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:30,341 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:30,817 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:30,834 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:30,834 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:31,312 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:31,330 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:31,331 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:31,827 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:31,844 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:31,845 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:57:32,330 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:32,345 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:32,346 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:32,454 - TradingBot - INFO -    [2025-10-10] BUY | Tech:70 AI:63/100 | News:0 Social:0📱+53🤖 (27🟢/11🔴)
+2025-11-04 22:57:33,165 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:33,183 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:33,184 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:57:33,184 - TradingBot - INFO -    [2025-10-13] HOLD | Tech:55 AI:50/100 | News:24 Social:0📱+69🤖 (33🟢/13🔴)
+2025-11-04 22:57:33,588 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:33,604 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:33,605 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:57:33,924 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:33,948 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:33,949 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:57:34,342 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:34,362 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:34,363 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:57:34,710 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:34,725 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:34,726 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:57:35,090 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:35,109 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:35,110 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:57:35,518 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:35,538 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:35,539 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:57:35,970 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:35,986 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:35,987 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:57:36,432 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:36,449 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:36,450 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:57:36,876 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:36,889 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:36,890 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:57:37,299 - TradingBot - INFO -    [Reddit WSB] 4 mentions pour $TSLA
+2025-11-04 22:57:37,313 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:37,314 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:57:37,556 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:37,579 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:37,580 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:37,814 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:37,839 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:37,841 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:57:38,070 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:38,088 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:38,089 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:38,312 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:38,332 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:38,333 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:57:38,568 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:38,591 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:38,592 - TradingBot - INFO -    [Synthétique] +58 posts (complément intelligent)
+2025-11-04 22:57:38,807 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $TSLA
+2025-11-04 22:57:38,830 - TradingBot - INFO -    [Google News] 0 articles pour $TSLA
+2025-11-04 22:57:38,831 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:57:38,832 - TradingBot - INFO -    [OK] 66.93s | Score:100 | Profit:+56.04% | Trades:1
+2025-11-04 22:57:41,832 - TradingBot - INFO - [>>] Backtest complet AAPL - 6 mois (Tech + News + Social GRATUIT)
+2025-11-04 22:57:41,940 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-04 22:57:41,944 - TradingBot - INFO -    [✓] 107 jours d'analyse
+2025-11-04 22:57:42,164 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:42,762 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:42,763 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:57:42,872 - TradingBot - INFO -    [2025-06-04] SELL | Tech:35 AI:13/100 | News:53 Social:0📱+66🤖 (24🟢/5🔴)
+2025-11-04 22:57:43,421 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:43,443 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:43,444 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:43,551 - TradingBot - INFO -    [2025-06-05] BUY | Tech:65 AI:72/100 | News:83 Social:0📱+53🤖 (17🟢/4🔴)
+2025-11-04 22:57:43,551 - TradingBot - INFO -    ✅ BUY @ $200.40 (AI:72) - Sentiment modérément positif + forte activité bullish sur réseaux
+2025-11-04 22:57:44,347 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:44,361 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:44,362 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:57:44,470 - TradingBot - INFO -    [2025-06-06] BUY | Tech:85 AI:61/100 | News:85 Social:0📱+48🤖 (15🟢/5🔴)
+2025-11-04 22:57:45,010 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:45,020 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:45,021 - TradingBot - INFO -    [Synthétique] +61 posts (complément intelligent)
+2025-11-04 22:57:45,183 - TradingBot - INFO -    [2025-06-09] BUY | Tech:85 AI:100/100 | News:24 Social:0📱+61🤖 (20🟢/8🔴)
+2025-11-04 22:57:45,714 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:45,726 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:45,727 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:57:45,835 - TradingBot - INFO -    [2025-06-10] BUY | Tech:75 AI:52/100 | News:98 Social:0📱+49🤖 (16🟢/4🔴)
+2025-11-04 22:57:46,407 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:46,427 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:46,428 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:57:46,688 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:46,704 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:46,705 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:57:46,978 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:46,991 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:46,992 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:47,102 - TradingBot - INFO -    [2025-06-13] BUY | Tech:70 AI:72/100 | News:50 Social:0📱+53🤖 (17🟢/3🔴)
+2025-11-04 22:57:47,624 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:47,685 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:47,686 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:57:47,910 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:47,931 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:47,932 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:57:48,153 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:48,170 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:48,171 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:57:48,419 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:48,439 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:48,440 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:57:48,548 - TradingBot - INFO -    [2025-06-20] SELL | Tech:30 AI:47/100 | News:42 Social:0📱+60🤖 (18🟢/13🔴)
+2025-11-04 22:57:49,112 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:49,134 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:49,136 - TradingBot - INFO -    [Synthétique] +60 posts (complément intelligent)
+2025-11-04 22:57:49,362 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:49,383 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:49,384 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:57:49,650 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:49,662 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:49,662 - TradingBot - INFO -    [Synthétique] +47 posts (complément intelligent)
+2025-11-04 22:57:49,928 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:49,944 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:49,945 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:57:50,201 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:50,214 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:50,216 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:57:50,447 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:50,466 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:50,467 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:57:50,596 - TradingBot - INFO -    [2025-06-30] SELL | Tech:35 AI:46/100 | News:23 Social:0📱+49🤖 (19🟢/5🔴)
+2025-11-04 22:57:51,143 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:51,161 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:51,162 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:57:51,269 - TradingBot - INFO -    [2025-07-01] SELL | Tech:30 AI:40/100 | News:68 Social:0📱+56🤖 (23🟢/6🔴)
+2025-11-04 22:57:51,805 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:51,827 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:51,829 - TradingBot - INFO -    [Synthétique] +56 posts (complément intelligent)
+2025-11-04 22:57:51,937 - TradingBot - INFO -    [2025-07-02] SELL | Tech:10 AI:45/100 | News:100 Social:0📱+56🤖 (27🟢/9🔴)
+2025-11-04 22:57:52,507 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:52,525 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:52,526 - TradingBot - INFO -    [Synthétique] +52 posts (complément intelligent)
+2025-11-04 22:57:52,633 - TradingBot - INFO -    [2025-07-03] SELL | Tech:10 AI:44/100 | News:90 Social:0📱+52🤖 (17🟢/6🔴)
+2025-11-04 22:57:53,201 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:53,216 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:53,217 - TradingBot - INFO -    [Synthétique] +41 posts (complément intelligent)
+2025-11-04 22:57:53,326 - TradingBot - INFO -    [2025-07-07] SELL | Tech:10 AI:47/100 | News:25 Social:0📱+41🤖 (12🟢/6🔴)
+2025-11-04 22:57:53,870 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:53,885 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:53,886 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:57:53,994 - TradingBot - INFO -    [2025-07-08] SELL | Tech:10 AI:53/100 | News:45 Social:0📱+51🤖 (16🟢/9🔴)
+2025-11-04 22:57:54,561 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:54,578 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:54,579 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:57:54,699 - TradingBot - INFO -    [2025-07-09] SELL | Tech:10 AI:45/100 | News:70 Social:0📱+57🤖 (22🟢/5🔴)
+2025-11-04 22:57:55,244 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:55,263 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:55,264 - TradingBot - INFO -    [Synthétique] +49 posts (complément intelligent)
+2025-11-04 22:57:55,371 - TradingBot - INFO -    [2025-07-10] SELL | Tech:10 AI:46/100 | News:106 Social:0📱+49🤖 (19🟢/6🔴)
+2025-11-04 22:57:55,931 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:55,948 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:55,949 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:57:56,179 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:56,199 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:56,200 - TradingBot - INFO -    [Synthétique] +45 posts (complément intelligent)
+2025-11-04 22:57:56,307 - TradingBot - INFO -    [2025-07-14] BUY | Tech:75 AI:62/100 | News:25 Social:0📱+45🤖 (18🟢/3🔴)
+2025-11-04 22:57:56,873 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:56,896 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:56,897 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:57:57,004 - TradingBot - INFO -    [2025-07-15] BUY | Tech:75 AI:71/100 | News:54 Social:0📱+54🤖 (19🟢/5🔴)
+2025-11-04 22:57:57,539 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:57,566 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:57,567 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:57:57,674 - TradingBot - INFO -    [2025-07-16] BUY | Tech:75 AI:73/100 | News:105 Social:0📱+53🤖 (12🟢/7🔴)
+2025-11-04 22:57:58,258 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:58,286 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:58,287 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:57:58,395 - TradingBot - INFO -    [2025-07-17] BUY | Tech:75 AI:63/100 | News:91 Social:0📱+51🤖 (17🟢/6🔴)
+2025-11-04 22:57:58,947 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:58,978 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:58,979 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:57:58,980 - TradingBot - INFO -    [2025-07-18] HOLD | Tech:55 AI:50/100 | News:60 Social:0📱+69🤖 (16🟢/10🔴)
+2025-11-04 22:57:59,193 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:59,224 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:59,225 - TradingBot - INFO -    [Synthétique] +69 posts (complément intelligent)
+2025-11-04 22:57:59,340 - TradingBot - INFO -    [2025-07-21] BUY | Tech:75 AI:94/100 | News:18 Social:0📱+69🤖 (25🟢/7🔴)
+2025-11-04 22:57:59,896 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:57:59,921 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:57:59,922 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:58:00,421 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:00,457 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:00,458 - TradingBot - INFO -    [Synthétique] +53 posts (complément intelligent)
+2025-11-04 22:58:00,565 - TradingBot - INFO -    [2025-07-23] BUY | Tech:75 AI:62/100 | News:78 Social:0📱+53🤖 (16🟢/5🔴)
+2025-11-04 22:58:01,137 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:01,174 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:01,175 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:58:01,283 - TradingBot - INFO -    [2025-07-24] BUY | Tech:75 AI:59/100 | News:89 Social:0📱+57🤖 (23🟢/7🔴)
+2025-11-04 22:58:02,091 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:02,111 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:02,112 - TradingBot - INFO -    [Synthétique] +43 posts (complément intelligent)
+2025-11-04 22:58:02,221 - TradingBot - INFO -    [2025-07-25] BUY | Tech:75 AI:54/100 | News:79 Social:0📱+43🤖 (14🟢/3🔴)
+2025-11-04 22:58:02,775 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:02,800 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:02,801 - TradingBot - INFO -    [Synthétique] +54 posts (complément intelligent)
+2025-11-04 22:58:02,909 - TradingBot - INFO -    [2025-07-28] BUY | Tech:75 AI:64/100 | News:33 Social:0📱+54🤖 (26🟢/5🔴)
+2025-11-04 22:58:03,490 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:03,513 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:03,514 - TradingBot - INFO -    [Synthétique] +46 posts (complément intelligent)
+2025-11-04 22:58:03,782 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:03,804 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:03,805 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:58:03,920 - TradingBot - INFO -    [2025-07-30] BUY | Tech:80 AI:72/100 | News:105 Social:0📱+67🤖 (23🟢/4🔴)
+2025-11-04 22:58:04,481 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:04,508 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:04,510 - TradingBot - INFO -    [Synthétique] +63 posts (complément intelligent)
+2025-11-04 22:58:04,619 - TradingBot - INFO -    [2025-07-31] BUY | Tech:85 AI:75/100 | News:87 Social:0📱+63🤖 (23🟢/6🔴)
+2025-11-04 22:58:05,195 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:05,226 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:05,227 - TradingBot - INFO -    [Synthétique] +67 posts (complément intelligent)
+2025-11-04 22:58:05,335 - TradingBot - INFO -    [2025-08-01] BUY | Tech:85 AI:63/100 | News:101 Social:0📱+67🤖 (20🟢/8🔴)
+2025-11-04 22:58:05,873 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:05,898 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:05,899 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:58:06,006 - TradingBot - INFO -    [2025-08-04] BUY | Tech:80 AI:76/100 | News:26 Social:0📱+64🤖 (28🟢/6🔴)
+2025-11-04 22:58:06,543 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:06,572 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:06,572 - TradingBot - INFO -    [Synthétique] +44 posts (complément intelligent)
+2025-11-04 22:58:06,679 - TradingBot - INFO -    [2025-08-05] BUY | Tech:80 AI:53/100 | News:46 Social:0📱+44🤖 (17🟢/5🔴)
+2025-11-04 22:58:07,573 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:07,598 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:07,599 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:58:07,906 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:07,944 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:07,945 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:58:08,102 - TradingBot - INFO -    [2025-08-07] BUY | Tech:65 AI:62/100 | News:0 Social:0📱+57🤖 (16🟢/5🔴)
+2025-11-04 22:58:08,705 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:08,736 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:08,737 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:58:08,843 - TradingBot - INFO -    [2025-08-08] BUY | Tech:65 AI:63/100 | News:0 Social:0📱+70🤖 (23🟢/9🔴)
+2025-11-04 22:58:09,465 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:09,491 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:09,492 - TradingBot - INFO -    [Synthétique] +57 posts (complément intelligent)
+2025-11-04 22:58:09,798 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:09,825 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:09,826 - TradingBot - INFO -    [Synthétique] +48 posts (complément intelligent)
+2025-11-04 22:58:10,403 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:10,434 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:10,435 - TradingBot - INFO -    [Synthétique] +66 posts (complément intelligent)
+2025-11-04 22:58:10,746 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:10,775 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:10,776 - TradingBot - INFO -    [Synthétique] +64 posts (complément intelligent)
+2025-11-04 22:58:11,081 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:11,112 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:11,114 - TradingBot - INFO -    [Synthétique] +59 posts (complément intelligent)
+2025-11-04 22:58:11,408 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:11,438 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:11,440 - TradingBot - INFO -    [Synthétique] +68 posts (complément intelligent)
+2025-11-04 22:58:11,732 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:11,759 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:11,760 - TradingBot - INFO -    [Synthétique] +55 posts (complément intelligent)
+2025-11-04 22:58:12,070 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:12,095 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:12,097 - TradingBot - INFO -    [Synthétique] +65 posts (complément intelligent)
+2025-11-04 22:58:12,203 - TradingBot - INFO -    [2025-08-20] BUY | Tech:75 AI:64/100 | News:0 Social:0📱+65🤖 (18🟢/4🔴)
+2025-11-04 22:58:12,808 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:12,831 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:12,832 - TradingBot - INFO -    [Synthétique] +70 posts (complément intelligent)
+2025-11-04 22:58:20,477 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:20,507 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:20,508 - TradingBot - INFO -    [Synthétique] +50 posts (complément intelligent)
+2025-11-04 22:58:28,317 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:28,331 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:28,332 - TradingBot - INFO -    [Synthétique] +42 posts (complément intelligent)
+2025-11-04 22:58:28,685 - TradingBot - INFO -    [2025-08-25] SELL | Tech:35 AI:47/100 | News:0 Social:0📱+42🤖 (14🟢/6🔴)
+2025-11-04 22:58:36,461 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:36,485 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:36,486 - TradingBot - INFO -    [Synthétique] +51 posts (complément intelligent)
+2025-11-04 22:58:36,623 - TradingBot - INFO -    [2025-08-26] SELL | Tech:35 AI:46/100 | News:0 Social:0📱+51🤖 (21🟢/6🔴)
+2025-11-04 22:58:45,021 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:45,044 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:45,045 - TradingBot - INFO -    [Synthétique] +62 posts (complément intelligent)
+2025-11-04 22:58:52,918 - TradingBot - INFO -    [Reddit WSB] 0 mentions pour $AAPL
+2025-11-04 22:58:52,936 - TradingBot - INFO -    [Google News] 0 articles pour $AAPL
+2025-11-04 22:58:52,937 - TradingBot - INFO -    [Synthétique] +40 posts (complément intelligent)
+2025-11-04 22:58:58,224 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001F608C54A50>
+2025-11-04 22:58:58,224 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001F608C0BB30>, 10478.8692304)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000001F608C54B90>
+2025-11-04 22:58:58,224 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001F608C54CD0>
+2025-11-04 22:58:58,225 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001F608C8D010>, 10478.7456538)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000001F608C556D0>

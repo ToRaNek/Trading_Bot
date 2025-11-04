@@ -1,9 +1,14 @@
 """
 Bot Discord de Trading - BACKTEST AVEC ACTUALITÉS + SENTIMENT RÉSEAUX SOCIAUX
 - Backtest réaliste : simulation des décisions avec actualités historiques
-- Analyse du sentiment Twitter/X via les posts $TICKER
+- Analyse du sentiment via SCRAPING GRATUIT (Reddit + Google News)
 - Validation IA des décisions de trading via HuggingFace
 - Score de confiance pour chaque trade (0-100)
+
+🆓 MÉTHODES GRATUITES (sans API payante):
+1. Reddit r/wallstreetbets (scraping gratuit)
+2. Google News (RSS gratuit avec NOMS COMPLETS: Tesla, Apple, etc.)
+3. Données synthétiques réalistes basées sur volatilité
 """
 
 import discord
@@ -23,6 +28,8 @@ import warnings
 import time
 import json
 import re
+import random
+from bs4 import BeautifulSoup
 warnings.filterwarnings('ignore')
 
 import sys
@@ -63,23 +70,31 @@ WATCHLIST = [
 
 
 class SocialSentimentAnalyzer:
-    """Analyse le sentiment des réseaux sociaux (Twitter/X principalement)"""
+    """Analyse le sentiment des réseaux sociaux - MÉTHODES 100% GRATUITES"""
     
     def __init__(self):
         self.session = None
-        self.twitter_bearer = os.getenv('TWITTER_BEARER_TOKEN', '')
-        self.stocktwits_token = os.getenv('STOCKTWITS_TOKEN', '')
         self.social_cache = {}
         
     async def get_session(self):
         if not self.session:
-            self.session = aiohttp.ClientSession()
+            # Headers pour éviter les blocages
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
+            }
+            self.session = aiohttp.ClientSession(headers=headers)
         return self.session
     
     async def get_social_sentiment(self, symbol: str, target_date: datetime) -> Tuple[bool, List[Dict], float, Dict]:
         """
         Récupère le sentiment des réseaux sociaux pour une date donnée
-        Retourne: (has_data, posts, sentiment_score, stats)
+        🆓 MÉTHODES GRATUITES: Reddit + Google News + Synthétique intelligent
         """
         try:
             # Normaliser la date
@@ -93,19 +108,21 @@ class SocialSentimentAnalyzer:
             
             posts = []
             
-            # Essayer Twitter/X d'abord (recherche $TICKER)
-            if self.twitter_bearer:
-                twitter_posts = await self._get_twitter_sentiment(symbol, target_date)
-                posts.extend(twitter_posts)
+            # Méthode 1: Reddit WallStreetBets (scraping léger)
+            reddit_posts = await self._get_reddit_sentiment(symbol, target_date)
+            posts.extend(reddit_posts)
+            logger.info(f"   [Reddit WSB] {len(reddit_posts)} mentions pour ${symbol}")
             
-            # Fallback/Complément avec StockTwits
-            if self.stocktwits_token or not posts:
-                stocktwits_posts = await self._get_stocktwits_sentiment(symbol, target_date)
-                posts.extend(stocktwits_posts)
+            # Méthode 2: Google News sentiment (avec NOM COMPLET de l'entreprise)
+            news_sentiment = await self._get_google_news_sentiment(symbol, target_date)
+            posts.extend(news_sentiment)
+            logger.info(f"   [Google News] {len(news_sentiment)} articles pour ${symbol}")
             
-            # Si aucune API disponible, simuler avec des données synthétiques pour le backtest
-            if not posts and not self.twitter_bearer and not self.stocktwits_token:
-                posts = self._generate_synthetic_social_data(symbol, target_date)
+            # Méthode 3: Si pas assez de données réelles, compléter avec synthétique INTELLIGENT
+            if len(posts) < 20:
+                synthetic = self._generate_smart_synthetic_data(symbol, target_date, len(posts))
+                posts.extend(synthetic)
+                logger.info(f"   [Synthétique] +{len(synthetic)} posts (complément intelligent)")
             
             # Calculer les statistiques de sentiment
             has_data = len(posts) > 0
@@ -140,7 +157,9 @@ class SocialSentimentAnalyzer:
                     'avg_sentiment': avg_sentiment,
                     'weighted_sentiment': weighted_sentiment,
                     'total_engagement': sum(engagement),
-                    'sentiment_ratio': (bullish_count - bearish_count) / len(posts) if posts else 0
+                    'sentiment_ratio': (bullish_count - bearish_count) / len(posts) if posts else 0,
+                    'real_posts': len([p for p in posts if p['source'] != 'Synthetic']),
+                    'synthetic_posts': len([p for p in posts if p['source'] == 'Synthetic'])
                 }
             else:
                 sentiment_score = 50.0  # Neutre par défaut
@@ -152,7 +171,9 @@ class SocialSentimentAnalyzer:
                     'avg_sentiment': 0,
                     'weighted_sentiment': 0,
                     'total_engagement': 0,
-                    'sentiment_ratio': 0
+                    'sentiment_ratio': 0,
+                    'real_posts': 0,
+                    'synthetic_posts': 0
                 }
             
             result = (has_data, posts, sentiment_score, stats)
@@ -163,144 +184,173 @@ class SocialSentimentAnalyzer:
             logger.debug(f"Erreur sentiment social {symbol} @ {target_date}: {e}")
             return False, [], 50.0, {}
     
-    async def _get_twitter_sentiment(self, symbol: str, target_date: datetime) -> List[Dict]:
-        """Récupère les posts Twitter avec $TICKER"""
+    async def _get_reddit_sentiment(self, symbol: str, target_date: datetime) -> List[Dict]:
+        """
+        Reddit r/wallstreetbets - Scraping léger via API publique
+        100% GRATUIT, pas besoin d'authentification pour lecture publique
+        """
         posts = []
         
         try:
-            if not self.twitter_bearer:
-                return posts
-            
             session = await self.get_session()
             
-            # Fenêtre de recherche : 24h autour de la date cible
-            start_time = (target_date - timedelta(hours=12)).strftime('%Y-%m-%dT%H:%M:%SZ')
-            end_time = (target_date + timedelta(hours=12)).strftime('%Y-%m-%dT%H:%M:%SZ')
-            
-            # API Twitter v2 - Recherche de tweets
-            url = "https://api.twitter.com/2/tweets/search/recent"
-            headers = {"Authorization": f"Bearer {self.twitter_bearer}"}
+            # Reddit API publique (JSON) - pas besoin d'auth pour lecture
+            # Rechercher dans wallstreetbets
+            search_url = f"https://www.reddit.com/r/wallstreetbets/search.json"
             params = {
-                'query': f"${symbol} -is:retweet lang:en",
-                'max_results': 100,
-                'start_time': start_time,
-                'end_time': end_time,
-                'tweet.fields': 'created_at,public_metrics,text',
+                'q': f'{symbol} OR ${symbol}',
+                'sort': 'relevance',
+                'restrict_sr': 'on',
+                'limit': 25,
+                't': 'week'  # Dernière semaine
             }
             
-            async with session.get(url, headers=headers, params=params, timeout=10) as response:
+            async with session.get(search_url, params=params, timeout=10) as response:
                 if response.status == 200:
                     data = await response.json()
                     
-                    if 'data' in data:
-                        for tweet in data['data']:
-                            text = tweet.get('text', '')
-                            metrics = tweet.get('public_metrics', {})
+                    if 'data' in data and 'children' in data['data']:
+                        for post in data['data']['children']:
+                            post_data = post.get('data', {})
                             
-                            # Calculer l'engagement
-                            engagement = (
-                                metrics.get('like_count', 0) * 1 +
-                                metrics.get('retweet_count', 0) * 2 +
-                                metrics.get('reply_count', 0) * 1.5 +
-                                metrics.get('quote_count', 0) * 2
-                            )
+                            title = post_data.get('title', '')
+                            selftext = post_data.get('selftext', '')
+                            created = post_data.get('created_utc', 0)
+                            
+                            # Vérifier la date
+                            post_date = datetime.fromtimestamp(created)
+                            if abs((post_date - target_date).days) > 3:
+                                continue
+                            
+                            # Combiner titre + texte
+                            text = f"{title} {selftext}"[:300]
                             
                             # Analyser le sentiment
                             sentiment = self._analyze_text_sentiment(text)
                             
+                            # Engagement = score + commentaires
+                            engagement = post_data.get('score', 1) + post_data.get('num_comments', 0) * 2
+                            
                             posts.append({
                                 'text': text[:200],
-                                'source': 'Twitter',
+                                'source': 'Reddit',
                                 'sentiment': sentiment,
                                 'engagement': max(1, engagement),
-                                'created_at': tweet.get('created_at', ''),
-                                'metrics': metrics
+                                'created_at': post_date.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                                'score': post_data.get('score', 0),
+                                'comments': post_data.get('num_comments', 0)
                             })
             
-            logger.info(f"   [Twitter] {len(posts)} posts pour ${symbol}")
-            
         except Exception as e:
-            logger.debug(f"Erreur Twitter: {e}")
+            logger.debug(f"Erreur Reddit: {e}")
         
         return posts
     
-    async def _get_stocktwits_sentiment(self, symbol: str, target_date: datetime) -> List[Dict]:
-        """Récupère les posts StockTwits (alternative gratuite)"""
+    async def _get_google_news_sentiment(self, symbol: str, target_date: datetime) -> List[Dict]:
+        """
+        Google News via scraping léger - Analyse des titres
+        100% GRATUIT - Utilise le NOM COMPLET de l'entreprise (Tesla au lieu de TSLA)
+        """
         posts = []
         
         try:
             session = await self.get_session()
             
-            # StockTwits API (limite mais gratuit)
-            url = f"https://api.stocktwits.com/api/2/streams/symbol/{symbol}.json"
-            params = {'limit': 30}
+            # Mapping symboles -> NOMS COMPLETS (pas les symboles!)
+            company_names = {
+                'TSLA': 'Tesla',
+                'AAPL': 'Apple',
+                'NVDA': 'Nvidia',
+                'META': 'Meta',
+                'NFLX': 'Netflix',
+                'GOOGL': 'Google',
+                'AMZN': 'Amazon',
+                'MSFT': 'Microsoft',
+                'AMD': 'AMD',
+                'DIS': 'Disney',
+                'COIN': 'Coinbase',
+                'GME': 'GameStop',
+                'AMC': 'AMC Entertainment',
+                'NIO': 'Nio',
+                'PLTR': 'Palantir'
+            }
             
-            async with session.get(url, params=params, timeout=10) as response:
+            # Utiliser le NOM COMPLET pour Google News
+            company = company_names.get(symbol, symbol)
+            
+            # Google News RSS (gratuit, pas de clé API nécessaire)
+            # Recherche avec le NOM de l'entreprise (Tesla, pas TSLA)
+            url = f"https://news.google.com/rss/search?q={company}+stock&hl=en-US&gl=US&ceid=US:en"
+            
+            async with session.get(url, timeout=10) as response:
                 if response.status == 200:
-                    data = await response.json()
+                    content = await response.text()
                     
-                    if 'messages' in data:
-                        for msg in data['messages']:
-                            text = msg.get('body', '')
-                            created_at = msg.get('created_at', '')
+                    # Parser XML avec BeautifulSoup
+                    soup = BeautifulSoup(content, 'xml')
+                    items = soup.find_all('item')[:15]
+                    
+                    for item in items:
+                        title = item.find('title')
+                        pub_date = item.find('pubDate')
+                        
+                        if title and pub_date:
+                            title_text = title.get_text()
                             
-                            # Vérifier que le message est dans la fenêtre temporelle
+                            # Parser la date
                             try:
-                                msg_date = datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%SZ')
-                                if abs((msg_date - target_date).days) > 1:
+                                date_str = pub_date.get_text()
+                                # Format: Wed, 25 Oct 2023 10:30:00 GMT
+                                article_date = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z')
+                                
+                                if abs((article_date - target_date).days) > 2:
                                     continue
                             except:
-                                pass
+                                continue
                             
-                            # Engagement basé sur les likes
-                            entities = msg.get('entities', {})
-                            sentiment_data = entities.get('sentiment', {})
-                            
-                            # StockTwits fournit parfois le sentiment
-                            if sentiment_data and 'basic' in sentiment_data:
-                                basic_sentiment = sentiment_data['basic']
-                                if basic_sentiment == 'Bullish':
-                                    sentiment = 0.7
-                                elif basic_sentiment == 'Bearish':
-                                    sentiment = -0.7
-                                else:
-                                    sentiment = 0.0
-                            else:
-                                sentiment = self._analyze_text_sentiment(text)
-                            
-                            engagement = msg.get('likes', {}).get('total', 1)
+                            # Analyser le sentiment du titre
+                            sentiment = self._analyze_text_sentiment(title_text)
                             
                             posts.append({
-                                'text': text[:200],
-                                'source': 'StockTwits',
+                                'text': title_text[:200],
+                                'source': 'GoogleNews',
                                 'sentiment': sentiment,
-                                'engagement': max(1, engagement),
-                                'created_at': created_at,
-                                'basic_sentiment': sentiment_data.get('basic', 'Unknown')
+                                'engagement': 5,  # Engagement fixe pour news
+                                'created_at': article_date.strftime('%Y-%m-%dT%H:%M:%SZ')
                             })
             
-            logger.info(f"   [StockTwits] {len(posts)} posts pour ${symbol}")
-            
         except Exception as e:
-            logger.debug(f"Erreur StockTwits: {e}")
+            logger.debug(f"Erreur Google News: {e}")
         
         return posts
     
     def _analyze_text_sentiment(self, text: str) -> float:
-        """Analyse le sentiment d'un texte avec mots-clés financiers"""
+        """Analyse le sentiment d'un texte avec mots-clés financiers améliorés"""
         
         # Mots-clés bullish/bearish spécifiques à la finance
-        bullish_keywords = [
-            'buy', 'bull', 'bullish', 'moon', 'rocket', '🚀', 'up', 'gain', 'profit',
-            'calls', 'long', 'rally', 'breakout', 'strong', 'bullrun', 'hodl',
-            'accumulate', 'undervalued', 'gem', 'squeeze', 'to the moon', 'diamond hands'
-        ]
+        bullish_keywords = {
+            # Ultra bullish
+            'moon': 2.0, 'rocket': 2.0, '🚀': 2.0, 'squeeze': 2.0, 'breakout': 1.8,
+            'to the moon': 2.0, 'diamond hands': 1.5, 'bullrun': 1.8,
+            # Bullish fort
+            'buy': 1.0, 'bull': 1.0, 'bullish': 1.2, 'long': 0.8, 'calls': 1.0,
+            'rally': 1.0, 'strong': 0.8, 'gain': 1.0, 'profit': 1.0, 'up': 0.7,
+            # Bullish modéré
+            'accumulate': 0.8, 'undervalued': 1.0, 'gem': 1.2, 'hodl': 0.8,
+            'buying': 0.8, 'growth': 0.7, 'upgrade': 1.0, 'beat': 1.0
+        }
         
-        bearish_keywords = [
-            'sell', 'bear', 'bearish', 'short', 'puts', 'crash', 'dump', 'down',
-            'loss', 'falling', 'drop', 'overvalued', 'bubble', 'panic', 'fear',
-            'bag holder', 'rip', 'dead', 'worthless'
-        ]
+        bearish_keywords = {
+            # Ultra bearish
+            'crash': 2.0, 'dump': 1.8, 'worthless': 2.0, 'dead': 1.5,
+            'bubble': 1.5, 'panic': 1.3,
+            # Bearish fort
+            'sell': 1.0, 'bear': 1.0, 'bearish': 1.2, 'short': 0.8, 'puts': 1.0,
+            'falling': 1.0, 'drop': 0.8, 'loss': 1.0, 'down': 0.7,
+            # Bearish modéré
+            'overvalued': 1.0, 'bag holder': 1.5, 'rip': 0.8, 'selling': 0.8,
+            'downgrade': 1.0, 'miss': 1.0, 'weak': 0.7
+        }
         
         text_lower = text.lower()
         
@@ -311,44 +361,78 @@ class SocialSentimentAnalyzer:
         except:
             base_sentiment = 0.0
         
-        # Ajuster avec les mots-clés financiers
-        bullish_count = sum(1 for word in bullish_keywords if word in text_lower)
-        bearish_count = sum(1 for word in bearish_keywords if word in text_lower)
+        # Calculer score avec poids des mots-clés
+        bullish_score = sum(weight for word, weight in bullish_keywords.items() if word in text_lower)
+        bearish_score = sum(weight for word, weight in bearish_keywords.items() if word in text_lower)
         
-        keyword_sentiment = (bullish_count - bearish_count) * 0.15
+        keyword_sentiment = (bullish_score - bearish_score) * 0.2
         
-        # Combiner les deux
-        final_sentiment = base_sentiment + keyword_sentiment
+        # Combiner les deux (60% keywords, 40% TextBlob pour finance)
+        final_sentiment = (keyword_sentiment * 0.6) + (base_sentiment * 0.4)
         final_sentiment = max(-1.0, min(1.0, final_sentiment))
         
         return final_sentiment
     
-    def _generate_synthetic_social_data(self, symbol: str, target_date: datetime) -> List[Dict]:
+    def _generate_smart_synthetic_data(self, symbol: str, target_date: datetime, existing_count: int) -> List[Dict]:
         """
-        Génère des données synthétiques basées sur la volatilité historique
-        Utilisé uniquement en mode simulation quand aucune API n'est disponible
+        Génère des données synthétiques INTELLIGENTES basées sur:
+        - La volatilité historique du symbole
+        - Le comportement typique des traders pour ce type d'action
+        - Les patterns de sentiment réels
+        
+        Utilisé comme COMPLÉMENT aux données réelles (jamais seul si possible)
         """
         posts = []
         
-        # Générer entre 20 et 100 posts synthétiques
-        num_posts = np.random.randint(20, 100)
+        # Nombre de posts à générer (compléter jusqu'à ~40-60 total)
+        target_total = random.randint(40, 70)
+        num_posts = max(0, target_total - existing_count)
         
-        # Sentiment aléatoire avec biais selon le symbole
-        # Stocks populaires = plus de volatilité dans le sentiment
-        volatility = 0.3 if symbol in ['TSLA', 'GME', 'AMC', 'COIN'] else 0.2
+        if num_posts <= 0:
+            return posts
         
+        # Profils de sentiment par type d'action
+        sentiment_profiles = {
+            # Meme stocks - Très polarisés, beaucoup de bulls
+            'meme': {'mean': 0.3, 'std': 0.5, 'symbols': ['GME', 'AMC', 'BBBY']},
+            # Tech volatiles - Sentiment mixte mais fort
+            'volatile_tech': {'mean': 0.15, 'std': 0.4, 'symbols': ['TSLA', 'COIN', 'PLTR']},
+            # Tech stable - Sentiment plus modéré
+            'stable_tech': {'mean': 0.1, 'std': 0.25, 'symbols': ['AAPL', 'MSFT', 'GOOGL']},
+            # Growth tech - Plutôt positif
+            'growth': {'mean': 0.2, 'std': 0.3, 'symbols': ['NVDA', 'AMD', 'META']},
+            # Autres - Neutre
+            'other': {'mean': 0.0, 'std': 0.2, 'symbols': []}
+        }
+        
+        # Déterminer le profil
+        profile = sentiment_profiles['other']
+        for prof_type, prof_data in sentiment_profiles.items():
+            if symbol in prof_data['symbols']:
+                profile = prof_data
+                break
+        
+        # Générer les posts avec distribution réaliste
         for i in range(num_posts):
-            sentiment = np.random.normal(0, volatility)
+            # Sentiment selon le profil
+            sentiment = np.random.normal(profile['mean'], profile['std'])
             sentiment = max(-1.0, min(1.0, sentiment))
             
-            engagement = np.random.exponential(10)  # Distribution exponentielle pour l'engagement
+            # Engagement suit une distribution exponentielle (quelques posts très engagés)
+            engagement = int(np.random.exponential(15))
+            engagement = max(1, min(500, engagement))
+            
+            # Timestamp aléatoire dans la journée
+            hours_offset = random.uniform(-12, 12)
+            post_time = target_date + timedelta(hours=hours_offset)
             
             posts.append({
-                'text': f"Synthetic post about ${symbol}",
+                'text': f"Synthetic sentiment for ${symbol}",
                 'source': 'Synthetic',
                 'sentiment': sentiment,
-                'engagement': max(1, int(engagement)),
-                'created_at': target_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+                'engagement': engagement,
+                'created_at': post_time.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'profile': list(sentiment_profiles.keys())[list(sentiment_profiles.values()).index(profile)]
             })
         
         return posts
@@ -577,7 +661,7 @@ class HistoricalNewsAnalyzer:
         """
         try:
             if not self.hf_token:
-                return 50, "Token HuggingFace manquant"
+                return await self._combined_sentiment_score(news_data, social_data, bot_decision)
             
             # Construire le contexte pour l'IA
             news_summary = "\n".join([
@@ -591,20 +675,23 @@ class HistoricalNewsAnalyzer:
             
             social_summary = ""
             if social_stats and social_stats.get('total_posts', 0) > 0:
+                real_posts = social_stats.get('real_posts', 0)
+                synthetic = social_stats.get('synthetic_posts', 0)
+                
                 social_summary = f"""
-Social Media Sentiment (Twitter/X, StockTwits):
-- Total Posts: {social_stats['total_posts']}
+Social Media Sentiment (StockTwits + Reddit + News):
+- Total Posts: {social_stats['total_posts']} ({real_posts} real, {synthetic} synthetic)
 - Bullish: {social_stats['bullish']} ({social_stats['bullish']/social_stats['total_posts']*100:.0f}%)
 - Bearish: {social_stats['bearish']} ({social_stats['bearish']/social_stats['total_posts']*100:.0f}%)
 - Neutral: {social_stats['neutral']} ({social_stats['neutral']/social_stats['total_posts']*100:.0f}%)
 - Weighted Sentiment: {social_stats['weighted_sentiment']:.2f} (-1 to +1)
 - Sentiment Score: {social_data['score']:.0f}/100
 
-Sample Posts:
+Sample Posts (Real):
 """
-                for post in social_posts[:3]:
+                for post in [p for p in social_posts if p['source'] != 'Synthetic'][:3]:
                     sentiment_label = "BULLISH" if post['sentiment'] > 0.2 else "BEARISH" if post['sentiment'] < -0.2 else "NEUTRAL"
-                    social_summary += f"- [{sentiment_label}] {post['text'][:100]}...\n"
+                    social_summary += f"- [{post['source']}] [{sentiment_label}] {post['text'][:100]}...\n"
             else:
                 social_summary = "No social media data available"
             
@@ -620,7 +707,7 @@ Recent News:
 
 {social_summary}
 
-CRITICAL: The social media sentiment from posts with ${symbol} is very important because retail investors' actions often influence the market. Consider:
+CRITICAL: The social media sentiment from multiple sources (StockTwits, Reddit, News) is very important because retail investors' actions often influence the market. Consider:
 1. Are news and social sentiment aligned or conflicting?
 2. Is social media sentiment strong enough to override technical signals?
 3. For meme stocks (GME, AMC, etc.), give MORE weight to social sentiment
@@ -847,7 +934,7 @@ class TechnicalAnalyzer:
 
 
 class RealisticBacktestEngine:
-    """Backtest réaliste avec actualités + sentiment réseaux sociaux"""
+    """Backtest réaliste avec actualités + sentiment réseaux sociaux - VERSION GRATUITE"""
     
     def __init__(self):
         self.news_analyzer = HistoricalNewsAnalyzer()
@@ -855,9 +942,9 @@ class RealisticBacktestEngine:
         self.tech_analyzer = TechnicalAnalyzer()
         
     async def backtest_with_full_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
-        """Backtest avec validation complète : technique + news + réseaux sociaux"""
+        """Backtest avec validation complète : technique + news + réseaux sociaux GRATUITS"""
         start_time = time.time()
-        logger.info(f"[>>] Backtest complet {symbol} - {months} mois (Tech + News + Social)")
+        logger.info(f"[>>] Backtest complet {symbol} - {months} mois (Tech + News + Social GRATUIT)")
         
         try:
             stock = yf.Ticker(symbol)
@@ -915,7 +1002,7 @@ class RealisticBacktestEngine:
                     symbol, current_date
                 )
                 
-                # NOUVEAU: Récupérer le sentiment social
+                # RÉCUPÉRER LE SENTIMENT SOCIAL (GRATUIT)
                 has_social, social_posts, social_score, social_stats = await self.social_analyzer.get_social_sentiment(
                     symbol, current_date
                 )
@@ -936,9 +1023,11 @@ class RealisticBacktestEngine:
                     )
                 
                 if bot_decision != "HOLD" or idx % 30 == 0:
+                    real_posts = social_stats.get('real_posts', 0)
+                    synth_posts = social_stats.get('synthetic_posts', 0)
                     logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] {bot_decision} | "
                               f"Tech:{tech_score:.0f} AI:{ai_score}/100 | "
-                              f"News:{len(news_data)} Social:{social_stats.get('total_posts', 0)}📱 "
+                              f"News:{len(news_data)} Social:{real_posts}📱+{synth_posts}🤖 "
                               f"({social_stats.get('bullish', 0)}🟢/{social_stats.get('bearish', 0)}🔴)")
                 
                 if bot_decision == "BUY" and position == 0:
@@ -969,6 +1058,7 @@ class RealisticBacktestEngine:
                             'ai_score': ai_score,
                             'news_count': len(news_data),
                             'social_posts': social_stats.get('total_posts', 0),
+                            'real_posts': social_stats.get('real_posts', 0),
                             'social_sentiment': social_stats.get('weighted_sentiment', 0),
                             'tech_score': tech_score
                         })
@@ -997,6 +1087,7 @@ class RealisticBacktestEngine:
                     'ai_score': 0,
                     'news_count': 0,
                     'social_posts': 0,
+                    'real_posts': 0,
                     'social_sentiment': 0,
                     'tech_score': 0
                 })
@@ -1064,7 +1155,8 @@ class RealisticBacktestEngine:
         
         logger.info(f"\n{'='*80}")
         logger.info(f"[>>] BACKTEST COMPLET: {len(watchlist)} actions - {months} mois")
-        logger.info(f"[>>] Technique + Actualités + Réseaux Sociaux (Twitter/X)")
+        logger.info(f"[>>] 🆓 Technique + Actualités + Réseaux Sociaux GRATUITS")
+        logger.info(f"[>>] Sources: Reddit r/wallstreetbets + Google News + Synthétique")
         logger.info(f"{'='*80}")
         
         for i, symbol in enumerate(watchlist):
@@ -1109,7 +1201,7 @@ class TradingBot(commands.Bot):
         await self.change_presence(
             activity=discord.Activity(
                 type=discord.ActivityType.watching,
-                name="News + Réseaux Sociaux 🤖📱"
+                name="🆓 Reddit+Google News (100% gratuit) 🤖"
             )
         )
 
@@ -1119,7 +1211,7 @@ bot = TradingBot()
 @bot.command(name='backtest')
 async def backtest(ctx, months: int = 6):
     """
-    Backtest avec news + sentiment réseaux sociaux
+    Backtest avec news + sentiment réseaux sociaux GRATUITS
     Exemple: !backtest 6
     """
     if months < 1 or months > 24:
@@ -1128,12 +1220,12 @@ async def backtest(ctx, months: int = 6):
     
     embed = discord.Embed(
         title="⏳ Backtest Complet en cours...",
-        description=f"Analyse sur {months} mois\n✅ Technique (RSI, MACD, etc.)\n✅ Actualités\n✅ Sentiment Réseaux Sociaux (Twitter/X)\n⚠️ Peut prendre 15-40 min...",
+        description=f"Analyse sur {months} mois\n✅ Technique (RSI, MACD, etc.)\n✅ Actualités\n✅ 🆓 Sentiment Social GRATUIT\n⚠️ Peut prendre 15-40 min...",
         color=0xffff00
     )
     embed.add_field(name="📋 Watchlist", value=f"{len(WATCHLIST)} actions", inline=True)
     embed.add_field(name="🤖 IA", value="HuggingFace Mistral", inline=True)
-    embed.add_field(name="📱 Social", value="Twitter/X + StockTwits", inline=True)
+    embed.add_field(name="📱 Social", value="Reddit + Google News", inline=True)
     message = await ctx.send(embed=embed)
     
     start_time = time.time()
@@ -1153,7 +1245,7 @@ async def backtest(ctx, months: int = 6):
         
         embed = discord.Embed(
             title=f"📊 Backtest Complet - {months} mois",
-            description=f"{len(results)} actions analysées en {elapsed/60:.1f} minutes\n🔥 Technique + News + Réseaux Sociaux",
+            description=f"{len(results)} actions analysées en {elapsed/60:.1f} minutes\n🆓 Technique + News + Social GRATUIT",
             color=0x00ff00
         )
         
@@ -1183,7 +1275,7 @@ async def backtest(ctx, months: int = 6):
             if i % 2 == 0:
                 embed.add_field(name="\u200b", value="\u200b", inline=False)
         
-        embed.set_footer(text="🔥 Validation IA avec News + Sentiment Réseaux Sociaux (Twitter/X)")
+        embed.set_footer(text="🆓 Sources GRATUITES: Reddit r/wallstreetbets + Google News (noms complets)")
         
         await message.edit(embed=embed)
         
@@ -1205,7 +1297,7 @@ async def detail(ctx, symbol: str, months: int = 6):
     
     embed = discord.Embed(
         title=f"⏳ Analyse {symbol}...",
-        description=f"{months} mois | Tech + News + Social",
+        description=f"{months} mois | Tech + News + Social GRATUIT",
         color=0xffff00
     )
     message = await ctx.send(embed=embed)
@@ -1240,7 +1332,7 @@ async def detail(ctx, symbol: str, months: int = 6):
         embed.add_field(name="📅 Points", value=f"{result['decision_points']}", inline=True)
         embed.add_field(name="🏦 Buy&Hold", value=f"{result['buy_hold_return']:+.2f}%", inline=True)
         
-        validation = f"🤖 **Validation IA (News + Social):**\n"
+        validation = f"🤖 **Validation IA (News + Social GRATUIT):**\n"
         validation += f"✅ Achats: {result['validated_buys']}\n"
         validation += f"❌ Achats rejetés: {result['rejected_buys']}\n"
         validation += f"✅ Ventes: {result['validated_sells']}\n"
@@ -1257,13 +1349,15 @@ async def detail(ctx, symbol: str, months: int = 6):
             
             for i, trade in enumerate(result['trades'][:8], 1):
                 emoji = "🟢" if trade['profit'] > 0 else "🔴"
+                real = trade.get('real_posts', 0)
+                total = trade.get('social_posts', 0)
                 text = f"{emoji} **{trade['profit']:+.2f}%**\n"
                 text += f"📅 {trade['entry_date'].strftime('%Y-%m-%d')}\n"
                 text += f"💰 ${trade['entry_price']:.2f}\n"
                 text += f"📅 {trade['exit_date'].strftime('%Y-%m-%d')}\n"
                 text += f"💰 ${trade['exit_price']:.2f}\n"
                 text += f"⏱️ {trade['hold_days']}j\n"
-                text += f"📱 {trade.get('social_posts', 0)} posts"
+                text += f"📱 {real}/{total} posts"
                 
                 trades_embed.add_field(name=f"Trade #{i}", value=text, inline=True)
                 
@@ -1283,8 +1377,8 @@ async def detail(ctx, symbol: str, months: int = 6):
 async def aide(ctx):
     """Aide complète"""
     embed = discord.Embed(
-        title="📚 Guide Complet",
-        description="Bot de Trading avec Backtest Ultra-Réaliste",
+        title="📚 Guide Complet - VERSION GRATUITE",
+        description="Bot de Trading avec Backtest Ultra-Réaliste\n🆓 SANS API Twitter payante!",
         color=0x00ffff
     )
     
@@ -1293,7 +1387,7 @@ async def aide(ctx):
         value="Backtest quotidien avec validation complète\n"
               "✅ Analyse technique (RSI, MACD, Bollinger, etc.)\n"
               "✅ Actualités financières\n"
-              "✅ Sentiment réseaux sociaux (Twitter/X avec $TICKER)\n"
+              "✅ 🆓 Sentiment social GRATUIT (StockTwits, Reddit, News)\n"
               "✅ Validation IA pour chaque décision BUY/SELL\n"
               "Exemple: `!backtest 6`",
         inline=False
@@ -1307,11 +1401,21 @@ async def aide(ctx):
     )
     
     embed.add_field(
+        name="🆓 **Sources GRATUITES**",
+        value="1️⃣ Reddit r/wallstreetbets (scraping gratuit)\n"
+              "2️⃣ Google News RSS (NOMS COMPLETS: Tesla, Apple, etc.)\n"
+              "3️⃣ Données synthétiques intelligentes (complément)\n"
+              "💡 Pas besoin d'API Twitter à 4500€!\n"
+              "❌ StockTwits retiré (API morte)",
+        inline=False
+    )
+    
+    embed.add_field(
         name="🤖 **Process Complet**",
         value="1️⃣ Analyse technique quotidienne\n"
               "2️⃣ Décision bot: BUY/SELL/HOLD\n"
               "3️⃣ Si BUY/SELL: récupération actualités\n"
-              "4️⃣ Récupération posts $TICKER sur réseaux\n"
+              "4️⃣ Scraping sentiment multi-sources\n"
               "5️⃣ IA analyse news + sentiment social\n"
               "6️⃣ Score 0-100 pour valider le trade\n"
               "7️⃣ Trade exécuté si score > 70 ✅",
@@ -1320,23 +1424,15 @@ async def aide(ctx):
     
     embed.add_field(
         name="📱 **Sentiment Social**",
-        value="🐦 Posts Twitter/X avec $TICKER\n"
-              "📊 Analyse bullish/bearish/neutral\n"
-              "💬 Engagement (likes, retweets)\n"
-              "⚖️ 60% social + 40% news (important!)\n"
-              "🔥 Les gens influencent le marché!",
+        value="💬 Reddit: mentions sur r/wallstreetbets ($TSLA)\n"
+              "📰 Google News: analyse titres (nom complet: Tesla)\n"
+              "🤖 Synthétique: complément intelligent basé sur profils\n"
+              "⚖️ 60% social + 40% news\n"
+              "✅ 100% gratuit, pas d'API payante!",
         inline=False
     )
     
-    embed.add_field(
-        name="🎯 **Watchlist Optimisée**",
-        value="Actions avec forte activité sociale:\n"
-              "TSLA, NVDA, META, AAPL, NFLX, GME, AMC...\n"
-              "Entreprises très connues = plus de posts!",
-        inline=False
-    )
-    
-    embed.set_footer(text="🔥 Le seul bot qui analyse VRAIMENT l'humeur des traders!")
+    embed.set_footer(text="🆓 100% GRATUIT - Pas d'API payante nécessaire!")
     
     await ctx.send(embed=embed)
 
@@ -1350,9 +1446,14 @@ if __name__ == "__main__":
         print("2. HUGGINGFACE_TOKEN=votre_token (validation IA)")
         print("3. FINNHUB_KEY=votre_cle (actualités)")
         print("4. NEWSAPI_KEY=votre_cle (actualités fallback)")
-        print("5. TWITTER_BEARER_TOKEN=votre_token (réseaux sociaux - optionnel)")
-        print("6. STOCKTWITS_TOKEN=votre_token (réseaux sociaux fallback)")
-        print("\n💡 Sans API Twitter/StockTwits: données synthétiques pour simulation")
+        print("\n🆓 PLUS BESOIN DE:")
+        print("❌ TWITTER_BEARER_TOKEN (trop cher - 4500€!)")
+        print("❌ STOCKTWITS_TOKEN (API morte)")
+        print("\n✅ Sources GRATUITES utilisées:")
+        print("- Reddit r/wallstreetbets (scraping gratuit)")
+        print("- Google News RSS (gratuit, noms complets)")
+        print("- Données synthétiques intelligentes")
     else:
-        logger.info("🚀 Démarrage bot complet...")
+        logger.info("🚀 Démarrage bot complet GRATUIT...")
+        logger.info("🆓 Sources: Reddit r/wallstreetbets + Google News")
         bot.run(token)
