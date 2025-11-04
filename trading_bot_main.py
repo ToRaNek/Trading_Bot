@@ -110,14 +110,23 @@ class NewsAnalyzer:
                 return cached_data
         
         try:
-            url = f"https://finance.yahoo.com/quote/{symbol}/news/"
+            url = f"https://finance.yahoo.com/quote/{symbol}"
             
             session = await self.get_session()
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Cache-Control': 'max-age=0'
             }
             
-            async with session.get(url, headers=headers, timeout=10) as response:
+            async with session.get(url, headers=headers, timeout=15, allow_redirects=True) as response:
                 if response.status != 200:
                     logger.warning(f"⚠️ {symbol} - Status code: {response.status}")
                     return False, [], 0.0
@@ -134,43 +143,42 @@ class NewsAnalyzer:
             news_items = []
             cutoff_time = datetime.now() - timedelta(hours=hours)
             
-            # Chercher les articles dans la structure de Yahoo Finance
-            for article_elem in soup.find_all('article'):
+            # Méthode 1: Chercher les sections news
+            news_sections = soup.find_all(['li', 'div'], class_=lambda x: x and ('stream' in x.lower() or 'news' in x.lower() or 'story' in x.lower()))
+            
+            for item in news_sections:
                 try:
-                    # Extraire le titre
-                    title_elem = article_elem.find('h3')
+                    # Chercher le titre
+                    title_elem = item.find(['h3', 'a', 'span'], class_=lambda x: x and 'title' in x.lower()) if item else None
+                    if not title_elem:
+                        title_elem = item.find('a')
+                    
                     if not title_elem:
                         continue
                     
                     title = title_elem.get_text(strip=True)
-                    if not title or len(title) < 5:
+                    if not title or len(title) < 10:
                         continue
                     
                     # Extraire le lien
-                    link_elem = article_elem.find('a')
+                    link_elem = title_elem if title_elem.name == 'a' else item.find('a')
                     link = link_elem.get('href', '') if link_elem else ''
                     if link and not link.startswith('http'):
                         link = 'https://finance.yahoo.com' + link
                     
-                    # Extraire la source
-                    source_elem = article_elem.find(class_='publishing')
-                    source_text = source_elem.get_text(strip=True) if source_elem else 'Unknown'
+                    # Extraire la source et date
+                    time_elem = item.find('time')
+                    source_elem = item.find(['span', 'div'], class_=lambda x: x and ('source' in x.lower() or 'provider' in x.lower()))
                     
-                    # Parser la source pour extraire le nom du journal
-                    parts = source_text.split('•')
-                    publisher = parts[0].strip() if parts else 'Unknown'
+                    publisher = source_elem.get_text(strip=True) if source_elem else 'Yahoo Finance'
                     
-                    # Analyser la date
+                    # Parser la date
                     pub_date = datetime.now()
-                    if 'm ago' in source_text:
-                        mins = int(source_text.split()[0])
-                        pub_date = datetime.now() - timedelta(minutes=mins)
-                    elif 'h ago' in source_text:
-                        hours_ago = int(source_text.split()[0])
-                        pub_date = datetime.now() - timedelta(hours=hours_ago)
-                    elif 'd ago' in source_text:
-                        days_ago = int(source_text.split()[0])
-                        pub_date = datetime.now() - timedelta(days=days_ago)
+                    if time_elem and time_elem.get('datetime'):
+                        try:
+                            pub_date = datetime.fromisoformat(time_elem['datetime'].replace('Z', '+00:00'))
+                        except:
+                            pass
                     
                     # Filtrer par date
                     if pub_date < cutoff_time:
@@ -205,37 +213,52 @@ class NewsAnalyzer:
                     })
                 
                 except Exception as e:
-                    logger.debug(f"Erreur parsing article: {e}")
+                    logger.debug(f"Erreur parsing item: {e}")
                     continue
             
-            # Si pas d'articles trouvés, essayer une approche alternative
+            # Méthode 2: Si aucun résultat, chercher tous les liens avec titres
             if not news_items:
-                logger.info(f"⚠️ {symbol} - Pas d'articles avec la première méthode, essai alternatif")
-                
-                # Chercher les divs avec classes relatives aux articles
-                for div in soup.find_all('div', class_='stream-item'):
+                all_links = soup.find_all('a', href=True)
+                for link_elem in all_links:
                     try:
-                        title_elem = div.find('h3')
-                        if title_elem:
-                            title = title_elem.get_text(strip=True)
-                            link_elem = div.find('a')
-                            link = link_elem.get('href', '') if link_elem else ''
-                            
-                            if not title or len(title) < 5:
-                                continue
-                            
-                            publisher = 'Yahoo Finance'
-                            pub_date = datetime.now()
-                            importance = 1.0
-                            
-                            news_items.append({
-                                'title': title,
-                                'publisher': publisher,
-                                'link': link,
-                                'date': pub_date,
-                                'importance': importance,
-                                'keywords': []
-                            })
+                        title = link_elem.get_text(strip=True)
+                        href = link_elem['href']
+                        
+                        if not title or len(title) < 15:
+                            continue
+                        
+                        if '/news/' not in href and '/article/' not in href:
+                            continue
+                        
+                        if not href.startswith('http'):
+                            href = 'https://finance.yahoo.com' + href
+                        
+                        title_lower = title.lower()
+                        importance = 1.0
+                        matched_keywords = []
+                        
+                        importance_keywords = {
+                            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
+                            'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0
+                        }
+                        
+                        for keyword, weight in importance_keywords.items():
+                            if keyword in title_lower:
+                                importance += weight
+                                matched_keywords.append(keyword)
+                        
+                        news_items.append({
+                            'title': title,
+                            'publisher': 'Yahoo Finance',
+                            'link': href,
+                            'date': datetime.now(),
+                            'importance': importance,
+                            'keywords': matched_keywords
+                        })
+                        
+                        if len(news_items) >= 10:
+                            break
+                    
                     except:
                         continue
             

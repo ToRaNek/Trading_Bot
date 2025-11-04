@@ -526,3 +526,33 @@ discord.ext.commands.errors.CommandNotFound: Command "newws" is not found
 client_session: <aiohttp.client.ClientSession object at 0x0000022B57B97ED0>
 2025-11-04 21:01:25,789 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
 2025-11-04 21:02:21,506 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:02:46,668 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:02:46,669 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 21:02:46,670 - discord.client - INFO - logging in using static token
+2025-11-04 21:02:47,130 - TradingBot - INFO - Bot initialisé
+2025-11-04 21:02:47,508 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 367c3850823f7a5eb8584fd04d3639ae).
+2025-11-04 21:02:49,516 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 21:02:54,547 - TradingBot - WARNING - ⚠️ NVDA - Status code: 404
+2025-11-04 21:07:54,579 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001EB1EFC7C50>
+2025-11-04 21:07:57,425 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:07:57,426 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 21:07:57,427 - discord.client - INFO - logging in using static token
+2025-11-04 21:07:57,943 - TradingBot - INFO - Bot initialisé
+2025-11-04 21:07:59,248 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 27b844904b56797cf96fdb59c58a5540).
+2025-11-04 21:08:01,250 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 21:08:10,554 - TradingBot - INFO - ✅ NVDA - 0 actualités récentes | Score: 0
+2025-11-04 21:08:20,605 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000236A5113C50>
+2025-11-04 21:08:20,606 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000236A5179970>, 3836.1735874)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000236A5113D90>
+2025-11-04 21:08:24,289 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:08:24,290 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 21:08:24,291 - discord.client - INFO - logging in using static token
+2025-11-04 21:08:24,801 - TradingBot - INFO - Bot initialisé
+2025-11-04 21:08:25,177 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 7c4bfaac2d266d0b945f72e679e12a05).
+2025-11-04 21:08:27,202 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 21:08:32,767 - TradingBot - INFO - ✅ NVDA - 0 actualités récentes | Score: 0
+2025-11-04 21:10:40,087 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000229F7E27D90>
