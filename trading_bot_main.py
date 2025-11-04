@@ -1,6 +1,6 @@
 """
 Bot Discord de Trading - VERSION CORRIGÉE
-- Scraping des news via BeautifulSoup (Yahoo Finance)
+- News via APIs (Finnhub + NewsAPI) - PLUS DE SCRAPING
 - Backtest multi-intervalles (1m, 5m, 1h, 1d)
 - Analyse sentiment avec HuggingFace
 """
@@ -13,7 +13,6 @@ import numpy as np
 from datetime import datetime, timedelta
 import asyncio
 import aiohttp
-from bs4 import BeautifulSoup
 from textblob import TextBlob
 import logging
 from typing import Dict, List, Tuple, Optional
@@ -93,107 +92,76 @@ class NewsAnalyzer:
         self.session = None
         self.cache = {}
         self.cache_duration = 1800
+        self.newsapi_key = os.getenv('NEWSAPI_KEY', '')
+        self.finnhub_key = os.getenv('FINNHUB_KEY', '')
         
     async def get_session(self):
         if not self.session:
             self.session = aiohttp.ClientSession()
         return self.session
     
-    async def scrape_yahoo_news(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
-        """Scrape les actualités de Yahoo Finance"""
-        cache_key = f"{symbol}_{hours}"
-        
-        if cache_key in self.cache:
-            cached_time, cached_data = self.cache[cache_key]
-            if (datetime.now() - cached_time).total_seconds() < self.cache_duration:
-                logger.info(f"📦 {symbol} - Cache utilisé")
-                return cached_data
-        
+    async def get_news_from_newsapi(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
+        """Récupère les actualités via NewsAPI"""
         try:
-            url = f"https://finance.yahoo.com/quote/{symbol}"
-            
             session = await self.get_session()
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.5',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Connection': 'keep-alive',
-                'Upgrade-Insecure-Requests': '1',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'none',
-                'Cache-Control': 'max-age=0'
+            
+            # Chercher par ticker
+            query = f"{symbol} stock"
+            
+            url = "https://newsapi.org/v2/everything"
+            params = {
+                'q': query,
+                'sortBy': 'publishedAt',
+                'language': 'en',
+                'apiKey': self.newsapi_key,
+                'pageSize': 20
             }
             
-            async with session.get(url, headers=headers, timeout=15, allow_redirects=True) as response:
+            async with session.get(url, params=params, timeout=10) as response:
                 if response.status != 200:
-                    logger.warning(f"⚠️ {symbol} - Status code: {response.status}")
+                    logger.warning(f"⚠️ NewsAPI {symbol} - Status: {response.status}")
                     return False, [], 0.0
                 
-                html = await response.text()
+                data = await response.json()
         
         except Exception as e:
-            logger.error(f"❌ Erreur scraping {symbol}: {e}")
+            logger.error(f"❌ Erreur NewsAPI {symbol}: {e}")
             return False, [], 0.0
         
         try:
-            soup = BeautifulSoup(html, 'html.parser')
-            
             news_items = []
             cutoff_time = datetime.now() - timedelta(hours=hours)
             
-            # Méthode 1: Chercher les sections news
-            news_sections = soup.find_all(['li', 'div'], class_=lambda x: x and ('stream' in x.lower() or 'news' in x.lower() or 'story' in x.lower()))
+            if 'articles' not in data or not data['articles']:
+                return False, [], 0.0
             
-            for item in news_sections:
+            importance_keywords = {
+                'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
+                'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
+                'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
+                'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
+                'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
+                'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
+            }
+            
+            for article in data['articles']:
                 try:
-                    # Chercher le titre
-                    title_elem = item.find(['h3', 'a', 'span'], class_=lambda x: x and 'title' in x.lower()) if item else None
-                    if not title_elem:
-                        title_elem = item.find('a')
-                    
-                    if not title_elem:
-                        continue
-                    
-                    title = title_elem.get_text(strip=True)
+                    title = article.get('title', '')
                     if not title or len(title) < 10:
                         continue
                     
-                    # Extraire le lien
-                    link_elem = title_elem if title_elem.name == 'a' else item.find('a')
-                    link = link_elem.get('href', '') if link_elem else ''
-                    if link and not link.startswith('http'):
-                        link = 'https://finance.yahoo.com' + link
-                    
-                    # Extraire la source et date
-                    time_elem = item.find('time')
-                    source_elem = item.find(['span', 'div'], class_=lambda x: x and ('source' in x.lower() or 'provider' in x.lower()))
-                    
-                    publisher = source_elem.get_text(strip=True) if source_elem else 'Yahoo Finance'
-                    
                     # Parser la date
-                    pub_date = datetime.now()
-                    if time_elem and time_elem.get('datetime'):
-                        try:
-                            pub_date = datetime.fromisoformat(time_elem['datetime'].replace('Z', '+00:00'))
-                        except:
-                            pass
+                    pub_date_str = article.get('publishedAt', '')
+                    try:
+                        pub_date = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
+                    except:
+                        pub_date = datetime.now()
                     
                     # Filtrer par date
                     if pub_date < cutoff_time:
                         continue
                     
                     # Calcul de l'importance
-                    importance_keywords = {
-                        'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
-                        'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
-                        'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
-                        'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
-                        'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
-                        'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
-                    }
-                    
                     title_lower = title.lower()
                     importance = 1.0
                     matched_keywords = []
@@ -205,76 +173,145 @@ class NewsAnalyzer:
                     
                     news_items.append({
                         'title': title,
-                        'publisher': publisher,
-                        'link': link,
+                        'publisher': article.get('source', {}).get('name', 'NewsAPI'),
+                        'link': article.get('url', ''),
                         'date': pub_date,
                         'importance': importance,
-                        'keywords': matched_keywords
+                        'keywords': matched_keywords,
+                        'description': article.get('description', '')[:150]
                     })
                 
                 except Exception as e:
-                    logger.debug(f"Erreur parsing item: {e}")
+                    logger.debug(f"Erreur parsing article: {e}")
                     continue
-            
-            # Méthode 2: Si aucun résultat, chercher tous les liens avec titres
-            if not news_items:
-                all_links = soup.find_all('a', href=True)
-                for link_elem in all_links:
-                    try:
-                        title = link_elem.get_text(strip=True)
-                        href = link_elem['href']
-                        
-                        if not title or len(title) < 15:
-                            continue
-                        
-                        if '/news/' not in href and '/article/' not in href:
-                            continue
-                        
-                        if not href.startswith('http'):
-                            href = 'https://finance.yahoo.com' + href
-                        
-                        title_lower = title.lower()
-                        importance = 1.0
-                        matched_keywords = []
-                        
-                        importance_keywords = {
-                            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
-                            'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0
-                        }
-                        
-                        for keyword, weight in importance_keywords.items():
-                            if keyword in title_lower:
-                                importance += weight
-                                matched_keywords.append(keyword)
-                        
-                        news_items.append({
-                            'title': title,
-                            'publisher': 'Yahoo Finance',
-                            'link': href,
-                            'date': datetime.now(),
-                            'importance': importance,
-                            'keywords': matched_keywords
-                        })
-                        
-                        if len(news_items) >= 10:
-                            break
-                    
-                    except:
-                        continue
             
             has_news = len(news_items) > 0
             total_importance = sum(n['importance'] for n in news_items)
             news_score = min(100, total_importance * 10) if has_news else 0.0
             
-            result = (has_news, news_items, news_score)
-            self.cache[cache_key] = (datetime.now(), result)
-            
-            logger.info(f"✅ {symbol} - {len(news_items)} actualités récentes | Score: {news_score:.0f}")
-            return result
+            logger.info(f"✅ {symbol} - {len(news_items)} articles via NewsAPI | Score: {news_score:.0f}")
+            return has_news, news_items, news_score
             
         except Exception as e:
-            logger.error(f"❌ Erreur parsing HTML {symbol}: {e}")
+            logger.error(f"❌ Erreur parsing NewsAPI {symbol}: {e}")
             return False, [], 0.0
+    
+    async def get_news_from_finnhub(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
+        """Récupère les actualités via Finnhub (meilleur pour la finance)"""
+        try:
+            session = await self.get_session()
+            
+            url = "https://finnhub.io/api/v1/company-news"
+            params = {
+                'symbol': symbol,
+                'token': self.finnhub_key,
+                'limit': 20
+            }
+            
+            async with session.get(url, params=params, timeout=10) as response:
+                if response.status != 200:
+                    logger.warning(f"⚠️ Finnhub {symbol} - Status: {response.status}")
+                    return False, [], 0.0
+                
+                data = await response.json()
+        
+        except Exception as e:
+            logger.error(f"❌ Erreur Finnhub {symbol}: {e}")
+            return False, [], 0.0
+        
+        try:
+            news_items = []
+            cutoff_time = datetime.now() - timedelta(hours=hours)
+            
+            if not isinstance(data, list):
+                return False, [], 0.0
+            
+            importance_keywords = {
+                'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
+                'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
+                'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
+                'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
+                'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
+                'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
+            }
+            
+            for article in data:
+                try:
+                    title = article.get('headline', '')
+                    if not title or len(title) < 10:
+                        continue
+                    
+                    # Parser la date (timestamp Unix)
+                    timestamp = article.get('datetime', 0)
+                    pub_date = datetime.fromtimestamp(timestamp)
+                    
+                    # Filtrer par date
+                    if pub_date < cutoff_time:
+                        continue
+                    
+                    # Calcul de l'importance
+                    title_lower = title.lower()
+                    importance = 1.0
+                    matched_keywords = []
+                    
+                    for keyword, weight in importance_keywords.items():
+                        if keyword in title_lower:
+                            importance += weight
+                            matched_keywords.append(keyword)
+                    
+                    news_items.append({
+                        'title': title,
+                        'publisher': article.get('source', 'Finnhub'),
+                        'link': article.get('url', ''),
+                        'date': pub_date,
+                        'importance': importance,
+                        'keywords': matched_keywords,
+                        'description': article.get('summary', '')[:150]
+                    })
+                
+                except Exception as e:
+                    logger.debug(f"Erreur parsing article Finnhub: {e}")
+                    continue
+            
+            has_news = len(news_items) > 0
+            total_importance = sum(n['importance'] for n in news_items)
+            news_score = min(100, total_importance * 10) if has_news else 0.0
+            
+            logger.info(f"✅ {symbol} - {len(news_items)} articles via Finnhub | Score: {news_score:.0f}")
+            return has_news, news_items, news_score
+            
+        except Exception as e:
+            logger.error(f"❌ Erreur parsing Finnhub {symbol}: {e}")
+            return False, [], 0.0
+    
+    async def scrape_yahoo_news(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
+        """Récupère les actualités en essayant Finnhub puis NewsAPI"""
+        cache_key = f"{symbol}_{hours}"
+        
+        if cache_key in self.cache:
+            cached_time, cached_data = self.cache[cache_key]
+            if (datetime.now() - cached_time).total_seconds() < self.cache_duration:
+                logger.info(f"📦 {symbol} - Cache utilisé")
+                return cached_data
+        
+        # Essayer Finnhub en premier (meilleur pour finance)
+        if self.finnhub_key:
+            has_news, news_data, score = await self.get_news_from_finnhub(symbol, hours)
+            if has_news:
+                result = (has_news, news_data, score)
+                self.cache[cache_key] = (datetime.now(), result)
+                return result
+        
+        # Fallback sur NewsAPI
+        if self.newsapi_key:
+            has_news, news_data, score = await self.get_news_from_newsapi(symbol, hours)
+            if has_news:
+                result = (has_news, news_data, score)
+                self.cache[cache_key] = (datetime.now(), result)
+                return result
+        
+        logger.warning(f"⚠️ {symbol} - Pas d'API key configurée (Finnhub ou NewsAPI)")
+        return False, [], 0.0
     
     async def close(self):
         if self.session:
@@ -1152,6 +1189,8 @@ if __name__ == "__main__":
         print("1. Créez un fichier .env")
         print("2. Ajoutez: DISCORD_BOT_TOKEN=votre_token")
         print("3. (Optionnel) HUGGINGFACE_TOKEN=votre_token")
+        print("4. (Optionnel) NEWSAPI_KEY=votre_cle_newsapi")
+        print("5. (Optionnel) FINNHUB_KEY=votre_cle_finnhub")
     else:
         logger.info("🚀 Démarrage du bot...")
         bot.run(token)

@@ -556,3 +556,28 @@ connector: <aiohttp.connector.TCPConnector object at 0x00000236A5113D90>
 2025-11-04 21:08:32,767 - TradingBot - INFO - ✅ NVDA - 0 actualités récentes | Score: 0
 2025-11-04 21:10:40,087 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x00000229F7E27D90>
+2025-11-04 21:22:41,335 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:22:41,336 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 21:22:41,337 - discord.client - INFO - logging in using static token
+2025-11-04 21:22:41,818 - TradingBot - INFO - Bot initialisé
+2025-11-04 21:22:42,448 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 998e6a29235fe875f702e0281505ea80).
+2025-11-04 21:22:44,458 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 21:22:49,504 - TradingBot - WARNING - ⚠️ Finnhub NVDA - Status: 422
+2025-11-04 21:22:49,678 - TradingBot - INFO - ✅ NVDA - 0 articles via NewsAPI | Score: 0
+2025-11-04 21:22:49,678 - TradingBot - WARNING - ⚠️ NVDA - Pas d'API key configurée (Finnhub ou NewsAPI)
+2025-11-04 21:23:18,100 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001A68199FC50>
+2025-11-04 21:23:22,097 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 21:23:22,097 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 21:23:22,098 - discord.client - INFO - logging in using static token
+2025-11-04 21:23:22,592 - TradingBot - INFO - Bot initialisé
+2025-11-04 21:23:24,345 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 2cdc12ab3a863feca3a083a9fed54797).
+2025-11-04 21:23:26,358 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 21:23:26,847 - TradingBot - WARNING - ⚠️ Finnhub NVDA - Status: 422
+2025-11-04 21:23:26,981 - TradingBot - INFO - ✅ NVDA - 0 articles via NewsAPI | Score: 0
+2025-11-04 21:23:26,982 - TradingBot - WARNING - ⚠️ NVDA - Pas d'API key configurée (Finnhub ou NewsAPI)
+2025-11-04 21:26:14,972 - TradingBot - WARNING - ⚠️ Finnhub AMZN - Status: 422
+2025-11-04 21:26:15,139 - TradingBot - INFO - ✅ AMZN - 0 articles via NewsAPI | Score: 0
+2025-11-04 21:26:15,139 - TradingBot - WARNING - ⚠️ AMZN - Pas d'API key configurée (Finnhub ou NewsAPI)
+2025-11-04 21:34:10,626 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000019F7AD9FD90>
