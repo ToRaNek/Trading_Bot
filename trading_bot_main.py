@@ -1,8 +1,8 @@
 """
-Bot Discord de Trading - VERSION CORRIGÉE
-- News via APIs (Finnhub + NewsAPI) - PLUS DE SCRAPING
-- Backtest multi-intervalles (1m, 5m, 1h, 1d)
-- Analyse sentiment avec HuggingFace
+Bot Discord de Trading - BACKTEST AVEC ACTUALITÉS TEMPS RÉEL
+- Backtest réaliste : simulation des décisions avec actualités historiques
+- Validation IA des décisions de trading via HuggingFace
+- Score de confiance pour chaque trade (0-100)
 """
 
 import discord
@@ -20,6 +20,7 @@ import os
 from dotenv import load_dotenv
 import warnings
 import time
+import json
 warnings.filterwarnings('ignore')
 
 import sys
@@ -45,290 +46,344 @@ WATCHLIST = [
     'CRM', 'AMD', 'ORCL', 'INTC', 'CSCO', 'PEP', 'COST', 'AVGO'
 ]
 
-BACKTEST_CONFIGS = {
-    '1m': {'period': '7d', 'interval': '1m', 'name': '1 minute'},
-    '5m': {'period': '60d', 'interval': '5m', 'name': '5 minutes'},
-    '1h': {'period': '730d', 'interval': '1h', 'name': '1 heure'},
-    '1d': {'period': '730d', 'interval': '1d', 'name': '1 jour'}
-}
 
-
-class EventDetector:
-    
-    def detect_events_in_history(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Détecte les événements importants dans l'historique des prix"""
-        if not isinstance(df.index, pd.DatetimeIndex):
-            df.index = pd.to_datetime(df.index)
-        
-        df['price_change'] = df['Close'].pct_change()
-        df['volume_sma'] = df['Volume'].rolling(window=min(20, len(df)//2)).mean()
-        df['volume_ratio'] = df['Volume'] / df['volume_sma'].replace(0, 1)
-        
-        prev_close = df['Close'].shift(1)
-        df['gap'] = abs(df['Open'] - prev_close) / prev_close.replace(0, 1)
-        
-        df['volatility_5d'] = df['Close'].pct_change().rolling(window=min(5, len(df)//4)).std()
-        
-        df['has_event'] = (
-            (df['volume_ratio'].fillna(0) > 2.0) |
-            (abs(df['price_change'].fillna(0)) > 0.03) |
-            (df['gap'].fillna(0) > 0.02) |
-            (df['volatility_5d'].fillna(0) > 0.025)
-        )
-        
-        df['event_score'] = 0.0
-        df.loc[df['volume_ratio'].fillna(0) > 2.0, 'event_score'] += 30
-        df.loc[abs(df['price_change'].fillna(0)) > 0.03, 'event_score'] += 25
-        df.loc[abs(df['price_change'].fillna(0)) > 0.05, 'event_score'] += 15
-        df.loc[df['gap'].fillna(0) > 0.02, 'event_score'] += 20
-        df.loc[df['volatility_5d'].fillna(0) > 0.025, 'event_score'] += 10
-        
-        return df
-
-
-class NewsAnalyzer:
+class HistoricalNewsAnalyzer:
+    """Récupère les actualités historiques pour chaque date de backtest"""
     
     def __init__(self):
         self.session = None
-        self.cache = {}
-        self.cache_duration = 1800
         self.newsapi_key = os.getenv('NEWSAPI_KEY', '')
         self.finnhub_key = os.getenv('FINNHUB_KEY', '')
+        self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
+        self.news_cache = {}  # Cache pour éviter appels API répétés
         
     async def get_session(self):
         if not self.session:
             self.session = aiohttp.ClientSession()
         return self.session
     
-    async def get_news_from_newsapi(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
-        """Récupère les actualités via NewsAPI"""
+    async def get_news_for_date(self, symbol: str, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Récupère les actualités pour une date précise (simulation temps réel)"""
         try:
+            # Normaliser la date en timezone-naive
+            if hasattr(target_date, 'tz') and target_date.tz is not None:
+                target_date = target_date.replace(tzinfo=None)
+            
+            # Vérifier le cache (clé = symbol + date)
+            cache_key = f"{symbol}_{target_date.strftime('%Y-%m-%d')}"
+            if cache_key in self.news_cache:
+                return self.news_cache[cache_key]
+            
             session = await self.get_session()
             
-            # Calculer la date de début
-            from_date = datetime.now() - timedelta(hours=hours)
+            # Fenêtre de 48h avant la date cible
+            from_date = target_date - timedelta(hours=48)
+            to_date = target_date
             
-            # Recherche plus large pour NewsAPI
             company_names = {
                 'AAPL': 'Apple', 'MSFT': 'Microsoft', 'GOOGL': 'Google Alphabet',
                 'AMZN': 'Amazon', 'NVDA': 'Nvidia', 'META': 'Meta Facebook',
                 'TSLA': 'Tesla', 'JPM': 'JPMorgan', 'V': 'Visa', 
-                'NFLX': 'Netflix', 'AMD': 'AMD', 'INTC': 'Intel'
+                'NFLX': 'Netflix', 'AMD': 'AMD', 'INTC': 'Intel',
+                'BRK-B': 'Berkshire Hathaway', 'JNJ': 'Johnson Johnson',
+                'WMT': 'Walmart', 'PG': 'Procter Gamble', 'MA': 'Mastercard',
+                'DIS': 'Disney', 'ADBE': 'Adobe', 'CRM': 'Salesforce',
+                'ORCL': 'Oracle', 'CSCO': 'Cisco', 'PEP': 'Pepsi', 'COST': 'Costco',
+                'AVGO': 'Broadcom'
             }
             
-            # Utiliser le nom de l'entreprise si disponible, sinon le ticker
             search_term = company_names.get(symbol, symbol)
-            query = f"{search_term} stock OR {symbol}"
             
-            url = "https://newsapi.org/v2/everything"
-            params = {
-                'q': query,
-                'from': from_date.strftime('%Y-%m-%dT%H:%M:%S'),
-                'sortBy': 'publishedAt',
-                'language': 'en',
-                'apiKey': self.newsapi_key,
-                'pageSize': 30
-            }
-            
-            async with session.get(url, params=params, timeout=10) as response:
-                if response.status != 200:
-                    logger.warning(f"⚠️ NewsAPI {symbol} - Status: {response.status}")
-                    return False, [], 0.0
+            # Essayer Finnhub d'abord
+            if self.finnhub_key:
+                url = "https://finnhub.io/api/v1/company-news"
+                params = {
+                    'symbol': symbol,
+                    'from': from_date.strftime('%Y-%m-%d'),
+                    'to': to_date.strftime('%Y-%m-%d'),
+                    'token': self.finnhub_key
+                }
                 
-                data = await response.json()
-        
-        except Exception as e:
-            logger.error(f"❌ Erreur NewsAPI {symbol}: {e}")
-            return False, [], 0.0
-        
-        try:
-            news_items = []
-            cutoff_time = datetime.now() - timedelta(hours=hours)
+                async with session.get(url, params=params, timeout=10) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        if isinstance(data, list) and len(data) > 0:
+                            result = await self._parse_finnhub_news(data, target_date)
+                            self.news_cache[cache_key] = result  # Sauvegarder dans le cache
+                            return result
             
-            if 'articles' not in data or not data['articles']:
-                return False, [], 0.0
-            
-            importance_keywords = {
-                'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
-                'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
-                'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
-                'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
-                'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
-                'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
-            }
-            
-            for article in data['articles']:
-                try:
-                    title = article.get('title', '')
-                    if not title or len(title) < 10:
-                        continue
-                    
-                    # Parser la date
-                    pub_date_str = article.get('publishedAt', '')
-                    try:
-                        pub_date = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
-                    except:
-                        pub_date = datetime.now()
-                    
-                    # Filtrer par date
-                    if pub_date < cutoff_time:
-                        continue
-                    
-                    # Calcul de l'importance
-                    title_lower = title.lower()
-                    importance = 1.0
-                    matched_keywords = []
-                    
-                    for keyword, weight in importance_keywords.items():
-                        if keyword in title_lower:
-                            importance += weight
-                            matched_keywords.append(keyword)
-                    
-                    news_items.append({
-                        'title': title,
-                        'publisher': article.get('source', {}).get('name', 'NewsAPI'),
-                        'link': article.get('url', ''),
-                        'date': pub_date,
-                        'importance': importance,
-                        'keywords': matched_keywords,
-                        'description': article.get('description', '')[:150]
-                    })
+            # Fallback sur NewsAPI
+            if self.newsapi_key:
+                url = "https://newsapi.org/v2/everything"
+                params = {
+                    'q': f"{search_term} stock OR {symbol}",
+                    'from': from_date.strftime('%Y-%m-%dT%H:%M:%S'),
+                    'to': to_date.strftime('%Y-%m-%dT%H:%M:%S'),
+                    'sortBy': 'publishedAt',
+                    'language': 'en',
+                    'apiKey': self.newsapi_key,
+                    'pageSize': 20
+                }
                 
-                except Exception as e:
-                    logger.debug(f"Erreur parsing article: {e}")
-                    continue
+                async with session.get(url, params=params, timeout=10) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        if 'articles' in data and data['articles']:
+                            result = await self._parse_newsapi_news(data['articles'], target_date)
+                            self.news_cache[cache_key] = result  # Sauvegarder dans le cache
+                            return result
             
-            has_news = len(news_items) > 0
-            total_importance = sum(n['importance'] for n in news_items)
-            news_score = min(100, total_importance * 10) if has_news else 0.0
-            
-            logger.info(f"✅ {symbol} - {len(news_items)} articles via NewsAPI | Score: {news_score:.0f}")
-            return has_news, news_items, news_score
+            result = (False, [], 0.0)
+            self.news_cache[cache_key] = result  # Même mettre en cache les résultats vides
+            return result
             
         except Exception as e:
-            logger.error(f"❌ Erreur parsing NewsAPI {symbol}: {e}")
+            logger.debug(f"Erreur news historiques {symbol} @ {target_date}: {e}")
             return False, [], 0.0
     
-    async def get_news_from_finnhub(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
-        """Récupère les actualités via Finnhub (meilleur pour la finance)"""
+    async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Parse les actualités Finnhub"""
+        news_items = []
+        
+        # Normaliser target_date en timezone-naive
+        if hasattr(target_date, 'tz') and target_date.tz is not None:
+            target_date = target_date.replace(tzinfo=None)
+        
+        cutoff_time = target_date - timedelta(hours=48)
+        
+        importance_keywords = {
+            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
+            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
+            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
+            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
+            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
+            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
+            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        }
+        
+        for article in data:
+            try:
+                title = article.get('headline', '')
+                if not title or len(title) < 10:
+                    continue
+                
+                timestamp = article.get('datetime', 0)
+                pub_date = datetime.fromtimestamp(timestamp)
+                # Normaliser en timezone-naive
+                if hasattr(pub_date, 'tz') and pub_date.tz is not None:
+                    pub_date = pub_date.replace(tzinfo=None)
+                
+                if pub_date < cutoff_time or pub_date > target_date:
+                    continue
+                
+                title_lower = title.lower()
+                importance = 1.0
+                matched_keywords = []
+                
+                for keyword, weight in importance_keywords.items():
+                    if keyword in title_lower:
+                        importance += weight
+                        matched_keywords.append(keyword)
+                
+                news_items.append({
+                    'title': title,
+                    'publisher': article.get('source', 'Finnhub'),
+                    'date': pub_date,
+                    'importance': importance,
+                    'keywords': matched_keywords,
+                    'summary': article.get('summary', '')[:200]
+                })
+                
+            except Exception as e:
+                continue
+        
+        has_news = len(news_items) > 0
+        total_importance = sum(n['importance'] for n in news_items)
+        news_score = min(100, total_importance * 10) if has_news else 0.0
+        
+        return has_news, news_items, news_score
+    
+    async def _parse_newsapi_news(self, articles: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Parse les actualités NewsAPI"""
+        news_items = []
+        
+        # Normaliser target_date en timezone-naive
+        if hasattr(target_date, 'tz') and target_date.tz is not None:
+            target_date = target_date.replace(tzinfo=None)
+        
+        cutoff_time = target_date - timedelta(hours=48)
+        
+        importance_keywords = {
+            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
+            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
+            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
+            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
+            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
+            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
+            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        }
+        
+        for article in articles:
+            try:
+                title = article.get('title', '')
+                if not title or len(title) < 10:
+                    continue
+                
+                pub_date_str = article.get('publishedAt', '')
+                try:
+                    pub_date = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
+                    # Convertir en timezone-naive
+                    if hasattr(pub_date, 'tzinfo') and pub_date.tzinfo is not None:
+                        pub_date = pub_date.replace(tzinfo=None)
+                except:
+                    continue
+                
+                if pub_date < cutoff_time or pub_date > target_date:
+                    continue
+                
+                title_lower = title.lower()
+                importance = 1.0
+                matched_keywords = []
+                
+                for keyword, weight in importance_keywords.items():
+                    if keyword in title_lower:
+                        importance += weight
+                        matched_keywords.append(keyword)
+                
+                news_items.append({
+                    'title': title,
+                    'publisher': article.get('source', {}).get('name', 'NewsAPI'),
+                    'date': pub_date,
+                    'importance': importance,
+                    'keywords': matched_keywords,
+                    'summary': article.get('description', '')[:200]
+                })
+                
+            except Exception as e:
+                continue
+        
+        has_news = len(news_items) > 0
+        total_importance = sum(n['importance'] for n in news_items)
+        news_score = min(100, total_importance * 10) if has_news else 0.0
+        
+        return has_news, news_items, news_score
+    
+    async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict], 
+                             current_price: float, tech_score: float) -> Tuple[int, str]:
+        """
+        Demande à l'IA HuggingFace si la décision du bot est bonne
+        Retourne un score 0-100 et une explication
+        """
         try:
-            session = await self.get_session()
+            if not news_data or not self.hf_token:
+                return 50, "Pas d'actualités disponibles pour validation"
+            
+            # Construire le contexte pour l'IA
+            news_summary = "\n".join([
+                f"- {n['title']} (Importance: {n['importance']:.1f})"
+                for n in news_data[:5]
+            ])
+            
+            prompt = f"""Analyze this trading decision:
 
-            to_date = datetime.now()
-            from_date = to_date - timedelta(hours=hours)
+Symbol: {symbol}
+Current Price: ${current_price:.2f}
+Technical Score: {tech_score:.0f}/100
+Bot Decision: {bot_decision}
+
+Recent News:
+{news_summary}
+
+Question: Should the bot {bot_decision} based on these news? Rate the decision quality from 0 to 100.
+- 0-30: Bad decision, news suggest opposite action
+- 31-50: Uncertain, mixed signals
+- 51-70: Good decision, news moderately support it
+- 71-100: Excellent decision, news strongly support it
+
+Respond with format: "SCORE: [number]|REASON: [explanation]"
+"""
             
-            url = "https://finnhub.io/api/v1/company-news"
-            params = {
-                'symbol': symbol,
-                'from': from_date.strftime('%Y-%m-%d'),
-                'to': to_date.strftime('%Y-%m-%d'),
-                'token': self.finnhub_key
+            session = await self.get_session()
+            url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+            headers = {"Authorization": f"Bearer {self.hf_token}"}
+            payload = {
+                "inputs": prompt,
+                "parameters": {
+                    "max_new_tokens": 150,
+                    "temperature": 0.3,
+                    "return_full_text": False
+                }
             }
             
-            async with session.get(url, params=params, timeout=10) as response:
-                if response.status != 200:
-                    logger.warning(f"⚠️ Finnhub {symbol} - Status: {response.status}")
-                    return False, [], 0.0
-                
-                data = await response.json()
-        
-        except Exception as e:
-            logger.error(f"❌ Erreur Finnhub {symbol}: {e}")
-            return False, [], 0.0
-        
-        try:
-            news_items = []
-            cutoff_time = datetime.now() - timedelta(hours=hours)
-            
-            if not isinstance(data, list):
-                return False, [], 0.0
-            
-            importance_keywords = {
-                'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
-                'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
-                'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
-                'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
-                'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
-                'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
-            }
-            
-            for article in data:
-                try:
-                    title = article.get('headline', '')
-                    if not title or len(title) < 10:
-                        continue
+            async with session.post(url, headers=headers, json=payload, timeout=15) as response:
+                if response.status == 200:
+                    result = await response.json()
                     
-                    # Parser la date (timestamp Unix)
-                    timestamp = article.get('datetime', 0)
-                    pub_date = datetime.fromtimestamp(timestamp)
-                    
-                    # Filtrer par date
-                    if pub_date < cutoff_time:
-                        continue
-                    
-                    # Calcul de l'importance
-                    title_lower = title.lower()
-                    importance = 1.0
-                    matched_keywords = []
-                    
-                    for keyword, weight in importance_keywords.items():
-                        if keyword in title_lower:
-                            importance += weight
-                            matched_keywords.append(keyword)
-                    
-                    news_items.append({
-                        'title': title,
-                        'publisher': article.get('source', 'Finnhub'),
-                        'link': article.get('url', ''),
-                        'date': pub_date,
-                        'importance': importance,
-                        'keywords': matched_keywords,
-                        'description': article.get('summary', '')[:150]
-                    })
-                
-                except Exception as e:
-                    logger.debug(f"Erreur parsing article Finnhub: {e}")
-                    continue
+                    if isinstance(result, list) and len(result) > 0:
+                        text = result[0].get('generated_text', '')
+                        
+                        # Parser la réponse
+                        try:
+                            if 'SCORE:' in text and 'REASON:' in text:
+                                parts = text.split('|')
+                                score_part = parts[0].split('SCORE:')[1].strip()
+                                reason_part = parts[1].split('REASON:')[1].strip() if len(parts) > 1 else "AI analysis"
+                                
+                                score = int(''.join(filter(str.isdigit, score_part[:3])))
+                                score = max(0, min(100, score))
+                                
+                                return score, reason_part[:200]
+                        except:
+                            pass
             
-            has_news = len(news_items) > 0
-            total_importance = sum(n['importance'] for n in news_items)
-            news_score = min(100, total_importance * 10) if has_news else 0.0
-            
-            logger.info(f"✅ {symbol} - {len(news_items)} articles via Finnhub | Score: {news_score:.0f}")
-            return has_news, news_items, news_score
+            # Fallback: analyse simple basée sur le sentiment
+            return await self._simple_sentiment_score(news_data, bot_decision)
             
         except Exception as e:
-            logger.error(f"❌ Erreur parsing Finnhub {symbol}: {e}")
-            return False, [], 0.0
+            logger.debug(f"Erreur AI validation: {e}")
+            return await self._simple_sentiment_score(news_data, bot_decision)
     
-    async def scrape_yahoo_news(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
-        """Récupère les actualités en essayant Finnhub puis NewsAPI"""
-        cache_key = f"{symbol}_{hours}"
-        
-        if cache_key in self.cache:
-            cached_time, cached_data = self.cache[cache_key]
-            if (datetime.now() - cached_time).total_seconds() < self.cache_duration:
-                logger.info(f"📦 {symbol} - Cache utilisé")
-                return cached_data
-        
-        # Essayer Finnhub en premier (meilleur pour finance)
-        if self.finnhub_key:
-            has_news, news_data, score = await self.get_news_from_finnhub(symbol, hours)
-            if has_news:
-                result = (has_news, news_data, score)
-                self.cache[cache_key] = (datetime.now(), result)
-                return result
-        
-        # Fallback sur NewsAPI
-        if self.newsapi_key:
-            has_news, news_data, score = await self.get_news_from_newsapi(symbol, hours)
-            if has_news:
-                result = (has_news, news_data, score)
-                self.cache[cache_key] = (datetime.now(), result)
-                return result
-        
-        logger.warning(f"⚠️ {symbol} - Pas d'API key configurée (Finnhub ou NewsAPI)")
-        return False, [], 0.0
+    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str) -> Tuple[int, str]:
+        """Score de sentiment simple comme fallback"""
+        try:
+            sentiments = []
+            for article in news_data[:5]:
+                blob = TextBlob(article['title'])
+                sentiment = blob.sentiment.polarity
+                sentiments.append(sentiment * article['importance'])
+            
+            avg_sentiment = np.mean(sentiments) if sentiments else 0
+            
+            # Convertir en score 0-100
+            base_score = (avg_sentiment + 1) * 50  # -1 to 1 -> 0 to 100
+            
+            # Ajuster selon la décision du bot
+            if bot_decision == "BUY":
+                if avg_sentiment > 0.2:
+                    score = int(base_score * 1.2)
+                    reason = "Sentiment positif supporte l'achat"
+                elif avg_sentiment < -0.2:
+                    score = int(base_score * 0.6)
+                    reason = "Sentiment négatif contredit l'achat"
+                else:
+                    score = int(base_score)
+                    reason = "Sentiment neutre"
+            else:  # SELL
+                if avg_sentiment < -0.2:
+                    score = int((1 - base_score/100) * 100 * 1.2)
+                    reason = "Sentiment négatif supporte la vente"
+                elif avg_sentiment > 0.2:
+                    score = int((1 - base_score/100) * 100 * 0.6)
+                    reason = "Sentiment positif contredit la vente"
+                else:
+                    score = int((1 - base_score/100) * 100)
+                    reason = "Sentiment neutre"
+            
+            score = max(0, min(100, score))
+            return score, reason
+            
+        except:
+            return 50, "Analyse de sentiment indisponible"
     
     async def close(self):
         if self.session:
@@ -337,62 +392,58 @@ class NewsAnalyzer:
 
 class TechnicalAnalyzer:
     
-    def calculate_indicators_batch(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Calcul des indicateurs techniques adaptés à l'intervalle"""
+    def calculate_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Calcul des indicateurs techniques"""
         data_size = len(df)
         
+        # SMA
+        df['sma_20'] = df['Close'].rolling(window=min(20, data_size//2)).mean()
+        if data_size > 50:
+            df['sma_50'] = df['Close'].rolling(window=50).mean()
         if data_size > 200:
-            sma_short, sma_mid, sma_long = 20, 50, 200
-            rsi_window = 14
-            bb_window = 20
-        elif data_size > 100:
-            sma_short, sma_mid, sma_long = 10, 25, 100
-            rsi_window = 10
-            bb_window = 10
-        else:
-            sma_short, sma_mid, sma_long = 5, 15, 50
-            rsi_window = 7
-            bb_window = 10
+            df['sma_200'] = df['Close'].rolling(window=200).mean()
         
-        df['sma_20'] = df['Close'].rolling(window=min(sma_short, data_size//2)).mean()
-        if data_size > sma_mid:
-            df['sma_50'] = df['Close'].rolling(window=sma_mid).mean()
-        if data_size > sma_long:
-            df['sma_200'] = df['Close'].rolling(window=sma_long).mean()
-        
+        # EMA et MACD
         df['ema_12'] = df['Close'].ewm(span=12, adjust=False).mean()
         df['ema_26'] = df['Close'].ewm(span=26, adjust=False).mean()
         df['macd'] = df['ema_12'] - df['ema_26']
         df['macd_signal'] = df['macd'].ewm(span=9, adjust=False).mean()
         
+        # RSI
         delta = df['Close'].diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=rsi_window).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=rsi_window).mean()
+        gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
         rs = gain / loss
         df['rsi'] = 100 - (100 / (1 + rs))
         
+        # Bollinger Bands
+        bb_window = min(20, data_size//2)
         bb_sma = df['Close'].rolling(window=bb_window).mean()
         bb_std = df['Close'].rolling(window=bb_window).std()
         df['bb_upper'] = bb_sma + (bb_std * 2)
         df['bb_lower'] = bb_sma - (bb_std * 2)
         
+        # Volume
         df['volume_sma'] = df['Volume'].rolling(window=min(20, data_size//2)).mean()
-        df['volume_ratio'] = df['Volume'] / df['volume_sma']
+        df['volume_ratio'] = df['Volume'] / df['volume_sma'].replace(0, 1)
         
         return df
     
     def get_technical_score(self, row: pd.Series) -> Tuple[float, List[str]]:
+        """Calcule le score technique et les raisons"""
         score = 50.0
         reasons = []
         
+        # Tendance
         if pd.notna(row.get('sma_20')) and pd.notna(row.get('sma_50')):
             if row['sma_20'] > row['sma_50']:
                 score += 15
-                reasons.append(f"✅ Tendance haussière")
+                reasons.append("✅ Tendance haussière (SMA)")
             else:
                 score -= 15
-                reasons.append(f"⚠️ Tendance baissière")
+                reasons.append("⚠️ Tendance baissière (SMA)")
         
+        # RSI
         if pd.notna(row.get('rsi')):
             if row['rsi'] < 30:
                 score += 20
@@ -404,23 +455,28 @@ class TechnicalAnalyzer:
                 score += 10
                 reasons.append(f"✅ RSI favorable ({row['rsi']:.1f})")
         
+        # MACD
         if pd.notna(row.get('macd')) and pd.notna(row.get('macd_signal')):
             if row['macd'] > row['macd_signal']:
                 score += 10
-                reasons.append(f"✅ MACD bullish")
+                reasons.append("✅ MACD bullish")
             else:
                 score -= 10
-                reasons.append(f"⚠️ MACD bearish")
+                reasons.append("⚠️ MACD bearish")
         
+        # Bollinger Bands
         if pd.notna(row.get('bb_lower')) and pd.notna(row.get('bb_upper')):
-            bb_position = (row['Close'] - row['bb_lower']) / (row['bb_upper'] - row['bb_lower'])
-            if bb_position < 0.2:
-                score += 15
-                reasons.append(f"🎯 Prix près BB inférieure")
-            elif bb_position > 0.8:
-                score -= 15
-                reasons.append(f"⚠️ Prix près BB supérieure")
+            bb_range = row['bb_upper'] - row['bb_lower']
+            if bb_range > 0:
+                bb_position = (row['Close'] - row['bb_lower']) / bb_range
+                if bb_position < 0.2:
+                    score += 15
+                    reasons.append("🎯 Prix proche BB inférieure")
+                elif bb_position > 0.8:
+                    score -= 15
+                    reasons.append("⚠️ Prix proche BB supérieure")
         
+        # Volume
         if pd.notna(row.get('volume_ratio')) and row['volume_ratio'] > 1.5:
             score += 5
             reasons.append(f"📈 Volume élevé ({row['volume_ratio']:.1f}x)")
@@ -429,162 +485,166 @@ class TechnicalAnalyzer:
         return score, reasons
 
 
-class SentimentAnalyzer:
+class RealisticBacktestEngine:
+    """
+    Backtest réaliste qui simule les décisions en temps réel
+    avec validation IA pour chaque trade
+    """
     
     def __init__(self):
-        self.session = None
-        self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
+        self.news_analyzer = HistoricalNewsAnalyzer()
+        self.tech_analyzer = TechnicalAnalyzer()
         
-    async def get_session(self):
-        if not self.session:
-            self.session = aiohttp.ClientSession()
-        return self.session
-    
-    async def analyze_with_ai(self, text: str) -> float:
-        try:
-            session = await self.get_session()
-            url = "https://api-inference.huggingface.co/models/ProsusAI/finbert"
-            headers = {"Authorization": f"Bearer {self.hf_token}"} if self.hf_token else {}
-            payload = {"inputs": text[:512]}
-            
-            async with session.post(url, headers=headers, json=payload, timeout=10) as response:
-                if response.status == 200:
-                    result = await response.json()
-                    if isinstance(result, list) and len(result) > 0:
-                        scores = {item['label'].lower(): item['score'] for item in result[0]}
-                        sentiment_score = scores.get('positive', 0) - scores.get('negative', 0)
-                        return sentiment_score
-            
-            return TextBlob(text).sentiment.polarity
-            
-        except Exception as e:
-            return TextBlob(text).sentiment.polarity
-    
-    async def get_sentiment_score(self, symbol: str, news_data: List[Dict] = None) -> Tuple[float, List[str]]:
-        reasons = []
-        
-        if news_data and len(news_data) > 0:
-            news_sentiments = []
-            for article in news_data[:5]:
-                sentiment = await self.analyze_with_ai(article['title'])
-                news_sentiments.append(sentiment * article['importance'])
-            
-            news_score = 50.0
-            if news_sentiments:
-                avg_sentiment = np.mean(news_sentiments)
-                news_score = (avg_sentiment + 1) * 50
-            
-            reasons.append(f"📰 News: {news_score:.0f}/100 ({len(news_data)} articles)")
-        else:
-            news_score = 50.0
-            reasons.append(f"📰 News: Aucune actualité")
-        
-        return news_score, reasons
-    
-    async def close(self):
-        if self.session:
-            await self.session.close()
-
-
-class SmartBacktestEngine:
-    
-    def __init__(self):
-        self.results = []
-        
-    async def backtest_with_interval(self, symbol: str, interval: str = '1d') -> Optional[Dict]:
-        """Backtest sur un intervalle spécifique"""
+    async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
+        """
+        Backtest sur X mois avec un point de décision par mois
+        Le bot prend une décision, puis l'IA valide avec les actualités du jour
+        """
         start_time = time.time()
-        
-        config = BACKTEST_CONFIGS.get(interval, BACKTEST_CONFIGS['1d'])
-        logger.info(f"[>>] Backtest {symbol} - {config['name']}")
+        logger.info(f"[>>] Backtest réaliste {symbol} - {months} mois")
         
         try:
-            event_detector = EventDetector()
-            tech_analyzer = TechnicalAnalyzer()
-            sent_analyzer = SentimentAnalyzer()
-            
+            # Récupérer les données historiques
             stock = yf.Ticker(symbol)
-            df = stock.history(period=config['period'], interval=config['interval'])
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=months*30 + 60)  # +60j pour indicateurs
             
-            if df.empty or len(df) < 50:
-                logger.warning(f"   [X] Données insuffisantes")
+            df = stock.history(start=start_date, end=end_date, interval='1d')
+            
+            if df.empty or len(df) < 100:
+                logger.warning(f"   [X] Données insuffisantes pour {symbol}")
                 return None
             
-            logger.info(f"   [✓] {len(df)} bougies téléchargées")
+            # Normaliser l'index en timezone-naive
+            if hasattr(df.index, 'tz') and df.index.tz is not None:
+                df.index = df.index.tz_localize(None)
             
-            df = event_detector.detect_events_in_history(df)
-            events_count = df['has_event'].sum()
+            logger.info(f"   [✓] {len(df)} jours de données")
             
-            df = tech_analyzer.calculate_indicators_batch(df)
+            # Calculer les indicateurs
+            df = self.tech_analyzer.calculate_indicators(df)
             
-            sentiment_score, _ = await sent_analyzer.get_sentiment_score(symbol)
+            # Analyser CHAQUE JOUR après le warm-up (60 jours pour les indicateurs)
+            warm_up_days = 60
+            decision_points = list(range(warm_up_days, len(df)))
             
+            if len(decision_points) < 10:
+                logger.warning(f"   [X] Pas assez de points de décision")
+                return None
+            
+            logger.info(f"   [✓] {len(decision_points)} jours d'analyse (backtest quotidien)")
+            
+            # Simuler les trades
             trades = []
-            position = 0
+            position = 0  # 0 = pas de position, 1 = long
             entry_price = 0
             entry_date = None
-            signals = {'BUY': 0, 'SELL': 0, 'HOLD': 0}
+            entry_idx = 0
             
-            min_index = 50
+            validated_buys = 0
+            validated_sells = 0
+            rejected_buys = 0
+            rejected_sells = 0
             
-            for i in range(min_index, len(df)):
-                row = df.iloc[i]
+            for idx in decision_points:
+                row = df.iloc[idx]
+                current_date = df.index[idx]
                 current_price = row['Close']
                 
-                tech_score, tech_reasons = tech_analyzer.get_technical_score(row)
+                # Le bot prend sa décision basée sur la technique
+                tech_score, tech_reasons = self.tech_analyzer.get_technical_score(row)
                 
-                if row['has_event']:
-                    combined_score = tech_score * 0.6 + sentiment_score * 0.2 + row['event_score'] * 0.2
+                # Décision du bot
+                if tech_score > 60:
+                    bot_decision = "BUY"
+                elif tech_score < 40:
+                    bot_decision = "SELL"
                 else:
-                    combined_score = tech_score * 0.8 + sentiment_score * 0.2
+                    bot_decision = "HOLD"
                 
-                if combined_score > 60:
-                    action = "BUY"
-                    signals['BUY'] += 1
-                elif combined_score < 40:
-                    action = "SELL"
-                    signals['SELL'] += 1
-                else:
-                    action = "HOLD"
-                    signals['HOLD'] += 1
+                # Récupérer les actualités de cette date (simulation temps réel)
+                has_news, news_data, news_score = await self.news_analyzer.get_news_for_date(
+                    symbol, current_date
+                )
                 
-                if action == "BUY" and position == 0:
-                    position = 1
-                    entry_price = current_price
-                    entry_date = df.index[i]
-                    
-                elif action == "SELL" and position == 1:
-                    position = 0
-                    profit = (current_price - entry_price) / entry_price * 100
-                    
-                    if interval in ['1m', '5m']:
-                        hold_minutes = (df.index[i] - entry_date).total_seconds() / 60
-                        hold_display = f"{hold_minutes:.0f}min"
+                # L'IA valide la décision du bot
+                ai_score = 50
+                ai_reason = "Pas d'actualités"
+                
+                if bot_decision in ["BUY", "SELL"]:
+                    ai_score, ai_reason = await self.news_analyzer.ask_ai_decision(
+                        symbol, bot_decision, news_data, current_price, tech_score
+                    )
+                
+                # Log uniquement pour les jours importants (éviter trop de logs)
+                if bot_decision != "HOLD" or idx % 20 == 0:  # Log tous les 20 jours ou si action
+                    logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Bot: {bot_decision} | "
+                              f"Tech: {tech_score:.0f} | AI: {ai_score}/100 | News: {len(news_data)}")
+                
+                # Exécuter le trade si l'IA valide (score > 70)
+                if bot_decision == "BUY" and position == 0:
+                    if ai_score > 70:
+                        position = 1
+                        entry_price = current_price
+                        entry_date = current_date
+                        entry_idx = idx
+                        validated_buys += 1
+                        logger.info(f"   ✅ BUY validé par IA @ ${current_price:.2f}")
                     else:
-                        hold_days = (df.index[i] - entry_date).days
-                        hold_display = f"{hold_days}j"
-                    
-                    trades.append({
-                        'entry_date': entry_date,
-                        'exit_date': df.index[i],
-                        'entry_price': entry_price,
-                        'exit_price': current_price,
-                        'profit': profit,
-                        'hold_time': hold_display
-                    })
+                        rejected_buys += 1
+                        logger.info(f"   ❌ BUY rejeté par IA (score: {ai_score})")
+                
+                elif bot_decision == "SELL" and position == 1:
+                    if ai_score > 70:
+                        position = 0
+                        exit_price = current_price
+                        profit = (exit_price - entry_price) / entry_price * 100
+                        hold_days = (current_date - entry_date).days
+                        
+                        trades.append({
+                            'entry_date': entry_date,
+                            'exit_date': current_date,
+                            'entry_price': entry_price,
+                            'exit_price': exit_price,
+                            'profit': profit,
+                            'hold_days': hold_days,
+                            'ai_buy_score': ai_score,
+                            'ai_sell_score': ai_score,
+                            'news_count': len(news_data),
+                            'tech_score': tech_score
+                        })
+                        
+                        validated_sells += 1
+                        logger.info(f"   ✅ SELL validé par IA @ ${exit_price:.2f} | "
+                                  f"Profit: {profit:+.2f}% | Durée: {hold_days}j")
+                    else:
+                        rejected_sells += 1
+                        logger.info(f"   ❌ SELL rejeté par IA (score: {ai_score})")
+                
+                # Délai réduit entre chaque jour (seulement si on a fait un appel API)
+                if bot_decision in ["BUY", "SELL"] and has_news:
+                    await asyncio.sleep(0.2)  # Petit délai seulement si appel API
             
+            # Clôturer la position si encore ouverte
             if position == 1:
                 final_price = df['Close'].iloc[-1]
                 profit = (final_price - entry_price) / entry_price * 100
+                hold_days = (df.index[-1] - entry_date).days
+                
                 trades.append({
                     'entry_date': entry_date,
                     'exit_date': df.index[-1],
                     'entry_price': entry_price,
                     'exit_price': final_price,
                     'profit': profit,
-                    'hold_time': 'En cours'
+                    'hold_days': hold_days,
+                    'ai_buy_score': 0,
+                    'ai_sell_score': 0,
+                    'news_count': 0,
+                    'tech_score': 0
                 })
             
+            # Calculer les statistiques
             if trades:
                 profitable = [t for t in trades if t['profit'] > 0]
                 total_profit = sum(t['profit'] for t in trades)
@@ -592,30 +652,33 @@ class SmartBacktestEngine:
                 avg_profit = np.mean([t['profit'] for t in trades])
                 max_profit = max(t['profit'] for t in trades)
                 max_loss = min(t['profit'] for t in trades)
+                avg_hold_days = np.mean([t['hold_days'] for t in trades])
             else:
-                total_profit = win_rate = avg_profit = max_profit = max_loss = 0
+                total_profit = win_rate = avg_profit = max_profit = max_loss = avg_hold_days = 0
             
-            first_valid_idx = min_index
-            buy_hold = (df['Close'].iloc[-1] - df['Close'].iloc[first_valid_idx]) / df['Close'].iloc[first_valid_idx] * 100
+            # Buy & Hold de référence
+            first_price = df['Close'].iloc[decision_points[0]]
+            last_price = df['Close'].iloc[-1]
+            buy_hold_return = (last_price - first_price) / first_price * 100
             
+            # Score de stratégie
             strategy_score = 50
-            if total_profit > buy_hold:
+            if total_profit > buy_hold_return:
                 strategy_score += 20
             if win_rate > 50:
                 strategy_score += 15
+            if validated_buys > rejected_buys:
+                strategy_score += 10
             if total_profit > 5:
-                strategy_score += 15
+                strategy_score += 5
             
             elapsed = time.time() - start_time
-            logger.info(f"   [OK] {elapsed:.2f}s | Score: {strategy_score:.0f} | Profit: {total_profit:+.2f}% | Trades: {len(trades)}")
-            
-            await sent_analyzer.close()
+            logger.info(f"   [OK] {elapsed:.2f}s | Score: {strategy_score:.0f} | "
+                       f"Profit: {total_profit:+.2f}% | Trades: {len(trades)}")
             
             return {
                 'symbol': symbol,
-                'interval': config['name'],
-                'interval_code': interval,
-                'events_detected': int(events_count),
+                'period': f"{months} mois",
                 'total_trades': len(trades),
                 'profitable_trades': len(profitable) if trades else 0,
                 'win_rate': win_rate,
@@ -623,71 +686,34 @@ class SmartBacktestEngine:
                 'avg_profit': avg_profit,
                 'max_profit': max_profit,
                 'max_loss': max_loss,
-                'buy_hold_return': buy_hold,
-                'strategy_vs_hold': total_profit - buy_hold,
+                'avg_hold_days': avg_hold_days,
+                'buy_hold_return': buy_hold_return,
+                'strategy_vs_hold': total_profit - buy_hold_return,
                 'strategy_score': strategy_score,
-                'signals': signals,
+                'validated_buys': validated_buys,
+                'rejected_buys': rejected_buys,
+                'validated_sells': validated_sells,
+                'rejected_sells': rejected_sells,
+                'decision_points': len(decision_points),
                 'processing_time': elapsed,
-                'trades': trades[-5:],
-                'candles': len(df)
+                'trades': trades
             }
             
         except Exception as e:
-            logger.error(f"❌ Erreur backtest {symbol} - {interval}: {e}")
+            logger.error(f"❌ Erreur backtest {symbol}: {e}")
             return None
     
-    async def compare_intervals(self, symbol: str) -> Dict:
-        """Compare les performances sur différents intervalles"""
-        logger.info(f"\n{'='*80}")
-        logger.info(f"🔍 COMPARAISON INTERVALLES: {symbol}")
-        logger.info(f"{'='*80}")
-        
-        results = {}
-        
-        for interval_code in ['1m', '5m', '1h', '1d']:
-            result = await self.backtest_with_interval(symbol, interval_code)
-            if result:
-                results[interval_code] = result
-            await asyncio.sleep(1)
-        
-        if not results:
-            logger.error(f"❌ Aucun résultat pour {symbol}")
-            return {
-                'symbol': symbol,
-                'results': {},
-                'best_interval': None,
-                'best_score': 0,
-                'error': 'Aucune donnée disponible'
-            }
-        
-        best_interval = None
-        best_score = 0
-        
-        for interval_code, result in results.items():
-            if result['strategy_score'] > best_score:
-                best_score = result['strategy_score']
-                best_interval = interval_code
-        
-        logger.info(f"\n🏆 MEILLEUR: {BACKTEST_CONFIGS[best_interval]['name']} (Score: {best_score:.0f})")
-        
-        return {
-            'symbol': symbol,
-            'results': results,
-            'best_interval': best_interval,
-            'best_score': best_score
-        }
-    
-    async def backtest_watchlist(self, watchlist: List[str], interval: str = "1d") -> List[Dict]:
-        """Backtest sur liste de surveillance"""
+    async def backtest_watchlist(self, watchlist: List[str], months: int = 6) -> List[Dict]:
+        """Backtest toute la watchlist avec validation IA"""
         results = []
         start_time = time.time()
         
         logger.info(f"\n{'='*80}")
-        logger.info(f"[>>] BACKTEST WATCHLIST: {len(watchlist)} actions - {BACKTEST_CONFIGS[interval]['name']}")
+        logger.info(f"[>>] BACKTEST WATCHLIST RÉALISTE: {len(watchlist)} actions - {months} mois")
         logger.info(f"{'='*80}")
         
         for i, symbol in enumerate(watchlist):
-            result = await self.backtest_with_interval(symbol, interval)
+            result = await self.backtest_with_news_validation(symbol, months)
             if result:
                 results.append(result)
             
@@ -697,7 +723,7 @@ class SmartBacktestEngine:
                 remaining = avg_time * (len(watchlist) - i - 1)
                 logger.info(f"[~] {i+1}/{len(watchlist)} | OK: {len(results)} | Restant: ~{remaining:.0f}s")
             
-            await asyncio.sleep(1)
+            await asyncio.sleep(3)  # Délai entre chaque action pour éviter rate limiting
         
         total_time = time.time() - start_time
         logger.info(f"\n{'='*80}")
@@ -706,6 +732,9 @@ class SmartBacktestEngine:
         
         results.sort(key=lambda x: x['strategy_score'], reverse=True)
         return results
+    
+    async def close(self):
+        await self.news_analyzer.close()
 
 
 class TradingBot(commands.Bot):
@@ -717,176 +746,98 @@ class TradingBot(commands.Bot):
         
         super().__init__(command_prefix='!', intents=intents, help_command=None)
         
-        self.news_analyzer = NewsAnalyzer()
-        self.tech_analyzer = TechnicalAnalyzer()
-        self.sentiment_analyzer = SentimentAnalyzer()
-        self.backtest_engine = SmartBacktestEngine()
+        self.backtest_engine = RealisticBacktestEngine()
         
-        self.alert_channel_id = None
-        self.monitoring_active = False
-        self.backtest_results = {}
-        
-    async def setup_hook(self):
-        self.monitor_markets.start()
-        logger.info("Bot initialisé")
-    
     async def on_ready(self):
         logger.info(f'{self.user} connecté!')
         await self.change_presence(
             activity=discord.Activity(
                 type=discord.ActivityType.watching,
-                name="événements & actualités 📰"
+                name="backtests avec IA 🤖"
             )
         )
-    
-    @tasks.loop(minutes=1)
-    async def monitor_markets(self):
-        if not self.monitoring_active or not self.alert_channel_id:
-            return
-        
-        channel = self.get_channel(self.alert_channel_id)
-        if not channel:
-            return
-        
-        logger.info("🔍 Surveillance...")
-        
-        for symbol in WATCHLIST[:5]:
-            try:
-                has_news, news_data, news_score = await self.news_analyzer.scrape_yahoo_news(symbol, hours=24)
-                
-                if not has_news:
-                    continue
-                
-                stock = yf.Ticker(symbol)
-                df = stock.history(period="3mo")
-                
-                if df.empty:
-                    continue
-                
-                df = self.tech_analyzer.calculate_indicators_batch(df)
-                row = df.iloc[-1]
-                tech_score, tech_reasons = self.tech_analyzer.get_technical_score(row)
-                
-                sentiment_score, sentiment_reasons = await self.sentiment_analyzer.get_sentiment_score(symbol, news_data)
-                
-                combined_score = tech_score * 0.6 + sentiment_score * 0.4
-                
-                if combined_score > 60:
-                    action = "BUY"
-                    color = 0x00ff00
-                elif combined_score < 40:
-                    action = "SELL"
-                    color = 0xff0000
-                else:
-                    continue
-                
-                embed = discord.Embed(
-                    title=f"{'🟢' if action == 'BUY' else '🔴'} {action} - {symbol}",
-                    color=color,
-                    timestamp=datetime.now()
-                )
-                
-                embed.add_field(name="💰 Prix", value=f"${row['Close']:.2f}", inline=True)
-                embed.add_field(name="📊 Score", value=f"{combined_score:.0f}/100", inline=True)
-                embed.add_field(name="📈 Tech", value=f"{tech_score:.0f}", inline=True)
-                
-                news_text = "\n".join(f"• {n['title'][:60]}..." for n in news_data[:3])
-                embed.add_field(name="📰 Actualités", value=news_text, inline=False)
-                
-                all_reasons = tech_reasons[:2] + sentiment_reasons[:2]
-                embed.add_field(
-                    name="📝 Analyse",
-                    value="\n".join(f"• {r}" for r in all_reasons[:4]),
-                    inline=False
-                )
-                
-                await channel.send(embed=embed)
-                logger.info(f"✅ Signal: {symbol} - {action}")
-                
-                await asyncio.sleep(2)
-                
-            except Exception as e:
-                logger.error(f"Erreur {symbol}: {e}")
-    
-    @monitor_markets.before_loop
-    async def before_monitor(self):
-        await self.wait_until_ready()
 
 
 bot = TradingBot()
 
-@bot.command(name='start')
-async def start_monitoring(ctx):
-    """Active la surveillance des marchés"""
-    bot.alert_channel_id = ctx.channel.id
-    bot.monitoring_active = True
-    
-    embed = discord.Embed(
-        title="🚀 Surveillance Activée",
-        description="Analyse en temps réel avec actualités",
-        color=0x00ff00
-    )
-    embed.add_field(name="📋 Watchlist", value=f"{len(WATCHLIST)} actions", inline=True)
-    embed.add_field(name="⏱️ Fréquence", value="1 minute", inline=True)
-    await ctx.send(embed=embed)
-
 @bot.command(name='backtest')
-async def backtest(ctx, interval: str = "1d"):
+async def backtest(ctx, months: int = 6):
     """
-    Backtest sur un intervalle spécifique
-    Intervalles: 1m, 5m, 1h, 1d
-    Exemple: !backtest 5m
+    Backtest réaliste avec validation IA - ANALYSE QUOTIDIENNE
+    Analyse chaque jour de trading avec les actualités du jour
+    Exemple: !backtest 6 (analyse ~120 jours de trading)
     """
-    if interval not in BACKTEST_CONFIGS:
-        await ctx.send(f"❌ Intervalle invalide. Utilisez: {', '.join(BACKTEST_CONFIGS.keys())}")
+    if months < 1 or months > 24:
+        await ctx.send("❌ Période invalide. Utilisez entre 1 et 24 mois.")
         return
     
-    config = BACKTEST_CONFIGS[interval]
-    
     embed = discord.Embed(
-        title="⏳ Backtest en cours...",
-        description=f"Analyse sur {config['name']} - {config['period']}",
+        title="⏳ Backtest Réaliste en cours...",
+        description=f"Analyse QUOTIDIENNE sur {months} mois (~{months*20} jours)\nValidation IA pour chaque décision BUY/SELL\n⚠️ Cela peut prendre 10-30 minutes...",
         color=0xffff00
+    )
+    embed.add_field(
+        name="📋 Watchlist",
+        value=f"{len(WATCHLIST)} actions",
+        inline=True
+    )
+    embed.add_field(
+        name="🤖 Validation",
+        value="IA HuggingFace",
+        inline=True
     )
     message = await ctx.send(embed=embed)
     
     start_time = time.time()
     
     try:
-        results = await bot.backtest_engine.backtest_watchlist(WATCHLIST, interval)
+        results = await bot.backtest_engine.backtest_watchlist(WATCHLIST, months)
         elapsed = time.time() - start_time
         
         if not results:
-            embed = discord.Embed(title="❌ Aucun résultat", color=0xff0000)
+            embed = discord.Embed(
+                title="❌ Aucun résultat",
+                description="Impossible de récupérer les données",
+                color=0xff0000
+            )
             await message.edit(embed=embed)
             return
         
         embed = discord.Embed(
-            title=f"📊 Backtest Terminé - {config['name']}",
-            description=f"{len(results)} actions analysées en {elapsed:.1f}s",
+            title=f"📊 Backtest Réaliste Terminé - {months} mois",
+            description=f"{len(results)} actions analysées en {elapsed/60:.1f} minutes",
             color=0x00ff00
         )
         
-        total_candles = sum(r['candles'] for r in results)
         total_trades = sum(r['total_trades'] for r in results)
+        total_validated = sum(r['validated_buys'] + r['validated_sells'] for r in results)
+        total_rejected = sum(r['rejected_buys'] + r['rejected_sells'] for r in results)
         
-        embed.add_field(name="⏱️ Temps", value=f"{elapsed:.1f}s", inline=True)
+        embed.add_field(name="⏱️ Temps", value=f"{elapsed/60:.1f}min", inline=True)
         embed.add_field(name="✅ Actions", value=f"{len(results)}", inline=True)
-        embed.add_field(name="📊 Bougies", value=f"{total_candles:,}", inline=True)
         embed.add_field(name="💼 Trades", value=f"{total_trades}", inline=True)
+        embed.add_field(name="🤖 Validés", value=f"{total_validated}", inline=True)
+        embed.add_field(name="❌ Rejetés", value=f"{total_rejected}", inline=True)
+        embed.add_field(name="📊 Taux validation", value=f"{total_validated/(total_validated+total_rejected)*100:.0f}%" if (total_validated+total_rejected) > 0 else "N/A", inline=True)
         
+        # Top 5 résultats
         for i, r in enumerate(results[:5], 1):
-            perf = f"**{r['symbol']}** - {r['interval']}\n"
-            perf += f"Profit: {r['total_profit']:+.2f}% | Win: {r['win_rate']:.0f}%\n"
-            perf += f"Trades: {r['total_trades']} | vs Hold: {r['strategy_vs_hold']:+.2f}%\n"
-            perf += f"Score: {r['strategy_score']:.0f}/100"
+            perf = f"**{r['symbol']}** - {r['period']}\n"
+            perf += f"💰 Profit: **{r['total_profit']:+.2f}%**\n"
+            perf += f"📈 Win Rate: {r['win_rate']:.0f}%\n"
+            perf += f"💼 Trades: {r['total_trades']} ({r['profitable_trades']} gagnants)\n"
+            perf += f"⏱️ Durée moy: {r['avg_hold_days']:.0f} jours\n"
+            perf += f"🤖 Validés: {r['validated_buys']}B / {r['validated_sells']}S\n"
+            perf += f"❌ Rejetés: {r['rejected_buys']}B / {r['rejected_sells']}S\n"
+            perf += f"📊 vs Hold: {r['strategy_vs_hold']:+.2f}%\n"
+            perf += f"⭐ Score: **{r['strategy_score']:.0f}/100**"
             
             embed.add_field(name=f"#{i}", value=perf, inline=True)
             
-            if i % 3 == 0:
+            if i % 2 == 0:
                 embed.add_field(name="\u200b", value="\u200b", inline=False)
         
-        bot.backtest_results[interval] = {r['symbol']: r for r in results}
+        embed.set_footer(text="🤖 Chaque décision validée par IA avec actualités du jour")
         
         await message.edit(embed=embed)
         
@@ -894,306 +845,150 @@ async def backtest(ctx, interval: str = "1d"):
         logger.error(f"Erreur backtest: {e}")
         await message.edit(content=f"❌ Erreur: {str(e)}")
 
-@bot.command(name='compare')
-async def compare_intervals(ctx, symbol: str):
+@bot.command(name='detail')
+async def detail(ctx, symbol: str, months: int = 6):
     """
-    Compare les performances sur tous les intervalles
-    Exemple: !compare AAPL
+    Backtest détaillé d'une action avec tous les trades
+    Exemple: !detail AAPL 6
     """
     symbol = symbol.upper()
     
+    if months < 1 or months > 24:
+        await ctx.send("❌ Période invalide. Utilisez entre 1 et 24 mois.")
+        return
+    
     embed = discord.Embed(
-        title=f"⏳ Comparaison {symbol}...",
-        description="Test sur 1m, 5m, 1h, 1d",
+        title=f"⏳ Analyse détaillée {symbol}...",
+        description=f"Backtest sur {months} mois avec validation IA",
         color=0xffff00
     )
     message = await ctx.send(embed=embed)
     
     try:
-        comparison = await bot.backtest_engine.compare_intervals(symbol)
-        results = comparison['results']
+        result = await bot.backtest_engine.backtest_with_news_validation(symbol, months)
         
-        if not results or 'error' in comparison:
+        if not result:
             embed = discord.Embed(
                 title=f"❌ Erreur - {symbol}",
                 description="Impossible de récupérer les données",
                 color=0xff0000
             )
-            embed.add_field(
-                name="💡 Suggestions",
-                value="• Vérifiez le symbole (ex: NVDA, pas NVDIA)\n• Certains symboles peuvent être indisponibles\n• Réessayez dans quelques instants",
-                inline=False
-            )
             await message.edit(embed=embed)
             return
         
+        # Embed principal
         embed = discord.Embed(
-            title=f"📊 Comparaison Intervalles - {symbol}",
-            description=f"🏆 Meilleur: **{BACKTEST_CONFIGS[comparison['best_interval']]['name']}** (Score: {comparison['best_score']:.0f}/100)",
-            color=0x00ff00
+            title=f"📊 Backtest Détaillé - {symbol}",
+            description=f"Période: {result['period']} | Score: **{result['strategy_score']:.0f}/100**",
+            color=0x00ff00 if result['total_profit'] > 0 else 0xff0000
         )
         
-        for interval_code in ['1m', '5m', '1h', '1d']:
-            if interval_code in results:
-                r = results[interval_code]
-                
-                is_best = interval_code == comparison['best_interval']
-                emoji = "🏆" if is_best else "📈"
-                
-                value = f"{emoji} **Score: {r['strategy_score']:.0f}/100**\n"
-                value += f"Profit: {r['total_profit']:+.2f}%\n"
-                value += f"Win Rate: {r['win_rate']:.0f}%\n"
-                value += f"Trades: {r['total_trades']}\n"
-                value += f"vs Hold: {r['strategy_vs_hold']:+.2f}%\n"
-                value += f"Bougies: {r['candles']:,}"
-                
-                embed.add_field(
-                    name=f"{r['interval']}",
-                    value=value,
-                    inline=True
-                )
-            else:
-                embed.add_field(
-                    name=f"{BACKTEST_CONFIGS[interval_code]['name']}",
-                    value="❌ Pas de données",
-                    inline=True
-                )
+        # Stats générales
+        embed.add_field(name="💰 Profit Total", value=f"**{result['total_profit']:+.2f}%**", inline=True)
+        embed.add_field(name="📈 Win Rate", value=f"{result['win_rate']:.0f}%", inline=True)
+        embed.add_field(name="💼 Trades", value=f"{result['total_trades']}", inline=True)
         
-        best = results[comparison['best_interval']]
-        recommendation = "\n**Recommandation:**\n"
-        if best['total_profit'] > 10 and best['win_rate'] > 60:
-            recommendation += "✅ Stratégie très performante"
-        elif best['total_profit'] > 5 and best['win_rate'] > 50:
-            recommendation += "⚠️ Stratégie moyennement performante"
-        else:
-            recommendation += "❌ Stratégie peu performante"
+        embed.add_field(name="📊 Profit Moyen", value=f"{result['avg_profit']:+.2f}%", inline=True)
+        embed.add_field(name="🎯 Max Profit", value=f"{result['max_profit']:+.2f}%", inline=True)
+        embed.add_field(name="⚠️ Max Loss", value=f"{result['max_loss']:+.2f}%", inline=True)
         
-        embed.add_field(name="\u200b", value=recommendation, inline=False)
-        embed.set_footer(text=f"Données analysées: {sum(r.get('candles', 0) for r in results.values()):,} bougies")
+        embed.add_field(name="⏱️ Durée Moy", value=f"{result['avg_hold_days']:.0f}j", inline=True)
+        embed.add_field(name="📅 Points décision", value=f"{result['decision_points']}", inline=True)
+        embed.add_field(name="🏦 Buy & Hold", value=f"{result['buy_hold_return']:+.2f}%", inline=True)
+        
+        # Validation IA
+        validation_text = f"🤖 **Validation IA:**\n"
+        validation_text += f"✅ Achats validés: {result['validated_buys']}\n"
+        validation_text += f"❌ Achats rejetés: {result['rejected_buys']}\n"
+        validation_text += f"✅ Ventes validées: {result['validated_sells']}\n"
+        validation_text += f"❌ Ventes rejetées: {result['rejected_sells']}"
+        embed.add_field(name="🤖 Décisions IA", value=validation_text, inline=False)
         
         await message.edit(embed=embed)
         
-    except Exception as e:
-        logger.error(f"Erreur comparaison: {e}")
-        embed = discord.Embed(
-            title=f"❌ Erreur - {symbol}",
-            description=f"```{str(e)[:200]}```",
-            color=0xff0000
-        )
-        embed.add_field(
-            name="💡 Conseil",
-            value="Vérifiez que le symbole est correct (ex: NVDA, AAPL, TSLA)",
-            inline=False
-        )
-        await message.edit(embed=embed)
-
-@bot.command(name='analyze')
-async def analyze(ctx, symbol: str):
-    """Analyse complète d'une action"""
-    symbol = symbol.upper()
-    
-    embed = discord.Embed(title=f"⏳ Analyse {symbol}...", color=0xffff00)
-    message = await ctx.send(embed=embed)
-    
-    try:
-        has_news, news_data, news_score = await bot.news_analyzer.scrape_yahoo_news(symbol, hours=48)
-        
-        stock = yf.Ticker(symbol)
-        df = stock.history(period="3mo")
-        
-        if df.empty:
-            await message.edit(content=f"❌ Impossible de récupérer les données pour {symbol}")
-            return
-        
-        df = bot.tech_analyzer.calculate_indicators_batch(df)
-        row = df.iloc[-1]
-        tech_score, tech_reasons = bot.tech_analyzer.get_technical_score(row)
-        
-        sentiment_score, sentiment_reasons = await bot.sentiment_analyzer.get_sentiment_score(symbol, news_data if has_news else None)
-        
-        combined_score = tech_score * 0.6 + sentiment_score * 0.4
-        
-        if combined_score > 60:
-            action = "BUY 🟢"
-            color = 0x00ff00
-        elif combined_score < 40:
-            action = "SELL 🔴"
-            color = 0xff0000
-        else:
-            action = "HOLD 🟡"
-            color = 0xffff00
-        
-        embed = discord.Embed(
-            title=f"📊 Analyse Complète - {symbol}",
-            description=f"**Action recommandée: {action}**",
-            color=color,
-            timestamp=datetime.now()
-        )
-        
-        embed.add_field(name="💰 Prix Actuel", value=f"${row['Close']:.2f}", inline=True)
-        embed.add_field(name="📊 Score Global", value=f"{combined_score:.0f}/100", inline=True)
-        embed.add_field(name="📈 Score Tech", value=f"{tech_score:.0f}/100", inline=True)
-        
-        if pd.notna(row.get('rsi')):
-            embed.add_field(name="📉 RSI", value=f"{row['rsi']:.1f}", inline=True)
-        if pd.notna(row.get('macd')):
-            embed.add_field(name="📊 MACD", value=f"{row['macd']:.4f}", inline=True)
-        if pd.notna(row.get('volume_ratio')):
-            embed.add_field(name="📦 Volume", value=f"{row['volume_ratio']:.2f}x", inline=True)
-        
-        if has_news and news_data:
-            news_text = f"**{len(news_data)} actualités récentes** (Score: {news_score:.0f}/100)\n\n"
-            for i, n in enumerate(news_data[:4], 1):
-                news_text += f"{i}. {n['title'][:80]}...\n"
-                if n['keywords']:
-                    news_text += f"   🏷️ {', '.join(n['keywords'][:3])}\n"
-            embed.add_field(name="📰 Actualités", value=news_text, inline=False)
-        else:
-            embed.add_field(name="📰 Actualités", value="Aucune actualité récente trouvée", inline=False)
-        
-        tech_analysis = "**Indicateurs Techniques:**\n"
-        tech_analysis += "\n".join(f"• {r}" for r in tech_reasons[:4])
-        embed.add_field(name="🔍 Analyse Technique", value=tech_analysis, inline=False)
-        
-        sentiment_analysis = "**Sentiment du Marché:**\n"
-        sentiment_analysis += "\n".join(f"• {r}" for r in sentiment_reasons[:3])
-        embed.add_field(name="💭 Sentiment", value=sentiment_analysis, inline=False)
-        
-        await message.edit(embed=embed)
-        
-    except Exception as e:
-        logger.error(f"Erreur analyse {symbol}: {e}")
-        await message.edit(content=f"❌ Erreur lors de l'analyse: {str(e)}")
-
-@bot.command(name='news')
-async def news(ctx, symbol: str):
-    """Affiche les actualités récentes d'une action"""
-    symbol = symbol.upper()
-    
-    embed = discord.Embed(title=f"⏳ Recherche actualités {symbol}...", color=0xffff00)
-    message = await ctx.send(embed=embed)
-    
-    try:
-        has_news, news_data, news_score = await bot.news_analyzer.scrape_yahoo_news(symbol, hours=48)
-        
-        if has_news and news_data:
-            embed = discord.Embed(
-                title=f"📰 Actualités - {symbol}",
-                description=f"**{len(news_data)} actualités récentes** | Score: {news_score:.0f}/100",
-                color=0x00ff00,
-                timestamp=datetime.now()
+        # Envoyer les trades détaillés si disponibles
+        if result['trades']:
+            trades_embed = discord.Embed(
+                title=f"💼 Détail des Trades - {symbol}",
+                color=0x00ffff
             )
             
-            for i, article in enumerate(news_data[:8], 1):
-                date_str = article['date'].strftime("%d/%m %H:%M")
+            for i, trade in enumerate(result['trades'][:10], 1):  # Max 10 trades
+                profit_emoji = "🟢" if trade['profit'] > 0 else "🔴"
+                trade_text = f"{profit_emoji} **{trade['profit']:+.2f}%**\n"
+                trade_text += f"📅 Entrée: {trade['entry_date'].strftime('%Y-%m-%d')}\n"
+                trade_text += f"💰 Prix: ${trade['entry_price']:.2f}\n"
+                trade_text += f"📅 Sortie: {trade['exit_date'].strftime('%Y-%m-%d')}\n"
+                trade_text += f"💰 Prix: ${trade['exit_price']:.2f}\n"
+                trade_text += f"⏱️ Durée: {trade['hold_days']} jours"
                 
-                value = f"📅 {date_str} | 📰 {article['publisher']}\n"
-                value += f"**{article['title']}**\n"
-                
-                if article['keywords']:
-                    value += f"🏷️ Tags: {', '.join(article['keywords'][:4])}\n"
-                
-                value += f"⭐ Importance: {article['importance']:.1f}/10"
-                
-                if article.get('link'):
-                    value += f"\n🔗 [Lire l'article]({article['link']})"
-                
-                embed.add_field(
-                    name=f"#{i}",
-                    value=value,
-                    inline=False
+                trades_embed.add_field(
+                    name=f"Trade #{i}",
+                    value=trade_text,
+                    inline=True
                 )
                 
-                if i % 4 == 0 and i < len(news_data):
-                    embed.add_field(name="\u200b", value="─" * 40, inline=False)
-        else:
-            embed = discord.Embed(
-                title=f"📰 Actualités - {symbol}",
-                description="❌ Aucune actualité récente trouvée (48h)",
-                color=0xff6600
-            )
-            embed.add_field(
-                name="💡 Suggestions",
-                value="• Vérifiez le symbole\n• Essayez un autre symbole\n• Cette action peut avoir peu d'actualités",
-                inline=False
-            )
-        
-        await message.edit(embed=embed)
+                if i % 2 == 0:
+                    trades_embed.add_field(name="\u200b", value="\u200b", inline=False)
+            
+            if len(result['trades']) > 10:
+                trades_embed.set_footer(text=f"... et {len(result['trades'])-10} autres trades")
+            
+            await ctx.send(embed=trades_embed)
         
     except Exception as e:
-        logger.error(f"Erreur news {symbol}: {e}")
+        logger.error(f"Erreur detail: {e}")
         await message.edit(content=f"❌ Erreur: {str(e)}")
-
-@bot.command(name='stop')
-async def stop(ctx):
-    """Désactive la surveillance"""
-    bot.monitoring_active = False
-    
-    embed = discord.Embed(
-        title="⏸️ Surveillance Désactivée",
-        description="La surveillance des marchés est arrêtée",
-        color=0xff9900
-    )
-    await ctx.send(embed=embed)
 
 @bot.command(name='aide')
 async def aide(ctx):
     """Affiche l'aide"""
     embed = discord.Embed(
         title="📚 Guide des Commandes",
-        description="Bot de Trading avec analyse multi-intervalles",
+        description="Bot de Trading avec Backtest Réaliste et Validation IA",
         color=0x00ffff
     )
     
-    embed.add_field(name="🔍 **Surveillance**", value="\u200b", inline=False)
-    embed.add_field(name="!start", value="Active la surveillance temps réel", inline=False)
-    embed.add_field(name="!stop", value="Désactive la surveillance", inline=False)
-    
-    embed.add_field(name="📊 **Analyse**", value="\u200b", inline=False)
-    embed.add_field(name="!analyze [SYMBOL]", value="Analyse complète d'une action\nEx: `!analyze AAPL`", inline=False)
-    embed.add_field(name="!news [SYMBOL]", value="Affiche les actualités récentes\nEx: `!news NVDA`", inline=False)
-    
-    embed.add_field(name="⏱️ **Backtest**", value="\u200b", inline=False)
-    embed.add_field(name="!backtest [interval]", value="Backtest sur la watchlist\nIntervalles: 1m, 5m, 1h, 1d\nEx: `!backtest 5m`", inline=False)
-    embed.add_field(name="!compare [SYMBOL]", value="Compare tous les intervalles\nEx: `!compare TSLA`", inline=False)
-    
-    embed.set_footer(text="💡 Astuce: Commencez par !backtest 1d puis !compare SYMBOL")
-    
-    await ctx.send(embed=embed)
-
-@bot.command(name='status')
-async def status(ctx):
-    """Affiche le statut du bot"""
-    embed = discord.Embed(
-        title="🤖 Statut du Bot",
-        color=0x00ff00 if bot.monitoring_active else 0xff9900
+    embed.add_field(
+        name="⏱️ **!backtest [mois]**",
+        value="Backtest quotidien avec validation IA\n"
+              "Analyse CHAQUE JOUR de trading (~20 jours/mois)\n"
+              "Le bot prend des décisions quotidiennes\n"
+              "L'IA les valide avec les actualités du jour\n"
+              "Exemple: `!backtest 6` (analyse ~120 jours)",
+        inline=False
     )
     
     embed.add_field(
-        name="📡 Surveillance",
-        value="✅ Active" if bot.monitoring_active else "⏸️ Inactive",
-        inline=True
+        name="📊 **!detail [SYMBOL] [mois]**",
+        value="Backtest détaillé d'une action avec tous les trades\n"
+              "Exemple: `!detail AAPL 6`",
+        inline=False
     )
     
     embed.add_field(
-        name="📋 Watchlist",
-        value=f"{len(WATCHLIST)} actions",
-        inline=True
+        name="🤖 **Comment ça marche?**",
+        value="1️⃣ Le bot analyse CHAQUE JOUR la technique (RSI, MACD, etc.)\n"
+              "2️⃣ Le bot décide: BUY, SELL ou HOLD\n"
+              "3️⃣ Si BUY/SELL: l'IA récupère les actualités du jour\n"
+              "4️⃣ L'IA donne un score 0-100 à la décision\n"
+              "5️⃣ Si score > 70, le trade est exécuté ✅\n"
+              "6️⃣ Sinon, le trade est rejeté ❌",
+        inline=False
     )
     
-    backtest_count = len(bot.backtest_results)
     embed.add_field(
-        name="💾 Backtests",
-        value=f"{backtest_count} intervalles en cache",
-        inline=True
+        name="💡 **Avantages**",
+        value="✅ Simulation temps réel (analyse quotidienne)\n"
+              "✅ Actualités historiques pour chaque jour\n"
+              "✅ Validation IA de chaque décision BUY/SELL\n"
+              "✅ Évite les faux signaux techniques\n"
+              "✅ Compare avec Buy & Hold\n"
+              "✅ Cache intelligent pour optimiser les API",
+        inline=False
     )
     
-    if bot.backtest_results:
-        bt_info = "\n".join([
-            f"• {BACKTEST_CONFIGS[k]['name']}: {len(v)} actions"
-            for k, v in bot.backtest_results.items()
-        ])
-        embed.add_field(name="📊 Données disponibles", value=bt_info, inline=False)
+    embed.set_footer(text="🔥 Backtest ultra-réaliste : analyse quotidienne avec validation IA")
     
     await ctx.send(embed=embed)
 
@@ -1202,12 +997,11 @@ if __name__ == "__main__":
     token = os.getenv('DISCORD_BOT_TOKEN')
     if not token:
         logger.error("❌ Token Discord manquant!")
-        print("\n⚠️ Configuration requise:")
-        print("1. Créez un fichier .env")
-        print("2. Ajoutez: DISCORD_BOT_TOKEN=votre_token")
-        print("3. (Optionnel) HUGGINGFACE_TOKEN=votre_token")
-        print("4. (Optionnel) NEWSAPI_KEY=votre_cle_newsapi")
-        print("5. (Optionnel) FINNHUB_KEY=votre_cle_finnhub")
+        print("\n⚠️ Configuration requise dans le fichier .env:")
+        print("1. DISCORD_BOT_TOKEN=votre_token (obligatoire)")
+        print("2. HUGGINGFACE_TOKEN=votre_token (pour validation IA)")
+        print("3. FINNHUB_KEY=votre_cle (pour actualités)")
+        print("4. NEWSAPI_KEY=votre_cle (fallback actualités)")
     else:
         logger.info("🚀 Démarrage du bot...")
         bot.run(token)
