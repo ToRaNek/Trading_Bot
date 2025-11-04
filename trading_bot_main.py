@@ -21,7 +21,6 @@ import os
 from dotenv import load_dotenv
 import warnings
 import time
-import re
 warnings.filterwarnings('ignore')
 
 import sys
@@ -111,14 +110,14 @@ class NewsAnalyzer:
                 return cached_data
         
         try:
-            url = f"https://finance.yahoo.com/quote/{symbol}"
+            url = f"https://finance.yahoo.com/quote/{symbol}/news/"
             
             session = await self.get_session()
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             }
             
-            async with session.get(url, headers=headers, timeout=15, ssl=False) as response:
+            async with session.get(url, headers=headers, timeout=10) as response:
                 if response.status != 200:
                     logger.warning(f"⚠️ {symbol} - Status code: {response.status}")
                     return False, [], 0.0
@@ -135,15 +134,11 @@ class NewsAnalyzer:
             news_items = []
             cutoff_time = datetime.now() - timedelta(hours=hours)
             
-            # Chercher les articles dans les sections stream-item
-            for item in soup.find_all('li', class_='stream-item'):
+            # Chercher les articles dans la structure de Yahoo Finance
+            for article_elem in soup.find_all('article'):
                 try:
-                    # Chercher le titre
-                    h3 = item.find('h3')
-                    if not h3:
-                        continue
-                    
-                    title_elem = h3.find('a')
+                    # Extraire le titre
+                    title_elem = article_elem.find('h3')
                     if not title_elem:
                         continue
                     
@@ -151,42 +146,31 @@ class NewsAnalyzer:
                     if not title or len(title) < 5:
                         continue
                     
-                    # Chercher le lien
-                    link = title_elem.get('href', '')
+                    # Extraire le lien
+                    link_elem = article_elem.find('a')
+                    link = link_elem.get('href', '') if link_elem else ''
                     if link and not link.startswith('http'):
-                        if link.startswith('/'):
-                            link = 'https://finance.yahoo.com' + link
+                        link = 'https://finance.yahoo.com' + link
                     
-                    # Chercher la source/publisher
-                    publisher = 'Yahoo Finance'
-                    footer = item.find(class_='publishing')
-                    if footer:
-                        text = footer.get_text(strip=True)
-                        source_match = re.search(r'([^•]+)', text)
-                        if source_match:
-                            publisher = source_match.group(1).strip()
+                    # Extraire la source
+                    source_elem = article_elem.find(class_='publishing')
+                    source_text = source_elem.get_text(strip=True) if source_elem else 'Unknown'
                     
-                    # Parser la date
+                    # Parser la source pour extraire le nom du journal
+                    parts = source_text.split('•')
+                    publisher = parts[0].strip() if parts else 'Unknown'
+                    
+                    # Analyser la date
                     pub_date = datetime.now()
-                    if footer:
-                        footer_text = footer.get_text(strip=True)
-                        
-                        # Regex pour extraire les temps
-                        if 'm ago' in footer_text:
-                            match = re.search(r'(\d+)m ago', footer_text)
-                            if match:
-                                mins = int(match.group(1))
-                                pub_date = datetime.now() - timedelta(minutes=mins)
-                        elif 'h ago' in footer_text:
-                            match = re.search(r'(\d+)h ago', footer_text)
-                            if match:
-                                hours_ago = int(match.group(1))
-                                pub_date = datetime.now() - timedelta(hours=hours_ago)
-                        elif 'd ago' in footer_text:
-                            match = re.search(r'(\d+)d ago', footer_text)
-                            if match:
-                                days_ago = int(match.group(1))
-                                pub_date = datetime.now() - timedelta(days=days_ago)
+                    if 'm ago' in source_text:
+                        mins = int(source_text.split()[0])
+                        pub_date = datetime.now() - timedelta(minutes=mins)
+                    elif 'h ago' in source_text:
+                        hours_ago = int(source_text.split()[0])
+                        pub_date = datetime.now() - timedelta(hours=hours_ago)
+                    elif 'd ago' in source_text:
+                        days_ago = int(source_text.split()[0])
+                        pub_date = datetime.now() - timedelta(days=days_ago)
                     
                     # Filtrer par date
                     if pub_date < cutoff_time:
@@ -223,6 +207,37 @@ class NewsAnalyzer:
                 except Exception as e:
                     logger.debug(f"Erreur parsing article: {e}")
                     continue
+            
+            # Si pas d'articles trouvés, essayer une approche alternative
+            if not news_items:
+                logger.info(f"⚠️ {symbol} - Pas d'articles avec la première méthode, essai alternatif")
+                
+                # Chercher les divs avec classes relatives aux articles
+                for div in soup.find_all('div', class_='stream-item'):
+                    try:
+                        title_elem = div.find('h3')
+                        if title_elem:
+                            title = title_elem.get_text(strip=True)
+                            link_elem = div.find('a')
+                            link = link_elem.get('href', '') if link_elem else ''
+                            
+                            if not title or len(title) < 5:
+                                continue
+                            
+                            publisher = 'Yahoo Finance'
+                            pub_date = datetime.now()
+                            importance = 1.0
+                            
+                            news_items.append({
+                                'title': title,
+                                'publisher': publisher,
+                                'link': link,
+                                'date': pub_date,
+                                'importance': importance,
+                                'keywords': []
+                            })
+                    except:
+                        continue
             
             has_news = len(news_items) > 0
             total_importance = sum(n['importance'] for n in news_items)
@@ -1113,4 +1128,7 @@ if __name__ == "__main__":
         print("\n⚠️ Configuration requise:")
         print("1. Créez un fichier .env")
         print("2. Ajoutez: DISCORD_BOT_TOKEN=votre_token")
-        print("3. (Optionnel)")
+        print("3. (Optionnel) HUGGINGFACE_TOKEN=votre_token")
+    else:
+        logger.info("🚀 Démarrage du bot...")
+        bot.run(token)
