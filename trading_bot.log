@@ -1,0 +1,515 @@
+2025-11-04 10:50:42,530 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 10:50:42,532 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 10:50:42,534 - discord.client - INFO - logging in using static token
+2025-11-04 10:50:43,019 - TradingBot - INFO - Bot initialisé
+2025-11-04 10:50:43,457 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 86cea108125cb1aa63ab49093c3a0b08).
+2025-11-04 10:50:45,468 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 10:51:03,143 - TradingBot - INFO - 
+================================================================================
+2025-11-04 10:51:03,144 - TradingBot - INFO - 🔍 COMPARAISON INTERVALLES: NVDIA
+2025-11-04 10:51:03,144 - TradingBot - INFO - ================================================================================
+2025-11-04 10:51:03,144 - TradingBot - INFO - [>>] Backtest NVDIA - 1 minute
+2025-11-04 10:51:03,985 - yfinance - ERROR - HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NVDIA"}}}
+2025-11-04 10:51:04,623 - yfinance - ERROR - $NVDIA: possibly delisted; no price data found  (period=7d) (Yahoo error = "No data found, symbol may be delisted")
+2025-11-04 10:51:04,624 - TradingBot - WARNING -    [X] Données insuffisantes
+2025-11-04 10:51:05,637 - TradingBot - INFO - [>>] Backtest NVDIA - 5 minutes
+2025-11-04 10:51:06,253 - yfinance - ERROR - HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NVDIA"}}}
+2025-11-04 10:51:06,539 - yfinance - ERROR - $NVDIA: possibly delisted; no price data found  (period=60d) (Yahoo error = "No data found, symbol may be delisted")
+2025-11-04 10:51:06,539 - TradingBot - WARNING -    [X] Données insuffisantes
+2025-11-04 10:51:07,547 - TradingBot - INFO - [>>] Backtest NVDIA - 1 heure
+2025-11-04 10:51:07,782 - yfinance - ERROR - $NVDIA: possibly delisted; no price data found  (period=730d) (Yahoo error = "No data found, symbol may be delisted")
+2025-11-04 10:51:07,782 - TradingBot - WARNING -    [X] Données insuffisantes
+2025-11-04 10:51:08,786 - TradingBot - INFO - [>>] Backtest NVDIA - 1 jour
+2025-11-04 10:51:08,988 - yfinance - ERROR - $NVDIA: possibly delisted; no price data found  (period=730d) (Yahoo error = "No data found, symbol may be delisted")
+2025-11-04 10:51:08,988 - TradingBot - WARNING -    [X] Données insuffisantes
+2025-11-04 10:51:09,997 - TradingBot - ERROR - Erreur comparaison: None
+2025-11-04 10:51:44,662 - TradingBot - INFO - ✅ NVDA - 10 news via API
+2025-11-04 10:51:44,663 - TradingBot - INFO - ✅ NVDA - 10 actualités récentes | Score: 100
+2025-11-04 10:51:54,074 - TradingBot - INFO - 
+================================================================================
+2025-11-04 10:51:54,074 - TradingBot - INFO - [>>] BACKTEST WATCHLIST: 25 actions - 5 minutes
+2025-11-04 10:51:54,074 - TradingBot - INFO - ================================================================================
+2025-11-04 10:51:54,074 - TradingBot - INFO - [>>] Backtest AAPL - 5 minutes
+2025-11-04 10:51:56,734 - TradingBot - INFO -    [✓] 4653 bougies téléchargées
+2025-11-04 10:51:56,749 - TradingBot - ERROR - ❌ Erreur backtest AAPL - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:51:57,754 - TradingBot - INFO - [>>] Backtest MSFT - 5 minutes
+2025-11-04 10:51:57,956 - TradingBot - INFO -    [✓] 4634 bougies téléchargées
+2025-11-04 10:51:57,966 - TradingBot - ERROR - ❌ Erreur backtest MSFT - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:51:58,981 - TradingBot - INFO - [>>] Backtest GOOGL - 5 minutes
+2025-11-04 10:51:59,212 - TradingBot - INFO -    [✓] 4646 bougies téléchargées
+2025-11-04 10:51:59,223 - TradingBot - ERROR - ❌ Erreur backtest GOOGL - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:00,237 - TradingBot - INFO - [>>] Backtest AMZN - 5 minutes
+2025-11-04 10:52:00,440 - TradingBot - INFO -    [✓] 4661 bougies téléchargées
+2025-11-04 10:52:00,451 - TradingBot - ERROR - ❌ Erreur backtest AMZN - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:01,455 - TradingBot - INFO - [>>] Backtest NVDA - 5 minutes
+2025-11-04 10:52:01,695 - TradingBot - INFO -    [✓] 4674 bougies téléchargées
+2025-11-04 10:52:01,706 - TradingBot - ERROR - ❌ Erreur backtest NVDA - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:02,721 - TradingBot - INFO - [>>] Backtest META - 5 minutes
+2025-11-04 10:52:02,929 - TradingBot - INFO -    [✓] 4626 bougies téléchargées
+2025-11-04 10:52:02,940 - TradingBot - ERROR - ❌ Erreur backtest META - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:03,945 - TradingBot - INFO - [>>] Backtest TSLA - 5 minutes
+2025-11-04 10:52:04,241 - TradingBot - INFO -    [✓] 4671 bougies téléchargées
+2025-11-04 10:52:04,253 - TradingBot - ERROR - ❌ Erreur backtest TSLA - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:05,264 - TradingBot - INFO - [>>] Backtest BRK-B - 5 minutes
+2025-11-04 10:52:05,456 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:05,467 - TradingBot - ERROR - ❌ Erreur backtest BRK-B - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:06,472 - TradingBot - INFO - [>>] Backtest JPM - 5 minutes
+2025-11-04 10:52:06,649 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:06,660 - TradingBot - ERROR - ❌ Erreur backtest JPM - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:07,666 - TradingBot - INFO - [>>] Backtest V - 5 minutes
+2025-11-04 10:52:07,848 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:07,859 - TradingBot - ERROR - ❌ Erreur backtest V - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:08,871 - TradingBot - INFO - [>>] Backtest JNJ - 5 minutes
+2025-11-04 10:52:09,044 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:09,055 - TradingBot - ERROR - ❌ Erreur backtest JNJ - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:10,068 - TradingBot - INFO - [>>] Backtest WMT - 5 minutes
+2025-11-04 10:52:10,269 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:10,280 - TradingBot - ERROR - ❌ Erreur backtest WMT - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:11,295 - TradingBot - INFO - [>>] Backtest PG - 5 minutes
+2025-11-04 10:52:11,595 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:11,605 - TradingBot - ERROR - ❌ Erreur backtest PG - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:12,615 - TradingBot - INFO - [>>] Backtest MA - 5 minutes
+2025-11-04 10:52:12,862 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:12,872 - TradingBot - ERROR - ❌ Erreur backtest MA - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:13,874 - TradingBot - INFO - [>>] Backtest DIS - 5 minutes
+2025-11-04 10:52:14,060 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:14,071 - TradingBot - ERROR - ❌ Erreur backtest DIS - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:15,087 - TradingBot - INFO - [>>] Backtest NFLX - 5 minutes
+2025-11-04 10:52:15,281 - TradingBot - INFO -    [✓] 4612 bougies téléchargées
+2025-11-04 10:52:15,292 - TradingBot - ERROR - ❌ Erreur backtest NFLX - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:16,298 - TradingBot - INFO - [>>] Backtest ADBE - 5 minutes
+2025-11-04 10:52:16,557 - TradingBot - INFO -    [✓] 4616 bougies téléchargées
+2025-11-04 10:52:16,568 - TradingBot - ERROR - ❌ Erreur backtest ADBE - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:17,571 - TradingBot - INFO - [>>] Backtest CRM - 5 minutes
+2025-11-04 10:52:17,850 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:17,861 - TradingBot - ERROR - ❌ Erreur backtest CRM - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:18,876 - TradingBot - INFO - [>>] Backtest AMD - 5 minutes
+2025-11-04 10:52:19,118 - TradingBot - INFO -    [✓] 4672 bougies téléchargées
+2025-11-04 10:52:19,129 - TradingBot - ERROR - ❌ Erreur backtest AMD - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:20,131 - TradingBot - INFO - [>>] Backtest ORCL - 5 minutes
+2025-11-04 10:52:20,368 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 10:52:20,381 - TradingBot - ERROR - ❌ Erreur backtest ORCL - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:21,386 - TradingBot - INFO - [>>] Backtest INTC - 5 minutes
+2025-11-04 10:52:21,565 - TradingBot - INFO -    [✓] 4663 bougies téléchargées
+2025-11-04 10:52:21,576 - TradingBot - ERROR - ❌ Erreur backtest INTC - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:22,584 - TradingBot - INFO - [>>] Backtest CSCO - 5 minutes
+2025-11-04 10:52:22,853 - TradingBot - INFO -    [✓] 4631 bougies téléchargées
+2025-11-04 10:52:22,864 - TradingBot - ERROR - ❌ Erreur backtest CSCO - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:23,875 - TradingBot - INFO - [>>] Backtest PEP - 5 minutes
+2025-11-04 10:52:24,097 - TradingBot - INFO -    [✓] 4641 bougies téléchargées
+2025-11-04 10:52:24,108 - TradingBot - ERROR - ❌ Erreur backtest PEP - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:25,121 - TradingBot - INFO - [>>] Backtest COST - 5 minutes
+2025-11-04 10:52:25,330 - TradingBot - INFO -    [✓] 4613 bougies téléchargées
+2025-11-04 10:52:25,341 - TradingBot - ERROR - ❌ Erreur backtest COST - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:26,344 - TradingBot - INFO - [>>] Backtest AVGO - 5 minutes
+2025-11-04 10:52:26,607 - TradingBot - INFO -    [✓] 4634 bougies téléchargées
+2025-11-04 10:52:26,618 - TradingBot - ERROR - ❌ Erreur backtest AVGO - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:52:27,632 - TradingBot - INFO - 
+================================================================================
+2025-11-04 10:52:27,632 - TradingBot - INFO - [DONE] 34s (0.6min)
+2025-11-04 10:52:27,632 - TradingBot - INFO - [*] Analysées: 0/25
+2025-11-04 10:52:51,189 - TradingBot - INFO - ✅ TSLA - 10 news via API
+2025-11-04 10:52:51,189 - TradingBot - INFO - ✅ TSLA - 10 actualités récentes | Score: 100
+2025-11-04 10:53:30,094 - TradingBot - INFO - ✅ AGO - 10 news via API
+2025-11-04 10:53:30,095 - TradingBot - INFO - ✅ AGO - 10 actualités récentes | Score: 100
+2025-11-04 10:54:28,412 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 10:54:28,413 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 10:54:28,414 - discord.client - INFO - logging in using static token
+2025-11-04 10:54:28,871 - TradingBot - INFO - Bot initialisé
+2025-11-04 10:54:29,225 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d1e91a3ff9640486204cd4eb1b7d7127).
+2025-11-04 10:54:31,267 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 10:54:40,578 - TradingBot - INFO - 
+================================================================================
+2025-11-04 10:54:40,578 - TradingBot - INFO - [>>] BACKTEST WATCHLIST: 25 actions - 5 minutes
+2025-11-04 10:54:40,578 - TradingBot - INFO - ================================================================================
+2025-11-04 10:54:40,579 - TradingBot - INFO - [>>] Backtest AAPL - 5 minutes
+2025-11-04 10:54:43,471 - TradingBot - INFO -    [✓] 4653 bougies téléchargées
+2025-11-04 10:54:43,484 - TradingBot - ERROR - ❌ Erreur backtest AAPL - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:44,500 - TradingBot - INFO - [>>] Backtest MSFT - 5 minutes
+2025-11-04 10:54:44,706 - TradingBot - INFO -    [✓] 4634 bougies téléchargées
+2025-11-04 10:54:44,718 - TradingBot - ERROR - ❌ Erreur backtest MSFT - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:45,731 - TradingBot - INFO - [>>] Backtest GOOGL - 5 minutes
+2025-11-04 10:54:45,933 - TradingBot - INFO -    [✓] 4646 bougies téléchargées
+2025-11-04 10:54:45,945 - TradingBot - ERROR - ❌ Erreur backtest GOOGL - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:46,959 - TradingBot - INFO - [>>] Backtest AMZN - 5 minutes
+2025-11-04 10:54:47,222 - TradingBot - INFO -    [✓] 4661 bougies téléchargées
+2025-11-04 10:54:47,235 - TradingBot - ERROR - ❌ Erreur backtest AMZN - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:48,248 - TradingBot - INFO - [>>] Backtest NVDA - 5 minutes
+2025-11-04 10:54:48,474 - TradingBot - INFO -    [✓] 4674 bougies téléchargées
+2025-11-04 10:54:48,486 - TradingBot - ERROR - ❌ Erreur backtest NVDA - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:49,494 - TradingBot - INFO - [>>] Backtest META - 5 minutes
+2025-11-04 10:54:49,783 - TradingBot - INFO -    [✓] 4626 bougies téléchargées
+2025-11-04 10:54:49,794 - TradingBot - ERROR - ❌ Erreur backtest META - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:54:50,796 - TradingBot - INFO - [>>] Backtest TSLA - 5 minutes
+2025-11-04 10:54:51,030 - TradingBot - INFO -    [✓] 4671 bougies téléchargées
+2025-11-04 10:54:51,041 - TradingBot - ERROR - ❌ Erreur backtest TSLA - 5m: '>' not supported between instances of 'Timestamp' and 'int'
+2025-11-04 10:55:04,652 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 10:55:04,652 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 10:55:04,654 - discord.client - INFO - logging in using static token
+2025-11-04 10:55:05,071 - TradingBot - INFO - Bot initialisé
+2025-11-04 10:55:05,473 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 7e7a6a11a2a0b44b56e90d8ad0aacbf1).
+2025-11-04 10:55:07,488 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 10:55:10,637 - TradingBot - INFO - ✅ NVDA - 10 news via API
+2025-11-04 10:55:10,637 - TradingBot - INFO - ✅ NVDA - 10 actualités récentes | Score: 100
+2025-11-04 10:55:24,169 - TradingBot - WARNING - ⚠️ LSLSLLDLF?SDD - Scraping failed: 400, message='Got more than 8190 bytes (20172) when reading Header value is too long.', url='https://finance.yahoo.com/lookup/?s=LSLSLLDLF'
+2025-11-04 10:55:24,170 - TradingBot - WARNING - ❌ LSLSLLDLF?SDD - Aucune actualité trouvée
+2025-11-04 10:55:35,474 - TradingBot - WARNING - ⚠️ LSLSLLDLF - Scraping failed: 400, message='Got more than 8190 bytes (20172) when reading Header value is too long.', url='https://finance.yahoo.com/lookup/?s=LSLSLLDLF'
+2025-11-04 10:55:35,474 - TradingBot - WARNING - ❌ LSLSLLDLF - Aucune actualité trouvée
+2025-11-04 10:55:41,816 - discord.gateway - INFO - Shard ID None has successfully RESUMED session 7e7a6a11a2a0b44b56e90d8ad0aacbf1.
+2025-11-04 11:04:34,526 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000026745B79590>
+2025-11-04 11:04:36,800 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 11:04:36,800 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 11:04:36,801 - discord.client - INFO - logging in using static token
+2025-11-04 11:04:37,333 - TradingBot - INFO - Bot initialisé
+2025-11-04 11:04:37,741 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: f479613fc0b96b3bbdc46157420caa08).
+2025-11-04 11:04:39,748 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 11:04:48,995 - TradingBot - INFO - ✅ NVDA - 10 news récupérées via API
+2025-11-04 11:04:48,996 - TradingBot - INFO - ✅ NVDA - 0 actualités récentes | Score: 0
+2025-11-04 11:05:12,769 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:05:12,769 - TradingBot - INFO - [>>] BACKTEST WATCHLIST: 25 actions - 5 minutes
+2025-11-04 11:05:12,770 - TradingBot - INFO - ================================================================================
+2025-11-04 11:05:12,770 - TradingBot - INFO - [>>] Backtest AAPL - 5 minutes
+2025-11-04 11:05:13,092 - TradingBot - INFO -    [✓] 4653 bougies téléchargées
+2025-11-04 11:05:13,576 - TradingBot - INFO -    [OK] 0.81s | Score: 80 | Profit: +14.94% | Trades: 84
+2025-11-04 11:05:14,578 - TradingBot - INFO - [>>] Backtest MSFT - 5 minutes
+2025-11-04 11:05:14,815 - TradingBot - INFO -    [✓] 4634 bougies téléchargées
+2025-11-04 11:05:15,293 - TradingBot - INFO -    [OK] 0.72s | Score: 85 | Profit: +0.33% | Trades: 99
+2025-11-04 11:05:15,294 - TradingBot - INFO - [~] 2/25 | OK: 2 | Restant: ~29s
+2025-11-04 11:05:16,308 - TradingBot - INFO - [>>] Backtest GOOGL - 5 minutes
+2025-11-04 11:05:16,508 - TradingBot - INFO -    [✓] 4646 bougies téléchargées
+2025-11-04 11:05:17,010 - TradingBot - INFO -    [OK] 0.70s | Score: 80 | Profit: +29.84% | Trades: 88
+2025-11-04 11:05:17,010 - TradingBot - INFO - [~] 3/25 | OK: 3 | Restant: ~31s
+2025-11-04 11:05:18,019 - TradingBot - INFO - [>>] Backtest AMZN - 5 minutes
+2025-11-04 11:05:18,273 - TradingBot - INFO -    [✓] 4661 bougies téléchargées
+2025-11-04 11:05:18,754 - TradingBot - INFO -    [OK] 0.74s | Score: 100 | Profit: +15.83% | Trades: 96
+2025-11-04 11:05:18,754 - TradingBot - INFO - [~] 4/25 | OK: 4 | Restant: ~31s
+2025-11-04 11:05:19,758 - TradingBot - INFO - [>>] Backtest NVDA - 5 minutes
+2025-11-04 11:05:19,989 - TradingBot - INFO -    [✓] 4674 bougies téléchargées
+2025-11-04 11:05:20,470 - TradingBot - INFO -    [OK] 0.71s | Score: 100 | Profit: +16.88% | Trades: 91
+2025-11-04 11:05:20,471 - TradingBot - INFO - [~] 5/25 | OK: 5 | Restant: ~31s
+2025-11-04 11:05:21,476 - TradingBot - INFO - [>>] Backtest META - 5 minutes
+2025-11-04 11:05:21,681 - TradingBot - INFO -    [✓] 4626 bougies téléchargées
+2025-11-04 11:05:22,161 - TradingBot - INFO -    [OK] 0.69s | Score: 70 | Profit: -6.53% | Trades: 94
+2025-11-04 11:05:22,162 - TradingBot - INFO - [~] 6/25 | OK: 6 | Restant: ~30s
+2025-11-04 11:05:23,166 - TradingBot - INFO - [>>] Backtest TSLA - 5 minutes
+2025-11-04 11:05:23,369 - TradingBot - INFO -    [✓] 4671 bougies téléchargées
+2025-11-04 11:05:23,853 - TradingBot - INFO -    [OK] 0.69s | Score: 65 | Profit: +30.63% | Trades: 92
+2025-11-04 11:05:23,853 - TradingBot - INFO - [~] 7/25 | OK: 7 | Restant: ~29s
+2025-11-04 11:05:24,868 - TradingBot - INFO - [>>] Backtest BRK-B - 5 minutes
+2025-11-04 11:05:25,107 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:25,602 - TradingBot - INFO -    [OK] 0.73s | Score: 100 | Profit: +6.50% | Trades: 84
+2025-11-04 11:05:25,602 - TradingBot - INFO - [~] 8/25 | OK: 8 | Restant: ~27s
+2025-11-04 11:05:26,611 - TradingBot - INFO - [>>] Backtest JPM - 5 minutes
+2025-11-04 11:05:26,849 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:27,343 - TradingBot - INFO -    [OK] 0.73s | Score: 50 | Profit: -1.42% | Trades: 100
+2025-11-04 11:05:27,344 - TradingBot - INFO - [~] 9/25 | OK: 9 | Restant: ~26s
+2025-11-04 11:05:28,347 - TradingBot - INFO - [>>] Backtest V - 5 minutes
+2025-11-04 11:05:28,542 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:29,037 - TradingBot - INFO -    [OK] 0.69s | Score: 100 | Profit: +8.08% | Trades: 87
+2025-11-04 11:05:29,038 - TradingBot - INFO - [~] 10/25 | OK: 10 | Restant: ~24s
+2025-11-04 11:05:30,051 - TradingBot - INFO - [>>] Backtest JNJ - 5 minutes
+2025-11-04 11:05:30,362 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:30,857 - TradingBot - INFO -    [OK] 0.81s | Score: 100 | Profit: +9.58% | Trades: 81
+2025-11-04 11:05:30,858 - TradingBot - INFO - [~] 11/25 | OK: 11 | Restant: ~23s
+2025-11-04 11:05:31,861 - TradingBot - INFO - [>>] Backtest WMT - 5 minutes
+2025-11-04 11:05:32,036 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:32,529 - TradingBot - INFO -    [OK] 0.67s | Score: 70 | Profit: +2.25% | Trades: 85
+2025-11-04 11:05:32,529 - TradingBot - INFO - [~] 12/25 | OK: 12 | Restant: ~21s
+2025-11-04 11:05:33,542 - TradingBot - INFO - [>>] Backtest PG - 5 minutes
+2025-11-04 11:05:33,817 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:34,322 - TradingBot - INFO -    [OK] 0.78s | Score: 85 | Profit: +1.14% | Trades: 97
+2025-11-04 11:05:34,323 - TradingBot - INFO - [~] 13/25 | OK: 13 | Restant: ~20s
+2025-11-04 11:05:35,326 - TradingBot - INFO - [>>] Backtest MA - 5 minutes
+2025-11-04 11:05:35,513 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:36,010 - TradingBot - INFO -    [OK] 0.68s | Score: 85 | Profit: -1.12% | Trades: 102
+2025-11-04 11:05:36,011 - TradingBot - INFO - [~] 14/25 | OK: 14 | Restant: ~18s
+2025-11-04 11:05:37,014 - TradingBot - INFO - [>>] Backtest DIS - 5 minutes
+2025-11-04 11:05:37,270 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:37,761 - TradingBot - INFO -    [OK] 0.75s | Score: 50 | Profit: -4.53% | Trades: 97
+2025-11-04 11:05:37,762 - TradingBot - INFO - [~] 15/25 | OK: 15 | Restant: ~17s
+2025-11-04 11:05:38,766 - TradingBot - INFO - [>>] Backtest NFLX - 5 minutes
+2025-11-04 11:05:39,045 - TradingBot - INFO -    [✓] 4612 bougies téléchargées
+2025-11-04 11:05:39,520 - TradingBot - INFO -    [OK] 0.75s | Score: 70 | Profit: -3.92% | Trades: 97
+2025-11-04 11:05:39,521 - TradingBot - INFO - [~] 16/25 | OK: 16 | Restant: ~15s
+2025-11-04 11:05:40,531 - TradingBot - INFO - [>>] Backtest ADBE - 5 minutes
+2025-11-04 11:05:40,782 - TradingBot - INFO -    [✓] 4616 bougies téléchargées
+2025-11-04 11:05:41,257 - TradingBot - INFO -    [OK] 0.73s | Score: 65 | Profit: +0.46% | Trades: 97
+2025-11-04 11:05:41,257 - TradingBot - INFO - [~] 17/25 | OK: 17 | Restant: ~13s
+2025-11-04 11:05:42,272 - TradingBot - INFO - [>>] Backtest CRM - 5 minutes
+2025-11-04 11:05:42,498 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:42,990 - TradingBot - INFO -    [OK] 0.72s | Score: 65 | Profit: +1.75% | Trades: 89
+2025-11-04 11:05:42,990 - TradingBot - INFO - [~] 18/25 | OK: 18 | Restant: ~12s
+2025-11-04 11:05:43,995 - TradingBot - INFO - [>>] Backtest AMD - 5 minutes
+2025-11-04 11:05:44,195 - TradingBot - INFO -    [✓] 4672 bougies téléchargées
+2025-11-04 11:05:44,677 - TradingBot - INFO -    [OK] 0.68s | Score: 80 | Profit: +35.79% | Trades: 94
+2025-11-04 11:05:44,677 - TradingBot - INFO - [~] 19/25 | OK: 19 | Restant: ~10s
+2025-11-04 11:05:45,687 - TradingBot - INFO - [>>] Backtest ORCL - 5 minutes
+2025-11-04 11:05:45,898 - TradingBot - INFO -    [✓] 4680 bougies téléchargées
+2025-11-04 11:05:46,396 - TradingBot - INFO -    [OK] 0.71s | Score: 100 | Profit: +33.51% | Trades: 108
+2025-11-04 11:05:46,396 - TradingBot - INFO - [~] 20/25 | OK: 20 | Restant: ~8s
+2025-11-04 11:05:47,409 - TradingBot - INFO - [>>] Backtest INTC - 5 minutes
+2025-11-04 11:05:47,691 - TradingBot - INFO -    [✓] 4663 bougies téléchargées
+2025-11-04 11:05:48,172 - TradingBot - INFO -    [OK] 0.76s | Score: 65 | Profit: +18.94% | Trades: 95
+2025-11-04 11:05:48,173 - TradingBot - INFO - [~] 21/25 | OK: 21 | Restant: ~7s
+2025-11-04 11:05:49,177 - TradingBot - INFO - [>>] Backtest CSCO - 5 minutes
+2025-11-04 11:05:49,373 - TradingBot - INFO -    [✓] 4631 bougies téléchargées
+2025-11-04 11:05:49,848 - TradingBot - INFO -    [OK] 0.67s | Score: 100 | Profit: +7.81% | Trades: 84
+2025-11-04 11:05:49,849 - TradingBot - INFO - [~] 22/25 | OK: 22 | Restant: ~5s
+2025-11-04 11:05:50,850 - TradingBot - INFO - [>>] Backtest PEP - 5 minutes
+2025-11-04 11:05:51,053 - TradingBot - INFO -    [✓] 4641 bougies téléchargées
+2025-11-04 11:05:51,531 - TradingBot - INFO -    [OK] 0.68s | Score: 70 | Profit: +3.78% | Trades: 97
+2025-11-04 11:05:51,531 - TradingBot - INFO - [~] 23/25 | OK: 23 | Restant: ~3s
+2025-11-04 11:05:52,536 - TradingBot - INFO - [>>] Backtest COST - 5 minutes
+2025-11-04 11:05:52,856 - TradingBot - INFO -    [✓] 4613 bougies téléchargées
+2025-11-04 11:05:53,331 - TradingBot - INFO -    [OK] 0.79s | Score: 50 | Profit: -7.24% | Trades: 99
+2025-11-04 11:05:53,331 - TradingBot - INFO - [~] 24/25 | OK: 24 | Restant: ~2s
+2025-11-04 11:05:54,339 - TradingBot - INFO - [>>] Backtest AVGO - 5 minutes
+2025-11-04 11:05:54,560 - TradingBot - INFO -    [✓] 4634 bougies téléchargées
+2025-11-04 11:05:55,040 - TradingBot - INFO -    [OK] 0.70s | Score: 65 | Profit: +8.41% | Trades: 97
+2025-11-04 11:05:55,040 - TradingBot - INFO - [~] 25/25 | OK: 25 | Restant: ~0s
+2025-11-04 11:05:56,045 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:05:56,045 - TradingBot - INFO - [DONE] 43s (0.7min)
+2025-11-04 11:05:56,046 - TradingBot - INFO - [*] Analysées: 25/25
+2025-11-04 11:06:11,122 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 11:06:11,123 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 11:06:11,124 - discord.client - INFO - logging in using static token
+2025-11-04 11:06:11,625 - TradingBot - INFO - Bot initialisé
+2025-11-04 11:06:12,082 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 311238193eac7e016ad1ee532fc40454).
+2025-11-04 11:06:14,097 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 11:06:34,808 - discord.ext.commands.bot - ERROR - Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "comppare" is not found
+2025-11-04 11:06:38,557 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:06:38,558 - TradingBot - INFO - 🔍 COMPARAISON INTERVALLES: TSLA
+2025-11-04 11:06:38,558 - TradingBot - INFO - ================================================================================
+2025-11-04 11:06:38,558 - TradingBot - INFO - [>>] Backtest TSLA - 1 minute
+2025-11-04 11:06:39,198 - TradingBot - INFO -    [✓] 2730 bougies téléchargées
+2025-11-04 11:06:39,489 - TradingBot - INFO -    [OK] 0.93s | Score: 85 | Profit: +8.87% | Trades: 59
+2025-11-04 11:06:40,502 - TradingBot - INFO - [>>] Backtest TSLA - 5 minutes
+2025-11-04 11:06:40,800 - TradingBot - INFO -    [✓] 4671 bougies téléchargées
+2025-11-04 11:06:41,310 - TradingBot - INFO -    [OK] 0.81s | Score: 65 | Profit: +30.63% | Trades: 92
+2025-11-04 11:06:42,323 - TradingBot - INFO - [>>] Backtest TSLA - 1 heure
+2025-11-04 11:06:42,593 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:06:43,116 - TradingBot - INFO -    [OK] 0.79s | Score: 80 | Profit: +81.12% | Trades: 114
+2025-11-04 11:06:44,132 - TradingBot - INFO - [>>] Backtest TSLA - 1 jour
+2025-11-04 11:06:44,240 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:06:44,322 - TradingBot - INFO -    [OK] 0.19s | Score: 80 | Profit: +86.25% | Trades: 17
+2025-11-04 11:06:45,327 - TradingBot - INFO - 
+🏆 MEILLEUR: 1 minute (Score: 85)
+2025-11-04 11:07:08,534 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:07:08,534 - TradingBot - INFO - [>>] BACKTEST WATCHLIST: 25 actions - 1 heure
+2025-11-04 11:07:08,535 - TradingBot - INFO - ================================================================================
+2025-11-04 11:07:08,535 - TradingBot - INFO - [>>] Backtest AAPL - 1 heure
+2025-11-04 11:07:08,754 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:09,283 - TradingBot - INFO -    [OK] 0.75s | Score: 80 | Profit: +37.46% | Trades: 97
+2025-11-04 11:07:10,298 - TradingBot - INFO - [>>] Backtest MSFT - 1 heure
+2025-11-04 11:07:10,620 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:11,146 - TradingBot - INFO -    [OK] 0.85s | Score: 80 | Profit: +68.44% | Trades: 107
+2025-11-04 11:07:11,147 - TradingBot - INFO - [~] 2/25 | OK: 2 | Restant: ~30s
+2025-11-04 11:07:12,162 - TradingBot - INFO - [>>] Backtest GOOGL - 1 heure
+2025-11-04 11:07:12,406 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:12,968 - TradingBot - INFO -    [OK] 0.81s | Score: 65 | Profit: +30.49% | Trades: 103
+2025-11-04 11:07:12,969 - TradingBot - INFO - [~] 3/25 | OK: 3 | Restant: ~33s
+2025-11-04 11:07:13,982 - TradingBot - INFO - [>>] Backtest AMZN - 1 heure
+2025-11-04 11:07:14,264 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:14,789 - TradingBot - INFO -    [OK] 0.81s | Score: 80 | Profit: +90.79% | Trades: 103
+2025-11-04 11:07:14,789 - TradingBot - INFO - [~] 4/25 | OK: 4 | Restant: ~33s
+2025-11-04 11:07:15,796 - TradingBot - INFO - [>>] Backtest NVDA - 1 heure
+2025-11-04 11:07:16,277 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:16,814 - TradingBot - INFO -    [OK] 1.02s | Score: 80 | Profit: +150.02% | Trades: 106
+2025-11-04 11:07:16,814 - TradingBot - INFO - [~] 5/25 | OK: 5 | Restant: ~33s
+2025-11-04 11:07:17,816 - TradingBot - INFO - [>>] Backtest META - 1 heure
+2025-11-04 11:07:18,068 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:18,587 - TradingBot - INFO -    [OK] 0.77s | Score: 80 | Profit: +165.21% | Trades: 102
+2025-11-04 11:07:18,588 - TradingBot - INFO - [~] 6/25 | OK: 6 | Restant: ~32s
+2025-11-04 11:07:19,602 - TradingBot - INFO - [>>] Backtest TSLA - 1 heure
+2025-11-04 11:07:19,843 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:20,373 - TradingBot - INFO -    [OK] 0.77s | Score: 80 | Profit: +81.12% | Trades: 114
+2025-11-04 11:07:20,374 - TradingBot - INFO - [~] 7/25 | OK: 7 | Restant: ~30s
+2025-11-04 11:07:21,388 - TradingBot - INFO - [>>] Backtest BRK-B - 1 heure
+2025-11-04 11:07:21,639 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:22,158 - TradingBot - INFO -    [OK] 0.77s | Score: 80 | Profit: +39.67% | Trades: 98
+2025-11-04 11:07:22,158 - TradingBot - INFO - [~] 8/25 | OK: 8 | Restant: ~29s
+2025-11-04 11:07:23,168 - TradingBot - INFO - [>>] Backtest JPM - 1 heure
+2025-11-04 11:07:23,416 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:23,947 - TradingBot - INFO -    [OK] 0.78s | Score: 80 | Profit: +56.06% | Trades: 98
+2025-11-04 11:07:23,947 - TradingBot - INFO - [~] 9/25 | OK: 9 | Restant: ~27s
+2025-11-04 11:07:24,950 - TradingBot - INFO - [>>] Backtest V - 1 heure
+2025-11-04 11:07:25,177 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:25,700 - TradingBot - INFO -    [OK] 0.75s | Score: 80 | Profit: +49.53% | Trades: 105
+2025-11-04 11:07:25,700 - TradingBot - INFO - [~] 10/25 | OK: 10 | Restant: ~26s
+2025-11-04 11:07:26,701 - TradingBot - INFO - [>>] Backtest JNJ - 1 heure
+2025-11-04 11:07:26,919 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:27,439 - TradingBot - INFO -    [OK] 0.74s | Score: 100 | Profit: +24.17% | Trades: 107
+2025-11-04 11:07:27,440 - TradingBot - INFO - [~] 11/25 | OK: 11 | Restant: ~24s
+2025-11-04 11:07:28,453 - TradingBot - INFO - [>>] Backtest WMT - 1 heure
+2025-11-04 11:07:29,014 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:29,544 - TradingBot - INFO -    [OK] 1.09s | Score: 80 | Profit: +26.78% | Trades: 102
+2025-11-04 11:07:29,544 - TradingBot - INFO - [~] 12/25 | OK: 12 | Restant: ~23s
+2025-11-04 11:07:30,550 - TradingBot - INFO - [>>] Backtest PG - 1 heure
+2025-11-04 11:07:30,878 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:31,419 - TradingBot - INFO -    [OK] 0.87s | Score: 70 | Profit: +3.18% | Trades: 105
+2025-11-04 11:07:31,419 - TradingBot - INFO - [~] 13/25 | OK: 13 | Restant: ~21s
+2025-11-04 11:07:32,432 - TradingBot - INFO - [>>] Backtest MA - 1 heure
+2025-11-04 11:07:32,684 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:33,213 - TradingBot - INFO -    [OK] 0.78s | Score: 80 | Profit: +46.74% | Trades: 97
+2025-11-04 11:07:33,213 - TradingBot - INFO - [~] 14/25 | OK: 14 | Restant: ~19s
+2025-11-04 11:07:34,216 - TradingBot - INFO - [>>] Backtest DIS - 1 heure
+2025-11-04 11:07:34,484 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:35,012 - TradingBot - INFO -    [OK] 0.80s | Score: 85 | Profit: +35.85% | Trades: 103
+2025-11-04 11:07:35,013 - TradingBot - INFO - [~] 15/25 | OK: 15 | Restant: ~18s
+2025-11-04 11:07:36,026 - TradingBot - INFO - [>>] Backtest NFLX - 1 heure
+2025-11-04 11:07:36,244 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:36,818 - TradingBot - INFO -    [OK] 0.79s | Score: 80 | Profit: +125.92% | Trades: 112
+2025-11-04 11:07:36,819 - TradingBot - INFO - [~] 16/25 | OK: 16 | Restant: ~16s
+2025-11-04 11:07:37,825 - TradingBot - INFO - [>>] Backtest ADBE - 1 heure
+2025-11-04 11:07:38,041 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:38,576 - TradingBot - INFO -    [OK] 0.75s | Score: 100 | Profit: +23.98% | Trades: 114
+2025-11-04 11:07:38,576 - TradingBot - INFO - [~] 17/25 | OK: 17 | Restant: ~14s
+2025-11-04 11:07:39,578 - TradingBot - INFO - [>>] Backtest CRM - 1 heure
+2025-11-04 11:07:39,840 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:40,378 - TradingBot - INFO -    [OK] 0.80s | Score: 80 | Profit: +37.30% | Trades: 106
+2025-11-04 11:07:40,378 - TradingBot - INFO - [~] 18/25 | OK: 18 | Restant: ~12s
+2025-11-04 11:07:41,393 - TradingBot - INFO - [>>] Backtest AMD - 1 heure
+2025-11-04 11:07:41,650 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:42,179 - TradingBot - INFO -    [OK] 0.79s | Score: 80 | Profit: +119.42% | Trades: 111
+2025-11-04 11:07:42,179 - TradingBot - INFO - [~] 19/25 | OK: 19 | Restant: ~11s
+2025-11-04 11:07:43,180 - TradingBot - INFO - [>>] Backtest ORCL - 1 heure
+2025-11-04 11:07:43,431 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:43,961 - TradingBot - INFO -    [OK] 0.78s | Score: 80 | Profit: +145.70% | Trades: 123
+2025-11-04 11:07:43,961 - TradingBot - INFO - [~] 20/25 | OK: 20 | Restant: ~9s
+2025-11-04 11:07:44,967 - TradingBot - INFO - [>>] Backtest INTC - 1 heure
+2025-11-04 11:07:45,331 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:45,861 - TradingBot - INFO -    [OK] 0.89s | Score: 100 | Profit: +83.78% | Trades: 119
+2025-11-04 11:07:45,862 - TradingBot - INFO - [~] 21/25 | OK: 21 | Restant: ~7s
+2025-11-04 11:07:46,877 - TradingBot - INFO - [>>] Backtest CSCO - 1 heure
+2025-11-04 11:07:47,129 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:47,667 - TradingBot - INFO -    [OK] 0.79s | Score: 80 | Profit: +30.77% | Trades: 109
+2025-11-04 11:07:47,668 - TradingBot - INFO - [~] 22/25 | OK: 22 | Restant: ~5s
+2025-11-04 11:07:48,671 - TradingBot - INFO - [>>] Backtest PEP - 1 heure
+2025-11-04 11:07:48,919 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:49,449 - TradingBot - INFO -    [OK] 0.78s | Score: 85 | Profit: -15.80% | Trades: 118
+2025-11-04 11:07:49,450 - TradingBot - INFO - [~] 23/25 | OK: 23 | Restant: ~4s
+2025-11-04 11:07:50,457 - TradingBot - INFO - [>>] Backtest COST - 1 heure
+2025-11-04 11:07:50,670 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:51,204 - TradingBot - INFO -    [OK] 0.75s | Score: 80 | Profit: +31.97% | Trades: 103
+2025-11-04 11:07:51,205 - TradingBot - INFO - [~] 24/25 | OK: 24 | Restant: ~2s
+2025-11-04 11:07:52,211 - TradingBot - INFO - [>>] Backtest AVGO - 1 heure
+2025-11-04 11:07:52,934 - TradingBot - INFO -    [✓] 5086 bougies téléchargées
+2025-11-04 11:07:53,458 - TradingBot - INFO -    [OK] 1.25s | Score: 80 | Profit: +79.87% | Trades: 109
+2025-11-04 11:07:53,459 - TradingBot - INFO - [~] 25/25 | OK: 25 | Restant: ~0s
+2025-11-04 11:07:54,460 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:07:54,460 - TradingBot - INFO - [DONE] 46s (0.8min)
+2025-11-04 11:07:54,461 - TradingBot - INFO - [*] Analysées: 25/25
+2025-11-04 11:08:11,258 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:08:11,258 - TradingBot - INFO - [>>] BACKTEST WATCHLIST: 25 actions - 1 jour
+2025-11-04 11:08:11,259 - TradingBot - INFO - ================================================================================
+2025-11-04 11:08:11,259 - TradingBot - INFO - [>>] Backtest AAPL - 1 jour
+2025-11-04 11:08:11,382 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:11,464 - TradingBot - INFO -    [OK] 0.20s | Score: 80 | Profit: +51.37% | Trades: 18
+2025-11-04 11:08:12,467 - TradingBot - INFO - [>>] Backtest MSFT - 1 jour
+2025-11-04 11:08:12,595 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:12,696 - TradingBot - INFO -    [OK] 0.23s | Score: 65 | Profit: +41.62% | Trades: 11
+2025-11-04 11:08:12,697 - TradingBot - INFO - [~] 2/25 | OK: 2 | Restant: ~17s
+2025-11-04 11:08:13,704 - TradingBot - INFO - [>>] Backtest GOOGL - 1 jour
+2025-11-04 11:08:13,791 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:13,878 - TradingBot - INFO -    [OK] 0.17s | Score: 80 | Profit: +75.84% | Trades: 14
+2025-11-04 11:08:13,878 - TradingBot - INFO - [~] 3/25 | OK: 3 | Restant: ~19s
+2025-11-04 11:08:14,881 - TradingBot - INFO - [>>] Backtest AMZN - 1 jour
+2025-11-04 11:08:14,958 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:15,046 - TradingBot - INFO -    [OK] 0.16s | Score: 80 | Profit: +59.11% | Trades: 11
+2025-11-04 11:08:15,046 - TradingBot - INFO - [~] 4/25 | OK: 4 | Restant: ~20s
+2025-11-04 11:08:16,050 - TradingBot - INFO - [>>] Backtest NVDA - 1 jour
+2025-11-04 11:08:16,153 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:16,235 - TradingBot - INFO -    [OK] 0.18s | Score: 80 | Profit: +138.24% | Trades: 17
+2025-11-04 11:08:16,235 - TradingBot - INFO - [~] 5/25 | OK: 5 | Restant: ~20s
+2025-11-04 11:08:17,250 - TradingBot - INFO - [>>] Backtest META - 1 jour
+2025-11-04 11:08:17,341 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:17,422 - TradingBot - INFO -    [OK] 0.17s | Score: 80 | Profit: +96.52% | Trades: 20
+2025-11-04 11:08:17,423 - TradingBot - INFO - [~] 6/25 | OK: 6 | Restant: ~20s
+2025-11-04 11:08:18,437 - TradingBot - INFO - [>>] Backtest TSLA - 1 jour
+2025-11-04 11:08:18,525 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:18,606 - TradingBot - INFO -    [OK] 0.17s | Score: 80 | Profit: +86.25% | Trades: 17
+2025-11-04 11:08:18,606 - TradingBot - INFO - [~] 7/25 | OK: 7 | Restant: ~19s
+2025-11-04 11:08:19,620 - TradingBot - INFO - [>>] Backtest BRK-B - 1 jour
+2025-11-04 11:08:19,694 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:19,774 - TradingBot - INFO -    [OK] 0.15s | Score: 80 | Profit: +31.59% | Trades: 10
+2025-11-04 11:08:19,774 - TradingBot - INFO - [~] 8/25 | OK: 8 | Restant: ~18s
+2025-11-04 11:08:20,787 - TradingBot - INFO - [>>] Backtest JPM - 1 jour
+2025-11-04 11:08:20,936 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:21,017 - TradingBot - INFO -    [OK] 0.23s | Score: 80 | Profit: +38.82% | Trades: 11
+2025-11-04 11:08:21,017 - TradingBot - INFO - [~] 9/25 | OK: 9 | Restant: ~17s
+2025-11-04 11:08:22,019 - TradingBot - INFO - [>>] Backtest V - 1 jour
+2025-11-04 11:08:22,124 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:22,206 - TradingBot - INFO -    [OK] 0.19s | Score: 65 | Profit: +7.47% | Trades: 12
+2025-11-04 11:08:22,206 - TradingBot - INFO - [~] 10/25 | OK: 10 | Restant: ~16s
+2025-11-04 11:08:23,219 - TradingBot - INFO - [>>] Backtest JNJ - 1 jour
+2025-11-04 11:08:23,370 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:23,451 - TradingBot - INFO -    [OK] 0.23s | Score: 80 | Profit: +25.43% | Trades: 17
+2025-11-04 11:08:23,451 - TradingBot - INFO - [~] 11/25 | OK: 11 | Restant: ~16s
+2025-11-04 11:08:24,454 - TradingBot - INFO - [>>] Backtest WMT - 1 jour
+2025-11-04 11:08:24,596 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:24,677 - TradingBot - INFO -    [OK] 0.22s | Score: 80 | Profit: +37.62% | Trades: 13
+2025-11-04 11:08:24,677 - TradingBot - INFO - [~] 12/25 | OK: 12 | Restant: ~15s
+2025-11-04 11:08:25,686 - TradingBot - INFO - [>>] Backtest PG - 1 jour
+2025-11-04 11:08:25,838 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:25,919 - TradingBot - INFO -    [OK] 0.23s | Score: 50 | Profit: -3.49% | Trades: 13
+2025-11-04 11:08:25,920 - TradingBot - INFO - [~] 13/25 | OK: 13 | Restant: ~14s
+2025-11-04 11:08:26,922 - TradingBot - INFO - [>>] Backtest MA - 1 jour
+2025-11-04 11:08:27,008 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:27,089 - TradingBot - INFO -    [OK] 0.17s | Score: 80 | Profit: +27.80% | Trades: 11
+2025-11-04 11:08:27,089 - TradingBot - INFO - [~] 14/25 | OK: 14 | Restant: ~12s
+2025-11-04 11:08:28,104 - TradingBot - INFO - [>>] Backtest DIS - 1 jour
+2025-11-04 11:08:28,278 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:28,360 - TradingBot - INFO -    [OK] 0.26s | Score: 50 | Profit: -10.16% | Trades: 16
+2025-11-04 11:08:28,360 - TradingBot - INFO - [~] 15/25 | OK: 15 | Restant: ~11s
+2025-11-04 11:08:29,365 - TradingBot - INFO - [>>] Backtest NFLX - 1 jour
+2025-11-04 11:08:29,446 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:29,528 - TradingBot - INFO -    [OK] 0.16s | Score: 80 | Profit: +70.26% | Trades: 15
+2025-11-04 11:08:29,528 - TradingBot - INFO - [~] 16/25 | OK: 16 | Restant: ~10s
+2025-11-04 11:08:30,543 - TradingBot - INFO - [>>] Backtest ADBE - 1 jour
+2025-11-04 11:08:30,649 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:30,730 - TradingBot - INFO -    [OK] 0.19s | Score: 50 | Profit: -25.54% | Trades: 18
+2025-11-04 11:08:30,731 - TradingBot - INFO - [~] 17/25 | OK: 17 | Restant: ~9s
+2025-11-04 11:08:31,735 - TradingBot - INFO - [>>] Backtest CRM - 1 jour
+2025-11-04 11:08:31,838 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:31,920 - TradingBot - INFO -    [OK] 0.19s | Score: 100 | Profit: +65.59% | Trades: 19
+2025-11-04 11:08:31,920 - TradingBot - INFO - [~] 18/25 | OK: 18 | Restant: ~8s
+2025-11-04 11:08:32,930 - TradingBot - INFO - [>>] Backtest AMD - 1 jour
+2025-11-04 11:08:32,995 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:33,077 - TradingBot - INFO -    [OK] 0.15s | Score: 80 | Profit: +28.22% | Trades: 20
+2025-11-04 11:08:33,077 - TradingBot - INFO - [~] 19/25 | OK: 19 | Restant: ~7s
+2025-11-04 11:08:34,079 - TradingBot - INFO - [>>] Backtest ORCL - 1 jour
+2025-11-04 11:08:34,182 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:34,264 - TradingBot - INFO -    [OK] 0.18s | Score: 65 | Profit: +40.06% | Trades: 17
+2025-11-04 11:08:34,264 - TradingBot - INFO - [~] 20/25 | OK: 20 | Restant: ~6s
+2025-11-04 11:08:35,276 - TradingBot - INFO - [>>] Backtest INTC - 1 jour
+2025-11-04 11:08:35,407 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:35,488 - TradingBot - INFO -    [OK] 0.21s | Score: 50 | Profit: -34.57% | Trades: 15
+2025-11-04 11:08:35,488 - TradingBot - INFO - [~] 21/25 | OK: 21 | Restant: ~5s
+2025-11-04 11:08:36,495 - TradingBot - INFO - [>>] Backtest CSCO - 1 jour
+2025-11-04 11:08:36,658 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:36,738 - TradingBot - INFO -    [OK] 0.24s | Score: 80 | Profit: +43.78% | Trades: 12
+2025-11-04 11:08:36,739 - TradingBot - INFO - [~] 22/25 | OK: 22 | Restant: ~3s
+2025-11-04 11:08:37,744 - TradingBot - INFO - [>>] Backtest PEP - 1 jour
+2025-11-04 11:08:37,906 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:37,987 - TradingBot - INFO -    [OK] 0.24s | Score: 70 | Profit: -0.86% | Trades: 15
+2025-11-04 11:08:37,987 - TradingBot - INFO - [~] 23/25 | OK: 23 | Restant: ~2s
+2025-11-04 11:08:38,989 - TradingBot - INFO - [>>] Backtest COST - 1 jour
+2025-11-04 11:08:39,118 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:39,199 - TradingBot - INFO -    [OK] 0.21s | Score: 80 | Profit: +26.19% | Trades: 12
+2025-11-04 11:08:39,199 - TradingBot - INFO - [~] 24/25 | OK: 24 | Restant: ~1s
+2025-11-04 11:08:40,204 - TradingBot - INFO - [>>] Backtest AVGO - 1 jour
+2025-11-04 11:08:40,349 - TradingBot - INFO -    [✓] 730 bougies téléchargées
+2025-11-04 11:08:40,430 - TradingBot - INFO -    [OK] 0.23s | Score: 80 | Profit: +122.18% | Trades: 21
+2025-11-04 11:08:40,431 - TradingBot - INFO - [~] 25/25 | OK: 25 | Restant: ~0s
+2025-11-04 11:08:41,433 - TradingBot - INFO - 
+================================================================================
+2025-11-04 11:08:41,434 - TradingBot - INFO - [DONE] 30s (0.5min)
+2025-11-04 11:08:41,434 - TradingBot - INFO - [*] Analysées: 25/25
