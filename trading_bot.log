@@ -513,3 +513,15 @@ discord.ext.commands.errors.CommandNotFound: Command "comppare" is not found
 ================================================================================
 2025-11-04 11:08:41,434 - TradingBot - INFO - [DONE] 30s (0.5min)
 2025-11-04 11:08:41,434 - TradingBot - INFO - [*] Analysées: 25/25
+2025-11-04 20:51:17,675 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-04 20:51:17,676 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-04 20:51:17,679 - discord.client - INFO - logging in using static token
+2025-11-04 20:51:18,279 - TradingBot - INFO - Bot initialisé
+2025-11-04 20:51:18,673 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: b918869859e07e43bb1142fa0f92d1e3).
+2025-11-04 20:51:20,679 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-04 20:51:30,832 - discord.ext.commands.bot - ERROR - Ignoring exception in command None
+discord.ext.commands.errors.CommandNotFound: Command "newws" is not found
+2025-11-04 20:51:36,704 - TradingBot - WARNING - ⚠️ NVDA - Status code: 404
+2025-11-04 20:55:30,215 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000022B57B97ED0>
+2025-11-04 21:01:25,789 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported

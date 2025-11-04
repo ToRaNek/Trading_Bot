@@ -1,8 +1,8 @@
 """
 Bot Discord de Trading - VERSION CORRIGÉE
-- Récupération news via API yfinance corrigée
+- Scraping des news via BeautifulSoup (Yahoo Finance)
 - Backtest multi-intervalles (1m, 5m, 1h, 1d)
-- Fix erreur Timestamp vs int
+- Analyse sentiment avec HuggingFace
 """
 
 import discord
@@ -13,7 +13,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import asyncio
 import aiohttp
-import json
+from bs4 import BeautifulSoup
 from textblob import TextBlob
 import logging
 from typing import Dict, List, Tuple, Optional
@@ -21,6 +21,7 @@ import os
 from dotenv import load_dotenv
 import warnings
 import time
+import re
 warnings.filterwarnings('ignore')
 
 import sys
@@ -46,7 +47,6 @@ WATCHLIST = [
     'CRM', 'AMD', 'ORCL', 'INTC', 'CSCO', 'PEP', 'COST', 'AVGO'
 ]
 
-# Configuration des intervalles pour backtest
 BACKTEST_CONFIGS = {
     '1m': {'period': '7d', 'interval': '1m', 'name': '1 minute'},
     '5m': {'period': '60d', 'interval': '5m', 'name': '5 minutes'},
@@ -59,23 +59,18 @@ class EventDetector:
     
     def detect_events_in_history(self, df: pd.DataFrame) -> pd.DataFrame:
         """Détecte les événements importants dans l'historique des prix"""
-        # S'assurer que l'index est bien en datetime
         if not isinstance(df.index, pd.DatetimeIndex):
             df.index = pd.to_datetime(df.index)
         
-        # Calculs de base
         df['price_change'] = df['Close'].pct_change()
         df['volume_sma'] = df['Volume'].rolling(window=min(20, len(df)//2)).mean()
         df['volume_ratio'] = df['Volume'] / df['volume_sma'].replace(0, 1)
         
-        # Gap (différence ouverture vs clôture précédente)
         prev_close = df['Close'].shift(1)
         df['gap'] = abs(df['Open'] - prev_close) / prev_close.replace(0, 1)
         
-        # Volatilité sur 5 périodes
         df['volatility_5d'] = df['Close'].pct_change().rolling(window=min(5, len(df)//4)).std()
         
-        # Détection d'événements (avec gestion des NaN)
         df['has_event'] = (
             (df['volume_ratio'].fillna(0) > 2.0) |
             (abs(df['price_change'].fillna(0)) > 0.03) |
@@ -83,7 +78,6 @@ class EventDetector:
             (df['volatility_5d'].fillna(0) > 0.025)
         )
         
-        # Score d'événement
         df['event_score'] = 0.0
         df.loc[df['volume_ratio'].fillna(0) > 2.0, 'event_score'] += 30
         df.loc[abs(df['price_change'].fillna(0)) > 0.03, 'event_score'] += 25
@@ -106,11 +100,10 @@ class NewsAnalyzer:
             self.session = aiohttp.ClientSession()
         return self.session
     
-    async def get_recent_news(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
-        """Récupération des actualités via API yfinance"""
+    async def scrape_yahoo_news(self, symbol: str, hours: int = 48) -> Tuple[bool, List[Dict], float]:
+        """Scrape les actualités de Yahoo Finance"""
         cache_key = f"{symbol}_{hours}"
         
-        # Vérification cache
         if cache_key in self.cache:
             cached_time, cached_data = self.cache[cache_key]
             if (datetime.now() - cached_time).total_seconds() < self.cache_duration:
@@ -118,68 +111,98 @@ class NewsAnalyzer:
                 return cached_data
         
         try:
-            # Utilisation de l'API yfinance
-            stock = yf.Ticker(symbol)
-            news = []
+            url = f"https://finance.yahoo.com/quote/{symbol}"
             
-            try:
-                # Récupération des news via l'attribut news
-                if hasattr(stock, 'news'):
-                    news = stock.news
-                    logger.info(f"✅ {symbol} - {len(news)} news récupérées via API")
-            except Exception as e:
-                logger.warning(f"⚠️ {symbol} - Erreur API news: {e}")
-            
-            # Si pas de news, essayer via l'objet info
-            if not news:
-                try:
-                    # Alternative: utiliser get_news() si disponible
-                    news = stock.get_news() if hasattr(stock, 'get_news') else []
-                except:
-                    pass
-            
-            # Si toujours pas de news, créer un message informatif
-            if not news:
-                logger.warning(f"⚠️ {symbol} - Aucune actualité disponible via l'API")
-                return False, [], 0.0
-            
-            # Analyse des actualités
-            cutoff_time = datetime.now() - timedelta(hours=hours)
-            recent_news = []
-            
-            importance_keywords = {
-                'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
-                'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
-                'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
-                'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
-                'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
-                'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
+            session = await self.get_session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
             
-            total_importance = 0.0
+            async with session.get(url, headers=headers, timeout=15, ssl=False) as response:
+                if response.status != 200:
+                    logger.warning(f"⚠️ {symbol} - Status code: {response.status}")
+                    return False, [], 0.0
+                
+                html = await response.text()
+        
+        except Exception as e:
+            logger.error(f"❌ Erreur scraping {symbol}: {e}")
+            return False, [], 0.0
+        
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
             
-            for article in news[:20]:
-                # Gestion du timestamp
-                pub_timestamp = article.get('providerPublishTime', 0)
-                
-                if pub_timestamp:
-                    try:
-                        pub_date = datetime.fromtimestamp(pub_timestamp)
-                    except:
-                        pub_date = datetime.now()
-                else:
-                    pub_date = datetime.now()
-                
-                # Filtrer par date
-                if pub_date > cutoff_time:
-                    title = article.get('title', '')
-                    
-                    if not title:
+            news_items = []
+            cutoff_time = datetime.now() - timedelta(hours=hours)
+            
+            # Chercher les articles dans les sections stream-item
+            for item in soup.find_all('li', class_='stream-item'):
+                try:
+                    # Chercher le titre
+                    h3 = item.find('h3')
+                    if not h3:
                         continue
                     
-                    title_lower = title.lower()
+                    title_elem = h3.find('a')
+                    if not title_elem:
+                        continue
+                    
+                    title = title_elem.get_text(strip=True)
+                    if not title or len(title) < 5:
+                        continue
+                    
+                    # Chercher le lien
+                    link = title_elem.get('href', '')
+                    if link and not link.startswith('http'):
+                        if link.startswith('/'):
+                            link = 'https://finance.yahoo.com' + link
+                    
+                    # Chercher la source/publisher
+                    publisher = 'Yahoo Finance'
+                    footer = item.find(class_='publishing')
+                    if footer:
+                        text = footer.get_text(strip=True)
+                        source_match = re.search(r'([^•]+)', text)
+                        if source_match:
+                            publisher = source_match.group(1).strip()
+                    
+                    # Parser la date
+                    pub_date = datetime.now()
+                    if footer:
+                        footer_text = footer.get_text(strip=True)
+                        
+                        # Regex pour extraire les temps
+                        if 'm ago' in footer_text:
+                            match = re.search(r'(\d+)m ago', footer_text)
+                            if match:
+                                mins = int(match.group(1))
+                                pub_date = datetime.now() - timedelta(minutes=mins)
+                        elif 'h ago' in footer_text:
+                            match = re.search(r'(\d+)h ago', footer_text)
+                            if match:
+                                hours_ago = int(match.group(1))
+                                pub_date = datetime.now() - timedelta(hours=hours_ago)
+                        elif 'd ago' in footer_text:
+                            match = re.search(r'(\d+)d ago', footer_text)
+                            if match:
+                                days_ago = int(match.group(1))
+                                pub_date = datetime.now() - timedelta(days=days_ago)
+                    
+                    # Filtrer par date
+                    if pub_date < cutoff_time:
+                        continue
                     
                     # Calcul de l'importance
+                    importance_keywords = {
+                        'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'launch': 2.0,
+                        'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0, 'FDA': 2.5,
+                        'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5, 'guidance': 2.0,
+                        'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5, 'lawsuit': 1.5,
+                        'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0, 'dividend': 1.5,
+                        'split': 2.0, 'buyback': 1.5, 'expansion': 1.5, 'contract': 1.5, 'deal': 1.5
+                    }
+                    
+                    title_lower = title.lower()
                     importance = 1.0
                     matched_keywords = []
                     
@@ -188,27 +211,31 @@ class NewsAnalyzer:
                             importance += weight
                             matched_keywords.append(keyword)
                     
-                    recent_news.append({
+                    news_items.append({
                         'title': title,
-                        'publisher': article.get('publisher', 'Unknown'),
-                        'link': article.get('link', ''),
+                        'publisher': publisher,
+                        'link': link,
                         'date': pub_date,
                         'importance': importance,
                         'keywords': matched_keywords
                     })
-                    total_importance += importance
+                
+                except Exception as e:
+                    logger.debug(f"Erreur parsing article: {e}")
+                    continue
             
-            has_news = len(recent_news) > 0
+            has_news = len(news_items) > 0
+            total_importance = sum(n['importance'] for n in news_items)
             news_score = min(100, total_importance * 10) if has_news else 0.0
             
-            result = (has_news, recent_news, news_score)
+            result = (has_news, news_items, news_score)
             self.cache[cache_key] = (datetime.now(), result)
             
-            logger.info(f"✅ {symbol} - {len(recent_news)} actualités récentes | Score: {news_score:.0f}")
+            logger.info(f"✅ {symbol} - {len(news_items)} actualités récentes | Score: {news_score:.0f}")
             return result
             
         except Exception as e:
-            logger.error(f"❌ Erreur analyse news {symbol}: {e}")
+            logger.error(f"❌ Erreur parsing HTML {symbol}: {e}")
             return False, [], 0.0
     
     async def close(self):
@@ -220,10 +247,8 @@ class TechnicalAnalyzer:
     
     def calculate_indicators_batch(self, df: pd.DataFrame) -> pd.DataFrame:
         """Calcul des indicateurs techniques adaptés à l'intervalle"""
-        # Adapter les fenêtres selon la taille des données
         data_size = len(df)
         
-        # Fenêtres adaptatives
         if data_size > 200:
             sma_short, sma_mid, sma_long = 20, 50, 200
             rsi_window = 14
@@ -237,33 +262,28 @@ class TechnicalAnalyzer:
             rsi_window = 7
             bb_window = 10
         
-        # SMA
         df['sma_20'] = df['Close'].rolling(window=min(sma_short, data_size//2)).mean()
         if data_size > sma_mid:
             df['sma_50'] = df['Close'].rolling(window=sma_mid).mean()
         if data_size > sma_long:
             df['sma_200'] = df['Close'].rolling(window=sma_long).mean()
         
-        # MACD
         df['ema_12'] = df['Close'].ewm(span=12, adjust=False).mean()
         df['ema_26'] = df['Close'].ewm(span=26, adjust=False).mean()
         df['macd'] = df['ema_12'] - df['ema_26']
         df['macd_signal'] = df['macd'].ewm(span=9, adjust=False).mean()
         
-        # RSI
         delta = df['Close'].diff()
         gain = (delta.where(delta > 0, 0)).rolling(window=rsi_window).mean()
         loss = (-delta.where(delta < 0, 0)).rolling(window=rsi_window).mean()
         rs = gain / loss
         df['rsi'] = 100 - (100 / (1 + rs))
         
-        # Bollinger Bands
         bb_sma = df['Close'].rolling(window=bb_window).mean()
         bb_std = df['Close'].rolling(window=bb_window).std()
         df['bb_upper'] = bb_sma + (bb_std * 2)
         df['bb_lower'] = bb_sma - (bb_std * 2)
         
-        # Volume
         df['volume_sma'] = df['Volume'].rolling(window=min(20, data_size//2)).mean()
         df['volume_ratio'] = df['Volume'] / df['volume_sma']
         
@@ -391,7 +411,6 @@ class SmartBacktestEngine:
             tech_analyzer = TechnicalAnalyzer()
             sent_analyzer = SentimentAnalyzer()
             
-            # Téléchargement des données
             stock = yf.Ticker(symbol)
             df = stock.history(period=config['period'], interval=config['interval'])
             
@@ -401,23 +420,19 @@ class SmartBacktestEngine:
             
             logger.info(f"   [✓] {len(df)} bougies téléchargées")
             
-            # Analyse
             df = event_detector.detect_events_in_history(df)
             events_count = df['has_event'].sum()
             
             df = tech_analyzer.calculate_indicators_batch(df)
             
-            # Sentiment (uniquement pour contexte)
             sentiment_score, _ = await sent_analyzer.get_sentiment_score(symbol)
             
-            # Simulation trading
             trades = []
             position = 0
             entry_price = 0
             entry_date = None
             signals = {'BUY': 0, 'SELL': 0, 'HOLD': 0}
             
-            # FIX: Utiliser des indices numériques au lieu de Timestamp
             min_index = 50
             
             for i in range(min_index, len(df)):
@@ -426,13 +441,11 @@ class SmartBacktestEngine:
                 
                 tech_score, tech_reasons = tech_analyzer.get_technical_score(row)
                 
-                # Score combiné
                 if row['has_event']:
                     combined_score = tech_score * 0.6 + sentiment_score * 0.2 + row['event_score'] * 0.2
                 else:
                     combined_score = tech_score * 0.8 + sentiment_score * 0.2
                 
-                # Seuils de décision
                 if combined_score > 60:
                     action = "BUY"
                     signals['BUY'] += 1
@@ -443,7 +456,6 @@ class SmartBacktestEngine:
                     action = "HOLD"
                     signals['HOLD'] += 1
                 
-                # Exécution trades
                 if action == "BUY" and position == 0:
                     position = 1
                     entry_price = current_price
@@ -469,7 +481,6 @@ class SmartBacktestEngine:
                         'hold_time': hold_display
                     })
             
-            # Fermeture position ouverte
             if position == 1:
                 final_price = df['Close'].iloc[-1]
                 profit = (final_price - entry_price) / entry_price * 100
@@ -482,7 +493,6 @@ class SmartBacktestEngine:
                     'hold_time': 'En cours'
                 })
             
-            # Calcul métriques
             if trades:
                 profitable = [t for t in trades if t['profit'] > 0]
                 total_profit = sum(t['profit'] for t in trades)
@@ -493,11 +503,9 @@ class SmartBacktestEngine:
             else:
                 total_profit = win_rate = avg_profit = max_profit = max_loss = 0
             
-            # Buy & Hold
             first_valid_idx = min_index
             buy_hold = (df['Close'].iloc[-1] - df['Close'].iloc[first_valid_idx]) / df['Close'].iloc[first_valid_idx] * 100
             
-            # Score stratégie
             strategy_score = 50
             if total_profit > buy_hold:
                 strategy_score += 20
@@ -560,7 +568,6 @@ class SmartBacktestEngine:
                 'error': 'Aucune donnée disponible'
             }
         
-        # Trouver le meilleur intervalle
         best_interval = None
         best_score = 0
         
@@ -653,7 +660,7 @@ class TradingBot(commands.Bot):
         
         for symbol in WATCHLIST[:5]:
             try:
-                has_news, news_data, news_score = await self.news_analyzer.get_recent_news(symbol, hours=24)
+                has_news, news_data, news_score = await self.news_analyzer.scrape_yahoo_news(symbol, hours=24)
                 
                 if not has_news:
                     continue
@@ -762,7 +769,6 @@ async def backtest(ctx, interval: str = "1d"):
             await message.edit(embed=embed)
             return
         
-        # Résumé général
         embed = discord.Embed(
             title=f"📊 Backtest Terminé - {config['name']}",
             description=f"{len(results)} actions analysées en {elapsed:.1f}s",
@@ -777,7 +783,6 @@ async def backtest(ctx, interval: str = "1d"):
         embed.add_field(name="📊 Bougies", value=f"{total_candles:,}", inline=True)
         embed.add_field(name="💼 Trades", value=f"{total_trades}", inline=True)
         
-        # Top 5
         for i, r in enumerate(results[:5], 1):
             perf = f"**{r['symbol']}** - {r['interval']}\n"
             perf += f"Profit: {r['total_profit']:+.2f}% | Win: {r['win_rate']:.0f}%\n"
@@ -836,7 +841,6 @@ async def compare_intervals(ctx, symbol: str):
             color=0x00ff00
         )
         
-        # Tableau comparatif
         for interval_code in ['1m', '5m', '1h', '1d']:
             if interval_code in results:
                 r = results[interval_code]
@@ -863,7 +867,6 @@ async def compare_intervals(ctx, symbol: str):
                     inline=True
                 )
         
-        # Recommandation
         best = results[comparison['best_interval']]
         recommendation = "\n**Recommandation:**\n"
         if best['total_profit'] > 10 and best['win_rate'] > 60:
@@ -901,10 +904,8 @@ async def analyze(ctx, symbol: str):
     message = await ctx.send(embed=embed)
     
     try:
-        # Récupération des actualités
-        has_news, news_data, news_score = await bot.news_analyzer.get_recent_news(symbol, hours=48)
+        has_news, news_data, news_score = await bot.news_analyzer.scrape_yahoo_news(symbol, hours=48)
         
-        # Données techniques
         stock = yf.Ticker(symbol)
         df = stock.history(period="3mo")
         
@@ -916,13 +917,10 @@ async def analyze(ctx, symbol: str):
         row = df.iloc[-1]
         tech_score, tech_reasons = bot.tech_analyzer.get_technical_score(row)
         
-        # Analyse sentiment
         sentiment_score, sentiment_reasons = await bot.sentiment_analyzer.get_sentiment_score(symbol, news_data if has_news else None)
         
-        # Score combiné
         combined_score = tech_score * 0.6 + sentiment_score * 0.4
         
-        # Déterminer l'action
         if combined_score > 60:
             action = "BUY 🟢"
             color = 0x00ff00
@@ -933,7 +931,6 @@ async def analyze(ctx, symbol: str):
             action = "HOLD 🟡"
             color = 0xffff00
         
-        # Création de l'embed
         embed = discord.Embed(
             title=f"📊 Analyse Complète - {symbol}",
             description=f"**Action recommandée: {action}**",
@@ -941,12 +938,10 @@ async def analyze(ctx, symbol: str):
             timestamp=datetime.now()
         )
         
-        # Prix et indicateurs
         embed.add_field(name="💰 Prix Actuel", value=f"${row['Close']:.2f}", inline=True)
         embed.add_field(name="📊 Score Global", value=f"{combined_score:.0f}/100", inline=True)
         embed.add_field(name="📈 Score Tech", value=f"{tech_score:.0f}/100", inline=True)
         
-        # RSI et MACD
         if pd.notna(row.get('rsi')):
             embed.add_field(name="📉 RSI", value=f"{row['rsi']:.1f}", inline=True)
         if pd.notna(row.get('macd')):
@@ -954,7 +949,6 @@ async def analyze(ctx, symbol: str):
         if pd.notna(row.get('volume_ratio')):
             embed.add_field(name="📦 Volume", value=f"{row['volume_ratio']:.2f}x", inline=True)
         
-        # Actualités
         if has_news and news_data:
             news_text = f"**{len(news_data)} actualités récentes** (Score: {news_score:.0f}/100)\n\n"
             for i, n in enumerate(news_data[:4], 1):
@@ -965,12 +959,10 @@ async def analyze(ctx, symbol: str):
         else:
             embed.add_field(name="📰 Actualités", value="Aucune actualité récente trouvée", inline=False)
         
-        # Analyse technique
         tech_analysis = "**Indicateurs Techniques:**\n"
         tech_analysis += "\n".join(f"• {r}" for r in tech_reasons[:4])
         embed.add_field(name="🔍 Analyse Technique", value=tech_analysis, inline=False)
         
-        # Sentiment
         sentiment_analysis = "**Sentiment du Marché:**\n"
         sentiment_analysis += "\n".join(f"• {r}" for r in sentiment_reasons[:3])
         embed.add_field(name="💭 Sentiment", value=sentiment_analysis, inline=False)
@@ -990,7 +982,7 @@ async def news(ctx, symbol: str):
     message = await ctx.send(embed=embed)
     
     try:
-        has_news, news_data, news_score = await bot.news_analyzer.get_recent_news(symbol, hours=48)
+        has_news, news_data, news_score = await bot.news_analyzer.scrape_yahoo_news(symbol, hours=48)
         
         if has_news and news_data:
             embed = discord.Embed(
@@ -1001,10 +993,8 @@ async def news(ctx, symbol: str):
             )
             
             for i, article in enumerate(news_data[:8], 1):
-                # Formatage de la date
                 date_str = article['date'].strftime("%d/%m %H:%M")
                 
-                # Construction du champ
                 value = f"📅 {date_str} | 📰 {article['publisher']}\n"
                 value += f"**{article['title']}**\n"
                 
@@ -1022,7 +1012,6 @@ async def news(ctx, symbol: str):
                     inline=False
                 )
                 
-                # Séparateur tous les 4 articles
                 if i % 4 == 0 and i < len(news_data):
                     embed.add_field(name="\u200b", value="─" * 40, inline=False)
         else:
@@ -1055,47 +1044,6 @@ async def stop(ctx):
     )
     await ctx.send(embed=embed)
 
-@bot.command(name='top')
-async def top_performers(ctx, interval: str = "1d", count: int = 10):
-    """
-    Affiche le top des performers d'un backtest
-    Exemple: !top 5m 5
-    """
-    if interval not in bot.backtest_results:
-        await ctx.send(f"❌ Aucun backtest {interval} disponible. Utilisez `!backtest {interval}` d'abord.")
-        return
-    
-    results = list(bot.backtest_results[interval].values())
-    results.sort(key=lambda x: x['total_profit'], reverse=True)
-    
-    top = results[:count]
-    
-    embed = discord.Embed(
-        title=f"🏆 Top {count} Performers - {BACKTEST_CONFIGS[interval]['name']}",
-        color=0xffd700
-    )
-    
-    for i, r in enumerate(top, 1):
-        medal = ["🥇", "🥈", "🥉"][i-1] if i <= 3 else f"#{i}"
-        
-        value = f"**Profit Total:** {r['total_profit']:+.2f}%\n"
-        value += f"**Win Rate:** {r['win_rate']:.1f}%\n"
-        value += f"**Trades:** {r['total_trades']} | Gagnants: {r['profitable_trades']}\n"
-        value += f"**Meilleur Trade:** {r['max_profit']:+.2f}%\n"
-        value += f"**vs Buy&Hold:** {r['strategy_vs_hold']:+.2f}%\n"
-        value += f"**Score:** {r['strategy_score']:.0f}/100"
-        
-        embed.add_field(
-            name=f"{medal} {r['symbol']}",
-            value=value,
-            inline=True
-        )
-        
-        if i % 3 == 0:
-            embed.add_field(name="\u200b", value="\u200b", inline=False)
-    
-    await ctx.send(embed=embed)
-
 @bot.command(name='aide')
 async def aide(ctx):
     """Affiche l'aide"""
@@ -1105,41 +1053,17 @@ async def aide(ctx):
         color=0x00ffff
     )
     
-    commands_list = [
-        ("🔍 **Surveillance**", ""),
-        ("!start", "Active la surveillance temps réel"),
-        ("!stop", "Désactive la surveillance"),
-        ("", ""),
-        ("📊 **Analyse**", ""),
-        ("!analyze [SYMBOL]", "Analyse complète d'une action\nEx: `!analyze AAPL`"),
-        ("!news [SYMBOL]", "Affiche les actualités récentes\nEx: `!news NVDA`"),
-        ("", ""),
-        ("⏱️ **Backtest**", ""),
-        ("!backtest [interval]", "Backtest sur la watchlist\nIntervalles: 1m, 5m, 1h, 1d\nEx: `!backtest 5m`"),
-        ("!compare [SYMBOL]", "Compare tous les intervalles\nEx: `!compare TSLA`"),
-        ("!top [interval] [count]", "Top performers d'un backtest\nEx: `!top 1h 5`"),
-        ("", ""),
-        ("ℹ️ **Informations**", ""),
-        ("!aide", "Affiche cette aide")
-    ]
+    embed.add_field(name="🔍 **Surveillance**", value="\u200b", inline=False)
+    embed.add_field(name="!start", value="Active la surveillance temps réel", inline=False)
+    embed.add_field(name="!stop", value="Désactive la surveillance", inline=False)
     
-    for cmd, desc in commands_list:
-        if cmd and desc:
-            embed.add_field(name=cmd, value=desc, inline=False)
-        elif cmd:
-            embed.add_field(name=cmd, value="\u200b", inline=False)
+    embed.add_field(name="📊 **Analyse**", value="\u200b", inline=False)
+    embed.add_field(name="!analyze [SYMBOL]", value="Analyse complète d'une action\nEx: `!analyze AAPL`", inline=False)
+    embed.add_field(name="!news [SYMBOL]", value="Affiche les actualités récentes\nEx: `!news NVDA`", inline=False)
     
-    embed.add_field(
-        name="📋 Watchlist",
-        value=f"{len(WATCHLIST)} actions: {', '.join(WATCHLIST[:10])}...",
-        inline=False
-    )
-    
-    embed.add_field(
-        name="⏱️ Intervalles Disponibles",
-        value="• **1m**: 7 jours (scalping)\n• **5m**: 60 jours (intraday)\n• **1h**: 2 ans (swing)\n• **1d**: 2 ans (position)",
-        inline=False
-    )
+    embed.add_field(name="⏱️ **Backtest**", value="\u200b", inline=False)
+    embed.add_field(name="!backtest [interval]", value="Backtest sur la watchlist\nIntervalles: 1m, 5m, 1h, 1d\nEx: `!backtest 5m`", inline=False)
+    embed.add_field(name="!compare [SYMBOL]", value="Compare tous les intervalles\nEx: `!compare TSLA`", inline=False)
     
     embed.set_footer(text="💡 Astuce: Commencez par !backtest 1d puis !compare SYMBOL")
     
@@ -1189,7 +1113,4 @@ if __name__ == "__main__":
         print("\n⚠️ Configuration requise:")
         print("1. Créez un fichier .env")
         print("2. Ajoutez: DISCORD_BOT_TOKEN=votre_token")
-        print("3. (Optionnel) HUGGINGFACE_TOKEN=votre_token")
-    else:
-        logger.info("🚀 Démarrage du bot...")
-        bot.run(token)
+        print("3. (Optionnel)")
