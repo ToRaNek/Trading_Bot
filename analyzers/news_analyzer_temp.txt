@@ -1,0 +1,409 @@
+class HistoricalNewsAnalyzer:
+    """Récupère les actualités historiques pour chaque date de backtest"""
+    
+    def __init__(self):
+        self.session = None
+        self.newsapi_key = os.getenv('NEWSAPI_KEY', '')
+        self.finnhub_key = os.getenv('FINNHUB_KEY', '')
+        self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
+        self.news_cache = {}  # Cache pour éviter appels API répétés
+        
+    async def get_session(self):
+        if not self.session:
+            self.session = aiohttp.ClientSession()
+        return self.session
+    
+    async def get_news_for_date(self, symbol: str, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Récupère les actualités pour une date précise (simulation temps réel)"""
+        try:
+            # Normaliser la date en timezone-naive
+            if hasattr(target_date, 'tz') and target_date.tz is not None:
+                target_date = target_date.replace(tzinfo=None)
+            
+            # Vérifier le cache (clé = symbol + date)
+            cache_key = f"{symbol}_{target_date.strftime('%Y-%m-%d')}"
+            if cache_key in self.news_cache:
+                return self.news_cache[cache_key]
+            
+            session = await self.get_session()
+            
+            # Fenêtre de 48h avant la date cible
+            from_date = target_date - timedelta(hours=48)
+            to_date = target_date
+            
+            company_names = {
+                'AAPL': 'Apple', 'MSFT': 'Microsoft', 'GOOGL': 'Google Alphabet',
+                'AMZN': 'Amazon', 'NVDA': 'Nvidia', 'META': 'Meta Facebook',
+                'TSLA': 'Tesla', 'JPM': 'JPMorgan', 'V': 'Visa', 
+                'NFLX': 'Netflix', 'AMD': 'AMD', 'INTC': 'Intel',
+                'BRK-B': 'Berkshire Hathaway', 'JNJ': 'Johnson Johnson',
+                'WMT': 'Walmart', 'PG': 'Procter Gamble', 'MA': 'Mastercard',
+                'DIS': 'Disney', 'ADBE': 'Adobe', 'CRM': 'Salesforce',
+                'ORCL': 'Oracle', 'CSCO': 'Cisco', 'PEP': 'Pepsi', 'COST': 'Costco',
+                'AVGO': 'Broadcom'
+            }
+            
+            search_term = company_names.get(symbol, symbol)
+            
+            # Essayer Finnhub d'abord
+            if self.finnhub_key:
+                url = "https://finnhub.io/api/v1/company-news"
+                params = {
+                    'symbol': symbol,
+                    'from': from_date.strftime('%Y-%m-%d'),
+                    'to': to_date.strftime('%Y-%m-%d'),
+                    'token': self.finnhub_key
+                }
+                
+                async with session.get(url, params=params, timeout=10) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        if isinstance(data, list) and len(data) > 0:
+                            result = await self._parse_finnhub_news(data, target_date)
+                            self.news_cache[cache_key] = result  # Sauvegarder dans le cache
+                            return result
+            
+            # Fallback sur NewsAPI
+            if self.newsapi_key:
+                url = "https://newsapi.org/v2/everything"
+                params = {
+                    'q': f"{search_term} stock OR {symbol}",
+                    'from': from_date.strftime('%Y-%m-%dT%H:%M:%S'),
+                    'to': to_date.strftime('%Y-%m-%dT%H:%M:%S'),
+                    'sortBy': 'publishedAt',
+                    'language': 'en',
+                    'apiKey': self.newsapi_key,
+                    'pageSize': 20
+                }
+                
+                async with session.get(url, params=params, timeout=10) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        if 'articles' in data and data['articles']:
+                            result = await self._parse_newsapi_news(data['articles'], target_date)
+                            self.news_cache[cache_key] = result  # Sauvegarder dans le cache
+                            return result
+            
+            result = (False, [], 0.0)
+            self.news_cache[cache_key] = result  # Même mettre en cache les résultats vides
+            return result
+            
+        except Exception as e:
+            logger.debug(f"Erreur news historiques {symbol} @ {target_date}: {e}")
+            return False, [], 0.0
+    
+    async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Parse les actualités Finnhub"""
+        news_items = []
+        
+        # Normaliser target_date en timezone-naive
+        if hasattr(target_date, 'tz') and target_date.tz is not None:
+            target_date = target_date.replace(tzinfo=None)
+        
+        cutoff_time = target_date - timedelta(hours=48)
+        
+        importance_keywords = {
+            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
+            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
+            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
+            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
+            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
+            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
+            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        }
+        
+        for article in data:
+            try:
+                title = article.get('headline', '')
+                if not title or len(title) < 10:
+                    continue
+                
+                timestamp = article.get('datetime', 0)
+                pub_date = datetime.fromtimestamp(timestamp)
+                # Normaliser en timezone-naive
+                if hasattr(pub_date, 'tz') and pub_date.tz is not None:
+                    pub_date = pub_date.replace(tzinfo=None)
+                
+                if pub_date < cutoff_time or pub_date > target_date:
+                    continue
+                
+                title_lower = title.lower()
+                importance = 1.0
+                matched_keywords = []
+                
+                for keyword, weight in importance_keywords.items():
+                    if keyword in title_lower:
+                        importance += weight
+                        matched_keywords.append(keyword)
+                
+                news_items.append({
+                    'title': title,
+                    'publisher': article.get('source', 'Finnhub'),
+                    'date': pub_date,
+                    'importance': importance,
+                    'keywords': matched_keywords,
+                    'summary': article.get('summary', '')[:200]
+                })
+                
+            except Exception as e:
+                continue
+        
+        has_news = len(news_items) > 0
+        total_importance = sum(n['importance'] for n in news_items)
+        news_score = min(100, total_importance * 10) if has_news else 0.0
+        
+        return has_news, news_items, news_score
+    
+    async def _parse_newsapi_news(self, articles: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+        """Parse les actualités NewsAPI"""
+        news_items = []
+        
+        # Normaliser target_date en timezone-naive
+        if hasattr(target_date, 'tz') and target_date.tz is not None:
+            target_date = target_date.replace(tzinfo=None)
+        
+        cutoff_time = target_date - timedelta(hours=48)
+        
+        importance_keywords = {
+            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
+            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
+            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
+            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
+            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
+            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
+            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        }
+        
+        for article in articles:
+            try:
+                title = article.get('title', '')
+                if not title or len(title) < 10:
+                    continue
+                
+                pub_date_str = article.get('publishedAt', '')
+                try:
+                    pub_date = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
+                    # Convertir en timezone-naive
+                    if hasattr(pub_date, 'tzinfo') and pub_date.tzinfo is not None:
+                        pub_date = pub_date.replace(tzinfo=None)
+                except:
+                    continue
+                
+                if pub_date < cutoff_time or pub_date > target_date:
+                    continue
+                
+                title_lower = title.lower()
+                importance = 1.0
+                matched_keywords = []
+                
+                for keyword, weight in importance_keywords.items():
+                    if keyword in title_lower:
+                        importance += weight
+                        matched_keywords.append(keyword)
+                
+                news_items.append({
+                    'title': title,
+                    'publisher': article.get('source', {}).get('name', 'NewsAPI'),
+                    'date': pub_date,
+                    'importance': importance,
+                    'keywords': matched_keywords,
+                    'summary': article.get('description', '')[:200]
+                })
+                
+            except Exception as e:
+                continue
+        
+        has_news = len(news_items) > 0
+        total_importance = sum(n['importance'] for n in news_items)
+        news_score = min(100, total_importance * 10) if has_news else 0.0
+        
+        return has_news, news_items, news_score
+    
+    async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
+                             current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None) -> Tuple[int, str]:
+        """
+        Demande à l'IA HuggingFace de valider la décision du bot
+        Reçoit: decision technique + confidence + news complètes + Reddit complet (upvotes/downvotes)
+        Retourne: SCORE FINAL (0-100) et explication
+        """
+        try:
+            if not self.hf_token:
+                return tech_confidence, "Token HuggingFace manquant - utilisation tech seul"
+
+            # Construire le contexte NEWS détaillé
+            news_text = ""
+            if news_data:
+                news_text = "📰 RECENT NEWS:\n"
+                for i, n in enumerate(news_data[:10], 1):  # Max 10 news
+                    news_text += f"{i}. [{n.get('publisher', 'Unknown')}] {n['title']}\n"
+                    if n.get('summary'):
+                        news_text += f"   Summary: {n['summary']}\n"
+                    news_text += f"   Importance: {n['importance']:.1f} | Keywords: {', '.join(n.get('keywords', []))}\n\n"
+            else:
+                news_text = "📰 RECENT NEWS: No news available\n\n"
+
+            # Construire le contexte REDDIT détaillé
+            reddit_text = ""
+            if reddit_posts and len(reddit_posts) > 0:
+                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT:\n"
+                for i, post in enumerate(reddit_posts[:15], 1):  # Max 15 posts
+                    title = post.get('title', '')[:150]
+                    body = post.get('body', '')[:200]
+                    upvotes = post.get('upvotes', 0)
+                    downvotes = post.get('downvotes', 0)
+                    source = post.get('source', 'reddit')
+
+                    reddit_text += f"{i}. [{source}] {title}\n"
+                    if body:
+                        reddit_text += f"   Content: {body}\n"
+                    reddit_text += f"   👍 Upvotes: {upvotes} | 👎 Downvotes: {downvotes}\n\n"
+            else:
+                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT: No posts available\n\n"
+
+            prompt = f"""TRADING DECISION VALIDATION
+
+🎯 STOCK: {symbol}
+💰 Current Price: ${current_price:.2f}
+
+🤖 TECHNICAL DECISION: {bot_decision}
+📊 Technical Confidence: {tech_confidence:.0f}/100
+
+{news_text}
+{reddit_text}
+
+TASK: Validate the bot's {bot_decision} decision and provide a FINAL SCORE (0-100).
+
+The technical analysis suggests {bot_decision} with {tech_confidence:.0f}% confidence.
+Your job is to validate or adjust this score based on news and community sentiment.
+
+FINAL SCORE SCALE:
+- 0-30: Bad decision, news/reddit strongly contradict
+- 31-50: Weak decision, mixed signals
+- 51-70: Good decision, moderately supported
+- 71-100: Excellent decision, strongly supported
+
+Consider:
+- News sentiment (positive news → higher score for BUY, lower for SELL)
+- Reddit community sentiment (upvotes show agreement)
+- Technical confidence as baseline
+- Overall market conditions
+
+Respond EXACTLY in this format: "SCORE: [number]|REASON: [short explanation]"
+"""
+            
+            session = await self.get_session()
+            url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+            headers = {"Authorization": f"Bearer {self.hf_token}"}
+            payload = {
+                "inputs": prompt,
+                "parameters": {
+                    "max_new_tokens": 150,
+                    "temperature": 0.3,
+                    "return_full_text": False
+                }
+            }
+            
+            async with session.post(url, headers=headers, json=payload, timeout=15) as response:
+                if response.status == 200:
+                    result = await response.json()
+                    
+                    if isinstance(result, list) and len(result) > 0:
+                        text = result[0].get('generated_text', '')
+                        
+                        # Parser la réponse
+                        try:
+                            if 'SCORE:' in text and 'REASON:' in text:
+                                parts = text.split('|')
+                                score_part = parts[0].split('SCORE:')[1].strip()
+                                reason_part = parts[1].split('REASON:')[1].strip() if len(parts) > 1 else "AI analysis"
+                                
+                                score = int(''.join(filter(str.isdigit, score_part[:3])))
+                                score = max(0, min(100, score))
+                                
+                                return score, reason_part[:200]
+                        except:
+                            pass
+            
+            # Fallback: analyse simple basée sur le sentiment
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
+
+        except Exception as e:
+            logger.debug(f"Erreur AI validation: {e}")
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
+    
+    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50) -> Tuple[int, str]:
+        """Score de sentiment simple comme fallback, basé sur tech_confidence + ajustement news/reddit"""
+        try:
+            sentiments = []
+
+            # Sentiment des news
+            for article in news_data[:5] if news_data else []:
+                blob = TextBlob(article['title'])
+                sentiment = blob.sentiment.polarity
+                sentiments.append(sentiment * article['importance'])
+
+            # Sentiment des posts Reddit
+            reddit_sentiment = 0
+            if reddit_posts:
+                reddit_sentiments = []
+                for post in reddit_posts[:10]:
+                    text = post.get('title', '') + ' ' + post.get('body', '')
+                    if len(text) > 10:
+                        blob = TextBlob(text)
+                        sentiment = blob.sentiment.polarity
+                        # Pondérer par upvotes
+                        upvotes = post.get('upvotes', 0)
+                        weight = min(upvotes / 10, 3)
+                        reddit_sentiments.append(sentiment * weight)
+
+                if reddit_sentiments:
+                    reddit_sentiment = np.mean(reddit_sentiments)
+                    sentiments.append(reddit_sentiment * 2)  # Poids Reddit
+
+            avg_sentiment = np.mean(sentiments) if sentiments else 0
+
+            # Partir de la confiance technique et ajuster selon sentiment
+            score = tech_confidence
+
+            # Ajustement selon la décision et le sentiment
+            if bot_decision == "BUY":
+                if avg_sentiment > 0.3:
+                    # Sentiment très positif → boost
+                    score = min(100, score + 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment très positif → BOOST"
+                elif avg_sentiment > 0.1:
+                    # Sentiment positif → petit boost
+                    score = min(100, score + 8)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif → boost"
+                elif avg_sentiment < -0.2:
+                    # Sentiment négatif → pénalité
+                    score = max(0, score - 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → PÉNALITÉ"
+                else:
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
+
+            else:  # SELL
+                if avg_sentiment < -0.3:
+                    # Sentiment très négatif → boost pour SELL
+                    score = min(100, score + 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment très négatif → BOOST SELL"
+                elif avg_sentiment < -0.1:
+                    # Sentiment négatif → petit boost
+                    score = min(100, score + 8)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → boost SELL"
+                elif avg_sentiment > 0.2:
+                    # Sentiment positif contredit SELL → pénalité
+                    score = max(0, score - 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif contredit SELL → PÉNALITÉ"
+                else:
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
+
+            score = max(0, min(100, score))
+            return int(score), reason
+
+        except:
+            return int(tech_confidence), "Fallback: confiance technique seule"
+    
+    async def close(self):
+        if self.session:
+            await self.session.close()
