@@ -79,11 +79,30 @@ class PushshiftScraper:
 
                         for post_data in posts:
                             post = post_data.get('data', {})
+                            # Calculer upvotes/downvotes à partir de score et upvote_ratio
+                            score = post.get('score', 0)
+                            upvote_ratio = post.get('upvote_ratio', 0.5)
+
+                            if upvote_ratio > 0:
+                                # Formule Reddit: score = upvotes - downvotes, upvote_ratio = upvotes / (upvotes + downvotes)
+                                # upvotes = score / (2 * upvote_ratio - 1) si upvote_ratio != 0.5
+                                if upvote_ratio != 0.5:
+                                    upvotes = int(score / (2 * upvote_ratio - 1))
+                                    downvotes = upvotes - score
+                                else:
+                                    # Si ratio = 0.5, on estime 50/50
+                                    upvotes = max(0, score)
+                                    downvotes = 0
+                            else:
+                                upvotes = max(0, score)
+                                downvotes = 0
+
                             all_posts.append({
                                 'created': datetime.fromtimestamp(post.get('created_utc', 0)),
                                 'title': post.get('title', ''),
                                 'body': post.get('selftext', ''),
-                                'score': post.get('score', 0),
+                                'upvotes': upvotes,
+                                'downvotes': downvotes,
                                 'author': post.get('author', ''),
                                 'url': post.get('url', ''),
                                 'id': post.get('id', ''),
@@ -156,11 +175,24 @@ class PushshiftScraper:
 
                             # Ajouter tous les posts avec source
                             for post in posts:
+                                # Calculer upvotes/downvotes (Pushshift ne fournit pas toujours upvote_ratio)
+                                score = post.get('score', 0)
+                                upvote_ratio = post.get('upvote_ratio', None)
+
+                                if upvote_ratio is not None and upvote_ratio > 0 and upvote_ratio != 0.5:
+                                    upvotes = int(score / (2 * upvote_ratio - 1))
+                                    downvotes = upvotes - score
+                                else:
+                                    # Pushshift ne fournit pas upvote_ratio, on estime
+                                    upvotes = max(0, score)
+                                    downvotes = 0
+
                                 all_posts.append({
                                     'created': datetime.fromtimestamp(post.get('created_utc', 0)),
                                     'title': post.get('title', ''),
                                     'body': post.get('selftext', ''),
-                                    'score': post.get('score', 0),
+                                    'upvotes': upvotes,
+                                    'downvotes': downvotes,
                                     'author': post.get('author', ''),
                                     'url': post.get('url', ''),
                                     'id': post.get('id', ''),
@@ -255,11 +287,24 @@ class PushshiftScraper:
 
                             # Ajouter tous les posts avec source
                             for post in posts:
+                                # Calculer upvotes/downvotes (Pushshift ne fournit pas toujours upvote_ratio)
+                                score = post.get('score', 0)
+                                upvote_ratio = post.get('upvote_ratio', None)
+
+                                if upvote_ratio is not None and upvote_ratio > 0 and upvote_ratio != 0.5:
+                                    upvotes = int(score / (2 * upvote_ratio - 1))
+                                    downvotes = upvotes - score
+                                else:
+                                    # Pushshift ne fournit pas upvote_ratio, on estime
+                                    upvotes = max(0, score)
+                                    downvotes = 0
+
                                 all_posts.append({
                                     'created': datetime.fromtimestamp(post.get('created_utc', 0)),
                                     'title': post.get('title', ''),
                                     'body': post.get('selftext', ''),
-                                    'score': post.get('score', 0),
+                                    'upvotes': upvotes,
+                                    'downvotes': downvotes,
                                     'author': post.get('author', ''),
                                     'url': post.get('url', ''),
                                     'id': post.get('id', ''),
@@ -311,7 +356,7 @@ class PushshiftScraper:
         try:
             with open(filename, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.DictWriter(f, fieldnames=[
-                    'created', 'source', 'title', 'body', 'score', 'author', 'url', 'id'
+                    'created', 'source', 'title', 'body', 'upvotes', 'downvotes', 'author', 'url', 'id'
                 ])
                 writer.writeheader()
 
@@ -321,7 +366,8 @@ class PushshiftScraper:
                         'source': post.get('source', 'unknown'),
                         'title': post['title'],
                         'body': post['body'],
-                        'score': post['score'],
+                        'upvotes': post['upvotes'],
+                        'downvotes': post['downvotes'],
                         'author': post['author'],
                         'url': post['url'],
                         'id': post['id']

@@ -272,39 +272,76 @@ class HistoricalNewsAnalyzer:
         
         return has_news, news_items, news_score
     
-    async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict], 
-                             current_price: float, tech_score: float) -> Tuple[int, str]:
+    async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
+                             current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None) -> Tuple[int, str]:
         """
-        Demande à l'IA HuggingFace si la décision du bot est bonne
-        Retourne un score 0-100 et une explication
+        Demande à l'IA HuggingFace de valider la décision du bot
+        Reçoit: decision technique + confidence + news complètes + Reddit complet (upvotes/downvotes)
+        Retourne: SCORE FINAL (0-100) et explication
         """
         try:
-            if not news_data or not self.hf_token:
-                return 50, "Pas d'actualités disponibles pour validation"
-            
-            # Construire le contexte pour l'IA
-            news_summary = "\n".join([
-                f"- {n['title']} (Importance: {n['importance']:.1f})"
-                for n in news_data[:5]
-            ])
-            
-            prompt = f"""Analyze this trading decision:
+            if not self.hf_token:
+                return tech_confidence, "Token HuggingFace manquant - utilisation tech seul"
 
-Symbol: {symbol}
-Current Price: ${current_price:.2f}
-Technical Score: {tech_score:.0f}/100
-Bot Decision: {bot_decision}
+            # Construire le contexte NEWS détaillé
+            news_text = ""
+            if news_data:
+                news_text = "📰 RECENT NEWS:\n"
+                for i, n in enumerate(news_data[:10], 1):  # Max 10 news
+                    news_text += f"{i}. [{n.get('publisher', 'Unknown')}] {n['title']}\n"
+                    if n.get('summary'):
+                        news_text += f"   Summary: {n['summary']}\n"
+                    news_text += f"   Importance: {n['importance']:.1f} | Keywords: {', '.join(n.get('keywords', []))}\n\n"
+            else:
+                news_text = "📰 RECENT NEWS: No news available\n\n"
 
-Recent News:
-{news_summary}
+            # Construire le contexte REDDIT détaillé
+            reddit_text = ""
+            if reddit_posts and len(reddit_posts) > 0:
+                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT:\n"
+                for i, post in enumerate(reddit_posts[:15], 1):  # Max 15 posts
+                    title = post.get('title', '')[:150]
+                    body = post.get('body', '')[:200]
+                    upvotes = post.get('upvotes', 0)
+                    downvotes = post.get('downvotes', 0)
+                    source = post.get('source', 'reddit')
 
-Question: Should the bot {bot_decision} based on these news? Rate the decision quality from 0 to 100.
-- 0-30: Bad decision, news suggest opposite action
-- 31-50: Uncertain, mixed signals
-- 51-70: Good decision, news moderately support it
-- 71-100: Excellent decision, news strongly support it
+                    reddit_text += f"{i}. [{source}] {title}\n"
+                    if body:
+                        reddit_text += f"   Content: {body}\n"
+                    reddit_text += f"   👍 Upvotes: {upvotes} | 👎 Downvotes: {downvotes}\n\n"
+            else:
+                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT: No posts available\n\n"
 
-Respond with format: "SCORE: [number]|REASON: [explanation]"
+            prompt = f"""TRADING DECISION VALIDATION
+
+🎯 STOCK: {symbol}
+💰 Current Price: ${current_price:.2f}
+
+🤖 TECHNICAL DECISION: {bot_decision}
+📊 Technical Confidence: {tech_confidence:.0f}/100
+
+{news_text}
+{reddit_text}
+
+TASK: Validate the bot's {bot_decision} decision and provide a FINAL SCORE (0-100).
+
+The technical analysis suggests {bot_decision} with {tech_confidence:.0f}% confidence.
+Your job is to validate or adjust this score based on news and community sentiment.
+
+FINAL SCORE SCALE:
+- 0-30: Bad decision, news/reddit strongly contradict
+- 31-50: Weak decision, mixed signals
+- 51-70: Good decision, moderately supported
+- 71-100: Excellent decision, strongly supported
+
+Consider:
+- News sentiment (positive news → higher score for BUY, lower for SELL)
+- Reddit community sentiment (upvotes show agreement)
+- Technical confidence as baseline
+- Overall market conditions
+
+Respond EXACTLY in this format: "SCORE: [number]|REASON: [short explanation]"
 """
             
             session = await self.get_session()
@@ -341,53 +378,84 @@ Respond with format: "SCORE: [number]|REASON: [explanation]"
                             pass
             
             # Fallback: analyse simple basée sur le sentiment
-            return await self._simple_sentiment_score(news_data, bot_decision)
-            
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
+
         except Exception as e:
             logger.debug(f"Erreur AI validation: {e}")
-            return await self._simple_sentiment_score(news_data, bot_decision)
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
     
-    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str) -> Tuple[int, str]:
-        """Score de sentiment simple comme fallback"""
+    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50) -> Tuple[int, str]:
+        """Score de sentiment simple comme fallback, basé sur tech_confidence + ajustement news/reddit"""
         try:
             sentiments = []
-            for article in news_data[:5]:
+
+            # Sentiment des news
+            for article in news_data[:5] if news_data else []:
                 blob = TextBlob(article['title'])
                 sentiment = blob.sentiment.polarity
                 sentiments.append(sentiment * article['importance'])
-            
+
+            # Sentiment des posts Reddit
+            reddit_sentiment = 0
+            if reddit_posts:
+                reddit_sentiments = []
+                for post in reddit_posts[:10]:
+                    text = post.get('title', '') + ' ' + post.get('body', '')
+                    if len(text) > 10:
+                        blob = TextBlob(text)
+                        sentiment = blob.sentiment.polarity
+                        # Pondérer par upvotes
+                        upvotes = post.get('upvotes', 0)
+                        weight = min(upvotes / 10, 3)
+                        reddit_sentiments.append(sentiment * weight)
+
+                if reddit_sentiments:
+                    reddit_sentiment = np.mean(reddit_sentiments)
+                    sentiments.append(reddit_sentiment * 2)  # Poids Reddit
+
             avg_sentiment = np.mean(sentiments) if sentiments else 0
-            
-            # Convertir en score 0-100
-            base_score = (avg_sentiment + 1) * 50  # -1 to 1 -> 0 to 100
-            
-            # Ajuster selon la décision du bot
+
+            # Partir de la confiance technique et ajuster selon sentiment
+            score = tech_confidence
+
+            # Ajustement selon la décision et le sentiment
             if bot_decision == "BUY":
-                if avg_sentiment > 0.2:
-                    score = int(base_score * 1.2)
-                    reason = "Sentiment positif supporte l'achat"
+                if avg_sentiment > 0.3:
+                    # Sentiment très positif → boost
+                    score = min(100, score + 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment très positif → BOOST"
+                elif avg_sentiment > 0.1:
+                    # Sentiment positif → petit boost
+                    score = min(100, score + 8)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif → boost"
                 elif avg_sentiment < -0.2:
-                    score = int(base_score * 0.6)
-                    reason = "Sentiment négatif contredit l'achat"
+                    # Sentiment négatif → pénalité
+                    score = max(0, score - 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → PÉNALITÉ"
                 else:
-                    score = int(base_score)
-                    reason = "Sentiment neutre"
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
+
             else:  # SELL
-                if avg_sentiment < -0.2:
-                    score = int((1 - base_score/100) * 100 * 1.2)
-                    reason = "Sentiment négatif supporte la vente"
+                if avg_sentiment < -0.3:
+                    # Sentiment très négatif → boost pour SELL
+                    score = min(100, score + 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment très négatif → BOOST SELL"
+                elif avg_sentiment < -0.1:
+                    # Sentiment négatif → petit boost
+                    score = min(100, score + 8)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → boost SELL"
                 elif avg_sentiment > 0.2:
-                    score = int((1 - base_score/100) * 100 * 0.6)
-                    reason = "Sentiment positif contredit la vente"
+                    # Sentiment positif contredit SELL → pénalité
+                    score = max(0, score - 15)
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif contredit SELL → PÉNALITÉ"
                 else:
-                    score = int((1 - base_score/100) * 100)
-                    reason = "Sentiment neutre"
-            
+                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
+
             score = max(0, min(100, score))
-            return score, reason
-            
+            return int(score), reason
+
         except:
-            return 50, "Analyse de sentiment indisponible"
+            return int(tech_confidence), "Fallback: confiance technique seule"
     
     async def close(self):
         if self.session:
@@ -400,9 +468,11 @@ class RedditSentimentAnalyzer:
     Utilise l'API REST de Reddit (pas besoin de PRAW)
     """
 
-    def __init__(self):
+    def __init__(self, csv_file: str = None):
         self.session = None
         self.sentiment_cache = {}  # Cache pour éviter appels répétés
+        self.csv_file = csv_file
+        self.csv_data = None  # Données chargées depuis le CSV
 
         # Configuration des subreddits par ticker
         self.ticker_subreddits = {
@@ -452,8 +522,63 @@ class RedditSentimentAnalyzer:
             self.session = aiohttp.ClientSession(headers=headers)
         return self.session
 
+    def load_csv_data(self):
+        """Charge les données Reddit depuis le CSV"""
+        if self.csv_file is None:
+            logger.warning("[Reddit] Pas de fichier CSV spécifié")
+            return False
+
+        try:
+            import pandas as pd
+            self.csv_data = pd.read_csv(self.csv_file)
+            # Convertir la colonne created en datetime
+            self.csv_data['created'] = pd.to_datetime(self.csv_data['created'])
+            logger.info(f"[Reddit] ✅ {len(self.csv_data)} posts chargés depuis {self.csv_file}")
+            return True
+        except Exception as e:
+            logger.error(f"[Reddit] ❌ Erreur chargement CSV: {e}")
+            return False
+
+    def get_posts_from_csv(self, symbol: str, target_date: datetime, lookback_hours: int = 48) -> List[Dict]:
+        """Récupère les posts Reddit depuis le CSV pour une date donnée"""
+        if self.csv_data is None:
+            if not self.load_csv_data():
+                return []
+
+        try:
+            # Normaliser la date
+            if hasattr(target_date, 'tz') and target_date.tz is not None:
+                target_date = target_date.replace(tzinfo=None)
+
+            cutoff_time = target_date - timedelta(hours=lookback_hours)
+
+            # Filtrer les posts par date
+            mask = (self.csv_data['created'] >= cutoff_time) & (self.csv_data['created'] <= target_date)
+            filtered_posts = self.csv_data[mask]
+
+            # Convertir en liste de dictionnaires
+            posts = []
+            for _, row in filtered_posts.iterrows():
+                posts.append({
+                    'title': row.get('title', ''),
+                    'body': row.get('body', ''),
+                    'score': row.get('upvotes', 0) - row.get('downvotes', 0),  # Recalculer score
+                    'upvotes': row.get('upvotes', 0),
+                    'downvotes': row.get('downvotes', 0),
+                    'created': row['created'],
+                    'author': row.get('author', ''),
+                    'source': row.get('source', '')
+                })
+
+            logger.debug(f"[Reddit CSV] {symbol}: {len(posts)} posts trouvés pour {target_date.strftime('%Y-%m-%d')}")
+            return posts
+
+        except Exception as e:
+            logger.error(f"[Reddit CSV] Erreur filtrage: {e}")
+            return []
+
     async def get_reddit_sentiment(self, symbol: str, target_date: datetime = None,
-                                   lookback_hours: int = 48, save_csv: bool = False) -> Tuple[float, int, List[str]]:
+                                   lookback_hours: int = 48, save_csv: bool = False) -> Tuple[float, int, List[str], List[Dict]]:
         """
         Récupère et analyse le sentiment Reddit pour un ticker
 
@@ -464,7 +589,7 @@ class RedditSentimentAnalyzer:
             save_csv: Si True, sauvegarde tous les posts en CSV
 
         Returns:
-            Tuple[sentiment_score (0-100), post_count, sample_posts]
+            Tuple[sentiment_score (0-100), post_count, sample_posts, all_posts_details]
         """
         try:
             # Normaliser la date
@@ -478,57 +603,64 @@ class RedditSentimentAnalyzer:
             if cache_key in self.sentiment_cache:
                 return self.sentiment_cache[cache_key]
 
-            session = await self.get_session()
             all_posts = []
 
-            # Déterminer quelle API utiliser selon l'âge des données
-            days_ago = (datetime.now() - target_date).days
-            use_pushshift = days_ago > 7
-
-            if use_pushshift:
-                logger.debug(f"[Reddit] {symbol}: Utilisation Pushshift (données > 7j)")
+            # Si CSV disponible, charger depuis CSV au lieu de faire des requêtes
+            if self.csv_file is not None:
+                logger.debug(f"[Reddit] {symbol}: Utilisation CSV (pas de requêtes API)")
+                all_posts = self.get_posts_from_csv(symbol, target_date, lookback_hours)
             else:
-                logger.debug(f"[Reddit] {symbol}: Utilisation API Reddit (données < 7j)")
+                # Sinon, utiliser les API normalement
+                session = await self.get_session()
 
-            # Récupérer les subreddits configurés pour ce ticker
-            subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
+                # Déterminer quelle API utiliser selon l'âge des données
+                days_ago = (datetime.now() - target_date).days
+                use_pushshift = days_ago > 7
 
-            for subreddit in subreddits:
                 if use_pushshift:
-                    # Utiliser PullPush/Pushshift pour données historiques (>7 jours)
-                    if subreddit == 'stocks' or symbol in self.special_search_tickers:
-                        search_term = self.special_search_tickers.get(symbol, symbol)
-                        posts = await self._search_pushshift(
-                            session, subreddit, search_term, target_date, lookback_hours
-                        )
-                    else:
-                        posts = await self._get_pushshift_posts(
-                            session, subreddit, target_date, lookback_hours
-                        )
+                    logger.debug(f"[Reddit] {symbol}: Utilisation Pushshift (données > 7j)")
                 else:
-                    # Utiliser API REST Reddit pour données récentes (<7 jours)
-                    if subreddit == 'stocks' or symbol in self.special_search_tickers:
-                        search_term = self.special_search_tickers.get(symbol, symbol)
-                        posts = await self._search_reddit_comments(
-                            session, subreddit, search_term, target_date, lookback_hours
-                        )
+                    logger.debug(f"[Reddit] {symbol}: Utilisation API Reddit (données < 7j)")
+
+                # Récupérer les subreddits configurés pour ce ticker
+                subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
+
+                for subreddit in subreddits:
+                    if use_pushshift:
+                        # Utiliser PullPush/Pushshift pour données historiques (>7 jours)
+                        if subreddit == 'stocks' or symbol in self.special_search_tickers:
+                            search_term = self.special_search_tickers.get(symbol, symbol)
+                            posts = await self._search_pushshift(
+                                session, subreddit, search_term, target_date, lookback_hours
+                            )
+                        else:
+                            posts = await self._get_pushshift_posts(
+                                session, subreddit, target_date, lookback_hours
+                            )
                     else:
-                        posts = await self._get_subreddit_posts(
-                            session, subreddit, target_date, lookback_hours
-                        )
+                        # Utiliser API REST Reddit pour données récentes (<7 jours)
+                        if subreddit == 'stocks' or symbol in self.special_search_tickers:
+                            search_term = self.special_search_tickers.get(symbol, symbol)
+                            posts = await self._search_reddit_comments(
+                                session, subreddit, search_term, target_date, lookback_hours
+                            )
+                        else:
+                            posts = await self._get_subreddit_posts(
+                                session, subreddit, target_date, lookback_hours
+                            )
 
-                all_posts.extend(posts)
+                    all_posts.extend(posts)
 
-                # Sauvegarder en CSV si demandé
-                if save_csv and posts:
-                    self.save_posts_to_csv(symbol, posts, subreddit)
+                    # Sauvegarder en CSV si demandé
+                    if save_csv and posts:
+                        self.save_posts_to_csv(symbol, posts, subreddit)
 
-                # Délai pour éviter rate limiting
-                await asyncio.sleep(1.5)
+                    # Délai pour éviter rate limiting
+                    await asyncio.sleep(1.5)
 
             # Analyser le sentiment
             if not all_posts:
-                result = (50.0, 0, [])  # Score neutre si pas de données
+                result = (50.0, 0, [], [])  # Score neutre si pas de données
                 self.sentiment_cache[cache_key] = result
                 return result
 
@@ -563,7 +695,7 @@ class RedditSentimentAnalyzer:
             sentiment_score = (avg_sentiment + 1) * 50
             sentiment_score = max(0, min(100, sentiment_score))
 
-            result = (sentiment_score, len(all_posts), sample_posts)
+            result = (sentiment_score, len(all_posts), sample_posts, all_posts)
             self.sentiment_cache[cache_key] = result
 
             logger.info(f"   [Reddit] {symbol}: Score {sentiment_score:.0f}/100 ({len(all_posts)} posts)")
@@ -572,7 +704,7 @@ class RedditSentimentAnalyzer:
 
         except Exception as e:
             logger.debug(f"Erreur Reddit sentiment {symbol}: {e}")
-            return 50.0, 0, []
+            return 50.0, 0, [], []
 
     async def _get_subreddit_posts(self, session: aiohttp.ClientSession, subreddit: str,
                                    target_date: datetime, lookback_hours: int) -> List[Dict]:
@@ -594,10 +726,23 @@ class RedditSentimentAnalyzer:
                         post_date = datetime.fromtimestamp(created_utc)
 
                         if cutoff_time <= post_date <= target_date:
+                            # Calculer upvotes/downvotes à partir de score et upvote_ratio
+                            score = post_data.get('score', 0)
+                            upvote_ratio = post_data.get('upvote_ratio', 0.5)
+
+                            if upvote_ratio > 0 and upvote_ratio != 0.5:
+                                upvotes = int(score / (2 * upvote_ratio - 1))
+                                downvotes = upvotes - score
+                            else:
+                                upvotes = max(0, score)
+                                downvotes = 0
+
                             posts.append({
                                 'title': post_data.get('title', ''),
                                 'body': post_data.get('selftext', ''),
-                                'score': post_data.get('score', 0),
+                                'score': score,  # Gardé pour la logique de pondération
+                                'upvotes': upvotes,
+                                'downvotes': downvotes,
                                 'created': post_date
                             })
 
@@ -636,10 +781,23 @@ class RedditSentimentAnalyzer:
                         post_date = datetime.fromtimestamp(created_utc)
 
                         if cutoff_time <= post_date <= target_date:
+                            # Calculer upvotes/downvotes à partir de score et upvote_ratio
+                            score = post_data.get('score', 0)
+                            upvote_ratio = post_data.get('upvote_ratio', 0.5)
+
+                            if upvote_ratio > 0 and upvote_ratio != 0.5:
+                                upvotes = int(score / (2 * upvote_ratio - 1))
+                                downvotes = upvotes - score
+                            else:
+                                upvotes = max(0, score)
+                                downvotes = 0
+
                             posts.append({
                                 'title': post_data.get('title', ''),
                                 'body': post_data.get('selftext', ''),
-                                'score': post_data.get('score', 0),
+                                'score': score,  # Gardé pour la logique de pondération
+                                'upvotes': upvotes,
+                                'downvotes': downvotes,
                                 'created': post_date
                             })
 
@@ -689,10 +847,24 @@ class RedditSentimentAnalyzer:
                                 created_utc = post.get('created_utc', 0)
                                 post_date = datetime.fromtimestamp(created_utc)
 
+                                # Calculer upvotes/downvotes (Pushshift ne fournit pas toujours upvote_ratio)
+                                score = post.get('score', 0)
+                                upvote_ratio = post.get('upvote_ratio', None)
+
+                                if upvote_ratio is not None and upvote_ratio > 0 and upvote_ratio != 0.5:
+                                    upvotes = int(score / (2 * upvote_ratio - 1))
+                                    downvotes = upvotes - score
+                                else:
+                                    # Pushshift ne fournit pas upvote_ratio, on estime
+                                    upvotes = max(0, score)
+                                    downvotes = 0
+
                                 all_posts.append({
                                     'title': post.get('title', ''),
                                     'body': post.get('selftext', ''),
-                                    'score': post.get('score', 0),
+                                    'score': score,  # Gardé pour la logique de pondération
+                                    'upvotes': upvotes,
+                                    'downvotes': downvotes,
                                     'created': post_date
                                 })
                             except Exception as e:
@@ -771,10 +943,24 @@ class RedditSentimentAnalyzer:
                                 created_utc = post.get('created_utc', 0)
                                 post_date = datetime.fromtimestamp(created_utc)
 
+                                # Calculer upvotes/downvotes (Pushshift ne fournit pas toujours upvote_ratio)
+                                score = post.get('score', 0)
+                                upvote_ratio = post.get('upvote_ratio', None)
+
+                                if upvote_ratio is not None and upvote_ratio > 0 and upvote_ratio != 0.5:
+                                    upvotes = int(score / (2 * upvote_ratio - 1))
+                                    downvotes = upvotes - score
+                                else:
+                                    # Pushshift ne fournit pas upvote_ratio, on estime
+                                    upvotes = max(0, score)
+                                    downvotes = 0
+
                                 all_posts.append({
                                     'title': post.get('title', ''),
                                     'body': post.get('selftext', ''),
-                                    'score': post.get('score', 0),
+                                    'score': score,  # Gardé pour la logique de pondération
+                                    'upvotes': upvotes,
+                                    'downvotes': downvotes,
                                     'created': post_date
                                 })
                             except Exception as e:
@@ -817,7 +1003,7 @@ class RedditSentimentAnalyzer:
             filename = f"reddit_posts_{symbol}_{source}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
             with open(filename, 'w', newline='', encoding='utf-8') as f:
-                writer = csv.DictWriter(f, fieldnames=['created', 'title', 'body', 'score'])
+                writer = csv.DictWriter(f, fieldnames=['created', 'title', 'body', 'upvotes', 'downvotes'])
                 writer.writeheader()
 
                 for post in posts:
@@ -825,7 +1011,8 @@ class RedditSentimentAnalyzer:
                         'created': post['created'].strftime('%Y-%m-%d %H:%M:%S'),
                         'title': post['title'],
                         'body': post['body'],
-                        'score': post['score']
+                        'upvotes': post.get('upvotes', 0),
+                        'downvotes': post.get('downvotes', 0)
                     })
 
             logger.info(f"   [CSV] ✅ {len(posts)} posts sauvegardés dans {filename}")
@@ -878,199 +1065,266 @@ class TechnicalAnalyzer:
         
         return df
     
-    def get_technical_score(self, row: pd.Series) -> Tuple[float, List[str]]:
+    def get_technical_score(self, row: pd.Series) -> Tuple[str, float, List[str]]:
         """
-        Calcule le score technique amélioré (0-100) avec système de confluence
-        Score > 70: Signal BUY fort
-        Score < 30: Signal SELL fort
-        Score 40-60: Zone neutre (HOLD)
+        Analyse technique qui détermine BUY/SELL/HOLD avec un score de confiance (0-100)
+
+        Returns:
+            Tuple[decision, confidence_score, reasons]
+            - decision: "BUY", "SELL", ou "HOLD"
+            - confidence_score: 0-100 (confiance dans la décision)
+            - reasons: Liste des raisons
         """
-        bullish_signals = 0
-        bearish_signals = 0
+        buy_signals = 0
+        sell_signals = 0
+        hold_signals = 0
         reasons = []
+        signal_strengths = []  # Pour calculer la confiance
 
-        rsi_score = 0
-        macd_score = 0
-        trend_score = 0
-        bb_score = 0
-        volume_score = 0
-
-        # 1. RSI - 25% du score (0-25 points)
+        # 1. RSI (Relative Strength Index)
+        # Règle: RSI < 30 = oversold (BUY), RSI > 70 = overbought (SELL)
         if pd.notna(row.get('rsi')):
             rsi = row['rsi']
             if rsi < 25:
-                rsi_score = 25
-                bullish_signals += 2
-                reasons.append(f"🔥🔥 RSI TRÈS survendu ({rsi:.1f})")
-            elif rsi < 35:
-                rsi_score = 20
-                bullish_signals += 1
-                reasons.append(f"🔥 RSI survendu ({rsi:.1f})")
-            elif rsi < 45:
-                rsi_score = 15
-                reasons.append(f"✅ RSI favorable achat ({rsi:.1f})")
+                buy_signals += 1
+                signal_strengths.append(90)  # Signal très fort
+                reasons.append(f"🔥🔥 RSI TRÈS survendu ({rsi:.1f}) → STRONG BUY")
+            elif rsi < 30:
+                buy_signals += 1
+                signal_strengths.append(75)
+                reasons.append(f"🔥 RSI survendu ({rsi:.1f}) → BUY")
+            elif rsi < 40:
+                buy_signals += 1
+                signal_strengths.append(55)
+                reasons.append(f"✅ RSI bas ({rsi:.1f}) → BUY")
             elif rsi > 75:
-                rsi_score = 0
-                bearish_signals += 2
-                reasons.append(f"❄️❄️ RSI TRÈS suracheté ({rsi:.1f})")
-            elif rsi > 65:
-                rsi_score = 5
-                bearish_signals += 1
-                reasons.append(f"❄️ RSI suracheté ({rsi:.1f})")
-            elif rsi > 55:
-                rsi_score = 10
-                reasons.append(f"⚠️ RSI neutre-élevé ({rsi:.1f})")
+                sell_signals += 1
+                signal_strengths.append(90)
+                reasons.append(f"❄️❄️ RSI TRÈS suracheté ({rsi:.1f}) → STRONG SELL")
+            elif rsi > 70:
+                sell_signals += 1
+                signal_strengths.append(75)
+                reasons.append(f"❄️ RSI suracheté ({rsi:.1f}) → SELL")
+            elif rsi > 60:
+                sell_signals += 1
+                signal_strengths.append(55)
+                reasons.append(f"⚠️ RSI élevé ({rsi:.1f}) → SELL")
             else:
-                rsi_score = 12.5
-                reasons.append(f"➡️ RSI neutre ({rsi:.1f})")
+                hold_signals += 1
+                signal_strengths.append(30)
+                reasons.append(f"➡️ RSI neutre ({rsi:.1f}) → HOLD")
 
-        # 2. MACD - 20% du score (0-20 points)
+        # 2. MACD (Moving Average Convergence Divergence)
+        # Règle: MACD > Signal = BUY, MACD < Signal = SELL
         if pd.notna(row.get('macd')) and pd.notna(row.get('macd_signal')):
             macd_diff = row['macd'] - row['macd_signal']
             macd_pct = (macd_diff / abs(row['macd_signal'])) * 100 if row['macd_signal'] != 0 else 0
 
             if macd_diff > 0:
+                # MACD au-dessus de la signal line = BUY
                 if macd_pct > 5:
-                    macd_score = 20
-                    bullish_signals += 2
-                    reasons.append(f"🚀🚀 MACD très bullish (+{macd_pct:.1f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"🚀🚀 MACD très bullish (+{macd_pct:.1f}%) → STRONG BUY")
                 elif macd_pct > 2:
-                    macd_score = 15
-                    bullish_signals += 1
-                    reasons.append(f"🚀 MACD bullish (+{macd_pct:.1f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"🚀 MACD bullish (+{macd_pct:.1f}%) → BUY")
                 else:
-                    macd_score = 12
-                    reasons.append(f"✅ MACD positif (+{macd_pct:.1f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(50)
+                    reasons.append(f"✅ MACD positif (+{macd_pct:.1f}%) → BUY")
             else:
+                # MACD en-dessous de la signal line = SELL
                 if macd_pct < -5:
-                    macd_score = 0
-                    bearish_signals += 2
-                    reasons.append(f"📉📉 MACD très bearish ({macd_pct:.1f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"📉📉 MACD très bearish ({macd_pct:.1f}%) → STRONG SELL")
                 elif macd_pct < -2:
-                    macd_score = 5
-                    bearish_signals += 1
-                    reasons.append(f"📉 MACD bearish ({macd_pct:.1f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"📉 MACD bearish ({macd_pct:.1f}%) → SELL")
                 else:
-                    macd_score = 8
-                    reasons.append(f"⚠️ MACD négatif ({macd_pct:.1f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(50)
+                    reasons.append(f"⚠️ MACD négatif ({macd_pct:.1f}%) → SELL")
 
-        # 3. Tendance SMA - 25% du score (0-25 points)
+        # 3. SMA (Simple Moving Average) - Tendance
+        # Règle: Prix > SMA20 > SMA50 = uptrend (BUY), inverse = downtrend (SELL)
         if pd.notna(row.get('sma_20')) and pd.notna(row.get('sma_50')):
-            sma_ratio = (row['sma_20'] - row['sma_50']) / row['sma_50'] * 100
-            price_vs_sma20 = (row['Close'] - row['sma_20']) / row['sma_20'] * 100
+            price = row['Close']
+            sma_20 = row['sma_20']
+            sma_50 = row['sma_50']
 
-            if sma_ratio > 3:
-                trend_score = 25
-                bullish_signals += 2
-                reasons.append(f"📈📈 Forte tendance haussière (SMA +{sma_ratio:.1f}%)")
-            elif sma_ratio > 1:
-                trend_score = 20
-                bullish_signals += 1
-                reasons.append(f"📈 Tendance haussière (SMA +{sma_ratio:.1f}%)")
-            elif sma_ratio > 0:
-                trend_score = 15
-                reasons.append(f"✅ Tendance positive (SMA +{sma_ratio:.1f}%)")
-            elif sma_ratio < -3:
-                trend_score = 0
-                bearish_signals += 2
-                reasons.append(f"📉📉 Forte tendance baissière (SMA {sma_ratio:.1f}%)")
-            elif sma_ratio < -1:
-                trend_score = 5
-                bearish_signals += 1
-                reasons.append(f"📉 Tendance baissière (SMA {sma_ratio:.1f}%)")
+            # Golden Cross / Death Cross
+            sma_cross = (sma_20 - sma_50) / sma_50 * 100
+            price_vs_sma20 = (price - sma_20) / sma_20 * 100
+
+            # Uptrend: Prix > SMA20 > SMA50
+            if price > sma_20 and sma_20 > sma_50:
+                if sma_cross > 3:
+                    buy_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"📈📈 Forte tendance haussière (Golden Cross +{sma_cross:.1f}%) → STRONG BUY")
+                elif sma_cross > 1:
+                    buy_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"📈 Tendance haussière (+{sma_cross:.1f}%) → BUY")
+                else:
+                    buy_signals += 1
+                    signal_strengths.append(55)
+                    reasons.append(f"✅ Uptrend confirmé → BUY")
+            # Downtrend: Prix < SMA20 < SMA50
+            elif price < sma_20 and sma_20 < sma_50:
+                if sma_cross < -3:
+                    sell_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"📉📉 Forte tendance baissière (Death Cross {sma_cross:.1f}%) → STRONG SELL")
+                elif sma_cross < -1:
+                    sell_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"📉 Tendance baissière ({sma_cross:.1f}%) → SELL")
+                else:
+                    sell_signals += 1
+                    signal_strengths.append(55)
+                    reasons.append(f"⚠️ Downtrend confirmé → SELL")
+            # Pas de tendance claire
             else:
-                trend_score = 10
-                reasons.append(f"⚠️ Tendance faible (SMA {sma_ratio:.1f}%)")
+                hold_signals += 1
+                signal_strengths.append(30)
+                reasons.append(f"➡️ Tendance mixte → HOLD")
 
-            # Bonus si prix au-dessus des SMA
-            if price_vs_sma20 > 2:
-                trend_score = min(25, trend_score + 3)
-                reasons.append(f"💪 Prix fort vs SMA20 (+{price_vs_sma20:.1f}%)")
-            elif price_vs_sma20 < -2:
-                trend_score = max(0, trend_score - 3)
-                reasons.append(f"⚠️ Prix faible vs SMA20 ({price_vs_sma20:.1f}%)")
-
-        # 4. Bollinger Bands - 20% du score (0-20 points)
+        # 4. Bollinger Bands
+        # Règle: Prix près BB inférieure = BUY (oversold), près BB supérieure = SELL (overbought)
         if pd.notna(row.get('bb_lower')) and pd.notna(row.get('bb_upper')):
             bb_range = row['bb_upper'] - row['bb_lower']
             if bb_range > 0:
-                bb_position = (row['Close'] - row['bb_lower']) / bb_range
+                price = row['Close']
+                bb_position = (price - row['bb_lower']) / bb_range  # 0 = bas, 1 = haut
 
                 if bb_position < 0.1:
-                    bb_score = 20
-                    bullish_signals += 2
-                    reasons.append(f"🎯🎯 Prix TRÈS proche BB inf ({bb_position*100:.0f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"🎯🎯 Prix TRÈS proche BB inf ({bb_position*100:.0f}%) → STRONG BUY")
                 elif bb_position < 0.25:
-                    bb_score = 18
-                    bullish_signals += 1
-                    reasons.append(f"🎯 Prix proche BB inférieure ({bb_position*100:.0f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"🎯 Prix proche BB inf ({bb_position*100:.0f}%) → BUY")
                 elif bb_position < 0.4:
-                    bb_score = 15
-                    reasons.append(f"✅ Prix bas dans BB ({bb_position*100:.0f}%)")
+                    buy_signals += 1
+                    signal_strengths.append(50)
+                    reasons.append(f"✅ Prix bas dans BB ({bb_position*100:.0f}%) → BUY")
                 elif bb_position > 0.9:
-                    bb_score = 0
-                    bearish_signals += 2
-                    reasons.append(f"⚠️⚠️ Prix TRÈS proche BB sup ({bb_position*100:.0f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(85)
+                    reasons.append(f"⚠️⚠️ Prix TRÈS proche BB sup ({bb_position*100:.0f}%) → STRONG SELL")
                 elif bb_position > 0.75:
-                    bb_score = 2
-                    bearish_signals += 1
-                    reasons.append(f"⚠️ Prix proche BB supérieure ({bb_position*100:.0f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(70)
+                    reasons.append(f"⚠️ Prix proche BB sup ({bb_position*100:.0f}%) → SELL")
                 elif bb_position > 0.6:
-                    bb_score = 5
-                    reasons.append(f"🔸 Prix haut dans BB ({bb_position*100:.0f}%)")
+                    sell_signals += 1
+                    signal_strengths.append(50)
+                    reasons.append(f"🔸 Prix haut dans BB ({bb_position*100:.0f}%) → SELL")
                 else:
-                    bb_score = 10
-                    reasons.append(f"➡️ Prix milieu BB ({bb_position*100:.0f}%)")
+                    hold_signals += 1
+                    signal_strengths.append(30)
+                    reasons.append(f"➡️ Prix milieu BB ({bb_position*100:.0f}%) → HOLD")
 
-        # 5. Volume - 10% du score (0-10 points)
+        # 5. Volume (bonus de confirmation, pas un signal en soi)
+        volume_bonus = 0
         if pd.notna(row.get('volume_ratio')):
             vol_ratio = row['volume_ratio']
             if vol_ratio > 2.5:
-                volume_score = 10
-                reasons.append(f"📊📊 Volume TRÈS élevé ({vol_ratio:.1f}x)")
+                volume_bonus = 15
+                reasons.append(f"📊📊 Volume TRÈS élevé ({vol_ratio:.1f}x) - Confirmation forte")
             elif vol_ratio > 1.5:
-                volume_score = 8
-                reasons.append(f"📊 Volume élevé ({vol_ratio:.1f}x)")
+                volume_bonus = 10
+                reasons.append(f"📊 Volume élevé ({vol_ratio:.1f}x) - Bonne confirmation")
             elif vol_ratio > 1.0:
-                volume_score = 5
+                volume_bonus = 5
                 reasons.append(f"✅ Volume normal ({vol_ratio:.1f}x)")
             else:
-                volume_score = 3
-                reasons.append(f"📉 Volume faible ({vol_ratio:.1f}x)")
+                volume_bonus = -5
+                reasons.append(f"📉 Volume faible ({vol_ratio:.1f}x) - Signal moins fiable")
 
-        # Score final (total sur 100)
-        final_score = rsi_score + macd_score + trend_score + bb_score + volume_score
+        # DÉCISION FINALE PAR VOTE MAJORITAIRE
+        total_signals = buy_signals + sell_signals + hold_signals
 
-        # Bonus de confluence : si plusieurs indicateurs bullish/bearish alignés
-        if bullish_signals >= 4:
-            final_score = min(100, final_score + 15)
-            reasons.insert(0, f"🌟🌟 CONFLUENCE BULLISH FORTE ({bullish_signals} signaux)")
-        elif bullish_signals >= 3:
-            final_score = min(100, final_score + 8)
-            reasons.insert(0, f"🌟 Confluence bullish ({bullish_signals} signaux)")
+        if total_signals == 0:
+            # Aucun signal valide
+            return "HOLD", 0, ["⚠️ Aucun indicateur valide"]
 
-        if bearish_signals >= 4:
-            final_score = max(0, final_score - 15)
-            reasons.insert(0, f"⚡⚡ CONFLUENCE BEARISH FORTE ({bearish_signals} signaux)")
-        elif bearish_signals >= 3:
-            final_score = max(0, final_score - 8)
-            reasons.insert(0, f"⚡ Confluence bearish ({bearish_signals} signaux)")
-
-        final_score = max(0, min(100, final_score))
-
-        # Ajouter un résumé au début
-        if final_score >= 70:
-            reasons.insert(0, f"🟢 SIGNAL BUY FORT (Score: {final_score:.0f}/100)")
-        elif final_score >= 55:
-            reasons.insert(0, f"🟢 Signal buy modéré (Score: {final_score:.0f}/100)")
-        elif final_score <= 30:
-            reasons.insert(0, f"🔴 SIGNAL SELL FORT (Score: {final_score:.0f}/100)")
-        elif final_score <= 45:
-            reasons.insert(0, f"🔴 Signal sell modéré (Score: {final_score:.0f}/100)")
+        # Déterminer la décision par majorité
+        if buy_signals > sell_signals and buy_signals > hold_signals:
+            decision = "BUY"
+        elif sell_signals > buy_signals and sell_signals > hold_signals:
+            decision = "SELL"
         else:
-            reasons.insert(0, f"🟡 Zone neutre HOLD (Score: {final_score:.0f}/100)")
+            decision = "HOLD"
 
-        return final_score, reasons
+        # CALCUL DU SCORE DE CONFIANCE (0-100)
+        if decision == "BUY":
+            # Moyenne des forces des signaux BUY
+            buy_strengths = [s for i, s in enumerate(signal_strengths) if i < len(signal_strengths)]
+            # Calculer confiance basée sur les signaux BUY uniquement
+            relevant_strengths = []
+            signal_idx = 0
+            if buy_signals > 0:
+                # Prendre les signaux correspondants aux BUY
+                for reason in reasons:
+                    if "→ BUY" in reason or "→ STRONG BUY" in reason:
+                        if signal_idx < len(signal_strengths):
+                            relevant_strengths.append(signal_strengths[signal_idx])
+                        signal_idx += 1
+                    elif "→ SELL" in reason or "→ HOLD" in reason:
+                        signal_idx += 1
+
+            if relevant_strengths:
+                base_confidence = np.mean(relevant_strengths)
+            else:
+                base_confidence = 40
+
+            # Bonus de confluence
+            confluence_bonus = min(20, buy_signals * 5)
+            confidence = min(100, base_confidence + confluence_bonus + volume_bonus)
+
+            reasons.insert(0, f"🟢 DÉCISION: BUY (Confiance: {confidence:.0f}/100)")
+            reasons.insert(1, f"📊 Signaux: {buy_signals} BUY, {sell_signals} SELL, {hold_signals} HOLD")
+
+        elif decision == "SELL":
+            # Même logique pour SELL
+            relevant_strengths = []
+            signal_idx = 0
+            if sell_signals > 0:
+                for reason in reasons:
+                    if "→ SELL" in reason or "→ STRONG SELL" in reason:
+                        if signal_idx < len(signal_strengths):
+                            relevant_strengths.append(signal_strengths[signal_idx])
+                        signal_idx += 1
+                    elif "→ BUY" in reason or "→ HOLD" in reason:
+                        signal_idx += 1
+
+            if relevant_strengths:
+                base_confidence = np.mean(relevant_strengths)
+            else:
+                base_confidence = 40
+
+            confluence_bonus = min(20, sell_signals * 5)
+            confidence = min(100, base_confidence + confluence_bonus + volume_bonus)
+
+            reasons.insert(0, f"🔴 DÉCISION: SELL (Confiance: {confidence:.0f}/100)")
+            reasons.insert(1, f"📊 Signaux: {buy_signals} BUY, {sell_signals} SELL, {hold_signals} HOLD")
+
+        else:  # HOLD
+            confidence = 30 + volume_bonus  # Confiance faible pour HOLD
+            confidence = max(0, min(100, confidence))
+
+            reasons.insert(0, f"🟡 DÉCISION: HOLD (Confiance: {confidence:.0f}/100)")
+            reasons.insert(1, f"📊 Signaux: {buy_signals} BUY, {sell_signals} SELL, {hold_signals} HOLD")
+
+        confidence = max(0, min(100, confidence))
+        return decision, confidence, reasons
 
 
 class RealisticBacktestEngine:
@@ -1079,9 +1333,9 @@ class RealisticBacktestEngine:
     avec validation IA pour chaque trade + sentiment Reddit
     """
 
-    def __init__(self):
+    def __init__(self, reddit_csv_file: str = None):
         self.news_analyzer = HistoricalNewsAnalyzer()
-        self.reddit_analyzer = RedditSentimentAnalyzer()
+        self.reddit_analyzer = RedditSentimentAnalyzer(csv_file=reddit_csv_file)
         self.tech_analyzer = TechnicalAnalyzer()
         
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
@@ -1139,21 +1393,12 @@ class RealisticBacktestEngine:
                 row = df.iloc[idx]
                 current_date = df.index[idx]
                 current_price = row['Close']
-                
-                # Le bot prend sa décision basée sur la technique
-                tech_score, tech_reasons = self.tech_analyzer.get_technical_score(row)
 
-                # Décision du bot avec nouveaux seuils
-                if tech_score >= 70:
-                    bot_decision = "BUY"  # Signal BUY fort
-                elif tech_score >= 55 and position == 0:
-                    bot_decision = "BUY"  # Signal BUY modéré (seulement si pas de position)
-                elif tech_score <= 30:
-                    bot_decision = "SELL"  # Signal SELL fort
-                elif tech_score <= 45 and position == 1:
-                    bot_decision = "SELL"  # Signal SELL modéré (seulement si on a une position)
-                else:
-                    bot_decision = "HOLD"
+                # Analyse technique → Decision (BUY/SELL/HOLD) + Confidence (0-100)
+                tech_decision, tech_confidence, tech_reasons = self.tech_analyzer.get_technical_score(row)
+
+                # La décision technique EST la décision du bot
+                bot_decision = tech_decision
                 
                 # Récupérer les actualités de cette date (simulation temps réel)
                 has_news, news_data, news_score = await self.news_analyzer.get_news_for_date(
@@ -1166,54 +1411,32 @@ class RealisticBacktestEngine:
                 reddit_score = 50
                 reddit_post_count = 0
                 reddit_samples = []
+                reddit_posts_details = []
 
                 if bot_decision in ["BUY", "SELL"]:
-                    reddit_score, reddit_post_count, reddit_samples = await self.reddit_analyzer.get_reddit_sentiment(
+                    reddit_score, reddit_post_count, reddit_samples, reddit_posts_details = await self.reddit_analyzer.get_reddit_sentiment(
                         symbol, current_date, lookback_hours=48
                     )
                     await asyncio.sleep(0.3)
 
-                # L'IA valide la décision du bot avec news + Reddit
-                ai_score = 50
-                ai_reason = "Pas de données"
+                # HuggingFace valide la décision avec TOUTES les infos
+                # Le score HuggingFace EST le score FINAL
+                final_score = tech_confidence  # Par défaut, si pas d'IA
+                ai_reason = "Pas de validation IA"
 
                 if bot_decision in ["BUY", "SELL"]:
-                    # Score IA basé sur les news
-                    ai_score, ai_reason = await self.news_analyzer.ask_ai_decision(
-                        symbol, bot_decision, news_data, current_price, tech_score
+                    # HuggingFace reçoit: decision tech + confidence + news + reddit
+                    # Retourne le score FINAL (0-100)
+                    final_score, ai_reason = await self.news_analyzer.ask_ai_decision(
+                        symbol, bot_decision, news_data, current_price, tech_confidence, reddit_posts_details
                     )
-
-                    # Combiner avec le sentiment Reddit (pondération)
-                    # Tech: 40%, News/AI: 35%, Reddit: 25%
-                    composite_score = (
-                        tech_score * 0.40 +
-                        ai_score * 0.35 +
-                        reddit_score * 0.25
-                    )
-
-                    # Ajustement si Reddit et News sont alignés ou en conflit
-                    if reddit_post_count > 5:  # Seulement si assez de données Reddit
-                        if abs(reddit_score - ai_score) < 15:
-                            # Reddit et News alignés -> boost
-                            composite_score = min(100, composite_score + 5)
-                            ai_reason += " [Reddit confirme]"
-                        elif abs(reddit_score - ai_score) > 40:
-                            # Conflit fort -> pénalité
-                            composite_score = max(0, composite_score - 10)
-                            ai_reason += " [Conflit Reddit]"
-                    else:
-                        ai_reason += " [Reddit: peu de données]"
-
-                    final_score = composite_score
-                else:
-                    final_score = tech_score
 
                 # Log uniquement pour les jours importants (éviter trop de logs)
                 if bot_decision != "HOLD" or idx % 20 == 0:  # Log tous les 20 jours ou si action
-                    logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Bot: {bot_decision} | "
-                              f"Tech: {tech_score:.0f} | AI: {ai_score:.0f} | "
-                              f"Reddit: {reddit_score:.0f} ({reddit_post_count}p) | "
-                              f"Final: {final_score:.0f}/100")
+                    logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Decision: {bot_decision} | "
+                              f"Tech Confidence: {tech_confidence:.0f}/100 | "
+                              f"Reddit: {reddit_score:.0f}/100 ({reddit_post_count}p) | "
+                              f"FINAL SCORE: {final_score:.0f}/100")
 
                 # Exécuter le trade si le score final > 65
                 if bot_decision == "BUY" and position == 0:
@@ -1243,8 +1466,7 @@ class RealisticBacktestEngine:
                             'profit': profit,
                             'hold_days': hold_days,
                             'final_score': final_score,
-                            'tech_score': tech_score,
-                            'ai_score': ai_score,
+                            'tech_confidence': tech_confidence,
                             'reddit_score': reddit_score,
                             'news_count': len(news_data),
                             'reddit_posts': reddit_post_count
@@ -1275,8 +1497,7 @@ class RealisticBacktestEngine:
                     'profit': profit,
                     'hold_days': hold_days,
                     'final_score': 0,
-                    'tech_score': 0,
-                    'ai_score': 0,
+                    'tech_confidence': 0,
                     'reddit_score': 0,
                     'news_count': 0,
                     'reddit_posts': 0
@@ -1377,15 +1598,25 @@ class RealisticBacktestEngine:
 
 
 class TradingBot(commands.Bot):
-    
-    def __init__(self):
+
+    def __init__(self, reddit_csv_file: str = None):
         intents = discord.Intents.default()
         intents.message_content = True
         intents.guilds = True
-        
+
         super().__init__(command_prefix='!', intents=intents, help_command=None)
-        
-        self.backtest_engine = RealisticBacktestEngine()
+
+        # Chercher automatiquement un fichier CSV Reddit si non spécifié
+        if reddit_csv_file is None:
+            import glob
+            csv_files = glob.glob('pushshift_*_ALL_*.csv')
+            if csv_files:
+                reddit_csv_file = csv_files[0]  # Prendre le premier trouvé
+                logger.info(f"[Init] Fichier CSV Reddit trouvé: {reddit_csv_file}")
+            else:
+                logger.warning("[Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées")
+
+        self.backtest_engine = RealisticBacktestEngine(reddit_csv_file=reddit_csv_file)
         
     async def on_ready(self):
         logger.info(f'{self.user} connecté!')

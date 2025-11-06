@@ -1,3 +1,247 @@
 2025-11-06 09:20:47,311 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
 2025-11-06 09:20:51,295 - TradingBot - INFO -    [CSV] ✅ 7 posts sauvegardés dans reddit_posts_NVDA_NVDA_Stock_20251106_092051.csv
 2025-11-06 09:20:54,425 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (7 posts)
+2025-11-06 16:08:37,201 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-06 16:08:37,202 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-06 16:08:37,202 - discord.client - INFO - logging in using static token
+2025-11-06 16:08:38,088 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 660a8e4ad979654b5b33af3d19a81546).
+2025-11-06 16:08:40,103 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-06 16:08:45,357 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-06 16:08:46,059 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-06 16:08:46,062 - TradingBot - INFO -    [✓] 107 jours d'analyse (backtest quotidien)
+2025-11-06 16:08:46,566 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/NVDA_Stock - TOUS LES POSTS
+2025-11-06 16:08:47,220 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-06 16:08:48,824 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-06 16:08:48,824 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/NVDA_Stock
+2025-11-06 16:08:50,326 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$NVDA' r/stocks - TOUS LES POSTS
+2025-11-06 16:08:51,076 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-06 16:08:52,679 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-06 16:08:52,679 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour '$NVDA'
+2025-11-06 16:08:54,213 - TradingBot - INFO -    [Reddit] NVDA: Score 50/100 (200 posts)
+2025-11-06 16:08:54,874 - TradingBot - INFO -    [2025-06-05] Bot: BUY | Tech: 55 | AI: 100 | Reddit: 50 (200p) | Final: 60/100
+2025-11-06 16:08:54,875 - TradingBot - INFO -    ❌ BUY rejeté (Score: 60)
+2025-11-06 16:08:57,875 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/NVDA_Stock - TOUS LES POSTS
+2025-11-06 16:08:58,304 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-06 16:08:59,906 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-06 16:08:59,906 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/NVDA_Stock
+2025-11-06 16:09:01,024 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fb944e16dd0>
+2025-11-06 16:09:01,025 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7fb944e58980>, 30483.001572663)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x7fb944f56d60>, 30485.700099776)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7fb944e14210>
+2025-11-06 16:09:01,025 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fb944e0f6d0>
+2025-11-06 16:09:01,025 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7fb944f56890>, 30488.034756008)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7fb944e0f210>
+2025-11-06 16:29:15,193 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-06 16:29:15,194 - TradingBot - INFO - [Init] Fichier CSV Reddit trouvé: pushshift_NVDA_ALL_20251106_151829.csv
+2025-11-06 16:29:15,194 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-06 16:29:15,195 - discord.client - INFO - logging in using static token
+2025-11-06 16:29:15,992 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 0178e2b778d0c9d7ad9e8561d099a7db).
+2025-11-06 16:29:18,007 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-06 16:33:33,465 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-06 16:33:34,157 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-06 16:33:34,160 - TradingBot - INFO -    [✓] 107 jours d'analyse (backtest quotidien)
+2025-11-06 16:33:34,677 - TradingBot - INFO - [Reddit] ✅ 1355 posts chargés depuis pushshift_NVDA_ALL_20251106_151829.csv
+2025-11-06 16:33:35,122 - TradingBot - INFO -    [2025-06-05] Bot: BUY | Tech: 55 | AI: 100 | Reddit: 50 (0p) | Final: 70/100
+2025-11-06 16:33:35,122 - TradingBot - INFO -    ✅ BUY validé (Score: 70) @ $139.97
+2025-11-06 16:33:36,700 - TradingBot - INFO -    [Reddit] NVDA: Score 57/100 (9 posts)
+2025-11-06 16:33:37,109 - TradingBot - INFO -    [2025-06-10] Bot: SELL | Tech: 33 | AI: 50 | Reddit: 57 (9p) | Final: 50/100
+2025-11-06 16:33:37,109 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-06 16:33:37,762 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (14 posts)
+2025-11-06 16:33:38,171 - TradingBot - INFO -    [2025-06-11] Bot: SELL | Tech: 32 | AI: 43 | Reddit: 65 (14p) | Final: 44/100
+2025-11-06 16:33:38,171 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:33:39,264 - TradingBot - INFO -    [2025-06-12] Bot: SELL | Tech: 33 | AI: 49 | Reddit: 50 (0p) | Final: 43/100
+2025-11-06 16:33:39,264 - TradingBot - INFO -    ❌ SELL rejeté (Score: 43)
+2025-11-06 16:33:40,314 - TradingBot - INFO -    [2025-06-13] Bot: SELL | Tech: 30 | AI: 43 | Reddit: 50 (0p) | Final: 40/100
+2025-11-06 16:33:40,314 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-06 16:33:40,966 - TradingBot - INFO -    [Reddit] NVDA: Score 53/100 (3 posts)
+2025-11-06 16:33:41,371 - TradingBot - INFO -    [2025-06-16] Bot: SELL | Tech: 32 | AI: 44 | Reddit: 53 (3p) | Final: 42/100
+2025-11-06 16:33:41,371 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-06 16:33:42,007 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-06 16:33:42,415 - TradingBot - INFO -    [2025-06-17] Bot: SELL | Tech: 20 | AI: 23 | Reddit: 64 (5p) | Final: 32/100
+2025-11-06 16:33:42,416 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-06 16:33:43,445 - TradingBot - INFO -    [2025-06-18] Bot: SELL | Tech: 32 | AI: 20 | Reddit: 50 (0p) | Final: 32/100
+2025-11-06 16:33:43,445 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-06 16:33:44,121 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-06 16:33:44,525 - TradingBot - INFO -    [2025-06-20] Bot: SELL | Tech: 32 | AI: 44 | Reddit: 63 (1p) | Final: 44/100
+2025-11-06 16:33:44,525 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:33:45,576 - TradingBot - INFO -    [2025-06-23] Bot: SELL | Tech: 43 | AI: 40 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:33:45,576 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:33:46,207 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-06 16:33:46,616 - TradingBot - INFO -    [2025-06-24] Bot: SELL | Tech: 23 | AI: 17 | Reddit: 60 (4p) | Final: 30/100
+2025-11-06 16:33:46,616 - TradingBot - INFO -    ❌ SELL rejeté (Score: 30)
+2025-11-06 16:33:47,277 - TradingBot - INFO -    [Reddit] NVDA: Score 59/100 (4 posts)
+2025-11-06 16:33:47,684 - TradingBot - INFO -    [2025-06-25] Bot: SELL | Tech: 35 | AI: 23 | Reddit: 59 (4p) | Final: 37/100
+2025-11-06 16:33:47,684 - TradingBot - INFO -    ❌ SELL rejeté (Score: 37)
+2025-11-06 16:33:49,853 - TradingBot - INFO -    [Reddit] NVDA: Score 57/100 (4 posts)
+2025-11-06 16:33:50,265 - TradingBot - INFO -    [2025-07-01] Bot: BUY | Tech: 77 | AI: 76 | Reddit: 57 (4p) | Final: 72/100
+2025-11-06 16:33:51,842 - TradingBot - INFO -    [Reddit] NVDA: Score 0/100 (1 posts)
+2025-11-06 16:33:52,246 - TradingBot - INFO -    [2025-07-07] Bot: SELL | Tech: 45 | AI: 92 | Reddit: 0 (1p) | Final: 50/100
+2025-11-06 16:33:52,246 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-06 16:33:55,133 - TradingBot - INFO -    [2025-07-14] Bot: SELL | Tech: 45 | AI: 40 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:33:55,133 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:33:58,036 - TradingBot - INFO -    [2025-07-21] Bot: BUY | Tech: 70 | AI: 51 | Reddit: 50 (0p) | Final: 58/100
+2025-11-06 16:33:59,490 - TradingBot - INFO -    [2025-07-23] Bot: SELL | Tech: 32 | AI: 54 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:33:59,491 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:34:00,520 - TradingBot - INFO -    [2025-07-24] Bot: SELL | Tech: 32 | AI: 46 | Reddit: 50 (0p) | Final: 41/100
+2025-11-06 16:34:00,520 - TradingBot - INFO -    ❌ SELL rejeté (Score: 41)
+2025-11-06 16:34:01,559 - TradingBot - INFO -    [2025-07-25] Bot: SELL | Tech: 20 | AI: 45 | Reddit: 50 (0p) | Final: 36/100
+2025-11-06 16:34:01,560 - TradingBot - INFO -    ❌ SELL rejeté (Score: 36)
+2025-11-06 16:34:02,591 - TradingBot - INFO -    [2025-07-28] Bot: SELL | Tech: 30 | AI: 51 | Reddit: 50 (0p) | Final: 42/100
+2025-11-06 16:34:02,592 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-06 16:34:03,642 - TradingBot - INFO -    [2025-07-29] Bot: SELL | Tech: 32 | AI: 50 | Reddit: 50 (0p) | Final: 43/100
+2025-11-06 16:34:03,643 - TradingBot - INFO -    ❌ SELL rejeté (Score: 43)
+2025-11-06 16:34:04,313 - TradingBot - INFO -    [Reddit] NVDA: Score 66/100 (8 posts)
+2025-11-06 16:34:04,728 - TradingBot - INFO -    [2025-07-30] Bot: SELL | Tech: 35 | AI: 40 | Reddit: 66 (8p) | Final: 45/100
+2025-11-06 16:34:04,728 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-06 16:34:05,455 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (11 posts)
+2025-11-06 16:34:05,868 - TradingBot - INFO -    [2025-07-31] Bot: SELL | Tech: 45 | AI: 21 | Reddit: 65 (11p) | Final: 32/100
+2025-11-06 16:34:05,868 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-06 16:34:06,955 - TradingBot - INFO -    [2025-08-01] Bot: SELL | Tech: 45 | AI: 47 | Reddit: 50 (0p) | Final: 47/100
+2025-11-06 16:34:06,955 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-06 16:34:07,990 - TradingBot - INFO -    [2025-08-04] Bot: SELL | Tech: 45 | AI: 50 | Reddit: 50 (0p) | Final: 48/100
+2025-11-06 16:34:07,990 - TradingBot - INFO -    ❌ SELL rejeté (Score: 48)
+2025-11-06 16:34:08,640 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (3 posts)
+2025-11-06 16:34:09,046 - TradingBot - INFO -    [2025-08-05] Bot: SELL | Tech: 32 | AI: 16 | Reddit: 63 (3p) | Final: 34/100
+2025-11-06 16:34:09,046 - TradingBot - INFO -    ❌ SELL rejeté (Score: 34)
+2025-11-06 16:34:10,122 - TradingBot - INFO -    [2025-08-06] Bot: SELL | Tech: 32 | AI: 56 | Reddit: 50 (0p) | Final: 45/100
+2025-11-06 16:34:10,123 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-06 16:34:11,176 - TradingBot - INFO -    [2025-08-07] Bot: SELL | Tech: 32 | AI: 23 | Reddit: 50 (0p) | Final: 33/100
+2025-11-06 16:34:11,176 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-06 16:34:12,453 - TradingBot - INFO -    [2025-08-08] Bot: SELL | Tech: 23 | AI: 45 | Reddit: 50 (0p) | Final: 37/100
+2025-11-06 16:34:12,454 - TradingBot - INFO -    ❌ SELL rejeté (Score: 37)
+2025-11-06 16:34:13,485 - TradingBot - INFO -    [2025-08-11] Bot: SELL | Tech: 32 | AI: 57 | Reddit: 50 (0p) | Final: 45/100
+2025-11-06 16:34:13,485 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-06 16:34:14,517 - TradingBot - INFO -    [2025-08-12] Bot: SELL | Tech: 32 | AI: 50 | Reddit: 50 (0p) | Final: 43/100
+2025-11-06 16:34:14,517 - TradingBot - INFO -    ❌ SELL rejeté (Score: 43)
+2025-11-06 16:34:15,569 - TradingBot - INFO -    [2025-08-13] Bot: SELL | Tech: 34 | AI: 46 | Reddit: 50 (0p) | Final: 42/100
+2025-11-06 16:34:15,569 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-06 16:34:16,619 - TradingBot - INFO -    [2025-08-14] Bot: SELL | Tech: 32 | AI: 19 | Reddit: 50 (0p) | Final: 32/100
+2025-11-06 16:34:16,619 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-06 16:34:17,681 - TradingBot - INFO -    [2025-08-15] Bot: SELL | Tech: 45 | AI: 40 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:34:17,682 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:34:18,723 - TradingBot - INFO -    [2025-08-18] Bot: SELL | Tech: 43 | AI: 49 | Reddit: 50 (0p) | Final: 47/100
+2025-11-06 16:34:18,723 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-06 16:34:23,348 - TradingBot - INFO -    [2025-08-29] Bot: BUY | Tech: 77 | AI: 51 | Reddit: 50 (0p) | Final: 61/100
+2025-11-06 16:34:24,500 - TradingBot - INFO -    [2025-09-02] Bot: BUY | Tech: 82 | AI: 50 | Reddit: 50 (0p) | Final: 63/100
+2025-11-06 16:34:25,697 - TradingBot - INFO -    [2025-09-03] Bot: BUY | Tech: 80 | AI: 50 | Reddit: 50 (0p) | Final: 62/100
+2025-11-06 16:34:26,621 - TradingBot - INFO -    [2025-09-04] Bot: BUY | Tech: 80 | AI: 50 | Reddit: 50 (0p) | Final: 62/100
+2025-11-06 16:34:27,528 - TradingBot - INFO -    [2025-09-05] Bot: BUY | Tech: 82 | AI: 50 | Reddit: 50 (0p) | Final: 63/100
+2025-11-06 16:34:28,451 - TradingBot - INFO -    [2025-09-08] Bot: BUY | Tech: 75 | AI: 50 | Reddit: 50 (0p) | Final: 60/100
+2025-11-06 16:34:30,890 - TradingBot - INFO -    [2025-09-12] Bot: SELL | Tech: 36 | AI: 50 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:34:30,890 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:34:32,922 - TradingBot - INFO -    [Reddit] NVDA: Score 57/100 (8 posts)
+2025-11-06 16:34:33,329 - TradingBot - INFO -    [2025-09-18] Bot: SELL | Tech: 38 | AI: 20 | Reddit: 57 (8p) | Final: 36/100
+2025-11-06 16:34:33,329 - TradingBot - INFO -    ❌ SELL rejeté (Score: 36)
+2025-11-06 16:34:34,740 - TradingBot - INFO -    [2025-09-22] Bot: SELL | Tech: 35 | AI: 50 | Reddit: 50 (0p) | Final: 44/100
+2025-11-06 16:34:34,740 - TradingBot - INFO -    ❌ SELL rejeté (Score: 44)
+2025-11-06 16:34:37,439 - TradingBot - INFO -    [2025-09-30] Bot: HOLD | Tech: 48 | AI: 50 | Reddit: 50 (0p) | Final: 48/100
+2025-11-06 16:34:41,382 - TradingBot - INFO -    [2025-10-10] Bot: BUY | Tech: 76 | AI: 87 | Reddit: 50 (0p) | Final: 73/100
+2025-11-06 16:34:46,306 - TradingBot - INFO -    [2025-10-24] Bot: SELL | Tech: 40 | AI: 74 | Reddit: 50 (0p) | Final: 55/100
+2025-11-06 16:34:46,306 - TradingBot - INFO -    ❌ SELL rejeté (Score: 55)
+2025-11-06 16:34:47,773 - TradingBot - INFO -    [2025-10-28] Bot: BUY | Tech: 78 | AI: 50 | Reddit: 50 (0p) | Final: 61/100
+2025-11-06 16:34:48,814 - TradingBot - INFO -    [2025-10-29] Bot: BUY | Tech: 78 | AI: 55 | Reddit: 50 (0p) | Final: 63/100
+2025-11-06 16:34:51,176 - TradingBot - INFO -    [2025-11-04] Bot: BUY | Tech: 75 | AI: 47 | Reddit: 50 (0p) | Final: 59/100
+2025-11-06 16:34:52,247 - TradingBot - INFO -    [2025-11-06] Bot: BUY | Tech: 83 | AI: 49 | Reddit: 50 (0p) | Final: 63/100
+2025-11-06 16:34:52,448 - TradingBot - INFO -    [OK] 78.98s | Score: 80 | Profit: +37.24% | Trades: 1
+2025-11-06 16:45:26,403 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fc5e66e1c50>
+2025-11-06 16:45:28,658 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-06 16:45:28,658 - TradingBot - INFO - [Init] Fichier CSV Reddit trouvé: pushshift_NVDA_ALL_20251106_151829.csv
+2025-11-06 16:45:28,659 - TradingBot - INFO - 🚀 Démarrage du bot...
+2025-11-06 16:45:28,659 - discord.client - INFO - logging in using static token
+2025-11-06 16:45:30,021 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 0ba8f633491531222bbab91925b6e99c).
+2025-11-06 16:45:32,024 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-06 16:45:40,998 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-06 16:45:41,744 - TradingBot - INFO -    [✓] 167 jours de données
+2025-11-06 16:45:41,746 - TradingBot - INFO -    [✓] 107 jours d'analyse (backtest quotidien)
+2025-11-06 16:45:42,299 - TradingBot - INFO - [Reddit] ✅ 1355 posts chargés depuis pushshift_NVDA_ALL_20251106_151829.csv
+2025-11-06 16:45:42,741 - TradingBot - INFO -    [2025-06-05] Decision: BUY | Tech Confidence: 72/100 | Reddit: 50/100 (0p) | FINAL SCORE: 87/100
+2025-11-06 16:45:42,741 - TradingBot - INFO -    ✅ BUY validé (Score: 87) @ $139.97
+2025-11-06 16:45:43,858 - TradingBot - INFO -    [Reddit] NVDA: Score 57/100 (6 posts)
+2025-11-06 16:45:44,271 - TradingBot - INFO -    [2025-06-09] Decision: SELL | Tech Confidence: 73/100 | Reddit: 57/100 (6p) | FINAL SCORE: 73/100
+2025-11-06 16:45:44,271 - TradingBot - INFO -    ✅ SELL validé (Score: 73) @ $142.61 | Profit: +1.89% | Durée: 4j
+2025-11-06 16:45:44,923 - TradingBot - INFO -    [Reddit] NVDA: Score 57/100 (9 posts)
+2025-11-06 16:45:45,335 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech Confidence: 73/100 | Reddit: 57/100 (9p) | FINAL SCORE: 73/100
+2025-11-06 16:45:46,033 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (14 posts)
+2025-11-06 16:45:46,443 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech Confidence: 80/100 | Reddit: 65/100 (14p) | FINAL SCORE: 80/100
+2025-11-06 16:45:47,502 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech Confidence: 73/100 | Reddit: 50/100 (0p) | FINAL SCORE: 73/100
+2025-11-06 16:45:48,579 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-06 16:45:49,250 - TradingBot - INFO -    [Reddit] NVDA: Score 53/100 (3 posts)
+2025-11-06 16:45:49,660 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech Confidence: 85/100 | Reddit: 53/100 (3p) | FINAL SCORE: 85/100
+2025-11-06 16:45:50,340 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-06 16:45:50,748 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech Confidence: 85/100 | Reddit: 64/100 (5p) | FINAL SCORE: 70/100
+2025-11-06 16:45:51,801 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 70/100
+2025-11-06 16:45:52,451 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-06 16:45:52,857 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech Confidence: 95/100 | Reddit: 63/100 (1p) | FINAL SCORE: 95/100
+2025-11-06 16:45:53,920 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-06 16:45:54,602 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-06 16:45:55,013 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech Confidence: 85/100 | Reddit: 60/100 (4p) | FINAL SCORE: 70/100
+2025-11-06 16:45:55,651 - TradingBot - INFO -    [Reddit] NVDA: Score 59/100 (4 posts)
+2025-11-06 16:45:56,059 - TradingBot - INFO -    [2025-06-25] Decision: SELL | Tech Confidence: 90/100 | Reddit: 59/100 (4p) | FINAL SCORE: 75/100
+2025-11-06 16:45:59,546 - TradingBot - INFO -    [2025-07-07] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 50/100 (0p) | FINAL SCORE: 25/100
+2025-11-06 16:46:05,604 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech Confidence: 90/100 | Reddit: 50/100 (0p) | FINAL SCORE: 90/100
+2025-11-06 16:46:06,644 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 86/100
+2025-11-06 16:46:07,712 - TradingBot - INFO -    [2025-07-24] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 86/100
+2025-11-06 16:46:08,752 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech Confidence: 92/100 | Reddit: 50/100 (0p) | FINAL SCORE: 91/100
+2025-11-06 16:46:09,811 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-06 16:46:10,855 - TradingBot - INFO -    [2025-07-29] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 86/100
+2025-11-06 16:46:11,512 - TradingBot - INFO -    [Reddit] NVDA: Score 66/100 (8 posts)
+2025-11-06 16:46:11,927 - TradingBot - INFO -    [2025-07-30] Decision: SELL | Tech Confidence: 90/100 | Reddit: 66/100 (8p) | FINAL SCORE: 90/100
+2025-11-06 16:46:12,670 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (11 posts)
+2025-11-06 16:46:13,251 - TradingBot - INFO -    [2025-07-31] Decision: SELL | Tech Confidence: 90/100 | Reddit: 65/100 (11p) | FINAL SCORE: 75/100
+2025-11-06 16:46:14,306 - TradingBot - INFO -    [2025-08-01] Decision: SELL | Tech Confidence: 95/100 | Reddit: 50/100 (0p) | FINAL SCORE: 95/100
+2025-11-06 16:46:15,372 - TradingBot - INFO -    [2025-08-04] Decision: SELL | Tech Confidence: 80/100 | Reddit: 50/100 (0p) | FINAL SCORE: 80/100
+2025-11-06 16:46:16,008 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (3 posts)
+2025-11-06 16:46:16,413 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech Confidence: 90/100 | Reddit: 63/100 (3p) | FINAL SCORE: 75/100
+2025-11-06 16:46:17,471 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech Confidence: 90/100 | Reddit: 50/100 (0p) | FINAL SCORE: 98/100
+2025-11-06 16:46:18,505 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 70/100
+2025-11-06 16:46:19,556 - TradingBot - INFO -    [2025-08-08] Decision: SELL | Tech Confidence: 80/100 | Reddit: 50/100 (0p) | FINAL SCORE: 80/100
+2025-11-06 16:46:20,620 - TradingBot - INFO -    [2025-08-11] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 94/100
+2025-11-06 16:46:21,673 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech Confidence: 80/100 | Reddit: 50/100 (0p) | FINAL SCORE: 80/100
+2025-11-06 16:46:22,812 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech Confidence: 95/100 | Reddit: 50/100 (0p) | FINAL SCORE: 95/100
+2025-11-06 16:46:23,875 - TradingBot - INFO -    [2025-08-14] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 70/100
+2025-11-06 16:46:24,905 - TradingBot - INFO -    [2025-08-15] Decision: SELL | Tech Confidence: 100/100 | Reddit: 50/100 (0p) | FINAL SCORE: 100/100
+2025-11-06 16:46:25,986 - TradingBot - INFO -    [2025-08-18] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-06 16:46:29,497 - TradingBot - INFO -    [2025-08-26] Decision: SELL | Tech Confidence: 100/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-06 16:46:30,542 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech Confidence: 100/100 | Reddit: 50/100 (0p) | FINAL SCORE: 100/100
+2025-11-06 16:46:32,045 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech Confidence: 58/100 | Reddit: 50/100 (0p) | FINAL SCORE: 57/100
+2025-11-06 16:46:32,045 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-06 16:46:33,187 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech Confidence: 68/100 | Reddit: 50/100 (0p) | FINAL SCORE: 67/100
+2025-11-06 16:46:33,187 - TradingBot - INFO -    ✅ BUY validé (Score: 67) @ $170.77
+2025-11-06 16:46:34,094 - TradingBot - INFO -    [2025-09-03] Decision: BUY | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 47/100
+2025-11-06 16:46:35,005 - TradingBot - INFO -    [2025-09-04] Decision: BUY | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 47/100
+2025-11-06 16:46:35,937 - TradingBot - INFO -    [2025-09-05] Decision: BUY | Tech Confidence: 68/100 | Reddit: 50/100 (0p) | FINAL SCORE: 67/100
+2025-11-06 16:46:36,846 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech Confidence: 58/100 | Reddit: 50/100 (0p) | FINAL SCORE: 57/100
+2025-11-06 16:46:39,271 - TradingBot - INFO -    [2025-09-12] Decision: SELL | Tech Confidence: 72/100 | Reddit: 50/100 (0p) | FINAL SCORE: 72/100
+2025-11-06 16:46:39,271 - TradingBot - INFO -    ✅ SELL validé (Score: 72) @ $177.82 | Profit: +4.13% | Durée: 10j
+2025-11-06 16:46:39,782 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (5 posts)
+2025-11-06 16:46:40,189 - TradingBot - INFO -    [2025-09-15] Decision: BUY | Tech Confidence: 75/100 | Reddit: 54/100 (5p) | FINAL SCORE: 83/100
+2025-11-06 16:46:40,189 - TradingBot - INFO -    ✅ BUY validé (Score: 83) @ $177.75
+2025-11-06 16:46:43,025 - TradingBot - INFO -    [2025-09-22] Decision: SELL | Tech Confidence: 58/100 | Reddit: 50/100 (0p) | FINAL SCORE: 57/100
+2025-11-06 16:46:43,025 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-06 16:46:44,916 - TradingBot - INFO -    [2025-09-25] Decision: SELL | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 47/100
+2025-11-06 16:46:44,916 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-06 16:46:45,562 - TradingBot - INFO -    [Reddit] NVDA: Score 58/100 (7 posts)
+2025-11-06 16:46:45,968 - TradingBot - INFO -    [2025-09-26] Decision: SELL | Tech Confidence: 48/100 | Reddit: 58/100 (7p) | FINAL SCORE: 47/100
+2025-11-06 16:46:45,969 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-06 16:46:47,013 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech Confidence: 58/100 | Reddit: 50/100 (0p) | FINAL SCORE: 42/100
+2025-11-06 16:46:47,014 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-06 16:46:48,063 - TradingBot - INFO -    [2025-09-30] Decision: SELL | Tech Confidence: 58/100 | Reddit: 50/100 (0p) | FINAL SCORE: 57/100
+2025-11-06 16:46:48,063 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-06 16:46:49,132 - TradingBot - INFO -    [2025-10-01] Decision: SELL | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 47/100
+2025-11-06 16:46:49,132 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-06 16:46:50,186 - TradingBot - INFO -    [2025-10-02] Decision: SELL | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 32/100
+2025-11-06 16:46:50,186 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-06 16:46:57,040 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech Confidence: 48/100 | Reddit: 50/100 (0p) | FINAL SCORE: 62/100
+2025-11-06 16:46:58,522 - TradingBot - INFO -    [2025-10-24] Decision: SELL | Tech Confidence: 72/100 | Reddit: 50/100 (0p) | FINAL SCORE: 80/100
+2025-11-06 16:46:58,522 - TradingBot - INFO -    ✅ SELL validé (Score: 80) @ $186.26 | Profit: +4.79% | Durée: 39j
+2025-11-06 16:46:59,150 - TradingBot - INFO -    [Reddit] NVDA: Score 78/100 (3 posts)
+2025-11-06 16:46:59,556 - TradingBot - INFO -    [2025-10-27] Decision: BUY | Tech Confidence: 82/100 | Reddit: 78/100 (3p) | FINAL SCORE: 90/100
+2025-11-06 16:46:59,556 - TradingBot - INFO -    ✅ BUY validé (Score: 90) @ $191.49
+2025-11-06 16:47:00,181 - TradingBot - INFO -    [2025-10-28] Decision: HOLD | Tech Confidence: 40/100 | Reddit: 50/100 (0p) | FINAL SCORE: 40/100
+2025-11-06 16:47:02,841 - TradingBot - INFO -    [OK] 81.84s | Score: 80 | Profit: +10.36% | Trades: 4
+2025-11-06 16:47:18,346 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7faea0fff890>
