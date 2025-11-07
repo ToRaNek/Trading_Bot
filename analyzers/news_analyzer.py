@@ -6,8 +6,13 @@ from datetime import datetime, timedelta
 from textblob import TextBlob
 from typing import Dict, List, Tuple, Optional
 import os
+import sys
 import logging
 from .ai_scorer import AIScorer
+
+# Importer le rotateur de clés API
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.api_key_rotator import APIKeyRotator
 
 logger = logging.getLogger('TradingBot')
 
@@ -15,13 +20,18 @@ logger = logging.getLogger('TradingBot')
 class HistoricalNewsAnalyzer:
     """Récupère les actualités historiques pour chaque date de backtest"""
 
-    def __init__(self):
+    def __init__(self, api_keys_csv_path: str = None):
         self.session = None
-        self.newsapi_key = os.getenv('NEWSAPI_KEY', '')
+        # Initialiser le système de rotation des clés NewsAPI
+        self.newsapi_rotator = APIKeyRotator(csv_path=api_keys_csv_path)
         self.finnhub_key = os.getenv('FINNHUB_KEY', '')
         self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
         self.news_cache = {}  # Cache pour éviter appels API répétés
         self.ai_scorer = AIScorer(self.hf_token)  # Scorer pour Reddit et News
+
+        # Log des stats du rotateur
+        stats = self.newsapi_rotator.get_stats()
+        logger.info(f"[NewsAPI] Rotateur initialisé: {stats['active_keys']}/{stats['total_keys']} clés actives")
 
     async def get_session(self):
         if not self.session:
@@ -60,7 +70,11 @@ class HistoricalNewsAnalyzer:
 
             search_term = company_names.get(symbol, symbol)
 
-            # Essayer Finnhub d'abord
+            # Collecter les news des deux sources
+            all_news_items = []
+            all_sentiments = []
+
+            # 1. Essayer Finnhub
             if self.finnhub_key:
                 url = "https://finnhub.io/api/v1/company-news"
                 params = {
@@ -75,12 +89,10 @@ class HistoricalNewsAnalyzer:
                         if response.status == 200:
                             data = await response.json()
                             if isinstance(data, list) and len(data) > 0:
-                                logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub retourne {len(data)} news brutes")
-                                result = await self._parse_finnhub_news(data, target_date)
-                                self.news_cache[cache_key] = result
-                                has_news, news_items, score = result
-                                logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Apres parsing -> {len(news_items)} news gardees (has_news={has_news}, score={score:.0f})")
-                                return result
+                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub retourne {len(data)} news brutes")
+                                has_news, news_items, score = await self._parse_finnhub_news(data, target_date)
+                                all_news_items.extend(news_items)
+                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub -> {len(news_items)} news gardees")
                             else:
                                 logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub OK mais 0 news")
                         else:
@@ -88,37 +100,83 @@ class HistoricalNewsAnalyzer:
                 except Exception as e:
                     logger.debug(f"[News] {symbol}: Finnhub erreur {e}")
 
-            # Fallback sur NewsAPI
-            if self.newsapi_key:
-                url = "https://newsapi.org/v2/everything"
-                params = {
-                    'q': f"{search_term} stock OR {symbol}",
-                    'from': from_date.strftime('%Y-%m-%dT%H:%M:%S'),
-                    'to': to_date.strftime('%Y-%m-%dT%H:%M:%S'),
-                    'sortBy': 'publishedAt',
-                    'language': 'en',
-                    'apiKey': self.newsapi_key,
-                    'pageSize': 20
-                }
+            # 2. Essayer NewsAPI avec rotation des clés (seulement si date < 30 jours)
+            days_ago = (datetime.now() - target_date).days
 
-                try:
-                    async with session.get(url, params=params, timeout=10) as response:
-                        if response.status == 200:
-                            data = await response.json()
-                            if 'articles' in data and data['articles']:
-                                result = await self._parse_newsapi_news(data['articles'], target_date)
-                                self.news_cache[cache_key] = result
-                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: {len(data['articles'])} news NewsAPI")
-                                return result
+            if days_ago <= 30:
+                newsapi_key = self.newsapi_rotator.get_current_key()
+                max_retries = self.newsapi_rotator.get_stats()['total_keys']
+
+                for retry in range(max_retries):
+                    if not newsapi_key:
+                        logger.debug(f"[News] {symbol}: Aucune clé NewsAPI disponible")
+                        break
+
+                    url = "https://newsapi.org/v2/everything"
+                    params = {
+                        'q': f"{search_term} OR {symbol}",
+                        'from': from_date.strftime('%Y-%m-%d'),
+                        'to': to_date.strftime('%Y-%m-%d'),
+                        'sortBy': 'publishedAt',
+                        'language': 'en',
+                        'apiKey': newsapi_key,
+                        'pageSize': 100
+                    }
+
+                    try:
+                        async with session.get(url, params=params, timeout=10) as response:
+                            if response.status == 200:
+                                data = await response.json()
+                                if 'articles' in data and data['articles']:
+                                    self.newsapi_rotator.mark_current_as_success()
+                                    has_news, news_items, score = await self._parse_newsapi_news(data['articles'], target_date)
+                                    all_news_items.extend(news_items)
+                                    logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: NewsAPI -> {len(news_items)} news gardees (clé {self.newsapi_rotator.current_index + 1})")
+                                    break
+                                else:
+                                    logger.debug(f"[News] {symbol}: NewsAPI OK mais 0 news")
+                                    break
+                            elif response.status == 429:
+                                logger.warning(f"[News] {symbol}: NewsAPI clé {self.newsapi_rotator.current_index + 1} limite atteinte (429)")
+                                self.newsapi_rotator.mark_current_as_failed()
+                                newsapi_key = self.newsapi_rotator.get_current_key()
+                                if retry < max_retries - 1:
+                                    logger.info(f"[News] {symbol}: Tentative {retry + 2}/{max_retries}")
+                                    continue
                             else:
-                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: NewsAPI OK mais 0 news")
-                        else:
-                            logger.warning(f"[News] {symbol}: NewsAPI status {response.status}")
-                except Exception as e:
-                    logger.debug(f"[News] {symbol}: NewsAPI erreur {e}")
+                                logger.debug(f"[News] {symbol}: NewsAPI status {response.status}")
+                                break
+                    except Exception as e:
+                        logger.debug(f"[News] {symbol}: NewsAPI erreur {e}")
+                        break
+            else:
+                logger.debug(f"[News] {symbol}: NewsAPI skip (date trop ancienne: {days_ago} jours)")
+
+            # Combiner tous les résultats
+            if all_news_items:
+                # Recalculer le score basé sur tous les articles
+                total_sentiments = []
+                for item in all_news_items:
+                    if 'sentiment' in item:
+                        importance = item.get('importance', 1.0)
+                        weighted_sentiment = item['sentiment'] * importance
+                        total_sentiments.append(weighted_sentiment)
+
+                if total_sentiments:
+                    avg_sentiment = np.mean(total_sentiments)
+                    final_score = ((avg_sentiment + 3) / 6) * 100
+                    final_score = max(0, min(100, final_score))
+                else:
+                    final_score = 50.0
+
+                result = (True, all_news_items, final_score)
+                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: TOTAL {len(all_news_items)} news, score={final_score:.0f}/100")
+                self.news_cache[cache_key] = result
+                return result
 
             # Aucune news trouvée
-            logger.warning(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Aucune news trouvée (Finnhub={bool(self.finnhub_key)}, NewsAPI={bool(self.newsapi_key)})")
+            stats = self.newsapi_rotator.get_stats()
+            logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Aucune news trouvée (Finnhub={bool(self.finnhub_key)}, NewsAPI={stats['active_keys']}/{stats['total_keys']} clés)")
             result = (False, [], 0.0)
             self.news_cache[cache_key] = result
             return result
@@ -130,7 +188,7 @@ class HistoricalNewsAnalyzer:
             return False, [], 0.0
 
     async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
-        """Parse les actualités Finnhub"""
+        """Parse les actualités Finnhub avec analyse de sentiment"""
         news_items = []
 
         if hasattr(target_date, 'tz') and target_date.tz is not None:
@@ -138,19 +196,31 @@ class HistoricalNewsAnalyzer:
 
         cutoff_time = target_date - timedelta(hours=48)
 
-        importance_keywords = {
-            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
-            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
-            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
-            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
-            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
-            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
-            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        # Keywords pour pondération
+        positive_keywords = {
+            'earnings beat': 3.0, 'beats': 2.5, 'profit': 2.0, 'surge': 2.5,
+            'breakthrough': 2.5, 'record': 2.0, 'growth': 1.5, 'upgrade': 2.0,
+            'partnership': 1.5, 'acquisition': 2.0, 'approval': 2.0,
+            'bullish': 2.0, 'gains': 1.5, 'jumps': 2.0, 'soars': 2.5
         }
+
+        negative_keywords = {
+            'earnings miss': 3.0, 'misses': 2.5, 'loss': 2.0, 'plunge': 2.5,
+            'crash': 3.0, 'downgrade': 2.0, 'lawsuit': 2.0, 'investigation': 2.0,
+            'recall': 2.0, 'bankruptcy': 3.0, 'bearish': 2.0, 'falls': 1.5,
+            'drops': 1.5, 'slides': 1.5, 'tumbles': 2.0, 'slumps': 2.0
+        }
+
+        sentiments = []
+        positive_count = 0
+        negative_count = 0
+        neutral_count = 0
 
         for article in data:
             try:
                 title = article.get('headline', '')
+                summary = article.get('summary', '')
+
                 if not title or len(title) < 10:
                     continue
 
@@ -162,35 +232,69 @@ class HistoricalNewsAnalyzer:
                 if pub_date < cutoff_time or pub_date > target_date:
                     continue
 
-                title_lower = title.lower()
-                importance = 1.0
-                matched_keywords = []
+                # Analyse de sentiment avec TextBlob
+                text = f"{title} {summary}"
+                blob = TextBlob(text)
+                polarity = blob.sentiment.polarity  # -1 (négatif) à +1 (positif)
 
-                for keyword, weight in importance_keywords.items():
-                    if keyword in title_lower:
+                # Détecter les keywords importants
+                text_lower = text.lower()
+                importance = 1.0
+
+                for keyword, weight in positive_keywords.items():
+                    if keyword in text_lower:
                         importance += weight
-                        matched_keywords.append(keyword)
+
+                for keyword, weight in negative_keywords.items():
+                    if keyword in text_lower:
+                        importance += weight
+
+                # Pondérer le sentiment par l'importance
+                weighted_sentiment = polarity * importance
+                sentiments.append(weighted_sentiment)
+
+                # Compter les sentiments
+                if polarity > 0.1:
+                    positive_count += 1
+                elif polarity < -0.1:
+                    negative_count += 1
+                else:
+                    neutral_count += 1
 
                 news_items.append({
                     'title': title,
                     'publisher': article.get('source', 'Finnhub'),
                     'date': pub_date,
                     'importance': importance,
-                    'keywords': matched_keywords,
-                    'summary': article.get('summary', '')[:200]
+                    'sentiment': polarity,
+                    'summary': summary[:200]
                 })
 
             except Exception:
                 continue
 
         has_news = len(news_items) > 0
-        total_importance = sum(n['importance'] for n in news_items)
-        news_score = min(100, total_importance * 10) if has_news else 0.0
 
-        return has_news, news_items, news_score
+        # Calculer le score basé sur le sentiment (AMPLIFIE pour être plus tranché)
+        if sentiments and has_news:
+            avg_sentiment = np.mean(sentiments)
+
+            # NOUVEAU: Amplifier le sentiment pour être plus tranché
+            # Multiplier par 3 pour avoir des scores plus extrêmes
+            amplified_sentiment = avg_sentiment * 3.0
+
+            # Convertir en score 0-100 avec amplification
+            score = ((amplified_sentiment + 3) / 6) * 100
+            score = max(0, min(100, score))
+
+            logger.debug(f"[News] Sentiment: avg={avg_sentiment:.2f}, amplified={amplified_sentiment:.2f}, score={score:.0f}, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        else:
+            score = 0.0
+
+        return has_news, news_items, score
 
     async def _parse_newsapi_news(self, articles: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
-        """Parse les actualités NewsAPI"""
+        """Parse les actualités NewsAPI avec analyse de sentiment"""
         news_items = []
 
         if hasattr(target_date, 'tz') and target_date.tz is not None:
@@ -198,19 +302,32 @@ class HistoricalNewsAnalyzer:
 
         cutoff_time = target_date - timedelta(hours=48)
 
-        importance_keywords = {
-            'earnings': 3.0, 'revenue': 2.5, 'profit': 2.5, 'loss': 2.5,
-            'launch': 2.0, 'partnership': 2.0, 'acquisition': 3.0, 'merger': 3.0,
-            'FDA': 2.5, 'approval': 2.0, 'breakthrough': 2.0, 'record': 1.5,
-            'guidance': 2.0, 'upgrade': 2.0, 'downgrade': 2.0, 'analyst': 1.5,
-            'lawsuit': 1.5, 'investigation': 1.5, 'recall': 2.0, 'bankruptcy': 3.0,
-            'dividend': 1.5, 'split': 2.0, 'buyback': 1.5, 'expansion': 1.5,
-            'contract': 1.5, 'deal': 1.5, 'beats': 2.0, 'misses': 2.0
+        # Keywords pour pondération
+        positive_keywords = {
+            'earnings beat': 3.0, 'beats': 2.5, 'profit': 2.0, 'surge': 2.5,
+            'breakthrough': 2.5, 'record': 2.0, 'growth': 1.5, 'upgrade': 2.0,
+            'partnership': 1.5, 'acquisition': 2.0, 'approval': 2.0,
+            'bullish': 2.0, 'gains': 1.5, 'jumps': 2.0, 'soars': 2.5
         }
+
+        negative_keywords = {
+            'earnings miss': 3.0, 'misses': 2.5, 'loss': 2.0, 'plunge': 2.5,
+            'crash': 3.0, 'downgrade': 2.0, 'lawsuit': 2.0, 'investigation': 2.0,
+            'recall': 2.0, 'bankruptcy': 3.0, 'bearish': 2.0, 'falls': 1.5,
+            'drops': 1.5, 'slides': 1.5, 'tumbles': 2.0, 'slumps': 2.0
+        }
+
+        sentiments = []
+        positive_count = 0
+        negative_count = 0
+        neutral_count = 0
 
         for article in articles:
             try:
                 title = article.get('title', '')
+                description = article.get('description', '')
+                content = article.get('content', '')
+
                 if not title or len(title) < 10:
                     continue
 
@@ -222,35 +339,69 @@ class HistoricalNewsAnalyzer:
                 if hasattr(pub_date, 'tz') and pub_date.tz is not None:
                     pub_date = pub_date.replace(tzinfo=None)
 
-                if pub_date < cutoff_time or pub_date > target_date:
-                    continue
+                # Pas de filtrage supplémentaire, NewsAPI a déjà filtré par date
+                # (pour éviter le problème de la fenêtre 48h)
 
-                title_lower = title.lower()
+                # Analyse de sentiment avec TextBlob
+                text = f"{title} {description or content}"
+                blob = TextBlob(text)
+                polarity = blob.sentiment.polarity  # -1 (négatif) à +1 (positif)
+
+                # Détecter les keywords importants
+                text_lower = text.lower()
                 importance = 1.0
-                matched_keywords = []
 
-                for keyword, weight in importance_keywords.items():
-                    if keyword in title_lower:
+                for keyword, weight in positive_keywords.items():
+                    if keyword in text_lower:
                         importance += weight
-                        matched_keywords.append(keyword)
+
+                for keyword, weight in negative_keywords.items():
+                    if keyword in text_lower:
+                        importance += weight
+
+                # Pondérer le sentiment par l'importance
+                weighted_sentiment = polarity * importance
+                sentiments.append(weighted_sentiment)
+
+                # Compter les sentiments
+                if polarity > 0.1:
+                    positive_count += 1
+                elif polarity < -0.1:
+                    negative_count += 1
+                else:
+                    neutral_count += 1
 
                 news_items.append({
                     'title': title,
                     'publisher': article.get('source', {}).get('name', 'Unknown'),
                     'date': pub_date,
                     'importance': importance,
-                    'keywords': matched_keywords,
-                    'summary': article.get('description', '')[:200] if article.get('description') else ''
+                    'sentiment': polarity,
+                    'summary': (description or content or '')[:200]
                 })
 
             except Exception:
                 continue
 
         has_news = len(news_items) > 0
-        total_importance = sum(n['importance'] for n in news_items)
-        news_score = min(100, total_importance * 10) if has_news else 0.0
 
-        return has_news, news_items, news_score
+        # Calculer le score basé sur le sentiment (AMPLIFIE pour être plus tranché)
+        if sentiments and has_news:
+            avg_sentiment = np.mean(sentiments)
+
+            # NOUVEAU: Amplifier le sentiment pour être plus tranché
+            # Multiplier par 3 pour avoir des scores plus extrêmes
+            amplified_sentiment = avg_sentiment * 3.0
+
+            # Convertir en score 0-100 avec amplification
+            score = ((amplified_sentiment + 3) / 6) * 100
+            score = max(0, min(100, score))
+
+            logger.debug(f"[News] Sentiment: avg={avg_sentiment:.2f}, amplified={amplified_sentiment:.2f}, score={score:.0f}, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        else:
+            score = 0.0
+
+        return has_news, news_items, score
 
     async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
                              current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None,
@@ -307,10 +458,38 @@ class HistoricalNewsAnalyzer:
             else:
                 logger.debug(f"   [AI Decision] {symbol}: Pas de News → score 0")
 
-            # ÉTAPE 2: Si aucune donnée, score final = 0
+            # ÉTAPE 2: Calculer le score final avec moyenne pondérée intelligente
+            # Au lieu de mettre 0, on fait une moyenne selon les données disponibles
+            scores_available = []
+            weights = []
+
+            # Toujours inclure le score technique
+            scores_available.append(tech_confidence)
+            weights.append(0.4)  # 40% technique
+
+            # Ajouter Reddit si disponible
+            if reddit_score_ai > 0:
+                scores_available.append(reddit_score_ai)
+                weights.append(0.3)  # 30% Reddit
+
+            # Ajouter News si disponible
+            if news_score_ai > 0:
+                scores_available.append(news_score_ai)
+                weights.append(0.3)  # 30% News
+
+            # Normaliser les poids
+            total_weight = sum(weights)
+            normalized_weights = [w / total_weight for w in weights]
+
+            # Calculer le score final pondéré
+            final_score = sum(s * w for s, w in zip(scores_available, normalized_weights))
+
+            # Si on n'a NI Reddit NI News, pénaliser un peu le score
             if reddit_score_ai == 0 and news_score_ai == 0:
-                logger.debug(f"   [AI Decision] {symbol}: Aucune donnée Reddit/News → SCORE FINAL = 0")
-                return 0, "Aucune donnée disponible (ni Reddit ni News)", 0.0, 0.0
+                final_score = final_score * 0.7  # Réduction de 30%
+                reason = f"Tech seul ({tech_confidence:.0f}) - Pas de Reddit/News → réduit à {final_score:.0f}"
+                logger.debug(f"   [AI Decision] {symbol}: {reason}")
+                return int(final_score), reason, 0.0, 0.0
 
             # ÉTAPE 3: Construire le contexte des 5 derniers prix
             price_context = ""

@@ -263,7 +263,7 @@ class RedditSentimentAnalyzer:
             if not all_posts:
                 result = (0.0, 0, [], [])  # Score 0 si pas de posts (personne n'en parle)
                 self.sentiment_cache[cache_key] = result
-                logger.info(f"   [Reddit] {symbol}: Score 0/100 (aucun post)")
+                logger.debug(f"   [Reddit] {symbol}: Score 0/100 (aucun post)")
                 return result
 
             sentiments = []
@@ -300,7 +300,7 @@ class RedditSentimentAnalyzer:
             result = (sentiment_score, len(all_posts), sample_posts, all_posts)
             self.sentiment_cache[cache_key] = result
 
-            logger.info(f"   [Reddit] {symbol}: Score {sentiment_score:.0f}/100 ({len(all_posts)} posts)")
+            logger.debug(f"   [Reddit] {symbol}: Score {sentiment_score:.0f}/100 ({len(all_posts)} posts)")
 
             return result
 

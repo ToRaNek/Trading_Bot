@@ -39,7 +39,7 @@ class RealisticBacktestEngine:
         self.tech_analyzer = TechnicalAnalyzer()
 
         # Configuration stop loss / take profit
-        self.stop_loss_pct = -3.0  # -3%
+        self.stop_loss_pct = -10.0  # -10%
         self.take_profit_pct = 10.0  # +10%
 
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
@@ -177,6 +177,8 @@ class RealisticBacktestEngine:
                 # Validation IA
                 final_score = tech_confidence
                 ai_reason = "Pas de validation IA"
+                reddit_score_ai = 0.0
+                news_score_ai = news_score  # Utiliser le score calculé par get_news_for_date
 
                 if bot_decision in ["BUY", "SELL"]:
                     # Préparer les 5 derniers prix
@@ -193,7 +195,7 @@ class RealisticBacktestEngine:
                         sell_price = current_price
 
                     # Appeler HF avec TOUS les nouveaux paramètres
-                    final_score, ai_reason, reddit_score_ai, news_score_ai = await self.news_analyzer.ask_ai_decision(
+                    final_score, ai_reason, reddit_score_ai, _news_score_hf = await self.news_analyzer.ask_ai_decision(
                         symbol, bot_decision, news_data, current_price, tech_confidence,
                         reddit_posts=reddit_posts_details,
                         target_date=current_date,
@@ -201,16 +203,29 @@ class RealisticBacktestEngine:
                         buy_price=buy_price,
                         sell_price=sell_price
                     )
-                else:
-                    reddit_score_ai = 0.0
-                    news_score_ai = 0.0
+                    # Garder news_score_ai calculé par notre système de sentiment
+
+                    # BOOST: Si les news sont POSITIF (>= 56), augmenter le score final de 15%
+                    if news_score_ai >= 56:
+                        final_score = min(100, final_score * 1.15)
+                        logger.debug(f"   [BOOST] News POSITIF ({news_score_ai:.0f}) → Final score boosted to {final_score:.0f}")
 
                 # Logs - Afficher les scores AI si disponibles, sinon 0
                 if bot_decision != "HOLD" or idx % 20 == 0:
+                    # Determiner si news positif ou negatif
+                    news_sentiment_label = ""
+                    if news_score_ai > 0:
+                        if news_score_ai >= 56:
+                            news_sentiment_label = " POSITIF"
+                        elif news_score_ai <= 45:
+                            news_sentiment_label = " NEGATIF"
+                        else:
+                            news_sentiment_label = " NEUTRE"
+
                     logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Decision: {bot_decision} | "
                               f"Tech: {tech_confidence:.0f}/100 | "
                               f"Reddit: {reddit_score_ai:.0f}/100 ({reddit_post_count}p) | "
-                              f"News: {news_score_ai:.0f}/100 | "
+                              f"News: {news_score_ai:.0f}/100{news_sentiment_label} | "
                               f"FINAL: {final_score:.0f}/100")
 
                 # Exécuter le trade si score > 65
@@ -290,7 +305,20 @@ class RealisticBacktestEngine:
             profits = [t['profit'] for t in trades]
             total_profit = sum(profits)
             avg_profit = np.mean(profits)
-            win_rate = len([p for p in profits if p > 0]) / len(profits) * 100
+            max_profit = max(profits)
+            max_loss = min(profits)
+            hold_days = [t['hold_days'] for t in trades]
+            avg_hold_days = np.mean(hold_days)
+            profitable_trades = len([p for p in profits if p > 0])
+            win_rate = profitable_trades / len(profits) * 100
+
+            # Buy & Hold return
+            first_price = df['Close'].iloc[warm_up_days]
+            last_price = df['Close'].iloc[-1]
+            buy_hold_return = (last_price - first_price) / first_price * 100
+
+            # Strategy vs Hold
+            strategy_vs_hold = total_profit - buy_hold_return
 
             duration = time.time() - start_time
 
@@ -311,11 +339,21 @@ class RealisticBacktestEngine:
                 'trades': trades,
                 'total_profit': total_profit,
                 'avg_profit': avg_profit,
+                'max_profit': max_profit,
+                'max_loss': max_loss,
+                'avg_hold_days': avg_hold_days,
+                'profitable_trades': profitable_trades,
                 'win_rate': win_rate,
+                'buy_hold_return': buy_hold_return,
+                'strategy_vs_hold': strategy_vs_hold,
+                'decision_points': len(decision_points),
                 'validated_buys': validated_buys,
                 'rejected_buys': rejected_buys,
                 'validated_sells': validated_sells,
-                'rejected_sells': rejected_sells
+                'rejected_sells': rejected_sells,
+                'period': f"{months} mois",
+                'strategy_score': win_rate,  # Utiliser win_rate comme score de stratégie
+                'total_trades': len(trades)
             }
 
         except Exception as e:
@@ -323,6 +361,19 @@ class RealisticBacktestEngine:
             import traceback
             traceback.print_exc()
             return None
+
+    async def backtest_watchlist(self, symbols: list, months: int = 6):
+        """Backtest sur une liste de symboles"""
+        results = []
+        for symbol in symbols:
+            logger.info(f"\n🔍 Backtest {symbol}...")
+            result = await self.backtest_with_news_validation(symbol, months)
+            if result:
+                results.append(result)
+
+        # Trier par profit total décroissant
+        results.sort(key=lambda x: x['total_profit'], reverse=True)
+        return results
 
     async def close(self):
         """Fermer les sessions"""
