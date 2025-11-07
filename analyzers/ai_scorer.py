@@ -32,7 +32,7 @@ class AIScorer:
             self.session = aiohttp.ClientSession()
         return self.session
 
-    async def score_reddit_posts(self, symbol: str, posts: List[Dict], target_date: datetime = None) -> float:
+    async def score_reddit_posts(self, symbol: str, posts: List[Dict], target_date: datetime = None, fallback_score: float = None) -> float:
         """
         Demande à Hugging Face de scorer les posts Reddit
 
@@ -40,12 +40,13 @@ class AIScorer:
             symbol: Ticker de l'action
             posts: Liste des posts Reddit (titre, body, upvotes, downvotes)
             target_date: Date cible pour le cache
+            fallback_score: Score textblob à utiliser si AI échoue
 
         Returns:
             float: Score entre 0-100 (0 = très négatif, 50 = neutre, 100 = très positif)
         """
         if not posts:
-            logger.info(f"   [AI Scorer] Reddit {symbol}: 0 posts → score 0")
+            logger.debug(f"   [AI Scorer] Reddit {symbol}: 0 posts → score 0")
             return 0.0
 
         # Vérifier le cache
@@ -138,12 +139,25 @@ Score:"""
                         logger.warning(f"   [AI Scorer] Reddit {symbol}: Réponse HF invalide")
                         return 50.0
                 else:
-                    logger.error(f"   [AI Scorer] Reddit {symbol}: Erreur HF {response.status}")
-                    return 50.0
+                    # Erreur HF (410 = modèle archivé) - utiliser fallback textblob
+                    if response.status == 410:
+                        logger.debug(f"   [AI Scorer] Reddit {symbol}: Modèle HF indisponible (410), utilise fallback")
+                    else:
+                        logger.warning(f"   [AI Scorer] Reddit {symbol}: Erreur HF {response.status}, utilise fallback")
+
+                    # Utiliser le score textblob en fallback
+                    if fallback_score is not None:
+                        logger.debug(f"   [AI Scorer] Reddit {symbol}: Fallback score {fallback_score:.0f}/100")
+                        return fallback_score
+                    return 0.0
 
         except Exception as e:
-            logger.error(f"   [AI Scorer] Reddit {symbol}: Erreur {e}")
-            return 50.0
+            logger.debug(f"   [AI Scorer] Reddit {symbol}: Erreur {e}, utilise fallback")
+            # Utiliser le score textblob en fallback
+            if fallback_score is not None:
+                logger.debug(f"   [AI Scorer] Reddit {symbol}: Fallback score {fallback_score:.0f}/100")
+                return fallback_score
+            return 0.0
 
     async def score_news(self, symbol: str, news_items: List[Dict], target_date: datetime = None) -> float:
         """
@@ -248,12 +262,16 @@ Score:"""
                         logger.warning(f"   [AI Scorer] News {symbol}: Réponse HF invalide")
                         return 50.0
                 else:
-                    logger.error(f"   [AI Scorer] News {symbol}: Erreur HF {response.status}")
-                    return 50.0
+                    # Erreur HF (410 = modèle archivé) - ne pas logger à chaque fois
+                    if response.status == 410:
+                        logger.debug(f"   [AI Scorer] News {symbol}: Modèle HF indisponible (410)")
+                    else:
+                        logger.warning(f"   [AI Scorer] News {symbol}: Erreur HF {response.status}")
+                    return 0.0  # Retourner 0 au lieu de 50 si erreur
 
         except Exception as e:
-            logger.error(f"   [AI Scorer] News {symbol}: Erreur {e}")
-            return 50.0
+            logger.debug(f"   [AI Scorer] News {symbol}: Erreur {e}")
+            return 0.0  # Retourner 0 au lieu de 50 si erreur
 
     async def close(self):
         if self.session:

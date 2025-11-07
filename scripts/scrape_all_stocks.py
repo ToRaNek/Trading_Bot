@@ -13,6 +13,7 @@ import csv
 import os
 import sys
 from pathlib import Path
+import random
 
 # Ajouter le répertoire parent au path pour importer config_stocks
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -29,7 +30,15 @@ class MultiStockScraper:
 
     async def get_session(self):
         if not self.session:
-            headers = {'User-Agent': 'TradingBot/1.0 (by /u/TradingBotUser)'}
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
+            }
             self.session = aiohttp.ClientSession(headers=headers)
         return self.session
 
@@ -43,6 +52,9 @@ class MultiStockScraper:
         iteration = 0
         max_iterations = 10
 
+        # Délai initial pour éviter ban immédiat
+        await asyncio.sleep(random.uniform(1.0, 2.0))
+
         while len(all_posts) < limit and iteration < max_iterations:
             iteration += 1
             url = f"https://www.reddit.com/r/{subreddit}/new.json"
@@ -50,13 +62,16 @@ class MultiStockScraper:
             if after:
                 params['after'] = after
 
+            print(f"      📥 Page {iteration}... ", end='', flush=True)
+
             try:
                 async with session.get(url, params=params, timeout=20) as response:
                     if response.status == 200:
                         data = await response.json()
                         posts = data.get('data', {}).get('children', [])
 
-                        if not posts:
+                        if not posts or len(posts) == 0:
+                            print("🏁 FIN (aucun post)")
                             break
 
                         for post_data in posts:
@@ -85,14 +100,18 @@ class MultiStockScraper:
 
                         after = data.get('data', {}).get('after')
                         if not after:
+                            print(f"+{len(posts)} posts | Total: {len(all_posts)} | 🏁 FIN")
                             break
 
-                        await asyncio.sleep(2.0)
+                        print(f"+{len(posts)} posts | Total: {len(all_posts)}")
+                        # Délai aléatoire entre 4-7s pour simuler comportement humain
+                        await asyncio.sleep(random.uniform(4.0, 7.0))
                     else:
+                        print(f"❌ Status {response.status}")
                         break
 
             except Exception as e:
-                print(f"      ❌ Erreur: {e}")
+                print(f"❌ Erreur: {e}")
                 break
 
         print(f"      ✅ {len(all_posts)} posts")
@@ -108,6 +127,9 @@ class MultiStockScraper:
         iteration = 0
         max_iterations = 10
 
+        # Délai initial pour éviter ban immédiat
+        await asyncio.sleep(random.uniform(1.0, 2.0))
+
         while len(all_posts) < limit and iteration < max_iterations:
             iteration += 1
             url = f"https://www.reddit.com/r/{subreddit}/search.json"
@@ -121,13 +143,16 @@ class MultiStockScraper:
             if after:
                 params['after'] = after
 
+            print(f"      📥 Page {iteration}... ", end='', flush=True)
+
             try:
                 async with session.get(url, params=params, timeout=20) as response:
                     if response.status == 200:
                         data = await response.json()
                         posts = data.get('data', {}).get('children', [])
 
-                        if not posts:
+                        if not posts or len(posts) == 0:
+                            print("🏁 FIN (aucun post)")
                             break
 
                         for post_data in posts:
@@ -156,14 +181,18 @@ class MultiStockScraper:
 
                         after = data.get('data', {}).get('after')
                         if not after:
+                            print(f"+{len(posts)} posts | Total: {len(all_posts)} | 🏁 FIN")
                             break
 
-                        await asyncio.sleep(2.0)
+                        print(f"+{len(posts)} posts | Total: {len(all_posts)}")
+                        # Délai aléatoire entre 4-7s pour simuler comportement humain
+                        await asyncio.sleep(random.uniform(4.0, 7.0))
                     else:
+                        print(f"❌ Status {response.status}")
                         break
 
             except Exception as e:
-                print(f"      ❌ Erreur: {e}")
+                print(f"❌ Erreur: {e}")
                 break
 
         print(f"      ✅ {len(all_posts)} posts")

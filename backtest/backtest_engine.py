@@ -193,7 +193,7 @@ class RealisticBacktestEngine:
                         sell_price = current_price
 
                     # Appeler HF avec TOUS les nouveaux paramètres
-                    final_score, ai_reason = await self.news_analyzer.ask_ai_decision(
+                    final_score, ai_reason, reddit_score_ai, news_score_ai = await self.news_analyzer.ask_ai_decision(
                         symbol, bot_decision, news_data, current_price, tech_confidence,
                         reddit_posts=reddit_posts_details,
                         target_date=current_date,
@@ -201,13 +201,17 @@ class RealisticBacktestEngine:
                         buy_price=buy_price,
                         sell_price=sell_price
                     )
+                else:
+                    reddit_score_ai = 0.0
+                    news_score_ai = 0.0
 
-                # Logs
+                # Logs - Afficher les scores AI si disponibles, sinon 0
                 if bot_decision != "HOLD" or idx % 20 == 0:
                     logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Decision: {bot_decision} | "
-                              f"Tech Confidence: {tech_confidence:.0f}/100 | "
-                              f"Reddit: {reddit_score:.0f}/100 ({reddit_post_count}p) | "
-                              f"FINAL SCORE: {final_score:.0f}/100")
+                              f"Tech: {tech_confidence:.0f}/100 | "
+                              f"Reddit: {reddit_score_ai:.0f}/100 ({reddit_post_count}p) | "
+                              f"News: {news_score_ai:.0f}/100 | "
+                              f"FINAL: {final_score:.0f}/100")
 
                 # Exécuter le trade si score > 65
                 if bot_decision == "BUY" and position == 0:

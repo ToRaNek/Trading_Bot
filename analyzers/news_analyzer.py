@@ -70,13 +70,23 @@ class HistoricalNewsAnalyzer:
                     'token': self.finnhub_key
                 }
 
-                async with session.get(url, params=params, timeout=10) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if isinstance(data, list) and len(data) > 0:
-                            result = await self._parse_finnhub_news(data, target_date)
-                            self.news_cache[cache_key] = result
-                            return result
+                try:
+                    async with session.get(url, params=params, timeout=10) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            if isinstance(data, list) and len(data) > 0:
+                                logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub retourne {len(data)} news brutes")
+                                result = await self._parse_finnhub_news(data, target_date)
+                                self.news_cache[cache_key] = result
+                                has_news, news_items, score = result
+                                logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Apres parsing -> {len(news_items)} news gardees (has_news={has_news}, score={score:.0f})")
+                                return result
+                            else:
+                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub OK mais 0 news")
+                        else:
+                            logger.debug(f"[News] {symbol}: Finnhub status {response.status}")
+                except Exception as e:
+                    logger.debug(f"[News] {symbol}: Finnhub erreur {e}")
 
             # Fallback sur NewsAPI
             if self.newsapi_key:
@@ -91,20 +101,32 @@ class HistoricalNewsAnalyzer:
                     'pageSize': 20
                 }
 
-                async with session.get(url, params=params, timeout=10) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if 'articles' in data and data['articles']:
-                            result = await self._parse_newsapi_news(data['articles'], target_date)
-                            self.news_cache[cache_key] = result
-                            return result
+                try:
+                    async with session.get(url, params=params, timeout=10) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            if 'articles' in data and data['articles']:
+                                result = await self._parse_newsapi_news(data['articles'], target_date)
+                                self.news_cache[cache_key] = result
+                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: {len(data['articles'])} news NewsAPI")
+                                return result
+                            else:
+                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: NewsAPI OK mais 0 news")
+                        else:
+                            logger.warning(f"[News] {symbol}: NewsAPI status {response.status}")
+                except Exception as e:
+                    logger.debug(f"[News] {symbol}: NewsAPI erreur {e}")
 
+            # Aucune news trouvée
+            logger.warning(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Aucune news trouvée (Finnhub={bool(self.finnhub_key)}, NewsAPI={bool(self.newsapi_key)})")
             result = (False, [], 0.0)
             self.news_cache[cache_key] = result
             return result
 
         except Exception as e:
-            logger.debug(f"Erreur news historiques {symbol} @ {target_date}: {e}")
+            logger.error(f"[News] Erreur news historiques {symbol} @ {target_date}: {e}")
+            import traceback
+            traceback.print_exc()
             return False, [], 0.0
 
     async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
@@ -233,7 +255,7 @@ class HistoricalNewsAnalyzer:
     async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
                              current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None,
                              target_date: datetime = None, last_5_prices: List[float] = None,
-                             buy_price: float = None, sell_price: float = None) -> Tuple[int, str]:
+                             buy_price: float = None, sell_price: float = None) -> Tuple[int, str, float, float]:
         """
         Demande à l'IA HuggingFace de valider la décision du bot
 
@@ -245,30 +267,50 @@ class HistoricalNewsAnalyzer:
         5. Utilise les 5 derniers prix pour contexte de tendance
         6. Inclut buy_price ou sell_price selon la décision
 
-        Retourne: SCORE FINAL (0-100) et explication
+        Retourne: (SCORE FINAL, explication, reddit_score_ai, news_score_ai)
         """
         try:
             if not self.hf_token:
-                return int(tech_confidence), "Token HuggingFace manquant - utilisation tech seul"
+                return int(tech_confidence), "Token HuggingFace manquant - utilisation tech seul", 0.0, 0.0
 
             # ÉTAPE 1: Calculer les scores Reddit et News via AIScorer
             reddit_score_ai = 0.0
             news_score_ai = 0.0
 
+            # Calculer le score textblob pour fallback
+            reddit_score_textblob = 0.0
             if reddit_posts and len(reddit_posts) > 0:
-                reddit_score_ai = await self.ai_scorer.score_reddit_posts(symbol, reddit_posts, target_date)
+                # Calculer sentiment textblob
+                from textblob import TextBlob
+                sentiments = []
+                for post in reddit_posts[:50]:
+                    text = post.get('title', '') + ' ' + post.get('body', '')
+                    if len(text) > 10:
+                        blob = TextBlob(text)
+                        sentiment = blob.sentiment.polarity
+                        score = post.get('score', 1)
+                        weight = min(score / 10, 3)
+                        sentiments.append(sentiment * weight)
+
+                if sentiments:
+                    avg_sentiment = np.mean(sentiments)
+                    reddit_score_textblob = (avg_sentiment + 1) * 50
+                    reddit_score_textblob = max(0, min(100, reddit_score_textblob))
+
+                # Essayer AI scorer avec fallback textblob
+                reddit_score_ai = await self.ai_scorer.score_reddit_posts(symbol, reddit_posts, target_date, fallback_score=reddit_score_textblob)
             else:
-                logger.info(f"   [AI Decision] {symbol}: Pas de Reddit → score 0 (personne n'en parle)")
+                logger.debug(f"   [AI Decision] {symbol}: Pas de Reddit → score 0")
 
             if news_data and len(news_data) > 0:
                 news_score_ai = await self.ai_scorer.score_news(symbol, news_data, target_date)
             else:
-                logger.info(f"   [AI Decision] {symbol}: Pas de News → score 0 (pas d'actualité)")
+                logger.debug(f"   [AI Decision] {symbol}: Pas de News → score 0")
 
             # ÉTAPE 2: Si aucune donnée, score final = 0
             if reddit_score_ai == 0 and news_score_ai == 0:
-                logger.warning(f"   [AI Decision] {symbol}: Aucune donnée Reddit/News → SCORE FINAL = 0")
-                return 0, "Aucune donnée disponible (ni Reddit ni News)"
+                logger.debug(f"   [AI Decision] {symbol}: Aucune donnée Reddit/News → SCORE FINAL = 0")
+                return 0, "Aucune donnée disponible (ni Reddit ni News)", 0.0, 0.0
 
             # ÉTAPE 3: Construire le contexte des 5 derniers prix
             price_context = ""
@@ -359,19 +401,19 @@ Respond EXACTLY: "SCORE: [number]|REASON: [short explanation]"
                                     score = int(score * 0.7)  # Réduction 30% si pas de News
                                     reason_part += " (réduit: pas de News)"
 
-                                return score, reason_part[:200]
+                                return score, reason_part[:200], reddit_score_ai, news_score_ai
                         except Exception as parse_err:
                             logger.error(f"   [AI Decision] Erreur parsing: {parse_err}")
                             pass
 
             # Fallback: analyse simple basée sur le sentiment
-            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence, reddit_score_ai, news_score_ai)
 
         except Exception as e:
             logger.error(f"Erreur AI validation: {e}")
-            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
+            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence, reddit_score_ai, news_score_ai)
 
-    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50) -> Tuple[int, str]:
+    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50, reddit_score_ai: float = 0.0, news_score_ai: float = 0.0) -> Tuple[int, str, float, float]:
         """Score de sentiment simple comme fallback, basé sur tech_confidence + ajustement news/reddit"""
         try:
             sentiments = []
@@ -431,10 +473,10 @@ Respond EXACTLY: "SCORE: [number]|REASON: [short explanation]"
                     reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
 
             score = max(0, min(100, score))
-            return int(score), reason
+            return int(score), reason, reddit_score_ai, news_score_ai
 
         except:
-            return int(tech_confidence), "Fallback: confiance technique seule"
+            return int(tech_confidence), "Fallback: confiance technique seule", 0.0, 0.0
 
     async def close(self):
         if self.session:

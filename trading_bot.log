@@ -1,2 +1,695 @@
 2025-11-06 17:18:19,001 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7f9e8bcdb8d0>
+2025-11-07 12:36:56,593 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 12:36:56,595 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 12:36:56,596 - TradingBot - INFO - ================================================================================
+2025-11-07 12:36:56,597 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 12:36:56,597 - TradingBot - INFO - ================================================================================
+2025-11-07 12:36:56,624 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 12:36:56,624 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 12:36:56,624 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 12:36:56,625 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 12:36:56,625 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 12:36:56,625 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 12:36:56,625 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 12:36:56,626 - TradingBot - INFO - 
+2025-11-07 12:36:56,626 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 12:36:56,626 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 12:36:56,626 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 12:36:56,626 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 12:36:56,626 - TradingBot - INFO - ================================================================================
+2025-11-07 12:36:56,627 - TradingBot - INFO - 
+2025-11-07 12:36:56,632 - discord.client - INFO - logging in using static token
+2025-11-07 12:36:57,945 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 472a5792e2332720e1ad693260541a32).
+2025-11-07 12:36:59,988 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 12:37:17,401 - TradingBot - INFO - [>>] Backtest réaliste AAPL - 6 mois
+2025-11-07 12:37:22,830 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 12:37:22,836 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 12:37:23,338 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 12:37:23,781 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/AAPL - TOUS LES POSTS
+2025-11-07 12:37:24,562 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:26,190 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:26,190 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/AAPL
+2025-11-07 12:37:27,691 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$AAPL' r/stocks - TOUS LES POSTS
+2025-11-07 12:37:28,356 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:29,972 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:29,972 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour '$AAPL'
+2025-11-07 12:37:31,562 - TradingBot - INFO -    [Reddit] AAPL: Score 51/100 (200 posts)
+2025-11-07 12:37:32,002 - TradingBot - ERROR -    [AI Scorer] Reddit AAPL: Erreur HF 410
+2025-11-07 12:37:32,102 - TradingBot - ERROR -    [AI Scorer] News AAPL: Erreur HF 410
+2025-11-07 12:37:32,225 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech Confidence: 78/100 | Reddit: 51/100 (200p) | FINAL SCORE: 93/100
+2025-11-07 12:37:32,226 - TradingBot - INFO -    ✅ BUY validé (Score: 93) @ $201.22
+2025-11-07 12:37:35,208 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/AAPL - TOUS LES POSTS
+2025-11-07 12:37:35,575 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:37,193 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:37,193 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/AAPL
+2025-11-07 12:37:38,711 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$AAPL' r/stocks - TOUS LES POSTS
+2025-11-07 12:37:39,325 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:40,936 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:40,936 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour '$AAPL'
+2025-11-07 12:37:42,457 - TradingBot - INFO -    [Reddit] AAPL: Score 51/100 (200 posts)
+2025-11-07 12:37:42,873 - TradingBot - ERROR -    [AI Scorer] Reddit AAPL: Erreur HF 410
+2025-11-07 12:37:42,974 - TradingBot - ERROR -    [AI Scorer] News AAPL: Erreur HF 410
+2025-11-07 12:37:43,080 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech Confidence: 75/100 | Reddit: 51/100 (200p) | FINAL SCORE: 75/100
+2025-11-07 12:37:43,080 - TradingBot - INFO -    ✅ SELL validé (Score: 75) @ $195.42 | Profit: -2.88% | Durée: 8j
+2025-11-07 12:37:43,756 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/AAPL - TOUS LES POSTS
+2025-11-07 12:37:44,248 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:45,854 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:45,854 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/AAPL
+2025-11-07 12:37:47,358 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$AAPL' r/stocks - TOUS LES POSTS
+2025-11-07 12:37:48,157 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:49,788 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:49,788 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour '$AAPL'
+2025-11-07 12:37:51,317 - TradingBot - INFO -    [Reddit] AAPL: Score 51/100 (200 posts)
+2025-11-07 12:37:51,753 - TradingBot - ERROR -    [AI Scorer] Reddit AAPL: Erreur HF 410
+2025-11-07 12:37:51,854 - TradingBot - ERROR -    [AI Scorer] News AAPL: Erreur HF 410
+2025-11-07 12:37:51,959 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech Confidence: 75/100 | Reddit: 51/100 (200p) | FINAL SCORE: 75/100
+2025-11-07 12:37:56,764 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/AAPL - TOUS LES POSTS
+2025-11-07 12:37:57,225 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:37:58,847 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 12:37:58,847 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/AAPL
+2025-11-07 12:38:00,364 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$AAPL' r/stocks - TOUS LES POSTS
+2025-11-07 12:38:01,203 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 12:38:01,745 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000257232BFD90>
+2025-11-07 12:38:01,745 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000257243CB170>, 393515.8307394)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000257232D2AB0>, 393520.3382576)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000257232BFED0>
+2025-11-07 12:38:01,746 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000257233502D0>
+2025-11-07 12:38:01,746 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000257232D36B0>, 393525.0759128)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000025723350550>
+2025-11-07 12:38:01,746 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000025723350E10>
+2025-11-07 12:38:01,747 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000257243CB410>, 393515.7305894)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000025723350CD0>
+2025-11-07 13:04:30,604 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:04:30,605 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:04:30,606 - TradingBot - INFO - ================================================================================
+2025-11-07 13:04:30,606 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:04:30,607 - TradingBot - INFO - ================================================================================
+2025-11-07 13:04:30,607 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:04:30,607 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:04:30,607 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:04:30,608 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:04:30,608 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:04:30,608 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:04:30,608 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:04:30,608 - TradingBot - INFO - 
+2025-11-07 13:04:30,608 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:04:30,608 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:04:30,608 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:04:30,609 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:04:30,609 - TradingBot - INFO - ================================================================================
+2025-11-07 13:04:30,609 - TradingBot - INFO - 
+2025-11-07 13:04:30,610 - discord.client - INFO - logging in using static token
+2025-11-07 13:04:31,477 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 37a96b48862c931c8dfa53877f7502c0).
+2025-11-07 13:04:33,554 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:04:36,560 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:04:40,351 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:04:40,357 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:04:41,268 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 13:04:42,822 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/NVDA_Stock - TOUS LES POSTS
+2025-11-07 13:04:43,957 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 13:04:45,578 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 13:04:45,578 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour r/NVDA_Stock
+2025-11-07 13:04:47,086 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE '$NVDA' r/stocks - TOUS LES POSTS
+2025-11-07 13:04:47,615 - TradingBot - INFO -    [Pushshift] Page 1: +100 posts | Total: 100
+2025-11-07 13:04:49,244 - TradingBot - ERROR -    [Pushshift] Status 500, arrêt
+2025-11-07 13:04:49,244 - TradingBot - INFO -    [Pushshift] ✅ 100 posts TOTAUX récupérés pour '$NVDA'
+2025-11-07 13:04:50,849 - TradingBot - INFO -    [Reddit] NVDA: Score 50/100 (200 posts)
+2025-11-07 13:04:51,357 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:04:51,459 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:04:51,583 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech Confidence: 73/100 | Reddit: 50/100 (200p) | FINAL SCORE: 73/100
+2025-11-07 13:04:52,236 - TradingBot - INFO -    [Pushshift] Récupération COMPLÈTE r/NVDA_Stock - TOUS LES POSTS
+2025-11-07 13:04:52,673 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000021D941D87D0>
+2025-11-07 13:04:52,673 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000021D952B3350>, 395135.4557292)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000021D94186FF0>, 395135.8104615)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000021D941D8410>
+2025-11-07 13:04:52,673 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000021D941D8B90>
+2025-11-07 13:04:52,674 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000021D941D9450>
+2025-11-07 13:04:52,674 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000021D952B35F0>, 395135.3350698)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000021D941D9810>
+2025-11-07 13:07:55,794 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:07:55,795 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:07:55,796 - TradingBot - INFO - ================================================================================
+2025-11-07 13:07:55,797 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:07:55,797 - TradingBot - INFO - ================================================================================
+2025-11-07 13:07:55,798 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:07:55,798 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:07:55,798 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:07:55,798 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:07:55,799 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:07:55,799 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:07:55,799 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:07:55,799 - TradingBot - INFO - 
+2025-11-07 13:07:55,799 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:07:55,799 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:07:55,800 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:07:55,800 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:07:55,800 - TradingBot - INFO - ================================================================================
+2025-11-07 13:07:55,800 - TradingBot - INFO - 
+2025-11-07 13:07:55,801 - discord.client - INFO - logging in using static token
+2025-11-07 13:07:56,764 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: efd57fadf50836f50a2ff86a06b3e0c0).
+2025-11-07 13:07:58,772 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:08:04,711 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:08:05,113 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:08:05,119 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:08:05,694 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 13:08:07,097 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:07,156 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:08:07,188 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:08:07,636 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:08:07,737 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:07,871 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech Confidence: 73/100 | Reddit: 64/100 (14p) | FINAL SCORE: 73/100
+2025-11-07 13:08:08,652 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:08,957 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:09,075 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:09,179 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech Confidence: 73/100 | Reddit: 50/100 (0p) | FINAL SCORE: 73/100
+2025-11-07 13:08:09,917 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:10,236 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:10,345 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:10,446 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-07 13:08:11,112 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:11,117 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:08:11,538 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:08:11,637 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:11,741 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech Confidence: 85/100 | Reddit: 54/100 (3p) | FINAL SCORE: 85/100
+2025-11-07 13:08:12,497 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:12,503 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:08:12,905 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:08:13,006 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:13,107 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech Confidence: 85/100 | Reddit: 64/100 (5p) | FINAL SCORE: 70/100
+2025-11-07 13:08:13,792 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:14,098 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:14,197 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:14,298 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 70/100
+2025-11-07 13:08:14,990 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:14,994 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:08:15,417 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:08:15,517 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:15,618 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech Confidence: 95/100 | Reddit: 63/100 (1p) | FINAL SCORE: 95/100
+2025-11-07 13:08:16,345 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:16,658 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:16,758 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:16,858 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech Confidence: 85/100 | Reddit: 50/100 (0p) | FINAL SCORE: 85/100
+2025-11-07 13:08:17,529 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:17,537 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-07 13:08:17,943 - TradingBot - ERROR -    [AI Scorer] Reddit NVDA: Erreur HF 410
+2025-11-07 13:08:18,050 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:18,157 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech Confidence: 85/100 | Reddit: 60/100 (4p) | FINAL SCORE: 70/100
+2025-11-07 13:08:22,903 - TradingBot - INFO -    [2025-07-08] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 13:08:28,096 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:28,409 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:28,549 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:28,647 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech Confidence: 90/100 | Reddit: 50/100 (0p) | FINAL SCORE: 90/100
+2025-11-07 13:08:29,359 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:29,669 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:29,768 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:29,870 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 86/100
+2025-11-07 13:08:30,564 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:30,873 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:08:30,974 - TradingBot - ERROR -    [AI Scorer] News NVDA: Erreur HF 410
+2025-11-07 13:08:31,074 - TradingBot - INFO -    [2025-07-24] Decision: SELL | Tech Confidence: 87/100 | Reddit: 50/100 (0p) | FINAL SCORE: 86/100
+2025-11-07 13:08:31,754 - TradingBot - INFO - [Reddit] NVDA: ✅ Utilisation CSV Sentiment_NVDA.csv (pas de requêtes API)
+2025-11-07 13:08:31,855 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000018C9A993C50>
+2025-11-07 13:08:31,856 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000018C9BAFF710>, 395354.9487695)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000018C9A9A3590>, 395355.3278654)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000018C9A993ED0>
+2025-11-07 13:08:31,856 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000018C9AA09A90>
+2025-11-07 13:08:31,857 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000018C9BAFF9B0>, 395354.8501031)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000018C9AA09BD0>
+2025-11-07 13:13:15,850 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:13:15,851 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:13:15,851 - TradingBot - INFO - ================================================================================
+2025-11-07 13:13:15,852 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:13:15,853 - TradingBot - INFO - ================================================================================
+2025-11-07 13:13:15,853 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:13:15,854 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:13:15,854 - TradingBot - INFO - 
+2025-11-07 13:13:15,854 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:13:15,854 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:13:15,854 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:13:15,855 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:13:15,855 - TradingBot - INFO - ================================================================================
+2025-11-07 13:13:15,855 - TradingBot - INFO - 
+2025-11-07 13:13:15,856 - discord.client - INFO - logging in using static token
+2025-11-07 13:13:16,674 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a5c3794e448518a2f33a46284c199f42).
+2025-11-07 13:13:18,687 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:13:25,401 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:13:25,808 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:13:25,818 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:13:26,323 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 13:13:27,917 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:13:27,980 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:13:28,538 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:28,538 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech Confidence: 73/100 | Reddit: 64/100 (14p) | FINAL SCORE: 0/100
+2025-11-07 13:13:29,662 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:29,779 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:29,779 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech Confidence: 73/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:30,950 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:31,050 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:31,051 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:31,731 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:13:32,242 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:32,242 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech Confidence: 85/100 | Reddit: 54/100 (3p) | FINAL SCORE: 0/100
+2025-11-07 13:13:32,953 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:13:33,456 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:33,457 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech Confidence: 85/100 | Reddit: 64/100 (5p) | FINAL SCORE: 0/100
+2025-11-07 13:13:34,485 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:34,799 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:34,800 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:35,446 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:13:35,977 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:35,978 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech Confidence: 95/100 | Reddit: 63/100 (1p) | FINAL SCORE: 0/100
+2025-11-07 13:13:36,926 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:37,043 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:37,044 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:37,713 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-07 13:13:38,233 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:38,234 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech Confidence: 85/100 | Reddit: 60/100 (4p) | FINAL SCORE: 0/100
+2025-11-07 13:13:43,187 - TradingBot - INFO -    [2025-07-08] Decision: HOLD | Tech Confidence: 25/100 | Reddit: 0/100 (0p) | FINAL SCORE: 25/100
+2025-11-07 13:13:48,498 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:48,617 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:48,617 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech Confidence: 90/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:49,698 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:49,814 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:49,814 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech Confidence: 87/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:50,803 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:50,902 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:50,903 - TradingBot - INFO -    [2025-07-24] Decision: SELL | Tech Confidence: 87/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:51,863 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:51,964 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:51,965 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech Confidence: 92/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:52,949 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:53,083 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:53,083 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:54,062 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:54,164 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:54,165 - TradingBot - INFO -    [2025-07-29] Decision: SELL | Tech Confidence: 87/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:54,905 - TradingBot - INFO -    [Reddit] NVDA: Score 66/100 (8 posts)
+2025-11-07 13:13:55,416 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:55,417 - TradingBot - INFO -    [2025-07-30] Decision: SELL | Tech Confidence: 90/100 | Reddit: 66/100 (8p) | FINAL SCORE: 0/100
+2025-11-07 13:13:56,201 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (11 posts)
+2025-11-07 13:13:56,726 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:56,726 - TradingBot - INFO -    [2025-07-31] Decision: SELL | Tech Confidence: 90/100 | Reddit: 65/100 (11p) | FINAL SCORE: 0/100
+2025-11-07 13:13:57,756 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:57,859 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:57,859 - TradingBot - INFO -    [2025-08-01] Decision: SELL | Tech Confidence: 95/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:58,810 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:13:58,928 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:13:58,929 - TradingBot - INFO -    [2025-08-04] Decision: SELL | Tech Confidence: 80/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:13:59,698 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (3 posts)
+2025-11-07 13:14:00,205 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:00,205 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech Confidence: 90/100 | Reddit: 64/100 (3p) | FINAL SCORE: 0/100
+2025-11-07 13:14:01,193 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:01,293 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:01,293 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech Confidence: 90/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:02,264 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:02,365 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:02,366 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:03,336 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:03,435 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:03,435 - TradingBot - INFO -    [2025-08-08] Decision: SELL | Tech Confidence: 80/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:04,485 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:04,586 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:04,587 - TradingBot - INFO -    [2025-08-11] Decision: SELL | Tech Confidence: 87/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:05,644 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:05,762 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:05,763 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech Confidence: 80/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:06,879 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:06,996 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:06,996 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech Confidence: 95/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:07,953 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:08,070 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:08,070 - TradingBot - INFO -    [2025-08-14] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:09,025 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:09,155 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:09,155 - TradingBot - INFO -    [2025-08-15] Decision: SELL | Tech Confidence: 100/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:10,145 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:10,244 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:10,245 - TradingBot - INFO -    [2025-08-18] Decision: SELL | Tech Confidence: 85/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:13,719 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:13,835 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:13,836 - TradingBot - INFO -    [2025-08-26] Decision: SELL | Tech Confidence: 100/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:14,804 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:14,920 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:14,921 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech Confidence: 100/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:16,460 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:16,562 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:16,563 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech Confidence: 58/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:16,563 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:17,574 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:17,674 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:17,675 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech Confidence: 68/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:17,675 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:18,788 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:18,788 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:18,788 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:18,789 - TradingBot - INFO -    [2025-09-03] Decision: BUY | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:18,789 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:19,621 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:19,621 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:19,621 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:19,622 - TradingBot - INFO -    [2025-09-04] Decision: BUY | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:19,622 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:20,566 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:20,567 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:20,567 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:20,567 - TradingBot - INFO -    [2025-09-05] Decision: BUY | Tech Confidence: 68/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:20,568 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:21,401 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:21,402 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:21,402 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:21,403 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech Confidence: 58/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:21,403 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:23,866 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:23,866 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:23,866 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:23,867 - TradingBot - INFO -    [2025-09-12] Decision: SELL | Tech Confidence: 72/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:24,411 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (5 posts)
+2025-11-07 13:14:24,836 - TradingBot - INFO -    [AI Decision] NVDA: Pas de News → score 0 (pas d'actualité)
+2025-11-07 13:14:24,837 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:24,837 - TradingBot - INFO -    [2025-09-15] Decision: BUY | Tech Confidence: 75/100 | Reddit: 54/100 (5p) | FINAL SCORE: 0/100
+2025-11-07 13:14:24,837 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:27,636 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:27,736 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:27,737 - TradingBot - INFO -    [2025-09-22] Decision: SELL | Tech Confidence: 58/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:29,885 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:30,002 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:30,002 - TradingBot - INFO -    [2025-09-25] Decision: SELL | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:30,680 - TradingBot - INFO -    [Reddit] NVDA: Score 58/100 (7 posts)
+2025-11-07 13:14:31,207 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:31,208 - TradingBot - INFO -    [2025-09-26] Decision: SELL | Tech Confidence: 48/100 | Reddit: 58/100 (7p) | FINAL SCORE: 0/100
+2025-11-07 13:14:32,180 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:32,298 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:32,298 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech Confidence: 58/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:33,327 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:33,448 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:33,449 - TradingBot - INFO -    [2025-09-30] Decision: SELL | Tech Confidence: 58/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:34,447 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:34,549 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:34,549 - TradingBot - INFO -    [2025-10-01] Decision: SELL | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:35,516 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:35,615 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:35,616 - TradingBot - INFO -    [2025-10-02] Decision: SELL | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:43,191 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:43,308 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:43,308 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech Confidence: 48/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:43,309 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:44,765 - TradingBot - INFO -    [AI Decision] NVDA: Pas de Reddit → score 0 (personne n'en parle)
+2025-11-07 13:14:44,867 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:44,867 - TradingBot - INFO -    [2025-10-24] Decision: SELL | Tech Confidence: 72/100 | Reddit: 0/100 (0p) | FINAL SCORE: 0/100
+2025-11-07 13:14:45,530 - TradingBot - INFO -    [Reddit] NVDA: Score 78/100 (3 posts)
+2025-11-07 13:14:46,169 - TradingBot - WARNING -    [AI Decision] NVDA: Aucune donnée Reddit/News → SCORE FINAL = 0
+2025-11-07 13:14:46,170 - TradingBot - INFO -    [2025-10-27] Decision: BUY | Tech Confidence: 82/100 | Reddit: 78/100 (3p) | FINAL SCORE: 0/100
+2025-11-07 13:14:46,170 - TradingBot - INFO -    ❌ BUY rejeté (Score: 0)
+2025-11-07 13:14:47,419 - TradingBot - INFO -    [2025-10-29] Decision: HOLD | Tech Confidence: 40/100 | Reddit: 0/100 (0p) | FINAL SCORE: 40/100
+2025-11-07 13:14:50,023 - TradingBot - WARNING -    [X] Aucun trade exécuté
+2025-11-07 13:14:59,794 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000027FC12439D0>
+2025-11-07 13:14:59,794 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000027FC1252F30>, 395733.5983129)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000027FC1243B10>
+2025-11-07 13:14:59,795 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000027FC12BD810>
+2025-11-07 13:14:59,795 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000027FC23AF9B0>, 395730.0453942)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000027FC12BD950>
+2025-11-07 13:17:32,475 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:17:32,476 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:17:32,477 - TradingBot - INFO - ================================================================================
+2025-11-07 13:17:32,477 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:17:32,478 - TradingBot - INFO - ================================================================================
+2025-11-07 13:17:32,478 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:17:32,478 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:17:32,479 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:17:32,479 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:17:32,479 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:17:32,479 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:17:32,480 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:17:32,480 - TradingBot - INFO - 
+2025-11-07 13:17:32,480 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:17:32,480 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:17:32,480 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:17:32,480 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:17:32,481 - TradingBot - INFO - ================================================================================
+2025-11-07 13:17:32,481 - TradingBot - INFO - 
+2025-11-07 13:17:32,482 - discord.client - INFO - logging in using static token
+2025-11-07 13:17:33,435 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 2c5e5f0beec05d55a01b482610b70b02).
+2025-11-07 13:17:35,450 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:17:42,207 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:17:42,640 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:17:42,651 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:17:43,191 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:17:44,649 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:17:44,679 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:17:45,236 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (14p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:46,313 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:47,432 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:48,233 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:17:48,754 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (3p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:49,439 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:17:49,959 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (5p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:51,079 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:51,758 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:17:52,270 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 95/100 | Reddit: 0/100 (1p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:53,341 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:54,020 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-07 13:17:54,535 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (4p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:17:59,502 - TradingBot - INFO -    [2025-07-08] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:18:00,532 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000209CD734190>
+2025-11-07 13:18:00,532 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000209CD735F90>
+2025-11-07 13:18:00,533 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000209CE82F9B0>, 395918.4108093)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000209CD7360D0>
+2025-11-07 13:19:43,663 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:19:43,664 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:19:43,664 - TradingBot - INFO - ================================================================================
+2025-11-07 13:19:43,665 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:19:43,666 - TradingBot - INFO - ================================================================================
+2025-11-07 13:19:43,666 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:19:43,666 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:19:43,667 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:19:43,667 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:19:43,667 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:19:43,667 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:19:43,667 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:19:43,667 - TradingBot - INFO - 
+2025-11-07 13:19:43,667 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:19:43,667 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:19:43,667 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:19:43,668 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:19:43,668 - TradingBot - INFO - ================================================================================
+2025-11-07 13:19:43,668 - TradingBot - INFO - 
+2025-11-07 13:19:43,669 - discord.client - INFO - logging in using static token
+2025-11-07 13:19:46,043 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 7d18a213cc9f1e55d96b80c90b1ddf4f).
+2025-11-07 13:19:48,051 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:19:51,874 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:19:52,274 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:19:52,285 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:19:52,796 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:19:54,238 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:19:54,267 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:19:54,797 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (14p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:19:55,995 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:19:57,110 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:19:57,823 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:19:58,341 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (3p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:19:59,034 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:19:59,828 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (5p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:00,932 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:01,720 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:20:02,231 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 95/100 | Reddit: 0/100 (1p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:03,352 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:04,033 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-07 13:20:04,541 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (4p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:09,340 - TradingBot - INFO -    [2025-07-08] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:20:14,886 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:15,957 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 87/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:17,029 - TradingBot - INFO -    [2025-07-24] Decision: SELL | Tech: 87/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:18,144 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech: 92/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:19,210 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:20,287 - TradingBot - INFO -    [2025-07-29] Decision: SELL | Tech: 87/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:20,997 - TradingBot - INFO -    [Reddit] NVDA: Score 66/100 (8 posts)
+2025-11-07 13:20:21,509 - TradingBot - INFO -    [2025-07-30] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (8p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:22,251 - TradingBot - INFO -    [Reddit] NVDA: Score 65/100 (11 posts)
+2025-11-07 13:20:22,770 - TradingBot - INFO -    [2025-07-31] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (11p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:23,904 - TradingBot - INFO -    [2025-08-01] Decision: SELL | Tech: 95/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:25,029 - TradingBot - INFO -    [2025-08-04] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:25,705 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (3 posts)
+2025-11-07 13:20:26,230 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (3p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:27,028 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001F277A4C190>
+2025-11-07 13:20:27,028 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001F2779E2F30>, 396070.4598142)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000001F277A4C410>
+2025-11-07 13:20:27,029 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001F277A4DF90>
+2025-11-07 13:20:27,029 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001F278B439B0>, 396070.1061758)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000001F277A4E0D0>
+2025-11-07 13:20:33,525 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:20:33,526 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:20:33,527 - TradingBot - INFO - ================================================================================
+2025-11-07 13:20:33,528 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:20:33,528 - TradingBot - INFO - ================================================================================
+2025-11-07 13:20:33,528 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:20:33,529 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:20:33,529 - TradingBot - INFO - 
+2025-11-07 13:20:33,530 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:20:33,530 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:20:33,530 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:20:33,530 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:20:33,530 - TradingBot - INFO - ================================================================================
+2025-11-07 13:20:33,530 - TradingBot - INFO - 
+2025-11-07 13:20:33,532 - discord.client - INFO - logging in using static token
+2025-11-07 13:20:34,401 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: be53f63ea31199e0ae0e5faa823064e4).
+2025-11-07 13:20:36,408 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:20:43,507 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:20:43,977 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:20:43,988 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:20:44,461 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:20:45,872 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:20:45,943 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:20:46,483 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (14p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:47,622 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:48,702 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:49,373 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:20:49,889 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (3p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:50,732 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:20:51,252 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (5p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:52,303 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:20:52,982 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:20:53,129 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000236B7D04190>
+2025-11-07 13:20:53,130 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000236B7CA3590>, 396096.554322)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000236B7D04410>
+2025-11-07 13:20:53,130 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000236B7D05F90>
+2025-11-07 13:20:53,130 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000236B8E039B0>, 396096.179369)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000236B7D060D0>
+2025-11-07 13:25:06,698 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:25:06,698 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:25:06,698 - TradingBot - INFO - ================================================================================
+2025-11-07 13:25:06,699 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:25:06,699 - TradingBot - INFO - ================================================================================
+2025-11-07 13:25:06,699 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:25:06,699 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:25:06,699 - TradingBot - INFO - 
+2025-11-07 13:25:06,699 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:25:06,699 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:25:06,699 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:25:06,699 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:25:06,699 - TradingBot - INFO - ================================================================================
+2025-11-07 13:25:06,699 - TradingBot - INFO - 
+2025-11-07 13:25:06,700 - discord.client - INFO - logging in using static token
+2025-11-07 13:25:07,525 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 69b380a011227097569d6b9b6bdb89ee).
+2025-11-07 13:25:09,529 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:26:38,356 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-07 13:26:38,357 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-07 13:26:38,358 - TradingBot - INFO - ================================================================================
+2025-11-07 13:26:38,359 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-07 13:26:38,360 - TradingBot - INFO - ================================================================================
+2025-11-07 13:26:38,360 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-07 13:26:38,360 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-07 13:26:38,360 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-07 13:26:38,360 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-07 13:26:38,360 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-07 13:26:38,360 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-07 13:26:38,361 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-07 13:26:38,361 - TradingBot - INFO - 
+2025-11-07 13:26:38,361 - TradingBot - INFO - 📊 Configuration:
+2025-11-07 13:26:38,361 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-07 13:26:38,361 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-07 13:26:38,361 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-07 13:26:38,361 - TradingBot - INFO - ================================================================================
+2025-11-07 13:26:38,361 - TradingBot - INFO - 
+2025-11-07 13:26:38,362 - discord.client - INFO - logging in using static token
+2025-11-07 13:26:39,471 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 845d56287822102e31a020ba37c1f97c).
+2025-11-07 13:26:41,476 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-07 13:26:47,714 - TradingBot - INFO - [>>] Backtest réaliste NVDA - 6 mois
+2025-11-07 13:26:48,163 - TradingBot - INFO -    [✓] 166 jours de données
+2025-11-07 13:26:48,173 - TradingBot - INFO -    [✓] 106 jours d'analyse (backtest quotidien)
+2025-11-07 13:26:48,409 - TradingBot - INFO - [News] NVDA @ 2025-06-06: Finnhub retourne 189 news brutes
+2025-11-07 13:26:48,410 - TradingBot - INFO - [News] NVDA @ 2025-06-06: Apres parsing -> 127 news gardees (has_news=True, score=100)
+2025-11-07 13:26:48,711 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 25/100
+2025-11-07 13:26:48,842 - TradingBot - INFO - [News] NVDA @ 2025-06-09: Finnhub retourne 97 news brutes
+2025-11-07 13:26:48,842 - TradingBot - INFO - [News] NVDA @ 2025-06-09: Apres parsing -> 33 news gardees (has_news=True, score=100)
+2025-11-07 13:26:49,297 - TradingBot - INFO - [News] NVDA @ 2025-06-10: Finnhub retourne 140 news brutes
+2025-11-07 13:26:49,298 - TradingBot - INFO - [News] NVDA @ 2025-06-10: Apres parsing -> 77 news gardees (has_news=True, score=100)
+2025-11-07 13:26:49,826 - TradingBot - INFO - [News] NVDA @ 2025-06-11: Finnhub retourne 211 news brutes
+2025-11-07 13:26:49,828 - TradingBot - INFO - [News] NVDA @ 2025-06-11: Apres parsing -> 121 news gardees (has_news=True, score=100)
+2025-11-07 13:26:50,148 - TradingBot - INFO - [Reddit] ✅ 1356 posts chargés pour NVDA depuis data\Sentiment_NVDA.csv
+2025-11-07 13:26:50,178 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (14 posts)
+2025-11-07 13:26:50,851 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 73/100 | Reddit: 64/100 (14p) | News: 0/100 | FINAL: 73/100
+2025-11-07 13:26:51,271 - TradingBot - INFO - [News] NVDA @ 2025-06-12: Finnhub retourne 221 news brutes
+2025-11-07 13:26:51,274 - TradingBot - INFO - [News] NVDA @ 2025-06-12: Apres parsing -> 136 news gardees (has_news=True, score=100)
+2025-11-07 13:26:51,996 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:26:52,496 - TradingBot - INFO - [News] NVDA @ 2025-06-13: Finnhub retourne 218 news brutes
+2025-11-07 13:26:52,498 - TradingBot - INFO - [News] NVDA @ 2025-06-13: Apres parsing -> 161 news gardees (has_news=True, score=100)
+2025-11-07 13:26:53,225 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:26:53,633 - TradingBot - INFO - [News] NVDA @ 2025-06-16: Finnhub retourne 92 news brutes
+2025-11-07 13:26:53,633 - TradingBot - INFO - [News] NVDA @ 2025-06-16: Apres parsing -> 33 news gardees (has_news=True, score=100)
+2025-11-07 13:26:53,937 - TradingBot - INFO -    [Reddit] NVDA: Score 54/100 (3 posts)
+2025-11-07 13:26:54,559 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 85/100 | Reddit: 54/100 (3p) | News: 0/100 | FINAL: 85/100
+2025-11-07 13:26:54,898 - TradingBot - INFO - [News] NVDA @ 2025-06-17: Finnhub retourne 126 news brutes
+2025-11-07 13:26:54,899 - TradingBot - INFO - [News] NVDA @ 2025-06-17: Apres parsing -> 71 news gardees (has_news=True, score=100)
+2025-11-07 13:26:55,204 - TradingBot - INFO -    [Reddit] NVDA: Score 64/100 (5 posts)
+2025-11-07 13:26:55,837 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 85/100 | Reddit: 64/100 (5p) | News: 0/100 | FINAL: 70/100
+2025-11-07 13:26:56,319 - TradingBot - INFO - [News] NVDA @ 2025-06-18: Finnhub retourne 165 news brutes
+2025-11-07 13:26:56,320 - TradingBot - INFO - [News] NVDA @ 2025-06-18: Apres parsing -> 105 news gardees (has_news=True, score=100)
+2025-11-07 13:26:57,055 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:26:57,397 - TradingBot - INFO - [News] NVDA @ 2025-06-20: Finnhub retourne 149 news brutes
+2025-11-07 13:26:57,398 - TradingBot - INFO - [News] NVDA @ 2025-06-20: Apres parsing -> 95 news gardees (has_news=True, score=100)
+2025-11-07 13:26:57,701 - TradingBot - INFO -    [Reddit] NVDA: Score 63/100 (1 posts)
+2025-11-07 13:26:58,325 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 95/100 | Reddit: 63/100 (1p) | News: 0/100 | FINAL: 95/100
+2025-11-07 13:26:58,675 - TradingBot - INFO - [News] NVDA @ 2025-06-23: Finnhub retourne 72 news brutes
+2025-11-07 13:26:58,676 - TradingBot - INFO - [News] NVDA @ 2025-06-23: Apres parsing -> 26 news gardees (has_news=True, score=100)
+2025-11-07 13:26:59,412 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 0/100 | FINAL: 0/100
+2025-11-07 13:26:59,804 - TradingBot - INFO - [News] NVDA @ 2025-06-24: Finnhub retourne 89 news brutes
+2025-11-07 13:26:59,805 - TradingBot - INFO - [News] NVDA @ 2025-06-24: Apres parsing -> 59 news gardees (has_news=True, score=100)
+2025-11-07 13:27:00,112 - TradingBot - INFO -    [Reddit] NVDA: Score 60/100 (4 posts)
+2025-11-07 13:27:00,780 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 85/100 | Reddit: 60/100 (4p) | News: 0/100 | FINAL: 70/100
+2025-11-07 13:27:01,207 - TradingBot - INFO - [News] NVDA @ 2025-06-25: Finnhub retourne 129 news brutes
+2025-11-07 13:27:01,207 - TradingBot - INFO - [News] NVDA @ 2025-06-25: Apres parsing -> 67 news gardees (has_news=True, score=100)
+2025-11-07 13:27:01,662 - TradingBot - INFO - [News] NVDA @ 2025-06-26: Finnhub retourne 165 news brutes
+2025-11-07 13:27:01,663 - TradingBot - INFO - [News] NVDA @ 2025-06-26: Apres parsing -> 80 news gardees (has_news=True, score=100)
+2025-11-07 13:27:02,067 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000027213F34190>
+2025-11-07 13:27:02,068 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000027215033E90>, 396464.6510028)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000027213F34410>
+2025-11-07 13:27:02,068 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000027213F360D0>
+2025-11-07 13:27:02,069 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000027215033D10>, 396464.5529121)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000027213F35F90>

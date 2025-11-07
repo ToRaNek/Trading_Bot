@@ -198,12 +198,20 @@ class RedditSentimentAnalyzer:
 
             all_posts = []
 
-            # Si CSV disponible, charger depuis CSV au lieu de faire des requêtes
-            if self.csv_file is not None:
-                logger.debug(f"[Reddit] {symbol}: Utilisation CSV (pas de requêtes API)")
+            # PRIORITÉ 1: Essayer de charger depuis data/Sentiment_[SYMBOL].csv
+            from pathlib import Path
+            csv_path = Path(self.data_dir) / f"Sentiment_{symbol}.csv"
+
+            if csv_path.exists():
+                logger.debug(f"[Reddit] {symbol}: ✅ Utilisation CSV {csv_path.name} (pas de requêtes API)")
+                all_posts = self.get_posts_from_csv(symbol, target_date, lookback_hours)
+            elif self.csv_file is not None:
+                # PRIORITÉ 2: Fallback sur csv_file global si défini
+                logger.debug(f"[Reddit] {symbol}: Utilisation CSV global (pas de requêtes API)")
                 all_posts = self.get_posts_from_csv(symbol, target_date, lookback_hours)
             else:
-                # Sinon, utiliser les API normalement
+                # PRIORITÉ 3: Aucun CSV disponible -> faire les requêtes API
+                logger.warning(f"[Reddit] {symbol}: ⚠️ Aucun CSV trouvé, requêtes API activées")
                 session = await self.get_session()
 
                 # Déterminer quelle API utiliser selon l'âge des données
@@ -298,7 +306,7 @@ class RedditSentimentAnalyzer:
 
         except Exception as e:
             logger.debug(f"Erreur Reddit sentiment {symbol}: {e}")
-            return 50.0, 0, [], []
+            return 0.0, 0, [], []  # Score 0 en cas d'erreur (pas de données valides)
 
     async def _get_subreddit_posts(self, session: aiohttp.ClientSession, subreddit: str,
                                    target_date: datetime, lookback_hours: int) -> List[Dict]:
