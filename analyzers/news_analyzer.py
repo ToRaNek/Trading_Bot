@@ -4,9 +4,10 @@ import aiohttp
 import numpy as np
 from datetime import datetime, timedelta
 from textblob import TextBlob
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import os
 import logging
+from .ai_scorer import AIScorer
 
 logger = logging.getLogger('TradingBot')
 
@@ -20,6 +21,7 @@ class HistoricalNewsAnalyzer:
         self.finnhub_key = os.getenv('FINNHUB_KEY', '')
         self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
         self.news_cache = {}  # Cache pour éviter appels API répétés
+        self.ai_scorer = AIScorer(self.hf_token)  # Scorer pour Reddit et News
 
     async def get_session(self):
         if not self.session:
@@ -229,90 +231,113 @@ class HistoricalNewsAnalyzer:
         return has_news, news_items, news_score
 
     async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
-                             current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None) -> Tuple[int, str]:
+                             current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None,
+                             target_date: datetime = None, last_5_prices: List[float] = None,
+                             buy_price: float = None, sell_price: float = None) -> Tuple[int, str]:
         """
         Demande à l'IA HuggingFace de valider la décision du bot
-        Reçoit: decision technique + confidence + news complètes + Reddit complet (upvotes/downvotes)
+
+        NOUVEAU SYSTÈME:
+        1. Calcule d'abord les scores Reddit et News via AIScorer
+        2. Si pas de Reddit → score réduit (personne n'en parle)
+        3. Si pas de News → score réduit
+        4. Si aucun des 2 → score final = 0
+        5. Utilise les 5 derniers prix pour contexte de tendance
+        6. Inclut buy_price ou sell_price selon la décision
+
         Retourne: SCORE FINAL (0-100) et explication
         """
         try:
             if not self.hf_token:
                 return int(tech_confidence), "Token HuggingFace manquant - utilisation tech seul"
 
-            # Construire le contexte NEWS détaillé
-            news_text = ""
-            if news_data:
-                news_text = "📰 RECENT NEWS:\n"
-                for i, n in enumerate(news_data[:10], 1):
-                    news_text += f"{i}. [{n.get('publisher', 'Unknown')}] {n['title']}\n"
-                    if n.get('summary'):
-                        news_text += f"   Summary: {n['summary']}\n"
-                    news_text += f"   Importance: {n['importance']:.1f} | Keywords: {', '.join(n.get('keywords', []))}\n\n"
-            else:
-                news_text = "📰 RECENT NEWS: No news available\n\n"
+            # ÉTAPE 1: Calculer les scores Reddit et News via AIScorer
+            reddit_score_ai = 0.0
+            news_score_ai = 0.0
 
-            # Construire le contexte REDDIT détaillé
-            reddit_text = ""
             if reddit_posts and len(reddit_posts) > 0:
-                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT:\n"
-                for i, post in enumerate(reddit_posts[:15], 1):
-                    title = post.get('title', '')[:150]
-                    body = post.get('body', '')[:200]
-                    upvotes = post.get('upvotes', 0)
-                    downvotes = post.get('downvotes', 0)
-                    source = post.get('source', 'reddit')
-
-                    reddit_text += f"{i}. [{source}] {title}\n"
-                    if body:
-                        reddit_text += f"   Content: {body}\n"
-                    reddit_text += f"   👍 Upvotes: {upvotes} | 👎 Downvotes: {downvotes}\n\n"
+                reddit_score_ai = await self.ai_scorer.score_reddit_posts(symbol, reddit_posts, target_date)
             else:
-                reddit_text = "💬 REDDIT COMMUNITY SENTIMENT: No posts available\n\n"
+                logger.info(f"   [AI Decision] {symbol}: Pas de Reddit → score 0 (personne n'en parle)")
 
-            prompt = f"""TRADING DECISION VALIDATION
+            if news_data and len(news_data) > 0:
+                news_score_ai = await self.ai_scorer.score_news(symbol, news_data, target_date)
+            else:
+                logger.info(f"   [AI Decision] {symbol}: Pas de News → score 0 (pas d'actualité)")
+
+            # ÉTAPE 2: Si aucune donnée, score final = 0
+            if reddit_score_ai == 0 and news_score_ai == 0:
+                logger.warning(f"   [AI Decision] {symbol}: Aucune donnée Reddit/News → SCORE FINAL = 0")
+                return 0, "Aucune donnée disponible (ni Reddit ni News)"
+
+            # ÉTAPE 3: Construire le contexte des 5 derniers prix
+            price_context = ""
+            if last_5_prices and len(last_5_prices) >= 5:
+                price_context = f"\n📈 LAST 5 PRICES (trend context):\n"
+                for i, price in enumerate(last_5_prices[-5:], 1):
+                    price_context += f"   {i}. ${price:.2f}\n"
+
+                # Calculer la tendance
+                price_change = (last_5_prices[-1] - last_5_prices[-5]) / last_5_prices[-5] * 100
+                trend = "📈 UPTREND" if price_change > 2 else "📉 DOWNTREND" if price_change < -2 else "➡️ SIDEWAYS"
+                price_context += f"   Trend: {trend} ({price_change:+.2f}%)\n"
+
+            # ÉTAPE 4: Construire le prompt optimisé
+            price_info = f"💰 Current Price: ${current_price:.2f}\n"
+            if buy_price:
+                price_info += f"🎯 Target Buy Price: ${buy_price:.2f}\n"
+            elif sell_price:
+                price_info += f"🎯 Target Sell Price: ${sell_price:.2f}\n"
+
+            prompt = f"""TRADING DECISION VALIDATION - OPTIMIZED SYSTEM
 
 🎯 STOCK: {symbol}
-💰 Current Price: ${current_price:.2f}
+{price_info}{price_context}
 
 🤖 TECHNICAL DECISION: {bot_decision}
 📊 Technical Confidence: {tech_confidence:.0f}/100
 
-{news_text}
-{reddit_text}
+📊 PRE-CALCULATED SCORES (by AI Scorer):
+💬 Reddit Community Score: {reddit_score_ai:.0f}/100 ({len(reddit_posts) if reddit_posts else 0} posts analyzed)
+📰 News Sentiment Score: {news_score_ai:.0f}/100 ({len(news_data) if news_data else 0} news analyzed)
 
-TASK: Validate the bot's {bot_decision} decision and provide a FINAL SCORE (0-100).
+⚠️  IMPORTANT RULES:
+- If no Reddit data (score 0) → Reduce final score (nobody talking about it)
+- If no News data (score 0) → Reduce final score (no market events)
+- If BOTH are 0 → FINAL SCORE = 0 (no information available)
 
-The technical analysis suggests {bot_decision} with {tech_confidence:.0f}% confidence.
-Your job is to validate or adjust this score based on news and community sentiment.
+TASK: Provide the FINAL TRADING SCORE (0-100)
+
+Combine:
+1. Technical Confidence: {tech_confidence:.0f}/100
+2. Reddit Score: {reddit_score_ai:.0f}/100
+3. News Score: {news_score_ai:.0f}/100
+4. Price trend context
+5. Decision type ({bot_decision})
 
 FINAL SCORE SCALE:
-- 0-30: Bad decision, news/reddit strongly contradict
+- 0-30: Bad decision or insufficient data
 - 31-50: Weak decision, mixed signals
 - 51-70: Good decision, moderately supported
 - 71-100: Excellent decision, strongly supported
 
-Consider:
-- News sentiment (positive news → higher score for BUY, lower for SELL)
-- Reddit community sentiment (upvotes show agreement)
-- Technical confidence as baseline
-- Overall market conditions
-
-Respond EXACTLY in this format: "SCORE: [number]|REASON: [short explanation]"
+Respond EXACTLY: "SCORE: [number]|REASON: [short explanation]"
 """
 
             session = await self.get_session()
-            url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+            url = "https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-3B-Instruct"
             headers = {"Authorization": f"Bearer {self.hf_token}"}
             payload = {
                 "inputs": prompt,
                 "parameters": {
-                    "max_new_tokens": 150,
-                    "temperature": 0.7,
-                    "top_p": 0.9
+                    "max_new_tokens": 100,
+                    "temperature": 0.5,
+                    "top_p": 0.9,
+                    "return_full_text": False
                 }
             }
 
-            async with session.post(url, json=payload, headers=headers, timeout=15) as response:
+            async with session.post(url, json=payload, headers=headers, timeout=20) as response:
                 if response.status == 200:
                     result = await response.json()
                     if isinstance(result, list) and len(result) > 0:
@@ -325,15 +350,25 @@ Respond EXACTLY in this format: "SCORE: [number]|REASON: [short explanation]"
 
                                 score = int(''.join(filter(str.isdigit, score_part))[:3])
                                 score = max(0, min(100, score))
+
+                                # Réduction supplémentaire si pas de données
+                                if reddit_score_ai == 0 and news_score_ai > 0:
+                                    score = int(score * 0.7)  # Réduction 30% si pas de Reddit
+                                    reason_part += " (réduit: pas de Reddit)"
+                                elif news_score_ai == 0 and reddit_score_ai > 0:
+                                    score = int(score * 0.7)  # Réduction 30% si pas de News
+                                    reason_part += " (réduit: pas de News)"
+
                                 return score, reason_part[:200]
-                        except:
+                        except Exception as parse_err:
+                            logger.error(f"   [AI Decision] Erreur parsing: {parse_err}")
                             pass
 
             # Fallback: analyse simple basée sur le sentiment
             return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
 
         except Exception as e:
-            logger.debug(f"Erreur AI validation: {e}")
+            logger.error(f"Erreur AI validation: {e}")
             return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence)
 
     async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50) -> Tuple[int, str]:

@@ -1,0 +1,204 @@
+================================================================================
+                    🚀 RÉSUMÉ DES CHANGEMENTS v2.0
+================================================================================
+
+✅ TERMINÉ - Système de Scoring IA Multi-Niveau
+
+================================================================================
+📋 CE QUI A CHANGÉ
+================================================================================
+
+1. ❌ REDDIT SANS POST = SCORE 0 (plus de score neutre)
+   - Avant: 0 post → score 50
+   - Maintenant: 0 post → score 0 (personne n'en parle)
+
+2. 🤖 NOUVEAU : AI SCORER (Pré-analyse intelligente)
+   - Hugging Face analyse SÉPARÉMENT Reddit et News
+   - Scores pré-calculés (0-100) pour chacun
+   - Gardés en mémoire pour la décision finale
+
+3. 🛑 STOP LOSS / TAKE PROFIT (Automatiques et PRIORITAIRES)
+   - Stop Loss: -3% → Sortie auto (pas de HF, économie!)
+   - Take Profit: +10% → Sortie auto (sécurise les gains)
+   - Vérifiés AVANT toute décision IA
+
+4. 📊 PROMPT HUGGING FACE OPTIMISÉ
+   - 5 derniers prix (contexte de tendance)
+   - Prix d'achat/vente voulu
+   - Scores Reddit et News pré-calculés
+   - Réduction auto si données manquantes:
+     * Pas de Reddit → -30%
+     * Pas de News → -30%
+     * Aucun des 2 → Score = 0
+
+5. 📁 UN FICHIER CSV PAR ACTION
+   - Avant: un gros CSV pour NVDA
+   - Maintenant: data/Sentiment_[TICKER].csv
+   - Chargement automatique selon l'action
+
+================================================================================
+🎯 FLUX DE DÉCISION
+================================================================================
+
+1. Analyse Technique → BUY/SELL/HOLD
+   │
+   ├─ HOLD → Rien
+   │
+   └─ BUY/SELL
+      │
+      ├─ En position ?
+      │  │
+      │  └─ PRIORITÉ 1: Stop Loss (-3%) ou Take Profit (+10%) ?
+      │     │
+      │     ├─ OUI → Sortie automatique (pas de HF)
+      │     │
+      │     └─ NON → Continue
+      │
+      ├─ Pas de Reddit ET pas de News ?
+      │  │
+      │  └─ OUI → Score final = 0 (rejet)
+      │
+      ├─ AI Scorer (pré-analyse):
+      │  ├─ Score Reddit (0-100)
+      │  └─ Score News (0-100)
+      │
+      ├─ Hugging Face (décision finale):
+      │  ├─ Combine: Tech + Reddit + News + Prix
+      │  ├─ Réduit si données manquantes
+      │  └─ Score final (0-100)
+      │
+      └─ Score > 65 ?
+         │
+         ├─ OUI → Exécution
+         └─ NON → Rejet
+
+================================================================================
+📁 NOUVEAUX FICHIERS
+================================================================================
+
+analyzers/ai_scorer.py              → Scorer Reddit/News via HF
+config_stocks.py                     → Configuration des actions
+scripts/scrape_all_stocks.py         → Scraper toutes les actions
+scripts/scrape_single_stock.py       → Scraper une action
+scripts/test_config.py               → Tester la config
+README_AI_SCORING.md                 → Guide complet AI Scoring
+README_REDDIT_SCRAPING.md            → Guide complet Reddit
+QUICK_START_REDDIT.md                → Quick start Reddit
+CHANGEMENTS_V2.md                    → Changelog détaillé
+
+================================================================================
+🚀 COMMENT UTILISER
+================================================================================
+
+1. SCRAPER LES DONNÉES
+
+   cd scripts
+   python scrape_all_stocks.py
+
+   → Crée data/Sentiment_NVDA.csv, data/Sentiment_AAPL.csv, etc.
+
+2. VÉRIFIER LA CONFIGURATION
+
+   python scripts/test_config.py
+
+   → Affiche les 11 actions configurées
+
+3. LANCER LE BACKTEST
+
+   from trading_bot_main import RealisticBacktestEngine
+
+   engine = RealisticBacktestEngine(data_dir='data')
+   engine.stop_loss_pct = -3.0    # Stop loss -3%
+   engine.take_profit_pct = 10.0  # Take profit +10%
+
+   results = await engine.backtest_with_news_validation('NVDA', months=6)
+
+4. ANALYSER LES RÉSULTATS
+
+   for trade in results['trades']:
+       print(f"{trade['exit_reason']}: {trade['profit']:.2f}%")
+
+   Exit reasons:
+   - TAKE_PROFIT      → +10% atteint (auto)
+   - STOP_LOSS        → -3% atteint (auto)
+   - AI_VALIDATED_SELL → Vente validée par IA
+
+================================================================================
+⚡ EXEMPLE DE DÉCISION
+================================================================================
+
+[2024-06-15] NVDA @ $145.50
+│
+├─ Analyse Technique: BUY (75/100)
+│
+├─ Stop Loss/Take Profit: Pas en position (skip)
+│
+├─ AI Scorer:
+│  ├─ Reddit: 82/100 (45 posts analysés)
+│  └─ News: 68/100 (8 news analysées)
+│
+├─ Tendance: +2.25% (5 derniers jours)
+│
+├─ Hugging Face:
+│  ├─ Combine: Tech (75) + Reddit (82) + News (68) + Trend (+2.25%)
+│  └─ SCORE FINAL: 88/100 ✅
+│
+└─ DÉCISION: 88 > 65 → BUY EXÉCUTÉ @ $145.50
+
+[2024-06-18] NVDA @ $160.05
+│
+├─ Profit depuis achat: +10.0%
+│
+├─ TAKE PROFIT ACTIVÉ 🎯
+│
+├─ Sortie automatique (pas de requête HF)
+│
+└─ Trade fermé: +10.0% en 3 jours
+
+================================================================================
+📊 11 ACTIONS CONFIGURÉES
+================================================================================
+
+- NVDA  → r/NVDA_Stock + r/stocks ($NVDA)
+- AAPL  → r/AAPL + r/stocks ($AAPL)
+- GOOG  → r/GOOG_Stock + r/stocks ($GOOG)
+- AMZN  → r/amzn + r/stocks ($AMZN)
+- META  → r/stocks ($meta)
+- TSLA  → r/TSLA + r/stocks ($TSLA)
+- BRK.B → r/BerkshireHathaway + r/stocks ($BRK)
+- JPM   → r/JPMorganChase + r/stocks ($JPM)
+- V     → r/stocks ($visa)
+- JNJ   → r/ValueInvesting + r/stocks ($JNJ)
+- WMT   → r/stocks (wmt)
+
+================================================================================
+📚 DOCUMENTATION
+================================================================================
+
+README_AI_SCORING.md       → Guide complet du système (67 KB)
+README_REDDIT_SCRAPING.md  → Guide scraping Reddit (17 KB)
+CHANGEMENTS_V2.md          → Changelog détaillé (12 KB)
+QUICK_START_REDDIT.md      → Quick start (2 KB)
+
+================================================================================
+✅ CHECKLIST
+================================================================================
+
+[ ] Lire README_AI_SCORING.md (important!)
+[ ] Scraper les données: python scripts/scrape_all_stocks.py
+[ ] Tester config: python scripts/test_config.py
+[ ] Modifier RealisticBacktestEngine(data_dir='data')
+[ ] Lancer un backtest de test (3 mois)
+[ ] Analyser les exit_reason
+[ ] Ajuster stop_loss/take_profit si besoin
+
+================================================================================
+
+Tout est prêt ! 🚀
+
+Pour commencer:
+  1. python scripts/scrape_all_stocks.py
+  2. Lire README_AI_SCORING.md
+  3. Lancer votre premier backtest
+
+================================================================================

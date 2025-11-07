@@ -19,11 +19,13 @@ class RedditSentimentAnalyzer:
     Utilise l'API REST de Reddit (pas besoin de PRAW)
     """
 
-    def __init__(self, csv_file: str = None):
+    def __init__(self, csv_file: str = None, data_dir: str = 'data'):
         self.session = None
         self.sentiment_cache = {}  # Cache pour éviter appels répétés
         self.csv_file = csv_file
         self.csv_data = None  # Données chargées depuis le CSV
+        self.data_dir = data_dir  # Dossier contenant les CSV par action
+        self.csv_data_by_symbol = {}  # Cache des CSV chargés par ticker
 
         # Configuration des subreddits par ticker
         self.ticker_subreddits = {
@@ -73,28 +75,68 @@ class RedditSentimentAnalyzer:
             self.session = aiohttp.ClientSession(headers=headers)
         return self.session
 
-    def load_csv_data(self):
-        """Charge les données Reddit depuis le CSV"""
-        if self.csv_file is None:
-            logger.warning("[Reddit] Pas de fichier CSV spécifié")
-            return False
+    def load_csv_data(self, symbol: str = None):
+        """Charge les données Reddit depuis le CSV
 
+        Args:
+            symbol: Si fourni, charge data/Sentiment_[SYMBOL].csv au lieu du csv_file global
+        """
         try:
             import pandas as pd
-            self.csv_data = pd.read_csv(self.csv_file)
-            # Convertir la colonne created en datetime
-            self.csv_data['created'] = pd.to_datetime(self.csv_data['created'])
-            logger.info(f"[Reddit] ✅ {len(self.csv_data)} posts chargés depuis {self.csv_file}")
-            return True
+            from pathlib import Path
+
+            # Déterminer quel fichier charger
+            if symbol:
+                # Charger le fichier spécifique à l'action
+                csv_path = Path(self.data_dir) / f"Sentiment_{symbol}.csv"
+
+                # Vérifier si déjà en cache
+                if symbol in self.csv_data_by_symbol:
+                    logger.debug(f"[Reddit] ✅ Utilisation cache pour {symbol}")
+                    return True
+
+                if not csv_path.exists():
+                    logger.warning(f"[Reddit] ⚠️ Fichier {csv_path} introuvable")
+                    return False
+
+                # Charger et mettre en cache
+                data = pd.read_csv(csv_path)
+                data['created'] = pd.to_datetime(data['created'])
+                self.csv_data_by_symbol[symbol] = data
+                logger.info(f"[Reddit] ✅ {len(data)} posts chargés pour {symbol} depuis {csv_path}")
+                return True
+            else:
+                # Charger le fichier global (ancien comportement)
+                if self.csv_file is None:
+                    logger.warning("[Reddit] Pas de fichier CSV spécifié")
+                    return False
+
+                self.csv_data = pd.read_csv(self.csv_file)
+                self.csv_data['created'] = pd.to_datetime(self.csv_data['created'])
+                logger.info(f"[Reddit] ✅ {len(self.csv_data)} posts chargés depuis {self.csv_file}")
+                return True
+
         except Exception as e:
             logger.error(f"[Reddit] ❌ Erreur chargement CSV: {e}")
             return False
 
     def get_posts_from_csv(self, symbol: str, target_date: datetime, lookback_hours: int = 48) -> List[Dict]:
         """Récupère les posts Reddit depuis le CSV pour une date donnée"""
-        if self.csv_data is None:
-            if not self.load_csv_data():
-                return []
+        # Essayer de charger le CSV spécifique à l'action
+        csv_data = None
+
+        if symbol in self.csv_data_by_symbol:
+            csv_data = self.csv_data_by_symbol[symbol]
+        else:
+            # Tenter de charger le fichier spécifique
+            if not self.load_csv_data(symbol=symbol):
+                # Fallback sur le CSV global si disponible
+                if self.csv_data is None:
+                    if not self.load_csv_data():
+                        return []
+                csv_data = self.csv_data
+            else:
+                csv_data = self.csv_data_by_symbol[symbol]
 
         try:
             # Normaliser la date
@@ -104,8 +146,8 @@ class RedditSentimentAnalyzer:
             cutoff_time = target_date - timedelta(hours=lookback_hours)
 
             # Filtrer les posts par date
-            mask = (self.csv_data['created'] >= cutoff_time) & (self.csv_data['created'] <= target_date)
-            filtered_posts = self.csv_data[mask]
+            mask = (csv_data['created'] >= cutoff_time) & (csv_data['created'] <= target_date)
+            filtered_posts = csv_data[mask]
 
             # Convertir en liste de dictionnaires
             posts = []
@@ -211,8 +253,9 @@ class RedditSentimentAnalyzer:
 
             # Analyser le sentiment
             if not all_posts:
-                result = (50.0, 0, [], [])  # Score neutre si pas de données
+                result = (0.0, 0, [], [])  # Score 0 si pas de posts (personne n'en parle)
                 self.sentiment_cache[cache_key] = result
+                logger.info(f"   [Reddit] {symbol}: Score 0/100 (aucun post)")
                 return result
 
             sentiments = []

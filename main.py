@@ -21,10 +21,9 @@ logging.basicConfig(
 logger = logging.getLogger('TradingBot')
 
 # Imports modulaires
-# Note: Certains modules sont encore en transition et importent depuis trading_bot_main.py
 from analyzers import TechnicalAnalyzer, HistoricalNewsAnalyzer, RedditSentimentAnalyzer
-from backtest import RealisticBacktestEngine  # En transition
-from bot import bot  # En transition
+from backtest import RealisticBacktestEngine
+from bot import bot
 
 if __name__ == "__main__":
     DISCORD_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
@@ -41,8 +40,9 @@ if __name__ == "__main__":
     logger.info(f"   ✅ analyzers.TechnicalAnalyzer")
     logger.info(f"   ✅ analyzers.HistoricalNewsAnalyzer")
     logger.info(f"   ✅ analyzers.RedditSentimentAnalyzer")
-    logger.info(f"   ⚠️  backtest.RealisticBacktestEngine (transition)")
-    logger.info(f"   ⚠️  bot.TradingBot (transition)")
+    logger.info(f"   ✅ analyzers.AIScorer")
+    logger.info(f"   ✅ backtest.RealisticBacktestEngine")
+    logger.info(f"   ✅ bot.TradingBot")
     logger.info(f"")
     logger.info(f"📊 Configuration:")
     logger.info(f"   • Watchlist: {len(WATCHLIST)} actions")
