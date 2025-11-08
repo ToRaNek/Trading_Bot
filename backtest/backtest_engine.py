@@ -39,7 +39,7 @@ class RealisticBacktestEngine:
         self.tech_analyzer = TechnicalAnalyzer()
 
         # Configuration stop loss / take profit
-        self.stop_loss_pct = -10.0  # -10%
+        self.stop_loss_pct = -6.0  # -6%
         self.take_profit_pct = 10.0  # +10%
 
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
@@ -228,9 +228,9 @@ class RealisticBacktestEngine:
                               f"News: {news_score_ai:.0f}/100{news_sentiment_label} | "
                               f"FINAL: {final_score:.0f}/100")
 
-                # Exécuter le trade si score > 65
+                # Exécuter le trade si score >= 65
                 if bot_decision == "BUY" and position == 0:
-                    if final_score > 65:
+                    if final_score >= 65:
                         position = 1
                         entry_price = current_price
                         entry_date = current_date
@@ -242,7 +242,7 @@ class RealisticBacktestEngine:
                         logger.info(f"   ❌ BUY rejeté (Score: {final_score:.0f})")
 
                 elif bot_decision == "SELL" and position == 1:
-                    if final_score > 65:
+                    if final_score >= 65:
                         position = 0
                         exit_price = current_price
                         profit = (exit_price - entry_price) / entry_price * 100
