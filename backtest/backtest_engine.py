@@ -50,12 +50,13 @@ class RealisticBacktestEngine:
         logger.info(f"[>>] Backtest réaliste {symbol} - {months} mois")
 
         try:
-            # Récupérer les données historiques
+            # Récupérer les données historiques (HOURLY)
             stock = yf.Ticker(symbol)
             end_date = datetime.now()
-            start_date = end_date - timedelta(days=months*30 + 60)  # +60j pour indicateurs
+            # Pour hourly: 6 mois = ~180 jours + 30 jours (200h) pour warm-up
+            start_date = end_date - timedelta(days=months*30 + 30)  # +30j pour indicateurs
 
-            df = stock.history(start=start_date, end=end_date, interval='1d')
+            df = stock.history(start=start_date, end=end_date, interval='1h')
 
             if df.empty or len(df) < 100:
                 logger.warning(f"   [X] Données insuffisantes pour {symbol}")
@@ -65,20 +66,20 @@ class RealisticBacktestEngine:
             if hasattr(df.index, 'tz') and df.index.tz is not None:
                 df.index = df.index.tz_localize(None)
 
-            logger.info(f"   [✓] {len(df)} jours de données")
+            logger.info(f"   [✓] {len(df)} heures de données")
 
             # Calculer les indicateurs
             df = self.tech_analyzer.calculate_indicators(df)
 
-            # Analyser CHAQUE JOUR après le warm-up (60 jours pour les indicateurs)
-            warm_up_days = 60
-            decision_points = list(range(warm_up_days, len(df)))
+            # Analyser CHAQUE HEURE après le warm-up (200 heures ~= 30 jours de trading)
+            warm_up_hours = 200
+            decision_points = list(range(warm_up_hours, len(df)))
 
             if len(decision_points) < 10:
                 logger.warning(f"   [X] Pas assez de points de décision")
                 return None
 
-            logger.info(f"   [✓] {len(decision_points)} jours d'analyse (backtest quotidien)")
+            logger.info(f"   [✓] {len(decision_points)} heures d'analyse (backtest horaire)")
 
             # Simuler les trades
             trades = []
@@ -101,11 +102,11 @@ class RealisticBacktestEngine:
                 if position == 1:
                     profit_pct = (current_price - entry_price) / entry_price * 100
 
-                    # Stop loss prioritaire (-3%)
+                    # Stop loss prioritaire (-6%)
                     if profit_pct <= self.stop_loss_pct:
                         position = 0
                         exit_price = current_price
-                        hold_days = (current_date - entry_date).days
+                        hold_hours = (current_date - entry_date).total_seconds() / 3600
 
                         trades.append({
                             'entry_date': entry_date,
@@ -113,7 +114,7 @@ class RealisticBacktestEngine:
                             'entry_price': entry_price,
                             'exit_price': exit_price,
                             'profit': profit_pct,
-                            'hold_days': hold_days,
+                            'hold_hours': hold_hours,
                             'final_score': 0,
                             'tech_confidence': 0,
                             'reddit_score': 0,
@@ -123,14 +124,14 @@ class RealisticBacktestEngine:
                         })
 
                         logger.info(f"   🛑 STOP LOSS @ ${exit_price:.2f} | "
-                                  f"Perte: {profit_pct:.2f}% | Durée: {hold_days}j")
+                                  f"Perte: {profit_pct:.2f}% | Durée: {hold_hours:.1f}h")
                         continue
 
                     # Take profit prioritaire (+10%)
                     elif profit_pct >= self.take_profit_pct:
                         position = 0
                         exit_price = current_price
-                        hold_days = (current_date - entry_date).days
+                        hold_hours = (current_date - entry_date).total_seconds() / 3600
 
                         trades.append({
                             'entry_date': entry_date,
@@ -138,7 +139,7 @@ class RealisticBacktestEngine:
                             'entry_price': entry_price,
                             'exit_price': exit_price,
                             'profit': profit_pct,
-                            'hold_days': hold_days,
+                            'hold_hours': hold_hours,
                             'final_score': 100,
                             'tech_confidence': 100,
                             'reddit_score': 0,
@@ -148,7 +149,7 @@ class RealisticBacktestEngine:
                         })
 
                         logger.info(f"   🎯 TAKE PROFIT @ ${exit_price:.2f} | "
-                                  f"Gain: {profit_pct:.2f}% | Durée: {hold_days}j")
+                                  f"Gain: {profit_pct:.2f}% | Durée: {hold_hours:.1f}h")
                         continue
 
                 # Analyse technique
@@ -246,7 +247,7 @@ class RealisticBacktestEngine:
                         position = 0
                         exit_price = current_price
                         profit = (exit_price - entry_price) / entry_price * 100
-                        hold_days = (current_date - entry_date).days
+                        hold_hours = (current_date - entry_date).total_seconds() / 3600
 
                         trades.append({
                             'entry_date': entry_date,
@@ -254,7 +255,7 @@ class RealisticBacktestEngine:
                             'entry_price': entry_price,
                             'exit_price': exit_price,
                             'profit': profit,
-                            'hold_days': hold_days,
+                            'hold_hours': hold_hours,
                             'final_score': final_score,
                             'tech_confidence': tech_confidence,
                             'reddit_score': reddit_score,
@@ -265,7 +266,7 @@ class RealisticBacktestEngine:
 
                         validated_sells += 1
                         logger.info(f"   ✅ SELL validé (Score: {final_score:.0f}) @ ${exit_price:.2f} | "
-                                  f"Profit: {profit:+.2f}% | Durée: {hold_days}j")
+                                  f"Profit: {profit:+.2f}% | Durée: {hold_hours:.1f}h")
                     else:
                         rejected_sells += 1
                         logger.info(f"   ❌ SELL rejeté (Score: {final_score:.0f})")
@@ -278,7 +279,7 @@ class RealisticBacktestEngine:
             if position == 1:
                 final_price = df['Close'].iloc[-1]
                 profit = (final_price - entry_price) / entry_price * 100
-                hold_days = (df.index[-1] - entry_date).days
+                hold_hours = (df.index[-1] - entry_date).total_seconds() / 3600
 
                 trades.append({
                     'entry_date': entry_date,
@@ -286,7 +287,7 @@ class RealisticBacktestEngine:
                     'entry_price': entry_price,
                     'exit_price': final_price,
                     'profit': profit,
-                    'hold_days': hold_days,
+                    'hold_hours': hold_hours,
                     'final_score': 0,
                     'tech_confidence': 0,
                     'reddit_score': 0,
@@ -307,13 +308,13 @@ class RealisticBacktestEngine:
             avg_profit = np.mean(profits)
             max_profit = max(profits)
             max_loss = min(profits)
-            hold_days = [t['hold_days'] for t in trades]
-            avg_hold_days = np.mean(hold_days)
+            hold_hours = [t['hold_hours'] for t in trades]
+            avg_hold_hours = np.mean(hold_hours)
             profitable_trades = len([p for p in profits if p > 0])
             win_rate = profitable_trades / len(profits) * 100
 
             # Buy & Hold return
-            first_price = df['Close'].iloc[warm_up_days]
+            first_price = df['Close'].iloc[warm_up_hours]
             last_price = df['Close'].iloc[-1]
             buy_hold_return = (last_price - first_price) / first_price * 100
 
@@ -341,7 +342,7 @@ class RealisticBacktestEngine:
                 'avg_profit': avg_profit,
                 'max_profit': max_profit,
                 'max_loss': max_loss,
-                'avg_hold_days': avg_hold_days,
+                'avg_hold_hours': avg_hold_hours,
                 'profitable_trades': profitable_trades,
                 'win_rate': win_rate,
                 'buy_hold_return': buy_hold_return,

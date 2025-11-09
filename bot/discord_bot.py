@@ -124,7 +124,7 @@ async def backtest(ctx, months: int = 6):
             perf += f"💰 Profit: **{r['total_profit']:+.2f}%**\n"
             perf += f"📈 Win Rate: {r['win_rate']:.0f}%\n"
             perf += f"💼 Trades: {r['total_trades']} ({r['profitable_trades']} gagnants)\n"
-            perf += f"⏱️ Durée moy: {r['avg_hold_days']:.0f} jours\n"
+            perf += f"⏱️ Durée moy: {r['avg_hold_hours']:.1f}h\n"
             perf += f"🤖 Validés: {r['validated_buys']}B / {r['validated_sells']}S\n"
             perf += f"❌ Rejetés: {r['rejected_buys']}B / {r['rejected_sells']}S\n"
             perf += f"📊 vs Hold: {r['strategy_vs_hold']:+.2f}%\n"
@@ -193,7 +193,7 @@ async def detail(ctx, symbol: str, months: int = 6):
         embed.add_field(name="🎯 Max Profit", value=f"{result['max_profit']:+.2f}%", inline=True)
         embed.add_field(name="⚠️ Max Loss", value=f"{result['max_loss']:+.2f}%", inline=True)
 
-        embed.add_field(name="⏱️ Durée Moy", value=f"{result['avg_hold_days']:.0f}j", inline=True)
+        embed.add_field(name="⏱️ Durée Moy", value=f"{result['avg_hold_hours']:.1f}h", inline=True)
         embed.add_field(name="📅 Points décision", value=f"{result['decision_points']}", inline=True)
         embed.add_field(name="🏦 Buy & Hold", value=f"{result['buy_hold_return']:+.2f}%", inline=True)
 
@@ -217,11 +217,11 @@ async def detail(ctx, symbol: str, months: int = 6):
             for i, trade in enumerate(result['trades'][:10], 1):  # Max 10 trades
                 profit_emoji = "🟢" if trade['profit'] > 0 else "🔴"
                 trade_text = f"{profit_emoji} **{trade['profit']:+.2f}%**\n"
-                trade_text += f"📅 Entrée: {trade['entry_date'].strftime('%Y-%m-%d')}\n"
+                trade_text += f"📅 Entrée: {trade['entry_date'].strftime('%Y-%m-%d %H:%M')}\n"
                 trade_text += f"💰 Prix: ${trade['entry_price']:.2f}\n"
-                trade_text += f"📅 Sortie: {trade['exit_date'].strftime('%Y-%m-%d')}\n"
+                trade_text += f"📅 Sortie: {trade['exit_date'].strftime('%Y-%m-%d %H:%M')}\n"
                 trade_text += f"💰 Prix: ${trade['exit_price']:.2f}\n"
-                trade_text += f"⏱️ Durée: {trade['hold_days']} jours"
+                trade_text += f"⏱️ Durée: {trade['hold_hours']:.1f}h"
 
                 trades_embed.add_field(
                     name=f"Trade #{i}",

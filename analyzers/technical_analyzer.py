@@ -12,12 +12,13 @@ class TechnicalAnalyzer:
         """Calcul des indicateurs techniques"""
         data_size = len(df)
 
-        # SMA
+        # SMA - Ajusté pour trading HORAIRE
+        # SMA 20h = ~3 jours, SMA 50h = ~7 jours, SMA 100h = ~15 jours
         df['sma_20'] = df['Close'].rolling(window=min(20, data_size//2)).mean()
         if data_size > 50:
             df['sma_50'] = df['Close'].rolling(window=50).mean()
-        if data_size > 200:
-            df['sma_200'] = df['Close'].rolling(window=200).mean()
+        if data_size > 100:
+            df['sma_200'] = df['Close'].rolling(window=100).mean()  # 100h au lieu de 200h pour hourly
 
         # EMA et MACD
         df['ema_12'] = df['Close'].ewm(span=12, adjust=False).mean()
