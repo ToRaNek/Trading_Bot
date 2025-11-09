@@ -39,7 +39,7 @@ class RealisticBacktestEngine:
         self.tech_analyzer = TechnicalAnalyzer()
 
         # Configuration stop loss / take profit
-        self.stop_loss_pct = -6.0  # -6%
+        self.stop_loss_pct = -4.0  # -4%
         self.take_profit_pct = 10.0  # +10%
 
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
@@ -102,7 +102,7 @@ class RealisticBacktestEngine:
                 if position == 1:
                     profit_pct = (current_price - entry_price) / entry_price * 100
 
-                    # Stop loss prioritaire (-6%)
+                    # Stop loss prioritaire (-4%)
                     if profit_pct <= self.stop_loss_pct:
                         position = 0
                         exit_price = current_price
