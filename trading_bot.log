@@ -6518,3 +6518,1178 @@ client_session: <aiohttp.client.ClientSession object at 0x000001E82D639090>
 client_session: <aiohttp.client.ClientSession object at 0x000001EFC7103250>
 2025-11-09 19:28:47,750 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x000001EFC7281310>
+2025-11-09 19:31:27,330 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-09 19:31:27,331 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-09 19:31:27,331 - TradingBot - INFO - [APIKeyRotator] 3 clés API chargées depuis C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\api_keys.csv
+2025-11-09 19:31:27,331 - TradingBot - INFO - [NewsAPI] Rotateur initialisé: 3/3 clés actives
+2025-11-09 19:31:27,332 - TradingBot - INFO - ================================================================================
+2025-11-09 19:31:27,332 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-09 19:31:27,332 - TradingBot - INFO - ================================================================================
+2025-11-09 19:31:27,332 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-09 19:31:27,332 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-09 19:31:27,332 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-09 19:31:27,332 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-09 19:31:27,333 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-09 19:31:27,333 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-09 19:31:27,333 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-09 19:31:27,333 - TradingBot - INFO - 
+2025-11-09 19:31:27,333 - TradingBot - INFO - 📊 Configuration:
+2025-11-09 19:31:27,333 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-09 19:31:27,333 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-09 19:31:27,333 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-09 19:31:27,333 - TradingBot - INFO - ================================================================================
+2025-11-09 19:31:27,333 - TradingBot - INFO - 
+2025-11-09 19:31:27,334 - discord.client - INFO - logging in using static token
+2025-11-09 19:31:28,219 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 71baced8b8ce0c494df94e35aae46af6).
+2025-11-09 19:31:30,229 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-09 19:31:41,644 - TradingBot - INFO - [>>] Backtest réaliste TSLA - 6 mois
+2025-11-09 19:31:42,039 - TradingBot - INFO -    [✓] 1011 heures de données
+2025-11-09 19:31:42,044 - TradingBot - INFO -    [✓] 811 heures d'analyse (backtest horaire)
+2025-11-09 19:31:42,635 - TradingBot - INFO -    [2025-05-23] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:31:43,695 - TradingBot - INFO - [Reddit] ✅ 1386 posts chargés pour TSLA depuis data\Sentiment_TSLA.csv
+2025-11-09 19:31:44,406 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 68/100 | Reddit: 53/100 (2p) | News: 51/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:31:45,548 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 48/100 | Reddit: 53/100 (2p) | News: 51/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:31:46,680 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 48/100 | Reddit: 53/100 (2p) | News: 51/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:31:47,807 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 58/100 | Reddit: 53/100 (2p) | News: 51/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:31:51,852 - TradingBot - INFO -    [2025-05-28] Decision: SELL | Tech: 78/100 | Reddit: 52/100 (2p) | News: 51/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:31:52,948 - TradingBot - INFO -    [2025-05-29] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:31:53,873 - TradingBot - INFO -    [2025-05-29] Decision: SELL | Tech: 62/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:31:54,796 - TradingBot - INFO -    [2025-05-29] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:31:55,310 - TradingBot - INFO -    [2025-05-29] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:31:57,131 - TradingBot - INFO -    [2025-05-30] Decision: SELL | Tech: 100/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:31:58,357 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:31:58,357 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:31:59,276 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:31:59,276 - TradingBot - INFO -    ❌ BUY rejeté (Score: 43)
+2025-11-09 19:32:00,199 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:32:00,199 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:32:01,412 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:32:01,412 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:32:02,680 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 80/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:02,680 - TradingBot - INFO -    ✅ BUY validé (Score: 65) @ $338.50
+2025-11-09 19:32:03,814 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 75/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 60/100
+2025-11-09 19:32:05,409 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 65/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:32:06,529 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 65/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:32:07,659 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 48/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:32:08,772 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 48/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:32:09,897 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 48/100 | Reddit: 44/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:32:11,168 - TradingBot - INFO -    [2025-06-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:32:13,476 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 100/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:32:13,477 - TradingBot - INFO -    ✅ SELL validé (Score: 100) @ $332.20 | Profit: -1.86% | Durée: 48.0h
+2025-11-09 19:32:14,637 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 92/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 92/100
+2025-11-09 19:32:15,760 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 82/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:32:16,892 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 82/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:32:18,031 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 82/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:32:19,156 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 82/100 | Reddit: 59/100 (3p) | News: 53/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:32:22,790 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:32:24,623 - TradingBot - INFO -    [2025-06-06] Decision: BUY | Tech: 80/100 | Reddit: 65/100 (3p) | News: 50/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:32:24,624 - TradingBot - INFO -    ✅ BUY validé (Score: 88) @ $297.99
+2025-11-09 19:32:25,746 - TradingBot - INFO -    [2025-06-06] Decision: BUY | Tech: 80/100 | Reddit: 65/100 (3p) | News: 50/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:32:27,035 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech: 88/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:32:28,182 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech: 80/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 95/100
+2025-11-09 19:32:29,325 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech: 85/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:32:30,459 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech: 90/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:32:32,211 - TradingBot - INFO -    [2025-06-09] Decision: SELL | Tech: 65/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:32:32,211 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:32:33,547 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 72/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:32:33,548 - TradingBot - INFO -    ✅ SELL validé (Score: 72) @ $313.87 | Profit: +5.33% | Durée: 91.0h
+2025-11-09 19:32:34,667 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 58/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:32:35,803 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:36,935 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:38,057 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:39,188 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:40,321 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:41,675 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 80/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:32:42,811 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:43,980 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:45,112 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:46,258 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:47,739 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 65/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:48,886 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 58/100 | Reddit: 62/100 (4p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:32:50,302 - TradingBot - INFO -    [2025-06-12] Decision: SELL | Tech: 62/100 | Reddit: 58/100 (5p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:32:52,821 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 58/100 (5p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:32:52,821 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:32:53,957 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 58/100 (5p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:32:53,958 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:32:55,251 - TradingBot - INFO -    [2025-06-13] Decision: BUY | Tech: 80/100 | Reddit: 54/100 (2p) | News: 53/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:32:55,252 - TradingBot - INFO -    ✅ BUY validé (Score: 88) @ $314.45
+2025-11-09 19:32:56,439 - TradingBot - INFO -    [2025-06-13] Decision: BUY | Tech: 58/100 | Reddit: 54/100 (2p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:32:57,858 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 100/100 | Reddit: 54/100 (2p) | News: 53/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:32:57,858 - TradingBot - INFO -    ✅ SELL validé (Score: 100) @ $332.16 | Profit: +5.63% | Durée: 3.0h
+2025-11-09 19:32:58,967 - TradingBot - INFO -    [2025-06-13] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:33:00,053 - TradingBot - INFO -    [2025-06-16] Decision: BUY | Tech: 100/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:33:00,054 - TradingBot - INFO -    ✅ BUY validé (Score: 100) @ $330.05
+2025-11-09 19:33:01,182 - TradingBot - INFO -    [2025-06-16] Decision: BUY | Tech: 90/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:33:02,488 - TradingBot - INFO -    [2025-06-16] Decision: BUY | Tech: 90/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:33:03,624 - TradingBot - INFO -    [2025-06-16] Decision: BUY | Tech: 90/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:33:05,822 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 85/100 | Reddit: 49/100 (2p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:33:05,822 - TradingBot - INFO -    ✅ SELL validé (Score: 85) @ $322.95 | Profit: -2.15% | Durée: 24.0h
+2025-11-09 19:33:07,586 - TradingBot - INFO -    [2025-06-17] Decision: BUY | Tech: 58/100 | Reddit: 49/100 (2p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:33:07,586 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:33:08,722 - TradingBot - INFO -    [2025-06-17] Decision: BUY | Tech: 58/100 | Reddit: 49/100 (2p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:33:08,722 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:33:09,851 - TradingBot - INFO -    [2025-06-17] Decision: BUY | Tech: 48/100 | Reddit: 49/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:09,851 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:33:11,038 - TradingBot - INFO -    [2025-06-17] Decision: BUY | Tech: 48/100 | Reddit: 49/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:11,038 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:33:12,965 - TradingBot - INFO -    [2025-06-18] Decision: BUY | Tech: 85/100 | Reddit: 54/100 (3p) | News: 54/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:33:12,965 - TradingBot - INFO -    ✅ BUY validé (Score: 85) @ $324.80
+2025-11-09 19:33:14,086 - TradingBot - INFO -    [2025-06-18] Decision: BUY | Tech: 48/100 | Reddit: 54/100 (3p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:14,892 - TradingBot - INFO -    [2025-06-18] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:33:15,825 - TradingBot - INFO -    [2025-06-18] Decision: SELL | Tech: 75/100 | Reddit: 54/100 (3p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:15,825 - TradingBot - INFO -    ✅ SELL validé (Score: 75) @ $322.10 | Profit: -0.83% | Durée: 4.0h
+2025-11-09 19:33:16,931 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 95/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 66/100
+2025-11-09 19:33:17,871 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:33:19,401 - TradingBot - INFO -    [2025-06-20] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:33:21,070 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:33:21,989 - TradingBot - INFO -    [2025-06-23] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:33:26,013 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 73/100 | Reddit: 55/100 (2p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:33:27,136 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 75/100 | Reddit: 55/100 (2p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:28,429 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 75/100 | Reddit: 55/100 (2p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:29,832 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 80/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:33:29,833 - TradingBot - INFO -    ✅ BUY validé (Score: 88) @ $321.49
+2025-11-09 19:33:30,968 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 75/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 83/100
+2025-11-09 19:33:32,103 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 65/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:33:33,226 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 65/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:33:34,378 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 65/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:33:35,513 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 65/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:33:36,650 - TradingBot - INFO -    [2025-06-25] Decision: BUY | Tech: 58/100 | Reddit: 53/100 (4p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:33:38,012 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 72/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:33:39,282 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 75/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:40,421 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 58/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:33:41,568 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 48/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:42,700 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 58/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:33:44,120 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 48/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:45,264 - TradingBot - INFO -    [2025-06-26] Decision: BUY | Tech: 48/100 | Reddit: 51/100 (4p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:33:46,610 - TradingBot - INFO -    [2025-06-27] Decision: SELL | Tech: 90/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:33:46,611 - TradingBot - INFO -    ✅ SELL validé (Score: 90) @ $326.54 | Profit: +1.57% | Durée: 48.0h
+2025-11-09 19:33:47,743 - TradingBot - INFO -    [2025-06-27] Decision: SELL | Tech: 75/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:48,882 - TradingBot - INFO -    [2025-06-27] Decision: SELL | Tech: 75/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:50,029 - TradingBot - INFO -    [2025-06-27] Decision: SELL | Tech: 75/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:33:51,767 - TradingBot - INFO -    [2025-06-27] Decision: SELL | Tech: 82/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:33:57,730 - TradingBot - INFO -    [2025-07-02] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:34:00,413 - TradingBot - INFO -    [2025-07-03] Decision: SELL | Tech: 65/100 | Reddit: 50/100 (2p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:34:01,540 - TradingBot - INFO -    [2025-07-03] Decision: SELL | Tech: 58/100 | Reddit: 50/100 (2p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:34:02,845 - TradingBot - INFO -    [2025-07-07] Decision: BUY | Tech: 92/100 | Reddit: 20/100 (1p) | News: 52/100 NEUTRE | FINAL: 77/100
+2025-11-09 19:34:02,845 - TradingBot - INFO -    ✅ BUY validé (Score: 77) @ $293.18
+2025-11-09 19:34:03,974 - TradingBot - INFO -    [2025-07-07] Decision: SELL | Tech: 90/100 | Reddit: 20/100 (1p) | News: 52/100 NEUTRE | FINAL: 98/100
+2025-11-09 19:34:03,974 - TradingBot - INFO -    ✅ SELL validé (Score: 98) @ $292.81 | Profit: -0.13% | Durée: 1.0h
+2025-11-09 19:34:05,417 - TradingBot - INFO -    [2025-07-07] Decision: SELL | Tech: 90/100 | Reddit: 20/100 (1p) | News: 52/100 NEUTRE | FINAL: 98/100
+2025-11-09 19:34:07,923 - TradingBot - INFO -    [2025-07-08] Decision: SELL | Tech: 75/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 83/100
+2025-11-09 19:34:09,064 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 75/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:34:09,064 - TradingBot - INFO -    ✅ BUY validé (Score: 75) @ $302.25
+2025-11-09 19:34:10,403 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 75/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:34:11,530 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 75/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:34:12,660 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 90/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:34:13,809 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 80/100 | Reddit: 20/100 (1p) | News: 53/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:34:14,967 - TradingBot - INFO -    [2025-07-09] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:34:15,890 - TradingBot - INFO -    [2025-07-09] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:34:16,807 - TradingBot - INFO -    [2025-07-09] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:34:17,732 - TradingBot - INFO -    [2025-07-09] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:34:21,443 - TradingBot - INFO -    [2025-07-10] Decision: SELL | Tech: 68/100 | Reddit: 71/100 (1p) | News: 53/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:34:21,444 - TradingBot - INFO -    ✅ SELL validé (Score: 67) @ $309.24 | Profit: +2.31% | Durée: 51.0h
+2025-11-09 19:34:22,575 - TradingBot - INFO -    [2025-07-10] Decision: SELL | Tech: 58/100 | Reddit: 71/100 (1p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:34:23,886 - TradingBot - INFO -    [2025-07-11] Decision: SELL | Tech: 80/100 | Reddit: 65/100 (2p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:34:25,010 - TradingBot - INFO -    [2025-07-11] Decision: SELL | Tech: 58/100 | Reddit: 65/100 (2p) | News: 54/100 NEUTRE | FINAL: 42/100
+2025-11-09 19:34:26,153 - TradingBot - INFO -    [2025-07-11] Decision: SELL | Tech: 58/100 | Reddit: 65/100 (2p) | News: 54/100 NEUTRE | FINAL: 42/100
+2025-11-09 19:34:27,291 - TradingBot - INFO -    [2025-07-11] Decision: SELL | Tech: 65/100 | Reddit: 65/100 (2p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:34:28,410 - TradingBot - INFO -    [2025-07-11] Decision: SELL | Tech: 65/100 | Reddit: 65/100 (2p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:34:33,184 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 68/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 68/100
+2025-11-09 19:34:34,315 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 75/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:34:35,435 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 73/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:34:36,859 - TradingBot - INFO -    [2025-07-15] Decision: BUY | Tech: 48/100 | Reddit: 51/100 (2p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:34:36,859 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:34:38,202 - TradingBot - INFO -    [2025-07-16] Decision: SELL | Tech: 100/100 | Reddit: 51/100 (2p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:34:39,328 - TradingBot - INFO -    [2025-07-16] Decision: SELL | Tech: 100/100 | Reddit: 51/100 (2p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:34:40,132 - TradingBot - INFO -    [2025-07-16] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:34:41,063 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 82/100 | Reddit: 51/100 (2p) | News: 53/100 NEUTRE | FINAL: 97/100
+2025-11-09 19:34:41,063 - TradingBot - INFO -    ✅ BUY validé (Score: 97) @ $319.48
+2025-11-09 19:34:42,498 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 82/100 | Reddit: 51/100 (2p) | News: 53/100 NEUTRE | FINAL: 97/100
+2025-11-09 19:34:43,781 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 98/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 97/100
+2025-11-09 19:34:45,514 - TradingBot - INFO -    [2025-07-17] Decision: SELL | Tech: 68/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 68/100
+2025-11-09 19:34:45,515 - TradingBot - INFO -    ✅ SELL validé (Score: 68) @ $319.46 | Profit: -0.01% | Durée: 23.0h
+2025-11-09 19:34:46,953 - TradingBot - INFO -    [2025-07-17] Decision: SELL | Tech: 75/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:34:48,076 - TradingBot - INFO -    [2025-07-17] Decision: SELL | Tech: 85/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:34:49,336 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 100/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:34:52,419 - TradingBot - INFO -    [2025-07-21] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:34:53,638 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 73/100 | Reddit: 73/100 (1p) | News: 53/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:34:54,775 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 80/100 | Reddit: 73/100 (1p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:34:55,907 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 85/100 | Reddit: 73/100 (1p) | News: 53/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:34:57,344 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 83/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:34:58,269 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:34:59,200 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:35:00,119 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:35:01,040 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:35:01,969 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:35:03,648 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 88/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:35:04,787 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 75/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:35:05,919 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 75/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:35:07,347 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 82/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:35:08,475 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 80/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:35:09,602 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 73/100 | Reddit: 53/100 (2p) | News: 53/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:35:10,927 - TradingBot - INFO -    [2025-07-24] Decision: BUY | Tech: 85/100 | Reddit: 51/100 (7p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:35:10,928 - TradingBot - INFO -    ✅ BUY validé (Score: 85) @ $303.80
+2025-11-09 19:35:12,064 - TradingBot - INFO -    [2025-07-24] Decision: BUY | Tech: 80/100 | Reddit: 51/100 (7p) | News: 53/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:35:13,195 - TradingBot - INFO -    [2025-07-24] Decision: BUY | Tech: 75/100 | Reddit: 51/100 (7p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:35:14,326 - TradingBot - INFO -    [2025-07-24] Decision: BUY | Tech: 65/100 | Reddit: 51/100 (7p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:15,483 - TradingBot - INFO -    [2025-07-24] Decision: BUY | Tech: 65/100 | Reddit: 51/100 (7p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:17,510 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:35:17,511 - TradingBot - INFO -    ❌ SELL rejeté (Score: 59)
+2025-11-09 19:35:19,032 - TradingBot - INFO -    [2025-07-25] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:35:19,965 - TradingBot - INFO -    [2025-07-25] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:35:20,889 - TradingBot - INFO -    [2025-07-25] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:35:21,960 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:35:21,960 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:35:22,885 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:22,885 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:35:23,814 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:35:23,814 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:35:24,735 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:35:24,736 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:35:25,665 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:35:25,665 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:35:26,589 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:35:26,589 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:35:27,523 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:35:27,523 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:35:28,215 - TradingBot - INFO -    [2025-07-29] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:35:32,635 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 75/100 | Reddit: 52/100 (3p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:35:33,770 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 48/100 | Reddit: 52/100 (3p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:35,077 - TradingBot - INFO -    [2025-07-31] Decision: SELL | Tech: 90/100 | Reddit: 52/100 (3p) | News: 53/100 NEUTRE | FINAL: 98/100
+2025-11-09 19:35:35,077 - TradingBot - INFO -    ✅ SELL validé (Score: 98) @ $316.29 | Profit: +4.11% | Durée: 168.0h
+2025-11-09 19:35:37,082 - TradingBot - INFO -    [2025-07-31] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:35:40,284 - TradingBot - INFO -    [2025-08-04] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:35:41,213 - TradingBot - INFO -    [2025-08-04] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:35:41,213 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:35:44,890 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:46,015 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:47,140 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:48,263 - TradingBot - INFO -    [2025-08-05] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:35:49,588 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 62/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:35:50,712 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 75/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:35:51,849 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 58/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:35:52,992 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:54,122 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:55,299 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:56,425 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 57/100 (1p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:35:57,502 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:36:01,159 - TradingBot - INFO -    [2025-08-08] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:36:05,404 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 100/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:36:06,530 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 85/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:07,836 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 85/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:08,972 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 85/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:10,109 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 85/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:11,436 - TradingBot - INFO -    [2025-08-12] Decision: SELL | Tech: 85/100 | Reddit: 61/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:12,524 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech: 100/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:13,453 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech: 100/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:14,372 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:36:14,883 - TradingBot - INFO -    [2025-08-13] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:36:16,948 - TradingBot - INFO -    [2025-08-14] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:16,949 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:36:17,861 - TradingBot - INFO -    [2025-08-14] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:17,862 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:36:19,078 - TradingBot - INFO -    [2025-08-14] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:19,078 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:20,002 - TradingBot - INFO -    [2025-08-14] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:20,003 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:21,378 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:36:21,378 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:36:22,305 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:22,305 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:23,220 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:36:23,220 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:36:24,145 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:24,145 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:25,063 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:25,063 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:25,981 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:25,981 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:36:26,903 - TradingBot - INFO -    [2025-08-15] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:36:26,903 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:36:28,134 - TradingBot - INFO -    [2025-08-18] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:36:30,435 - TradingBot - INFO -    [2025-08-19] Decision: SELL | Tech: 62/100 | Reddit: 100/100 (1p) | News: 51/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:36:32,165 - TradingBot - INFO -    [2025-08-19] Decision: SELL | Tech: 85/100 | Reddit: 100/100 (1p) | News: 51/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:36:33,287 - TradingBot - INFO -    [2025-08-19] Decision: SELL | Tech: 75/100 | Reddit: 100/100 (1p) | News: 51/100 NEUTRE | FINAL: 60/100
+2025-11-09 19:36:34,415 - TradingBot - INFO -    [2025-08-19] Decision: SELL | Tech: 82/100 | Reddit: 100/100 (1p) | News: 51/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:36:35,561 - TradingBot - INFO -    [2025-08-19] Decision: SELL | Tech: 82/100 | Reddit: 100/100 (1p) | News: 51/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:36:38,798 - TradingBot - INFO -    [2025-08-21] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:36:40,716 - TradingBot - INFO -    [2025-08-21] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:36:40,716 - TradingBot - INFO -    ❌ BUY rejeté (Score: 43)
+2025-11-09 19:36:41,807 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 78/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 54/100
+2025-11-09 19:36:42,719 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:36:43,648 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:44,576 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:36:45,505 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:36:46,421 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:36:47,346 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:36:48,426 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:36:49,348 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:36:50,260 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:36:52,125 - TradingBot - INFO -    [2025-08-26] Decision: HOLD | Tech: 40/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:55,689 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:36:56,611 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:36:57,531 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:36:58,456 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:36:59,852 - TradingBot - INFO -    [2025-08-28] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:36:59,852 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:37:01,984 - TradingBot - INFO -    [2025-08-28] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:37:01,984 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:37:03,051 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:37:03,051 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:37:03,976 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:37:03,976 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:37:04,905 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:37:04,905 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:37:05,829 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:37:05,830 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:37:06,755 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:37:06,755 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:37:07,677 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:37:07,677 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:37:08,591 - TradingBot - INFO -    [2025-08-29] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:37:08,591 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:37:09,969 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 72/100 | Reddit: 56/100 (2p) | News: 51/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:37:09,969 - TradingBot - INFO -    ✅ BUY validé (Score: 72) @ $332.76
+2025-11-09 19:37:11,125 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 65/100 | Reddit: 56/100 (2p) | News: 51/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:37:14,523 - TradingBot - INFO -    [2025-09-03] Decision: SELL | Tech: 58/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:37:14,523 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-09 19:37:15,646 - TradingBot - INFO -    [2025-09-03] Decision: SELL | Tech: 48/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:37:15,646 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:37:16,455 - TradingBot - INFO -    [2025-09-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:37:19,125 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:37:19,125 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:37:20,048 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:37:20,048 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:37:21,112 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:37:21,112 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:37:22,033 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:37:22,033 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:37:22,961 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:37:22,961 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:37:23,886 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:37:23,887 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:37:24,804 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:37:24,804 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:37:25,850 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:37:25,850 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:37:27,990 - TradingBot - INFO -    [2025-09-08] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:37:28,708 - TradingBot - INFO -    [2025-09-08] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:37:28,709 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:37:29,645 - TradingBot - INFO -    [2025-09-08] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:37:29,645 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:37:32,364 - TradingBot - INFO -    [2025-09-09] Decision: BUY | Tech: 48/100 | Reddit: 67/100 (1p) | News: 53/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:37:33,795 - TradingBot - INFO -    [2025-09-09] Decision: BUY | Tech: 48/100 | Reddit: 67/100 (1p) | News: 53/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:37:37,599 - TradingBot - INFO -    [2025-09-11] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:37:38,502 - TradingBot - INFO -    🎯 TAKE PROFIT @ $391.77 | Gain: 17.73% | Durée: 240.0h
+2025-11-09 19:37:43,753 - TradingBot - INFO -    [2025-09-16] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:37:44,677 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 80/100 | Reddit: 39/100 (2p) | News: 55/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:37:45,813 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 80/100 | Reddit: 39/100 (2p) | News: 55/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:37:46,940 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 87/100 | Reddit: 39/100 (2p) | News: 55/100 NEUTRE | FINAL: 86/100
+2025-11-09 19:37:48,069 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 92/100 | Reddit: 39/100 (2p) | News: 55/100 NEUTRE | FINAL: 91/100
+2025-11-09 19:37:49,670 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 90/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:37:50,993 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 90/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:37:52,119 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 90/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:37:53,255 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 95/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 95/100
+2025-11-09 19:37:54,386 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 100/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:37:55,525 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 85/100 | Reddit: 42/100 (3p) | News: 55/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:37:56,798 - TradingBot - INFO -    [2025-09-18] Decision: SELL | Tech: 100/100 | Reddit: 53/100 (2p) | News: 55/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:37:57,929 - TradingBot - INFO -    [2025-09-18] Decision: SELL | Tech: 90/100 | Reddit: 53/100 (2p) | News: 55/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:37:59,056 - TradingBot - INFO -    [2025-09-18] Decision: SELL | Tech: 90/100 | Reddit: 53/100 (2p) | News: 55/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:38:00,187 - TradingBot - INFO -    [2025-09-18] Decision: SELL | Tech: 90/100 | Reddit: 53/100 (2p) | News: 55/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:38:01,316 - TradingBot - INFO -    [2025-09-18] Decision: SELL | Tech: 90/100 | Reddit: 53/100 (2p) | News: 55/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:38:03,222 - TradingBot - INFO -    [2025-09-19] Decision: SELL | Tech: 100/100 | Reddit: 55/100 (1p) | News: 55/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:38:04,363 - TradingBot - INFO -    [2025-09-19] Decision: SELL | Tech: 90/100 | Reddit: 55/100 (1p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:06,085 - TradingBot - INFO -    [2025-09-19] Decision: SELL | Tech: 90/100 | Reddit: 55/100 (1p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:07,212 - TradingBot - INFO -    [2025-09-19] Decision: SELL | Tech: 90/100 | Reddit: 55/100 (1p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:08,333 - TradingBot - INFO -    [2025-09-19] Decision: SELL | Tech: 90/100 | Reddit: 55/100 (1p) | News: 55/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:10,296 - TradingBot - INFO -    [2025-09-22] Decision: BUY | Tech: 92/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 64/100
+2025-11-09 19:38:10,297 - TradingBot - INFO -    ❌ BUY rejeté (Score: 64)
+2025-11-09 19:38:11,226 - TradingBot - INFO -    [2025-09-22] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:38:12,153 - TradingBot - INFO -    [2025-09-22] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:38:13,073 - TradingBot - INFO -    [2025-09-22] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:38:14,365 - TradingBot - INFO -    [2025-09-23] Decision: SELL | Tech: 82/100 | Reddit: 39/100 (1p) | News: 54/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:38:15,519 - TradingBot - INFO -    [2025-09-23] Decision: SELL | Tech: 73/100 | Reddit: 39/100 (1p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:38:16,649 - TradingBot - INFO -    [2025-09-23] Decision: SELL | Tech: 73/100 | Reddit: 39/100 (1p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:38:17,783 - TradingBot - INFO -    [2025-09-23] Decision: SELL | Tech: 73/100 | Reddit: 39/100 (1p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:38:20,036 - TradingBot - INFO -    [2025-09-24] Decision: SELL | Tech: 98/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:38:21,161 - TradingBot - INFO -    [2025-09-24] Decision: SELL | Tech: 82/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:22,286 - TradingBot - INFO -    [2025-09-24] Decision: SELL | Tech: 72/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:38:23,413 - TradingBot - INFO -    [2025-09-24] Decision: SELL | Tech: 65/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:38:24,537 - TradingBot - INFO -    [2025-09-24] Decision: SELL | Tech: 55/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 63/100
+2025-11-09 19:38:25,659 - TradingBot - INFO -    [2025-09-24] Decision: BUY | Tech: 82/100 | Reddit: 52/100 (2p) | News: 54/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:38:25,659 - TradingBot - INFO -    ✅ BUY validé (Score: 67) @ $443.49
+2025-11-09 19:38:27,575 - TradingBot - INFO -    🛑 STOP LOSS @ $424.03 | Perte: -4.39% | Durée: 23.0h
+2025-11-09 19:38:29,257 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 72/100 | Reddit: 62/100 (1p) | News: 54/100 NEUTRE | FINAL: 87/100
+2025-11-09 19:38:29,257 - TradingBot - INFO -    ✅ BUY validé (Score: 87) @ $423.31
+2025-11-09 19:38:31,275 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 85/100 | Reddit: 62/100 (1p) | News: 54/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:38:32,400 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 75/100 | Reddit: 62/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:33,523 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 75/100 | Reddit: 62/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:37,167 - TradingBot - INFO -    [2025-09-30] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:38:37,167 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:38:38,697 - TradingBot - INFO -    [2025-09-30] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:38:38,697 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:38:39,617 - TradingBot - INFO -    [2025-09-30] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:38:39,617 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:38:40,541 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:38:42,720 - TradingBot - INFO -    [2025-10-01] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:38:44,400 - TradingBot - INFO -    [2025-10-02] Decision: BUY | Tech: 90/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 98/100
+2025-11-09 19:38:46,995 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:38:47,913 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:38:48,986 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:38:49,910 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:38:50,827 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:38:51,754 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:38:52,702 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:38:54,567 - TradingBot - INFO -    [2025-10-06] Decision: BUY | Tech: 75/100 | Reddit: 42/100 (1p) | News: 53/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:55,704 - TradingBot - INFO -    [2025-10-06] Decision: BUY | Tech: 75/100 | Reddit: 42/100 (1p) | News: 53/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:38:56,219 - TradingBot - INFO -    [2025-10-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:38:57,429 - TradingBot - INFO -    [2025-10-06] Decision: SELL | Tech: 48/100 | Reddit: 42/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:38:57,430 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-09 19:38:58,726 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 62/100 | Reddit: 84/100 (1p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:38:58,726 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:38:59,847 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 48/100 | Reddit: 84/100 (1p) | News: 54/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:38:59,847 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-09 19:39:01,269 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 65/100 | Reddit: 84/100 (1p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:39:01,270 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:39:02,706 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 85/100 | Reddit: 84/100 (1p) | News: 54/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:39:02,706 - TradingBot - INFO -    ✅ SELL validé (Score: 70) @ $434.62 | Profit: +2.67% | Durée: 269.0h
+2025-11-09 19:39:03,825 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 75/100 | Reddit: 84/100 (1p) | News: 54/100 NEUTRE | FINAL: 60/100
+2025-11-09 19:39:05,225 - TradingBot - INFO -    [2025-10-08] Decision: SELL | Tech: 90/100 | Reddit: 69/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:39:08,660 - TradingBot - INFO -    [2025-10-09] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:39:09,883 - TradingBot - WARNING - [News] TSLA: NewsAPI clé 1 limite atteinte (429)
+2025-11-09 19:39:09,883 - TradingBot - WARNING - [APIKeyRotator] Clé 1 marquée comme épuisée
+2025-11-09 19:39:09,884 - TradingBot - INFO - [APIKeyRotator] Rotation: clé 1 -> clé 2
+2025-11-09 19:39:09,884 - TradingBot - INFO - [News] TSLA: Tentative 2/3
+2025-11-09 19:39:13,552 - TradingBot - INFO -    [2025-10-13] Decision: SELL | Tech: 98/100 | Reddit: 64/100 (1p) | News: 53/100 NEUTRE | FINAL: 97/100
+2025-11-09 19:39:17,214 - TradingBot - INFO -    [2025-10-14] Decision: BUY | Tech: 72/100 | Reddit: 57/100 (2p) | News: 53/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:39:17,214 - TradingBot - INFO -    ✅ BUY validé (Score: 72) @ $423.91
+2025-11-09 19:39:17,717 - TradingBot - INFO -    [2025-10-14] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:39:18,634 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:18,634 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:19,783 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:19,783 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:20,922 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:20,922 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:22,055 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 48/100 | Reddit: 57/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:22,055 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:23,669 - TradingBot - INFO -    [2025-10-15] Decision: SELL | Tech: 62/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:23,669 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:24,797 - TradingBot - INFO -    [2025-10-15] Decision: SELL | Tech: 58/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 42/100
+2025-11-09 19:39:24,797 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-09 19:39:27,836 - TradingBot - INFO -    [2025-10-16] Decision: SELL | Tech: 62/100 | Reddit: 63/100 (1p) | News: 50/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:39:27,836 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:39:29,872 - TradingBot - INFO -    [2025-10-16] Decision: BUY | Tech: 48/100 | Reddit: 63/100 (1p) | News: 50/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:32,266 - TradingBot - INFO -    [2025-10-17] Decision: SELL | Tech: 100/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:39:32,266 - TradingBot - INFO -    ✅ SELL validé (Score: 100) @ $439.15 | Profit: +3.60% | Durée: 71.0h
+2025-11-09 19:39:32,780 - TradingBot - INFO -    [2025-10-17] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:39:33,699 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 85/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:39:33,699 - TradingBot - INFO -    ✅ BUY validé (Score: 85) @ $438.77
+2025-11-09 19:39:34,826 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 75/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:39:35,956 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 75/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:39:37,078 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 75/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:39:38,192 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 75/100 | Reddit: 57/100 (2p) | News: 50/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:39:39,578 - TradingBot - INFO -    [2025-10-20] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:40,501 - TradingBot - INFO -    [2025-10-20] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:39:43,631 - TradingBot - INFO -    [2025-10-21] Decision: BUY | Tech: 98/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 68/100
+2025-11-09 19:39:45,753 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 62/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:39:45,753 - TradingBot - INFO -    ❌ SELL rejeté (Score: 43)
+2025-11-09 19:39:47,797 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 62/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 77/100
+2025-11-09 19:39:48,929 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 58/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:39:50,046 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 48/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:51,173 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 48/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:52,301 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 58/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:39:53,435 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 58/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:39:54,576 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 48/100 | Reddit: 52/100 (1p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:56,218 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 85/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:39:57,380 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 62/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:39:58,499 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 58/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:39:59,628 - TradingBot - INFO -    [2025-10-23] Decision: SELL | Tech: 88/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 87/100
+2025-11-09 19:39:59,628 - TradingBot - INFO -    ✅ SELL validé (Score: 87) @ $446.15 | Profit: +1.68% | Durée: 145.0h
+2025-11-09 19:40:00,928 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 85/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:40:00,929 - TradingBot - INFO -    ✅ BUY validé (Score: 85) @ $448.26
+2025-11-09 19:40:02,058 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 75/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:03,188 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 75/100 | Reddit: 40/100 (2p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:06,008 - TradingBot - INFO -    [2025-10-24] Decision: SELL | Tech: 75/100 | Reddit: 29/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:06,008 - TradingBot - INFO -    ✅ SELL validé (Score: 75) @ $433.47 | Profit: -3.30% | Durée: 24.0h
+2025-11-09 19:40:07,135 - TradingBot - INFO -    [2025-10-24] Decision: SELL | Tech: 75/100 | Reddit: 29/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:08,266 - TradingBot - INFO -    [2025-10-24] Decision: SELL | Tech: 75/100 | Reddit: 29/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:09,584 - TradingBot - INFO -    [2025-10-27] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:40:11,429 - TradingBot - INFO -    [2025-10-27] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:40:11,429 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:40:12,346 - TradingBot - INFO -    [2025-10-27] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:40:12,346 - TradingBot - INFO -    ❌ BUY rejeté (Score: 59)
+2025-11-09 19:40:13,265 - TradingBot - INFO -    [2025-10-27] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 50/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:40:13,265 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:40:17,462 - TradingBot - INFO -    [2025-10-29] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:17,462 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:18,393 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:40:19,617 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:40:20,542 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:40:21,467 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:40:22,811 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:40:22,811 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:40:23,734 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:23,734 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:24,655 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:24,655 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:25,588 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:25,588 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:26,504 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:26,504 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:27,423 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:27,423 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:28,346 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:40:28,347 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:40:30,679 - TradingBot - INFO -    [2025-10-31] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:40:30,679 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:40:32,207 - TradingBot - INFO -    [2025-10-31] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:40:32,207 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:40:34,369 - TradingBot - INFO -    [2025-11-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:40:38,156 - TradingBot - INFO -    [2025-11-04] Decision: BUY | Tech: 48/100 | Reddit: 59/100 (2p) | News: 50/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:40:38,156 - TradingBot - INFO -    ❌ BUY rejeté (Score: 62)
+2025-11-09 19:40:39,719 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 80/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:40:39,719 - TradingBot - INFO -    ✅ BUY validé (Score: 80) @ $442.55
+2025-11-09 19:40:40,869 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 48/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:40:41,999 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 48/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:40:43,115 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 75/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:44,262 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 85/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:40:45,401 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 75/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:46,526 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 75/100 | Reddit: 59/100 (2p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:48,918 - TradingBot - INFO -    [2025-11-06] Decision: SELL | Tech: 85/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:40:48,918 - TradingBot - INFO -    ✅ SELL validé (Score: 85) @ $440.00 | Profit: -0.58% | Durée: 26.0h
+2025-11-09 19:40:50,163 - TradingBot - INFO -    [2025-11-06] Decision: SELL | Tech: 75/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:51,892 - TradingBot - INFO -    [2025-11-06] Decision: SELL | Tech: 75/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:40:53,650 - TradingBot - INFO -    [2025-11-07] Decision: SELL | Tech: 95/100 | Reddit: 50/100 (2p) | News: 51/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:40:55,670 - TradingBot - INFO - 
+================================================================================
+2025-11-09 19:40:55,670 - TradingBot - INFO - 📊 RÉSULTATS BACKTEST TSLA
+2025-11-09 19:40:55,670 - TradingBot - INFO - ================================================================================
+2025-11-09 19:40:55,670 - TradingBot - INFO -    Trades: 17
+2025-11-09 19:40:55,671 - TradingBot - INFO -    BUY validés: 17 | rejetés: 48
+2025-11-09 19:40:55,671 - TradingBot - INFO -    SELL validés: 15 | rejetés: 36
+2025-11-09 19:40:55,671 - TradingBot - INFO -    Profit total: +31.40%
+2025-11-09 19:40:55,671 - TradingBot - INFO -    Profit moyen: +1.85%
+2025-11-09 19:40:55,671 - TradingBot - INFO -    Win rate: 52.9%
+2025-11-09 19:40:55,671 - TradingBot - INFO -    Durée: 554.0s
+2025-11-09 19:40:55,671 - TradingBot - INFO - ================================================================================
+
+2025-11-09 19:44:49,657 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001EC040F2FD0>
+2025-11-09 19:44:49,658 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001EC0420D1D0>
+2025-11-09 19:44:52,252 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-09 19:44:52,254 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-09 19:44:52,255 - TradingBot - INFO - [APIKeyRotator] 3 clés API chargées depuis C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\api_keys.csv
+2025-11-09 19:44:52,255 - TradingBot - INFO - [NewsAPI] Rotateur initialisé: 3/3 clés actives
+2025-11-09 19:44:52,256 - TradingBot - INFO - ================================================================================
+2025-11-09 19:44:52,256 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-09 19:44:52,256 - TradingBot - INFO - ================================================================================
+2025-11-09 19:44:52,256 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-09 19:44:52,256 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-09 19:44:52,257 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-09 19:44:52,257 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-09 19:44:52,257 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-09 19:44:52,257 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-09 19:44:52,257 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-09 19:44:52,258 - TradingBot - INFO - 
+2025-11-09 19:44:52,258 - TradingBot - INFO - 📊 Configuration:
+2025-11-09 19:44:52,258 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-09 19:44:52,258 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-09 19:44:52,258 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-09 19:44:52,258 - TradingBot - INFO - ================================================================================
+2025-11-09 19:44:52,259 - TradingBot - INFO - 
+2025-11-09 19:44:52,261 - discord.client - INFO - logging in using static token
+2025-11-09 19:44:53,244 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 7fbfbd6e1903c7cfb5826c61d39a4104).
+2025-11-09 19:44:55,247 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-09 19:45:02,651 - TradingBot - INFO - [>>] Backtest réaliste AMZN - 6 mois
+2025-11-09 19:45:03,080 - TradingBot - INFO -    [✓] 1011 heures de données
+2025-11-09 19:45:03,085 - TradingBot - INFO -    [✓] 811 heures d'analyse (backtest horaire)
+2025-11-09 19:45:03,652 - TradingBot - INFO -    [2025-05-23] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:45:03,984 - TradingBot - INFO - [Reddit] ✅ 777 posts chargés pour AMZN depuis data\Sentiment_AMZN.csv
+2025-11-09 19:45:04,428 - TradingBot - INFO -    [2025-05-23] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:45:05,348 - TradingBot - INFO -    [2025-05-23] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:06,419 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 62/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:45:07,344 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:08,558 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:10,084 - TradingBot - INFO -    [2025-05-27] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:11,442 - TradingBot - INFO -    [2025-05-28] Decision: SELL | Tech: 80/100 | Reddit: 86/100 (1p) | News: 55/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:45:12,824 - TradingBot - INFO -    [2025-05-28] Decision: SELL | Tech: 65/100 | Reddit: 86/100 (1p) | News: 55/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:45:15,146 - TradingBot - INFO -    [2025-05-28] Decision: BUY | Tech: 85/100 | Reddit: 86/100 (1p) | News: 55/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:45:15,146 - TradingBot - INFO -    ✅ BUY validé (Score: 100) @ $204.79
+2025-11-09 19:45:17,100 - TradingBot - INFO -    [2025-05-29] Decision: BUY | Tech: 75/100 | Reddit: 86/100 (1p) | News: 54/100 NEUTRE | FINAL: 83/100
+2025-11-09 19:45:18,235 - TradingBot - INFO -    [2025-05-29] Decision: BUY | Tech: 75/100 | Reddit: 86/100 (1p) | News: 54/100 NEUTRE | FINAL: 83/100
+2025-11-09 19:45:20,854 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:21,779 - TradingBot - INFO -    [2025-05-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:23,748 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:45:25,273 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:26,203 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:27,119 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:28,049 - TradingBot - INFO -    [2025-06-02] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:29,299 - TradingBot - INFO -    [2025-06-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:45:31,418 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 90/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:45:31,418 - TradingBot - INFO -    ❌ SELL rejeté (Score: 62)
+2025-11-09 19:45:32,639 - TradingBot - INFO -    [2025-06-04] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:45:32,640 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:45:34,155 - TradingBot - INFO -    [2025-06-04] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:45:35,077 - TradingBot - INFO -    [2025-06-04] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:45:37,692 - TradingBot - INFO -    [2025-06-05] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:45:39,075 - TradingBot - INFO -    [2025-06-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:45:41,747 - TradingBot - INFO -    [2025-06-09] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:45:45,191 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 73/100 | Reddit: 51/100 (1p) | News: 55/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:45:45,191 - TradingBot - INFO -    ✅ SELL validé (Score: 73) @ $216.13 | Profit: +5.53% | Durée: 308.0h
+2025-11-09 19:45:46,325 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 80/100 | Reddit: 51/100 (1p) | News: 55/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:45:47,459 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 80/100 | Reddit: 51/100 (1p) | News: 55/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:45:48,582 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 87/100 | Reddit: 51/100 (1p) | News: 55/100 NEUTRE | FINAL: 86/100
+2025-11-09 19:45:49,708 - TradingBot - INFO -    [2025-06-10] Decision: SELL | Tech: 87/100 | Reddit: 51/100 (1p) | News: 55/100 NEUTRE | FINAL: 86/100
+2025-11-09 19:45:51,083 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 100/100 | Reddit: 51/100 (1p) | News: 54/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:45:52,204 - TradingBot - INFO -    [2025-06-11] Decision: SELL | Tech: 73/100 | Reddit: 51/100 (1p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:45:53,938 - TradingBot - INFO -    [2025-06-11] Decision: BUY | Tech: 68/100 | Reddit: 51/100 (1p) | News: 54/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:45:53,938 - TradingBot - INFO -    ✅ BUY validé (Score: 82) @ $213.43
+2025-11-09 19:45:55,064 - TradingBot - INFO -    [2025-06-11] Decision: BUY | Tech: 68/100 | Reddit: 51/100 (1p) | News: 54/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:45:56,192 - TradingBot - INFO -    [2025-06-11] Decision: BUY | Tech: 68/100 | Reddit: 51/100 (1p) | News: 54/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:45:57,262 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:45:58,181 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:45:59,102 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:00,028 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:00,940 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:01,858 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:46:02,804 - TradingBot - INFO -    [2025-06-12] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:46:04,170 - TradingBot - INFO -    [2025-06-13] Decision: BUY | Tech: 80/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:46:05,295 - TradingBot - INFO -    [2025-06-13] Decision: BUY | Tech: 58/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:46:07,726 - TradingBot - INFO -    [2025-06-13] Decision: SELL | Tech: 75/100 | Reddit: 50/100 (1p) | News: 52/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:46:07,727 - TradingBot - INFO -    ✅ SELL validé (Score: 75) @ $212.10 | Profit: -0.62% | Durée: 50.0h
+2025-11-09 19:46:09,094 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:46:10,916 - TradingBot - INFO -    [2025-06-16] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:12,294 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:46:13,221 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:14,155 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:15,084 - TradingBot - INFO -    [2025-06-17] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:17,657 - TradingBot - INFO -    [2025-06-18] Decision: BUY | Tech: 85/100 | Reddit: 62/100 (1p) | News: 53/100 NEUTRE | FINAL: 93/100
+2025-11-09 19:46:17,657 - TradingBot - INFO -    ✅ BUY validé (Score: 93) @ $216.62
+2025-11-09 19:46:19,069 - TradingBot - INFO -    [2025-06-18] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:46:20,155 - TradingBot - INFO -    [2025-06-18] Decision: BUY | Tech: 62/100 | Reddit: 62/100 (1p) | News: 53/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:46:21,272 - TradingBot - INFO -    [2025-06-20] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:46:22,194 - TradingBot - INFO -    [2025-06-20] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:46:23,114 - TradingBot - INFO -    [2025-06-20] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:46:24,042 - TradingBot - INFO -    [2025-06-20] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:46:28,616 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:28,617 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:46:29,550 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:29,550 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:46:30,466 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:30,466 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:46:31,387 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:46:31,387 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:46:32,309 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:46:32,309 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:46:33,232 - TradingBot - INFO -    [2025-06-24] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:46:33,232 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:46:34,635 - TradingBot - INFO -    [2025-06-25] Decision: SELL | Tech: 62/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:46:34,635 - TradingBot - INFO -    ❌ SELL rejeté (Score: 62)
+2025-11-09 19:46:35,759 - TradingBot - INFO -    [2025-06-25] Decision: SELL | Tech: 65/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:46:35,760 - TradingBot - INFO -    ✅ SELL validé (Score: 65) @ $213.77 | Profit: -1.32% | Durée: 168.0h
+2025-11-09 19:46:36,879 - TradingBot - INFO -    [2025-06-25] Decision: SELL | Tech: 58/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:46:39,678 - TradingBot - INFO -    [2025-06-26] Decision: SELL | Tech: 62/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:46:40,811 - TradingBot - INFO -    [2025-06-26] Decision: SELL | Tech: 58/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:46:41,938 - TradingBot - INFO -    [2025-06-26] Decision: SELL | Tech: 48/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:46:44,534 - TradingBot - INFO -    [2025-06-27] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:46:47,520 - TradingBot - INFO -    [2025-06-30] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:46:48,448 - TradingBot - INFO -    [2025-06-30] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:46:50,859 - TradingBot - INFO -    [2025-07-01] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:46:51,785 - TradingBot - INFO -    [2025-07-01] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:46:52,713 - TradingBot - INFO -    [2025-07-01] Decision: SELL | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:46:53,799 - TradingBot - INFO -    [2025-07-01] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:46:53,799 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:46:55,568 - TradingBot - INFO -    [2025-07-02] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:46:57,883 - TradingBot - INFO -    [2025-07-03] Decision: SELL | Tech: 100/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 70/100
+2025-11-09 19:46:58,808 - TradingBot - INFO -    [2025-07-03] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:47:00,798 - TradingBot - INFO -    [2025-07-07] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:47:00,799 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:47:04,637 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:04,637 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:05,572 - TradingBot - INFO -    [2025-07-08] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:05,572 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:06,728 - TradingBot - INFO -    [2025-07-09] Decision: SELL | Tech: 88/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 61/100
+2025-11-09 19:47:08,849 - TradingBot - INFO -    [2025-07-09] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:47:08,850 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:47:11,548 - TradingBot - INFO -    [2025-07-10] Decision: SELL | Tech: 72/100 | Reddit: 63/100 (2p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:47:12,965 - TradingBot - INFO -    [2025-07-10] Decision: SELL | Tech: 68/100 | Reddit: 63/100 (2p) | News: 54/100 NEUTRE | FINAL: 53/100
+2025-11-09 19:47:14,103 - TradingBot - INFO -    [2025-07-10] Decision: SELL | Tech: 68/100 | Reddit: 63/100 (2p) | News: 54/100 NEUTRE | FINAL: 53/100
+2025-11-09 19:47:15,447 - TradingBot - INFO -    [2025-07-11] Decision: BUY | Tech: 95/100 | Reddit: 63/100 (2p) | News: 54/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:47:15,447 - TradingBot - INFO -    ✅ BUY validé (Score: 100) @ $224.38
+2025-11-09 19:47:16,861 - TradingBot - INFO -    [2025-07-11] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:47:20,367 - TradingBot - INFO -    [2025-07-14] Decision: SELL | Tech: 75/100 | Reddit: 64/100 (1p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:47:20,367 - TradingBot - INFO -    ✅ SELL validé (Score: 75) @ $225.63 | Profit: +0.56% | Durée: 78.0h
+2025-11-09 19:47:22,405 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:23,331 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:24,252 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:47:25,171 - TradingBot - INFO -    [2025-07-15] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:47:26,568 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:47:26,568 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:47:27,480 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:47:27,480 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:47:28,404 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:28,405 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:29,329 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:29,329 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:30,278 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:30,278 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:31,198 - TradingBot - INFO -    [2025-07-16] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:31,199 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:32,321 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:47:32,321 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:47:33,248 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:47:33,248 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:47:34,170 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:47:34,170 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:47:35,087 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:35,087 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:47:36,001 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:47:36,001 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:47:36,923 - TradingBot - INFO -    [2025-07-17] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:47:36,923 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:47:38,388 - TradingBot - INFO -    [2025-07-18] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:47:38,388 - TradingBot - INFO -    ❌ BUY rejeté (Score: 43)
+2025-11-09 19:47:39,635 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:47:40,560 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:41,541 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:42,474 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:43,392 - TradingBot - INFO -    [2025-07-18] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:44,461 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:47:45,388 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:47:46,317 - TradingBot - INFO -    [2025-07-21] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:47:49,130 - TradingBot - INFO -    [2025-07-22] Decision: BUY | Tech: 75/100 | Reddit: 60/100 (1p) | News: 54/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:47:49,130 - TradingBot - INFO -    ✅ BUY validé (Score: 90) @ $226.96
+2025-11-09 19:47:50,604 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 72/100 | Reddit: 60/100 (1p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:47:50,604 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-09 19:47:52,026 - TradingBot - INFO -    [2025-07-22] Decision: SELL | Tech: 73/100 | Reddit: 60/100 (1p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:47:52,026 - TradingBot - INFO -    ❌ SELL rejeté (Score: 58)
+2025-11-09 19:47:53,920 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 82/100 | Reddit: 60/100 (1p) | News: 55/100 NEUTRE | FINAL: 82/100
+2025-11-09 19:47:53,920 - TradingBot - INFO -    ✅ SELL validé (Score: 82) @ $227.96 | Profit: +0.44% | Durée: 23.0h
+2025-11-09 19:47:55,846 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 72/100 | Reddit: 60/100 (1p) | News: 55/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:47:56,963 - TradingBot - INFO -    [2025-07-23] Decision: SELL | Tech: 72/100 | Reddit: 60/100 (1p) | News: 55/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:47:58,593 - TradingBot - INFO -    [2025-07-24] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:48:02,499 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech: 68/100 | Reddit: 60/100 (1p) | News: 53/100 NEUTRE | FINAL: 68/100
+2025-11-09 19:48:03,617 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech: 80/100 | Reddit: 60/100 (1p) | News: 53/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:48:04,743 - TradingBot - INFO -    [2025-07-25] Decision: SELL | Tech: 90/100 | Reddit: 60/100 (1p) | News: 53/100 NEUTRE | FINAL: 90/100
+2025-11-09 19:48:05,816 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 97/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 67/100
+2025-11-09 19:48:06,744 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:48:07,663 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:08,583 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:09,514 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:48:10,443 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:48:11,364 - TradingBot - INFO -    [2025-07-28] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:48:12,070 - TradingBot - INFO -    [2025-07-29] Decision: HOLD | Tech: 45/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:12,777 - TradingBot - INFO -    [2025-07-29] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:12,777 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:48:15,406 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:48:15,406 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:48:16,321 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:48:16,321 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:48:17,249 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:48:17,249 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:48:18,168 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:18,168 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:48:19,089 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:48:19,089 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:48:20,009 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:48:20,009 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:48:20,937 - TradingBot - INFO -    [2025-07-30] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:20,937 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:48:22,337 - TradingBot - INFO -    [2025-07-31] Decision: SELL | Tech: 100/100 | Reddit: 50/100 (2p) | News: 53/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:48:24,664 - TradingBot - INFO -    [2025-07-31] Decision: BUY | Tech: 85/100 | Reddit: 50/100 (2p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:48:24,664 - TradingBot - INFO -    ✅ BUY validé (Score: 85) @ $233.45
+2025-11-09 19:48:25,168 - TradingBot - INFO -    [2025-07-31] Decision: HOLD | Tech: 40/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:25,169 - TradingBot - INFO -    🛑 STOP LOSS @ $219.10 | Perte: -6.15% | Durée: 19.0h
+2025-11-09 19:48:31,478 - TradingBot - INFO -    [2025-08-05] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:48:33,097 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:34,040 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:34,983 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:35,916 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:36,855 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:48:37,793 - TradingBot - INFO -    [2025-08-06] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:48:39,140 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 80/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 80/100
+2025-11-09 19:48:40,287 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 65/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:48:41,432 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 65/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:48:42,572 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 58/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:48:43,715 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 58/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:48:44,863 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 65/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:48:46,012 - TradingBot - INFO -    [2025-08-07] Decision: SELL | Tech: 65/100 | Reddit: 52/100 (20p) | News: 54/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:48:47,107 - TradingBot - INFO -    [2025-08-08] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:48:48,029 - TradingBot - INFO -    [2025-08-08] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:49,112 - TradingBot - INFO -    [2025-08-08] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:48:49,915 - TradingBot - INFO -    [2025-08-08] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:48:50,618 - TradingBot - INFO -    [2025-08-08] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:48:50,618 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:48:51,561 - TradingBot - INFO -    [2025-08-08] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:48:51,561 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:48:52,638 - TradingBot - INFO -    [2025-08-11] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:48:52,638 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:48:53,560 - TradingBot - INFO -    [2025-08-11] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:48:53,560 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:48:55,686 - TradingBot - INFO -    [2025-08-11] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:55,686 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:48:56,812 - TradingBot - INFO -    [2025-08-12] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:48:56,812 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:48:57,734 - TradingBot - INFO -    [2025-08-12] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:48:57,734 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:49:00,561 - TradingBot - INFO -    [2025-08-13] Decision: SELL | Tech: 98/100 | Reddit: 41/100 (3p) | News: 56/100 NEUTRE | FINAL: 100/100
+2025-11-09 19:49:01,666 - TradingBot - INFO -    [2025-08-13] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:49:06,961 - TradingBot - INFO -    [2025-08-15] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:49:07,882 - TradingBot - INFO -    [2025-08-15] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:49:08,812 - TradingBot - INFO -    [2025-08-15] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:49:10,077 - TradingBot - INFO -    [2025-08-18] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:49:11,311 - TradingBot - INFO -    [2025-08-18] Decision: BUY | Tech: 75/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:49:11,311 - TradingBot - INFO -    ✅ BUY validé (Score: 75) @ $230.60
+2025-11-09 19:49:12,428 - TradingBot - INFO -    [2025-08-18] Decision: SELL | Tech: 72/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:49:12,428 - TradingBot - INFO -    ✅ SELL validé (Score: 72) @ $231.32 | Profit: +0.31% | Durée: 1.0h
+2025-11-09 19:49:13,557 - TradingBot - INFO -    [2025-08-18] Decision: SELL | Tech: 72/100 | Reddit: 50/100 (1p) | News: 54/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:49:14,859 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 68/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:49:14,859 - TradingBot - INFO -    ✅ BUY validé (Score: 75) @ $228.76
+2025-11-09 19:49:16,013 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 48/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:49:17,139 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 48/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:49:18,263 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 48/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:49:19,391 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 48/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:49:20,524 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 58/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:49:21,646 - TradingBot - INFO -    [2025-08-19] Decision: BUY | Tech: 58/100 | Reddit: 50/100 (1p) | News: 55/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:49:22,767 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:49:23,864 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:49:24,798 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:49:25,718 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:26,664 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:27,582 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:28,506 - TradingBot - INFO -    [2025-08-20] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:29,549 - TradingBot - INFO -    [2025-08-21] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:49:32,175 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 62/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:49:32,175 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:49:33,310 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 58/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 42/100
+2025-11-09 19:49:33,310 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-09 19:49:34,432 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 48/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:49:34,432 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-09 19:49:35,558 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 48/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:49:35,559 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-09 19:49:36,690 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 48/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 32/100
+2025-11-09 19:49:36,690 - TradingBot - INFO -    ❌ SELL rejeté (Score: 32)
+2025-11-09 19:49:37,883 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 58/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 42/100
+2025-11-09 19:49:37,883 - TradingBot - INFO -    ❌ SELL rejeté (Score: 42)
+2025-11-09 19:49:39,010 - TradingBot - INFO -    [2025-08-22] Decision: SELL | Tech: 68/100 | Reddit: 68/100 (1p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:49:39,011 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:49:40,112 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:49:40,112 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:49:41,022 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:41,022 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:41,943 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:41,944 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:42,877 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:42,877 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:43,794 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:43,794 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:44,717 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:44,718 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:45,638 - TradingBot - INFO -    [2025-08-25] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:49:45,638 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:49:46,748 - TradingBot - INFO -    [2025-08-26] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:49:46,748 - TradingBot - INFO -    ❌ SELL rejeté (Score: 40)
+2025-11-09 19:49:47,971 - TradingBot - INFO -    [2025-08-26] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:49:47,971 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:49:49,978 - TradingBot - INFO -    [2025-08-26] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:49:49,978 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:49:51,148 - TradingBot - INFO -    [2025-08-27] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:49:52,073 - TradingBot - INFO -    [2025-08-27] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:49:52,997 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 55/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 38/100
+2025-11-09 19:49:52,997 - TradingBot - INFO -    ❌ SELL rejeté (Score: 38)
+2025-11-09 19:49:53,953 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:53,953 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:54,872 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:49:54,873 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:49:56,097 - TradingBot - INFO -    [2025-08-27] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:49:56,097 - TradingBot - INFO -    ❌ SELL rejeté (Score: 59)
+2025-11-09 19:49:58,592 - TradingBot - INFO -    [2025-08-28] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:50:02,309 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 78/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:50:03,513 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 80/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:50:04,655 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 75/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 83/100
+2025-11-09 19:50:05,787 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 65/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:50:07,083 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 65/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:50:08,219 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 65/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:50:09,347 - TradingBot - INFO -    [2025-09-02] Decision: BUY | Tech: 65/100 | Reddit: 58/100 (1p) | News: 52/100 NEUTRE | FINAL: 73/100
+2025-11-09 19:50:11,522 - TradingBot - INFO -    [2025-09-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:50:12,444 - TradingBot - INFO -    [2025-09-03] Decision: BUY | Tech: 68/100 | Reddit: 58/100 (1p) | News: 53/100 NEUTRE | FINAL: 75/100
+2025-11-09 19:50:13,532 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:50:13,533 - TradingBot - INFO -    ❌ SELL rejeté (Score: 59)
+2025-11-09 19:50:14,451 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:14,451 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:50:15,378 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:15,378 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:50:16,470 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:16,470 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:50:17,401 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:17,401 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:50:18,330 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:18,330 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:50:19,250 - TradingBot - INFO -    [2025-09-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:19,250 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:50:20,367 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:50:20,367 - TradingBot - INFO -    ❌ SELL rejeté (Score: 56)
+2025-11-09 19:50:22,778 - TradingBot - INFO -    [2025-09-05] Decision: SELL | Tech: 95/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 66/100
+2025-11-09 19:50:22,778 - TradingBot - INFO -    ✅ SELL validé (Score: 66) @ $232.32 | Profit: +1.56% | Durée: 414.0h
+2025-11-09 19:50:24,743 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:50:24,743 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:50:25,666 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:50:25,666 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:50:26,592 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:50:26,592 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:50:27,512 - TradingBot - INFO -    [2025-09-08] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:27,512 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:28,571 - TradingBot - INFO -    [2025-09-09] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:29,548 - TradingBot - INFO -    [2025-09-09] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:50:30,473 - TradingBot - INFO -    [2025-09-09] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:50:33,090 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:50:33,091 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:50:34,277 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:50:34,278 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:50:35,202 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:50:35,202 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:50:36,121 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:36,121 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:37,044 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:50:37,044 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:37,969 - TradingBot - INFO -    [2025-09-10] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:50:37,970 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:50:39,063 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 64/100
+2025-11-09 19:50:39,063 - TradingBot - INFO -    ❌ BUY rejeté (Score: 64)
+2025-11-09 19:50:39,981 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 38/100
+2025-11-09 19:50:39,981 - TradingBot - INFO -    ❌ BUY rejeté (Score: 38)
+2025-11-09 19:50:40,909 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 52/100
+2025-11-09 19:50:40,910 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:41,822 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 52/100
+2025-11-09 19:50:41,822 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:42,745 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 52/100
+2025-11-09 19:50:42,745 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:43,668 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 52/100
+2025-11-09 19:50:43,669 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:44,604 - TradingBot - INFO -    [2025-09-11] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 52/100
+2025-11-09 19:50:44,604 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:50:45,700 - TradingBot - INFO -    [2025-09-12] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 57/100 POSITIF | FINAL: 54/100
+2025-11-09 19:50:45,700 - TradingBot - INFO -    ❌ BUY rejeté (Score: 54)
+2025-11-09 19:50:48,930 - TradingBot - INFO -    [2025-09-15] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:50:51,505 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:50:52,430 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:53,354 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:54,271 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:50:55,193 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:56,122 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:50:57,054 - TradingBot - INFO -    [2025-09-16] Decision: SELL | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:50:58,153 - TradingBot - INFO -    [2025-09-17] Decision: BUY | Tech: 88/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 61/100
+2025-11-09 19:50:58,153 - TradingBot - INFO -    ❌ BUY rejeté (Score: 61)
+2025-11-09 19:50:59,376 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:00,292 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:01,214 - TradingBot - INFO -    [2025-09-17] Decision: SELL | Tech: 85/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:51:03,207 - TradingBot - INFO -    [2025-09-18] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:03,208 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:51:04,119 - TradingBot - INFO -    [2025-09-18] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:04,119 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:51:05,354 - TradingBot - INFO -    [2025-09-18] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:51:05,354 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:51:06,277 - TradingBot - INFO -    [2025-09-18] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:51:06,277 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:51:07,190 - TradingBot - INFO -    [2025-09-18] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:51:07,190 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:51:08,154 - TradingBot - INFO -    [2025-09-19] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:51:10,792 - TradingBot - INFO -    [2025-09-22] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:51:10,792 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:51:11,773 - TradingBot - INFO -    [2025-09-22] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:51:11,773 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:51:12,681 - TradingBot - INFO -    [2025-09-22] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:51:12,681 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:51:13,598 - TradingBot - INFO -    [2025-09-22] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:51:13,598 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:51:17,188 - TradingBot - INFO -    [2025-09-24] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:51:19,888 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:51:19,889 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:51:20,810 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:51:20,811 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:51:21,741 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:51:21,741 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:51:22,656 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:51:22,656 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:51:23,583 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:51:23,584 - TradingBot - INFO -    ❌ BUY rejeté (Score: 59)
+2025-11-09 19:51:24,494 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:51:24,494 - TradingBot - INFO -    ❌ BUY rejeté (Score: 56)
+2025-11-09 19:51:25,417 - TradingBot - INFO -    [2025-09-25] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 56/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:25,418 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:51:26,615 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 88/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 61/100
+2025-11-09 19:51:26,615 - TradingBot - INFO -    ❌ BUY rejeté (Score: 61)
+2025-11-09 19:51:27,542 - TradingBot - INFO -    [2025-09-26] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:27,542 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:51:29,249 - TradingBot - INFO -    [2025-09-26] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:51:31,270 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech: 48/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:51:32,398 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech: 65/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:51:33,536 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech: 65/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:51:34,664 - TradingBot - INFO -    [2025-09-29] Decision: SELL | Tech: 85/100 | Reddit: 50/100 (1p) | News: 53/100 NEUTRE | FINAL: 85/100
+2025-11-09 19:51:35,995 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 88/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 87/100
+2025-11-09 19:51:35,996 - TradingBot - INFO -    ✅ BUY validé (Score: 87) @ $218.91
+2025-11-09 19:51:37,118 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 72/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:51:38,255 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 72/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:51:39,545 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 72/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 72/100
+2025-11-09 19:51:40,666 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 55/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 55/100
+2025-11-09 19:51:41,816 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 65/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:51:42,945 - TradingBot - INFO -    [2025-09-30] Decision: BUY | Tech: 65/100 | Reddit: 48/100 (2p) | News: 51/100 NEUTRE | FINAL: 65/100
+2025-11-09 19:51:44,299 - TradingBot - INFO -    [2025-10-01] Decision: BUY | Tech: 88/100 | Reddit: 55/100 (3p) | News: 52/100 NEUTRE | FINAL: 88/100
+2025-11-09 19:51:45,454 - TradingBot - INFO -    [2025-10-01] Decision: BUY | Tech: 68/100 | Reddit: 55/100 (3p) | News: 52/100 NEUTRE | FINAL: 68/100
+2025-11-09 19:51:46,862 - TradingBot - INFO -    [2025-10-01] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:51:48,121 - TradingBot - INFO -    [2025-10-02] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:51:49,043 - TradingBot - INFO -    [2025-10-02] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:51:52,260 - TradingBot - INFO -    [2025-10-03] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:51:54,533 - TradingBot - INFO -    [2025-10-06] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:51:55,955 - TradingBot - INFO -    [2025-10-06] Decision: BUY | Tech: 48/100 | Reddit: 70/100 (2p) | News: 55/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:51:57,091 - TradingBot - INFO -    [2025-10-06] Decision: BUY | Tech: 48/100 | Reddit: 70/100 (2p) | News: 55/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:51:57,605 - TradingBot - INFO -    [2025-10-06] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:51:59,054 - TradingBot - INFO -    [2025-10-07] Decision: BUY | Tech: 90/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 62/100
+2025-11-09 19:52:01,194 - TradingBot - INFO -    [2025-10-07] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:02,112 - TradingBot - INFO -    [2025-10-07] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 55/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:52:02,112 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:52:03,300 - TradingBot - INFO -    [2025-10-08] Decision: SELL | Tech: 80/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:52:03,300 - TradingBot - INFO -    ❌ SELL rejeté (Score: 56)
+2025-11-09 19:52:04,237 - TradingBot - INFO -    [2025-10-08] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:04,237 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:07,752 - TradingBot - INFO -    [2025-10-09] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:52:07,752 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:52:09,194 - TradingBot - WARNING - [News] AMZN: NewsAPI clé 1 limite atteinte (429)
+2025-11-09 19:52:09,194 - TradingBot - WARNING - [APIKeyRotator] Clé 1 marquée comme épuisée
+2025-11-09 19:52:09,194 - TradingBot - INFO - [APIKeyRotator] Rotation: clé 1 -> clé 2
+2025-11-09 19:52:09,194 - TradingBot - INFO - [News] AMZN: Tentative 2/3
+2025-11-09 19:52:10,615 - TradingBot - INFO -    [2025-10-10] Decision: BUY | Tech: 62/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 43/100
+2025-11-09 19:52:11,538 - TradingBot - INFO -    [2025-10-10] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:52:12,465 - TradingBot - INFO -    [2025-10-10] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:52:13,395 - TradingBot - INFO -    [2025-10-10] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:52:14,318 - TradingBot - INFO -    [2025-10-10] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:52:16,277 - TradingBot - INFO -    [2025-10-13] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:52:17,491 - TradingBot - INFO -    [2025-10-13] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:52:20,058 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:20,058 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:20,981 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:20,982 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:21,901 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:21,901 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:22,823 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:22,824 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:23,746 - TradingBot - INFO -    [2025-10-14] Decision: SELL | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:52:23,746 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-09 19:52:28,344 - TradingBot - INFO -    [2025-10-16] Decision: BUY | Tech: 73/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:52:29,267 - TradingBot - INFO -    [2025-10-16] Decision: BUY | Tech: 83/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 58/100
+2025-11-09 19:52:30,184 - TradingBot - INFO -    [2025-10-16] Decision: BUY | Tech: 73/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:52:31,405 - TradingBot - INFO -    [2025-10-16] Decision: BUY | Tech: 55/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 38/100
+2025-11-09 19:52:32,809 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 80/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 56/100
+2025-11-09 19:52:33,319 - TradingBot - INFO -    [2025-10-17] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:52:34,026 - TradingBot - INFO -    [2025-10-17] Decision: SELL | Tech: 92/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 64/100
+2025-11-09 19:52:34,026 - TradingBot - INFO -    ❌ SELL rejeté (Score: 64)
+2025-11-09 19:52:34,949 - TradingBot - INFO -    [2025-10-17] Decision: SELL | Tech: 82/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:52:34,949 - TradingBot - INFO -    ❌ SELL rejeté (Score: 57)
+2025-11-09 19:52:35,875 - TradingBot - INFO -    [2025-10-17] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:52:35,875 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:52:36,800 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 55/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 38/100
+2025-11-09 19:52:37,717 - TradingBot - INFO -    [2025-10-17] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:52:40,241 - TradingBot - INFO -    [2025-10-20] Decision: SELL | Tech: 48/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:52:40,242 - TradingBot - INFO -    ❌ SELL rejeté (Score: 33)
+2025-11-09 19:52:42,210 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 78/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 54/100
+2025-11-09 19:52:42,211 - TradingBot - INFO -    ❌ SELL rejeté (Score: 54)
+2025-11-09 19:52:43,130 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:43,130 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:44,058 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:52:44,058 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:52:45,057 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:52:45,057 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:52:45,985 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:52:45,985 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:52:46,910 - TradingBot - INFO -    [2025-10-21] Decision: SELL | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:52:46,910 - TradingBot - INFO -    ❌ SELL rejeté (Score: 45)
+2025-11-09 19:52:48,156 - TradingBot - INFO -    [2025-10-22] Decision: HOLD | Tech: 40/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:52:48,864 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 85/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 59/100
+2025-11-09 19:52:49,792 - TradingBot - INFO -    [2025-10-22] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:52:53,881 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 82/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:52:54,801 - TradingBot - INFO -    [2025-10-23] Decision: BUY | Tech: 92/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 64/100
+2025-11-09 19:52:57,555 - TradingBot - INFO -    [2025-10-24] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:53:01,547 - TradingBot - INFO -    [2025-10-28] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:53:01,548 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:53:04,436 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:53:04,436 - TradingBot - INFO -    ❌ SELL rejeté (Score: 52)
+2025-11-09 19:53:05,370 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 78/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 54/100
+2025-11-09 19:53:05,370 - TradingBot - INFO -    ❌ SELL rejeté (Score: 54)
+2025-11-09 19:53:06,581 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 68/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:53:06,581 - TradingBot - INFO -    ❌ SELL rejeté (Score: 47)
+2025-11-09 19:53:07,511 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:53:07,511 - TradingBot - INFO -    ❌ SELL rejeté (Score: 50)
+2025-11-09 19:53:08,026 - TradingBot - INFO -    [2025-10-29] Decision: HOLD | Tech: 35/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 35/100
+2025-11-09 19:53:08,738 - TradingBot - INFO -    [2025-10-29] Decision: SELL | Tech: 73/100 | Reddit: 0/100 (0p) | News: 52/100 NEUTRE | FINAL: 51/100
+2025-11-09 19:53:08,738 - TradingBot - INFO -    ❌ SELL rejeté (Score: 51)
+2025-11-09 19:53:11,061 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:53:11,980 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:53:12,908 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:53:13,821 - TradingBot - INFO -    [2025-10-30] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:53:16,648 - TradingBot - INFO -    🎯 TAKE PROFIT @ $255.34 | Gain: 16.64% | Durée: 816.0h
+2025-11-09 19:53:18,299 - TradingBot - INFO -    [2025-11-03] Decision: HOLD | Tech: 25/100 | Reddit: 0/100 (0p) | News: 51/100 NEUTRE | FINAL: 25/100
+2025-11-09 19:53:20,343 - TradingBot - INFO -    [2025-11-04] Decision: SELL | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:53:21,274 - TradingBot - INFO -    [2025-11-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:53:23,093 - TradingBot - INFO -    [2025-11-04] Decision: SELL | Tech: 75/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:53:23,637 - TradingBot - WARNING - [News] AMZN: NewsAPI clé 2 limite atteinte (429)
+2025-11-09 19:53:23,637 - TradingBot - WARNING - [APIKeyRotator] Clé 2 marquée comme épuisée
+2025-11-09 19:53:23,637 - TradingBot - INFO - [APIKeyRotator] Rotation: clé 2 -> clé 3
+2025-11-09 19:53:23,637 - TradingBot - INFO - [News] AMZN: Tentative 2/3
+2025-11-09 19:53:24,630 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:24,630 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:25,549 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:25,550 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:26,479 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:26,479 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:27,404 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:27,404 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:28,329 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:28,329 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:29,259 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:29,259 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:30,184 - TradingBot - INFO -    [2025-11-05] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:53:30,184 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:53:31,773 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:53:31,773 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:53:32,698 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 75/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 52/100
+2025-11-09 19:53:32,698 - TradingBot - INFO -    ❌ BUY rejeté (Score: 52)
+2025-11-09 19:53:33,623 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:33,623 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:34,552 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:53:34,552 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:53:35,479 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:53:35,479 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:53:36,395 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 48/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 33/100
+2025-11-09 19:53:36,396 - TradingBot - INFO -    ❌ BUY rejeté (Score: 33)
+2025-11-09 19:53:37,320 - TradingBot - INFO -    [2025-11-06] Decision: BUY | Tech: 58/100 | Reddit: 0/100 (0p) | News: 54/100 NEUTRE | FINAL: 40/100
+2025-11-09 19:53:37,320 - TradingBot - INFO -    ❌ BUY rejeté (Score: 40)
+2025-11-09 19:53:38,695 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 72/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 50/100
+2025-11-09 19:53:38,696 - TradingBot - INFO -    ❌ BUY rejeté (Score: 50)
+2025-11-09 19:53:39,620 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:39,620 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:40,546 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:40,546 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:41,458 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 65/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 45/100
+2025-11-09 19:53:41,459 - TradingBot - INFO -    ❌ BUY rejeté (Score: 45)
+2025-11-09 19:53:42,382 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 68/100 | Reddit: 0/100 (0p) | News: 53/100 NEUTRE | FINAL: 47/100
+2025-11-09 19:53:42,382 - TradingBot - INFO -    ❌ BUY rejeté (Score: 47)
+2025-11-09 19:53:43,553 - TradingBot - INFO -    [2025-11-07] Decision: BUY | Tech: 58/100 | Reddit: 50/100 (5p) | News: 53/100 NEUTRE | FINAL: 57/100
+2025-11-09 19:53:43,553 - TradingBot - INFO -    ❌ BUY rejeté (Score: 57)
+2025-11-09 19:53:44,059 - TradingBot - INFO - 
+================================================================================
+2025-11-09 19:53:44,059 - TradingBot - INFO - 📊 RÉSULTATS BACKTEST AMZN
+2025-11-09 19:53:44,059 - TradingBot - INFO - ================================================================================
+2025-11-09 19:53:44,059 - TradingBot - INFO -    Trades: 9
+2025-11-09 19:53:44,059 - TradingBot - INFO -    BUY validés: 9 | rejetés: 90
+2025-11-09 19:53:44,059 - TradingBot - INFO -    SELL validés: 7 | rejetés: 65
+2025-11-09 19:53:44,060 - TradingBot - INFO -    Profit total: +16.96%
+2025-11-09 19:53:44,060 - TradingBot - INFO -    Profit moyen: +1.88%
+2025-11-09 19:53:44,060 - TradingBot - INFO -    Win rate: 66.7%
+2025-11-09 19:53:44,060 - TradingBot - INFO -    Durée: 521.4s
+2025-11-09 19:53:44,060 - TradingBot - INFO - ================================================================================
+
+2025-11-09 19:55:02,217 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002A205A72FD0>
+2025-11-09 19:55:02,218 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002A205A73ED0>

@@ -40,7 +40,7 @@ class RealisticBacktestEngine:
 
         # Configuration stop loss / take profit
         self.stop_loss_pct = -4.0  # -4%
-        self.take_profit_pct = 10.0  # +10%
+        self.take_profit_pct = 14.0  # +14%
 
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
         """
@@ -127,7 +127,7 @@ class RealisticBacktestEngine:
                                   f"Perte: {profit_pct:.2f}% | Durée: {hold_hours:.1f}h")
                         continue
 
-                    # Take profit prioritaire (+10%)
+                    # Take profit prioritaire (+14%)
                     elif profit_pct >= self.take_profit_pct:
                         position = 0
                         exit_price = current_price
