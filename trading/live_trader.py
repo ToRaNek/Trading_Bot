@@ -99,7 +99,7 @@ class LiveTrader:
             current_price = latest_row['Close']
 
             # Obtenir le signal technique
-            tech_score, tech_signal, tech_details = self.tech_analyzer.get_signal(df)
+            tech_signal, tech_score, tech_details = self.tech_analyzer.get_technical_score(latest_row)
             logger.info(f"[LiveTrader] {symbol}: Tech Score={tech_score:.0f}/100 Signal={tech_signal}")
 
             # Si le signal technique n'est pas BUY ou SELL, ne pas continuer
