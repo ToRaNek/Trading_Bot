@@ -8,9 +8,12 @@ from discord.ext import commands
 import logging
 import time
 import glob
+import asyncio
+from datetime import datetime
 
 from backtest import RealisticBacktestEngine
 from config import WATCHLIST
+from trading import LiveTrader
 
 logger = logging.getLogger('TradingBot')
 
@@ -39,6 +42,10 @@ class TradingBot(commands.Bot):
             reddit_csv_file=reddit_csv_file,
             data_dir=data_dir
         )
+
+        # Live trader pour le mode dry-run
+        self.live_trader = None
+        self.live_trader_task = None
 
     async def on_ready(self):
         logger.info(f'{self.user} connecté!')
@@ -249,15 +256,53 @@ async def aide(ctx):
     """Affiche l'aide"""
     embed = discord.Embed(
         title="📚 Guide des Commandes",
-        description="Bot de Trading avec Backtest Réaliste, Validation IA et Sentiment Reddit",
+        description="Bot de Trading avec Backtest Réaliste, Validation IA et Trading en Temps Réel",
         color=0x00ffff
+    )
+
+    # SECTION 1: Trading en temps réel
+    embed.add_field(
+        name="🚀 **TRADING EN TEMPS RÉEL (DRY-RUN)**",
+        value="━━━━━━━━━━━━━━━━━━━━━━━━━",
+        inline=False
+    )
+
+    embed.add_field(
+        name="⚡ **!start [jours]**",
+        value="Démarre le bot en mode trading simulé\n"
+              "• Capital initial: $1000\n"
+              "• Analyses automatiques toutes les heures\n"
+              "• News + Reddit + Technique\n"
+              "• Notifications pour chaque trade\n"
+              "Exemple: `!start 90` (3 mois)",
+        inline=False
+    )
+
+    embed.add_field(
+        name="⏹️ **!stop**",
+        value="Arrête le bot en mode dry-run\n"
+              "Affiche les statistiques finales",
+        inline=False
+    )
+
+    embed.add_field(
+        name="📊 **!status**",
+        value="Affiche le statut du bot en temps réel\n"
+              "Performance, positions, statistiques",
+        inline=False
+    )
+
+    # SECTION 2: Backtests
+    embed.add_field(
+        name="📈 **BACKTESTS HISTORIQUES**",
+        value="━━━━━━━━━━━━━━━━━━━━━━━━━",
+        inline=False
     )
 
     embed.add_field(
         name="⏱️ **!backtest [mois]**",
         value="Backtest quotidien avec validation multi-sources\n"
               "Analyse CHAQUE JOUR de trading (~20 jours/mois)\n"
-              "Le bot prend des décisions quotidiennes\n"
               "Score composite : Tech + IA/News + Reddit\n"
               "Exemple: `!backtest 6` (analyse ~120 jours)",
         inline=False
@@ -308,7 +353,186 @@ async def aide(ctx):
         inline=False
     )
 
-    embed.set_footer(text="🔥 Backtest ultra-réaliste : Tech + IA + Reddit")
+    embed.set_footer(text="🔥 Trading Bot avec IA : Backtest + Trading en Temps Réel")
+
+    await ctx.send(embed=embed)
+
+
+@bot.command(name='start')
+async def start(ctx, days: int = 90):
+    """
+    Démarre le bot en mode dry-run (trading simulé)
+    Le bot va analyser les actions toutes les heures et trader automatiquement
+    Exemple: !start 90 (démarre pour 90 jours = 3 mois)
+    """
+    if bot.live_trader and bot.live_trader.is_running:
+        await ctx.send("❌ Le bot est déjà en cours d'exécution. Utilisez `!stop` pour l'arrêter d'abord.")
+        return
+
+    if days < 1 or days > 365:
+        await ctx.send("❌ Durée invalide. Utilisez entre 1 et 365 jours.")
+        return
+
+    embed = discord.Embed(
+        title="🚀 Démarrage du Bot en Dry-Run",
+        description=f"Le bot va trader automatiquement pendant **{days} jours**",
+        color=0x00ff00
+    )
+    embed.add_field(name="💰 Capital initial", value="$1000", inline=True)
+    embed.add_field(name="📊 Watchlist", value=f"{len(WATCHLIST)} actions", inline=True)
+    embed.add_field(name="⏰ Fréquence", value="Toutes les heures", inline=True)
+    embed.add_field(name="🤖 Analyses", value="Tech + News + Reddit", inline=True)
+    embed.add_field(name="🎯 Seuil validation", value="65/100", inline=True)
+    embed.add_field(name="📈 Stop Loss / Take Profit", value="-4% / +16%", inline=True)
+    embed.add_field(
+        name="ℹ️ Informations",
+        value="Le bot va:\n"
+              "• Analyser chaque action toutes les heures\n"
+              "• Récupérer les news et posts Reddit du jour\n"
+              "• Prendre des décisions d'achat/vente automatiquement\n"
+              "• Gérer un portefeuille simulé de $1000\n"
+              "• Envoyer des notifications pour chaque trade",
+        inline=False
+    )
+
+    await ctx.send(embed=embed)
+
+    # Créer et démarrer le live trader
+    bot.live_trader = LiveTrader(
+        initial_cash=1000.0,
+        watchlist=WATCHLIST,
+        discord_channel=ctx.channel
+    )
+
+    # Lancer le trader dans une tâche asynchrone
+    bot.live_trader_task = bot.loop.create_task(bot.live_trader.start(duration_days=days))
+
+    logger.info(f"[Discord] Bot démarré en dry-run pour {days} jours par {ctx.author}")
+
+
+@bot.command(name='stop')
+async def stop_trading(ctx):
+    """
+    Arrête le bot en mode dry-run
+    Exemple: !stop
+    """
+    if not bot.live_trader or not bot.live_trader.is_running:
+        await ctx.send("❌ Le bot n'est pas en cours d'exécution.")
+        return
+
+    embed = discord.Embed(
+        title="⏹️ Arrêt du Bot",
+        description="Arrêt en cours...",
+        color=0xff0000
+    )
+    await ctx.send(embed=embed)
+
+    # Arrêter le trader
+    if bot.live_trader_task:
+        bot.live_trader_task.cancel()
+        try:
+            await bot.live_trader_task
+        except asyncio.CancelledError:
+            pass
+
+    await bot.live_trader.stop()
+
+    logger.info(f"[Discord] Bot arrêté par {ctx.author}")
+
+
+@bot.command(name='status')
+async def status(ctx):
+    """
+    Affiche le statut du bot en dry-run
+    Exemple: !status
+    """
+    if not bot.live_trader:
+        embed = discord.Embed(
+            title="📊 Statut du Bot",
+            description="Le bot n'a jamais été démarré. Utilisez `!start` pour le lancer.",
+            color=0x808080
+        )
+        await ctx.send(embed=embed)
+        return
+
+    # Calculer les prix actuels
+    current_prices = {}
+    for symbol in bot.live_trader.portfolio.positions.keys():
+        try:
+            import yfinance as yf
+            stock = yf.Ticker(symbol)
+            current_prices[symbol] = stock.history(period='1d', interval='1m')['Close'].iloc[-1]
+        except:
+            pass
+
+    performance = bot.live_trader.portfolio.get_performance(current_prices)
+
+    # Créer l'embed
+    status_text = "🟢 **EN COURS**" if bot.live_trader.is_running else "🔴 **ARRÊTÉ**"
+    color = 0x00ff00 if bot.live_trader.is_running else 0xff0000
+
+    embed = discord.Embed(
+        title="📊 Statut du Bot - Dry-Run",
+        description=status_text,
+        color=color,
+        timestamp=datetime.now()
+    )
+
+    # Performance
+    profit_emoji = "📈" if performance['total_return'] > 0 else "📉"
+    embed.add_field(
+        name="💰 Performance",
+        value=f"{profit_emoji} **{performance['total_return_pct']:+.2f}%**\n"
+              f"Capital: ${performance['total_value']:.2f}\n"
+              f"Initial: ${performance['initial_cash']:.2f}",
+        inline=True
+    )
+
+    # Statistiques de trading
+    embed.add_field(
+        name="📊 Statistiques",
+        value=f"Trades: {performance['total_trades']}\n"
+              f"Win Rate: {performance['win_rate']:.1f}%\n"
+              f"Jours: {performance['days_running']}",
+        inline=True
+    )
+
+    # Positions ouvertes
+    positions_text = ""
+    if bot.live_trader.portfolio.positions:
+        for symbol, position in bot.live_trader.portfolio.positions.items():
+            price = current_prices.get(symbol, 0)
+            if price > 0:
+                profit_pct = ((price - position['avg_price']) / position['avg_price']) * 100
+                positions_text += f"**{symbol}**: {position['shares']} @ ${position['avg_price']:.2f} ({profit_pct:+.2f}%)\n"
+            else:
+                positions_text += f"**{symbol}**: {position['shares']} @ ${position['avg_price']:.2f}\n"
+    else:
+        positions_text = "Aucune position ouverte"
+
+    embed.add_field(
+        name="📋 Positions",
+        value=positions_text[:1024],  # Limiter à 1024 caractères
+        inline=False
+    )
+
+    # Statistiques d'analyse
+    if bot.live_trader.is_running:
+        embed.add_field(
+            name="🤖 Activité",
+            value=f"Analyses: {bot.live_trader.analysis_count}\n"
+                  f"Signaux BUY: {bot.live_trader.buy_signals}\n"
+                  f"Signaux SELL: {bot.live_trader.sell_signals}",
+            inline=True
+        )
+
+        embed.add_field(
+            name="✅ Décisions IA",
+            value=f"Validés: {bot.live_trader.validated_trades}\n"
+                  f"Rejetés: {bot.live_trader.rejected_trades}\n"
+                  f"Taux: {bot.live_trader.validated_trades/(bot.live_trader.validated_trades+bot.live_trader.rejected_trades)*100:.0f}%" if (bot.live_trader.validated_trades+bot.live_trader.rejected_trades) > 0 else "N/A",
+            inline=True
+        )
 
     await ctx.send(embed=embed)
 

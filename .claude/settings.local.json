@@ -4,7 +4,8 @@
       "Bash(dir:*)",
       "Bash(python test_news_api.py:*)",
       "Bash(python:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
