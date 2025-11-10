@@ -78,15 +78,15 @@ class LiveTrader:
         try:
             logger.info(f"\n[LiveTrader] 📊 Analyse de {symbol}")
 
-            # 1. Récupérer les données de prix récentes (7 jours pour calculer les indicateurs)
+            # 1. Récupérer les données de prix récentes (14 jours pour avoir assez de points horaires)
             stock = yf.Ticker(symbol)
             end_date = datetime.now()
-            start_date = end_date - timedelta(days=7)
+            start_date = end_date - timedelta(days=14)
 
             df = stock.history(start=start_date, end=end_date, interval='1h')
 
-            if df.empty or len(df) < 50:
-                logger.warning(f"[LiveTrader] {symbol}: Données insuffisantes")
+            if df.empty or len(df) < 30:
+                logger.warning(f"[LiveTrader] {symbol}: Données insuffisantes (seulement {len(df)} points)")
                 return None
 
             # Normaliser l'index
