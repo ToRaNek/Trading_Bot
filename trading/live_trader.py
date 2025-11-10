@@ -112,16 +112,19 @@ class LiveTrader:
                     'price': current_price
                 }
 
-            # 3. Récupérer les news des dernières 48h
+            # 3 & 4. Récupérer news et Reddit en parallèle pour gagner du temps
             now = datetime.now()
-            has_news, news_items, news_score = await self.news_analyzer.get_news_for_date(symbol, now)
-            logger.info(f"[LiveTrader] {symbol}: News Score={news_score:.0f}/100 ({len(news_items)} news)")
 
-            # 4. Récupérer le sentiment Reddit du jour
-            reddit_score, reddit_count, reddit_samples, reddit_posts = await self.reddit_analyzer.get_reddit_sentiment(
-                symbol=symbol,
-                target_date=now
+            # Lancer les deux requêtes en parallèle
+            news_task = self.news_analyzer.get_news_for_date(symbol, now)
+            reddit_task = self.reddit_analyzer.get_reddit_sentiment(symbol=symbol, target_date=now)
+
+            # Attendre les résultats en parallèle
+            (has_news, news_items, news_score), (reddit_score, reddit_count, reddit_samples, reddit_posts) = await asyncio.gather(
+                news_task, reddit_task
             )
+
+            logger.info(f"[LiveTrader] {symbol}: News Score={news_score:.0f}/100 ({len(news_items)} news)")
             logger.info(f"[LiveTrader] {symbol}: Reddit Score={reddit_score:.0f}/100 ({reddit_count} posts)")
 
             # 5. Calculer le score composite (même pondération que le backtest)
@@ -334,8 +337,8 @@ class LiveTrader:
             if decision:
                 decisions.append(decision)
 
-            # Pause entre chaque analyse pour ne pas surcharger les APIs
-            await asyncio.sleep(2)
+            # Pause réduite entre chaque analyse (news et Reddit déjà en parallèle)
+            await asyncio.sleep(0.5)
 
         # 3. Exécuter les trades validés
         logger.info(f"\n[LiveTrader] 📝 Décisions prises: {len(decisions)}")

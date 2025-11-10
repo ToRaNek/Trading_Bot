@@ -89,16 +89,16 @@ class HistoricalNewsAnalyzer:
                         if response.status == 200:
                             data = await response.json()
                             if isinstance(data, list) and len(data) > 0:
-                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub retourne {len(data)} news brutes")
+                                logger.info(f"[News] {symbol}: Finnhub → {len(data)} articles bruts")
                                 has_news, news_items, score = await self._parse_finnhub_news(data, target_date)
                                 all_news_items.extend(news_items)
-                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub -> {len(news_items)} news gardees")
+                                logger.info(f"[News] {symbol}: Finnhub → {len(news_items)} news gardées après filtre")
                             else:
-                                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Finnhub OK mais 0 news")
+                                logger.warning(f"[News] {symbol}: Finnhub OK mais 0 news")
                         else:
-                            logger.debug(f"[News] {symbol}: Finnhub status {response.status}")
+                            logger.warning(f"[News] {symbol}: Finnhub status {response.status}")
                 except Exception as e:
-                    logger.debug(f"[News] {symbol}: Finnhub erreur {e}")
+                    logger.warning(f"[News] {symbol}: Finnhub erreur {e}")
 
             # 2. Essayer NewsAPI avec rotation des clés (seulement si date < 30 jours)
             days_ago = (datetime.now() - target_date).days
@@ -124,30 +124,30 @@ class HistoricalNewsAnalyzer:
                     }
 
                     try:
-                        async with session.get(url, params=params, timeout=10) as response:
+                        async with session.get(url, params=params, timeout=8) as response:
                             if response.status == 200:
                                 data = await response.json()
                                 if 'articles' in data and data['articles']:
                                     self.newsapi_rotator.mark_current_as_success()
                                     has_news, news_items, score = await self._parse_newsapi_news(data['articles'], target_date)
                                     all_news_items.extend(news_items)
-                                    logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: NewsAPI -> {len(news_items)} news gardees (clé {self.newsapi_rotator.current_index + 1})")
+                                    logger.info(f"[News] {symbol}: NewsAPI → {len(news_items)} news (clé {self.newsapi_rotator.current_index + 1})")
                                     break
                                 else:
-                                    logger.debug(f"[News] {symbol}: NewsAPI OK mais 0 news")
+                                    logger.warning(f"[News] {symbol}: NewsAPI OK mais 0 news")
                                     break
                             elif response.status == 429:
                                 logger.warning(f"[News] {symbol}: NewsAPI clé {self.newsapi_rotator.current_index + 1} limite atteinte (429)")
                                 self.newsapi_rotator.mark_current_as_failed()
                                 newsapi_key = self.newsapi_rotator.get_current_key()
                                 if retry < max_retries - 1:
-                                    logger.info(f"[News] {symbol}: Tentative {retry + 2}/{max_retries}")
+                                    logger.info(f"[News] {symbol}: Rotation vers clé {retry + 2}/{max_retries}")
                                     continue
                             else:
-                                logger.debug(f"[News] {symbol}: NewsAPI status {response.status}")
+                                logger.warning(f"[News] {symbol}: NewsAPI status {response.status}")
                                 break
                     except Exception as e:
-                        logger.debug(f"[News] {symbol}: NewsAPI erreur {e}")
+                        logger.warning(f"[News] {symbol}: NewsAPI erreur {e}")
                         break
             else:
                 logger.debug(f"[News] {symbol}: NewsAPI skip (date trop ancienne: {days_ago} jours)")
@@ -170,13 +170,13 @@ class HistoricalNewsAnalyzer:
                     final_score = 50.0
 
                 result = (True, all_news_items, final_score)
-                logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: TOTAL {len(all_news_items)} news, score={final_score:.0f}/100")
+                logger.info(f"[News] {symbol}: ✓ TOTAL {len(all_news_items)} news, score={final_score:.0f}/100")
                 self.news_cache[cache_key] = result
                 return result
 
             # Aucune news trouvée
             stats = self.newsapi_rotator.get_stats()
-            logger.debug(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: Aucune news trouvée (Finnhub={bool(self.finnhub_key)}, NewsAPI={stats['active_keys']}/{stats['total_keys']} clés)")
+            logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: ⚠️ Aucune news trouvée (Finnhub={'✓' if self.finnhub_key else '✗'}, NewsAPI={stats['active_keys']}/{stats['total_keys']} clés)")
             result = (False, [], 0.0)
             self.news_cache[cache_key] = result
             return result

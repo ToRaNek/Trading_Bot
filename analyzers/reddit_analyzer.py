@@ -171,14 +171,14 @@ class RedditSentimentAnalyzer:
             return []
 
     async def get_reddit_sentiment(self, symbol: str, target_date: datetime = None,
-                                   lookback_hours: int = 48, save_csv: bool = False) -> Tuple[float, int, List[str], List[Dict]]:
+                                   lookback_hours: int = 168, save_csv: bool = False) -> Tuple[float, int, List[str], List[Dict]]:
         """
-        Récupère et analyse le sentiment Reddit pour un ticker
+        Récupère et analyse le sentiment Reddit pour un ticker (OPTIMISÉ POUR LIVE TRADING)
 
         Args:
             symbol: Ticker de l'action
             target_date: Date cible (None = maintenant)
-            lookback_hours: Pas utilisé (on récupère tout)
+            lookback_hours: Fenêtre de temps (défaut: 168h = 7 jours)
             save_csv: Si True, sauvegarde tous les posts en CSV
 
         Returns:
@@ -197,67 +197,31 @@ class RedditSentimentAnalyzer:
                 return self.sentiment_cache[cache_key]
 
             all_posts = []
+            session = await self.get_session()
 
-            # PRIORITÉ 1: Essayer de charger depuis data/Sentiment_[SYMBOL].csv
-            from pathlib import Path
-            csv_path = Path(self.data_dir) / f"Sentiment_{symbol}.csv"
+            # LIVE TRADING: Utiliser UNIQUEMENT l'API Reddit (7 derniers jours)
+            # Pas de CSV, pas de Pushshift → rapide et récent
+            logger.debug(f"[Reddit] {symbol}: API Reddit (7 derniers jours)")
 
-            if csv_path.exists():
-                logger.debug(f"[Reddit] {symbol}: ✅ Utilisation CSV {csv_path.name} (pas de requêtes API)")
-                all_posts = self.get_posts_from_csv(symbol, target_date, lookback_hours)
-            elif self.csv_file is not None:
-                # PRIORITÉ 2: Fallback sur csv_file global si défini
-                logger.debug(f"[Reddit] {symbol}: Utilisation CSV global (pas de requêtes API)")
-                all_posts = self.get_posts_from_csv(symbol, target_date, lookback_hours)
-            else:
-                # PRIORITÉ 3: Aucun CSV disponible -> faire les requêtes API
-                logger.warning(f"[Reddit] {symbol}: ⚠️ Aucun CSV trouvé, requêtes API activées")
-                session = await self.get_session()
+            # Récupérer les subreddits configurés pour ce ticker
+            subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
 
-                # Déterminer quelle API utiliser selon l'âge des données
-                days_ago = (datetime.now() - target_date).days
-                use_pushshift = days_ago > 7
-
-                if use_pushshift:
-                    logger.debug(f"[Reddit] {symbol}: Utilisation Pushshift (données > 7j)")
+            for subreddit in subreddits:
+                # Utiliser API REST Reddit pour données récentes
+                if subreddit == 'stocks' or symbol in self.special_search_tickers:
+                    search_term = self.special_search_tickers.get(symbol, symbol)
+                    posts = await self._search_reddit_comments(
+                        session, subreddit, search_term, target_date, lookback_hours
+                    )
                 else:
-                    logger.debug(f"[Reddit] {symbol}: Utilisation API Reddit (données < 7j)")
+                    posts = await self._get_subreddit_posts(
+                        session, subreddit, target_date, lookback_hours
+                    )
 
-                # Récupérer les subreddits configurés pour ce ticker
-                subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
+                all_posts.extend(posts)
 
-                for subreddit in subreddits:
-                    if use_pushshift:
-                        # Utiliser PullPush/Pushshift pour données historiques (>7 jours)
-                        if subreddit == 'stocks' or symbol in self.special_search_tickers:
-                            search_term = self.special_search_tickers.get(symbol, symbol)
-                            posts = await self._search_pushshift(
-                                session, subreddit, search_term, target_date, lookback_hours
-                            )
-                        else:
-                            posts = await self._get_pushshift_posts(
-                                session, subreddit, target_date, lookback_hours
-                            )
-                    else:
-                        # Utiliser API REST Reddit pour données récentes (<7 jours)
-                        if subreddit == 'stocks' or symbol in self.special_search_tickers:
-                            search_term = self.special_search_tickers.get(symbol, symbol)
-                            posts = await self._search_reddit_comments(
-                                session, subreddit, search_term, target_date, lookback_hours
-                            )
-                        else:
-                            posts = await self._get_subreddit_posts(
-                                session, subreddit, target_date, lookback_hours
-                            )
-
-                    all_posts.extend(posts)
-
-                    # Sauvegarder en CSV si demandé
-                    if save_csv and posts:
-                        self.save_posts_to_csv(symbol, posts, subreddit)
-
-                    # Délai pour éviter rate limiting
-                    await asyncio.sleep(1.5)
+                # Délai réduit pour rate limiting
+                await asyncio.sleep(0.5)
 
             # Analyser le sentiment
             if not all_posts:
