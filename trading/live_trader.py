@@ -346,7 +346,7 @@ class LiveTrader:
                 decisions.append(decision)
 
             # Pause augmentée pour éviter le rate limiting Reddit (403)
-            await asyncio.sleep(3.0)
+            await asyncio.sleep(0.5)
 
         # 3. Exécuter les trades validés
         logger.info(f"\n[LiveTrader] 📝 Décisions prises: {len(decisions)}")
@@ -359,7 +359,7 @@ class LiveTrader:
                     self.sell_signals += 1
 
                 await self.execute_trade(decision)
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.5)
 
         # 4. Afficher le résumé
         current_prices = {}

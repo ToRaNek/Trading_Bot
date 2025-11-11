@@ -276,7 +276,7 @@ class RedditSentimentAnalyzer:
                 all_posts.extend(posts)
 
                 # Délai augmenté pour éviter le rate limiting Reddit (403)
-                await asyncio.sleep(2.0)
+                await asyncio.sleep(0.5)
 
             # Analyser le sentiment
             if not all_posts:
@@ -517,7 +517,7 @@ class RedditSentimentAnalyzer:
                         logger.info(f"   [Pushshift] Page {iteration}: +{len(data_posts)} posts | Total: {len(all_posts)}")
 
                         # Délai pour rate limiting
-                        await asyncio.sleep(1.5)
+                        await asyncio.sleep(0.5)
                     else:
                         logger.error(f"   [Pushshift] Status {response.status}, arrêt")
                         break
