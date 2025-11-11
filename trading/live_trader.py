@@ -384,6 +384,10 @@ class LiveTrader:
             duration_days: Durée du dry-run en jours (par défaut: 90 jours = 3 mois)
         """
         self.is_running = True
+
+        # Forcer la recréation de la session Reddit avec les nouveaux headers
+        await self.reddit_analyzer.reset_session()
+
         logger.info(f"\n🚀 [LiveTrader] DÉMARRAGE DU BOT EN DRY-RUN")
         logger.info(f"   • Capital initial: ${self.portfolio.initial_cash:.2f}")
         logger.info(f"   • Durée: {duration_days} jours")

@@ -67,7 +67,7 @@ class RedditSentimentAnalyzer:
         }
 
     async def get_session(self):
-        if not self.session:
+        if not self.session or self.session.closed:
             # User-Agent requis par Reddit - Utiliser un User-Agent plus réaliste
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -78,6 +78,7 @@ class RedditSentimentAnalyzer:
                 'Upgrade-Insecure-Requests': '1'
             }
             self.session = aiohttp.ClientSession(headers=headers)
+            logger.info("[Reddit] Nouvelle session HTTP créée avec User-Agent: Mozilla/5.0...")
         return self.session
 
     def load_csv_data(self, symbol: str = None):
@@ -603,6 +604,13 @@ class RedditSentimentAnalyzer:
         except Exception as e:
             logger.error(f"   [CSV] ❌ Erreur sauvegarde: {e}")
             return None
+
+    async def reset_session(self):
+        """Force la recréation de la session HTTP avec les nouveaux headers"""
+        if self.session and not self.session.closed:
+            await self.session.close()
+        self.session = None
+        logger.info("[Reddit] Session HTTP fermée - sera recréée au prochain appel")
 
     async def close(self):
         if self.session:
