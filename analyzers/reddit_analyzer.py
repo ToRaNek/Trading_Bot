@@ -19,8 +19,11 @@ class RedditSentimentAnalyzer:
     Utilise l'API REST de Reddit (pas besoin de PRAW)
     """
 
-    def __init__(self, csv_file: str = None, data_dir: str = 'data'):
+    def __init__(self, csv_file: str = None, data_dir: str = 'data', reddit_client_id: str = None, reddit_client_secret: str = None):
         self.session = None
+        self.reddit_token = None  # Token OAuth pour l'API Reddit
+        self.reddit_client_id = reddit_client_id
+        self.reddit_client_secret = reddit_client_secret
         self.sentiment_cache = {}  # Cache pour éviter appels répétés
         self.csv_file = csv_file
         self.csv_data = None  # Données chargées depuis le CSV
@@ -66,9 +69,49 @@ class RedditSentimentAnalyzer:
             'BRK-B': 'berkshire'
         }
 
+    async def get_reddit_oauth_token(self):
+        """Obtient un token OAuth pour l'API Reddit (fonctionne depuis Azure/VPS)"""
+        if not self.reddit_client_id or not self.reddit_client_secret:
+            logger.warning("[Reddit] Pas de credentials OAuth - utilisation sans authentification")
+            return None
+
+        try:
+            import aiohttp
+            auth = aiohttp.BasicAuth(self.reddit_client_id, self.reddit_client_secret)
+
+            async with aiohttp.ClientSession() as temp_session:
+                data = {
+                    'grant_type': 'client_credentials'
+                }
+                headers = {
+                    'User-Agent': 'TradingBot/1.0'
+                }
+
+                async with temp_session.post(
+                    'https://www.reddit.com/api/v1/access_token',
+                    auth=auth,
+                    data=data,
+                    headers=headers,
+                    timeout=10
+                ) as response:
+                    if response.status == 200:
+                        token_data = await response.json()
+                        self.reddit_token = token_data.get('access_token')
+                        logger.info("[Reddit] ✅ Token OAuth obtenu avec succès")
+                        return self.reddit_token
+                    else:
+                        logger.error(f"[Reddit] ❌ Erreur OAuth: {response.status}")
+                        return None
+        except Exception as e:
+            logger.error(f"[Reddit] ❌ Erreur obtention token OAuth: {e}")
+            return None
+
     async def get_session(self):
         if not self.session or self.session.closed:
-            # User-Agent requis par Reddit - Utiliser un User-Agent plus réaliste
+            # Si on a des credentials OAuth, obtenir un token
+            if self.reddit_client_id and self.reddit_client_secret and not self.reddit_token:
+                await self.get_reddit_oauth_token()
+
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -77,8 +120,14 @@ class RedditSentimentAnalyzer:
                 'Connection': 'keep-alive',
                 'Upgrade-Insecure-Requests': '1'
             }
+
+            # Ajouter le token OAuth si disponible
+            if self.reddit_token:
+                headers['Authorization'] = f'Bearer {self.reddit_token}'
+                logger.info("[Reddit] Session avec authentification OAuth")
+
             self.session = aiohttp.ClientSession(headers=headers)
-            logger.info("[Reddit] Nouvelle session HTTP créée avec User-Agent: Mozilla/5.0...")
+            logger.info("[Reddit] Nouvelle session HTTP créée")
         return self.session
 
     def load_csv_data(self, symbol: str = None):
@@ -285,8 +334,11 @@ class RedditSentimentAnalyzer:
                                    target_date: datetime, lookback_hours: int) -> List[Dict]:
         """Récupère les posts récents d'un subreddit"""
         try:
-            # Utiliser old.reddit.com qui est moins strict sur les rate limits
-            url = f"https://old.reddit.com/r/{subreddit}/new.json"
+            # Utiliser oauth.reddit.com si on a un token, sinon old.reddit.com
+            if self.reddit_token:
+                url = f"https://oauth.reddit.com/r/{subreddit}/new"
+            else:
+                url = f"https://old.reddit.com/r/{subreddit}/new.json"
             params = {'limit': 100}
 
             async with session.get(url, params=params, timeout=10) as response:
@@ -341,8 +393,12 @@ class RedditSentimentAnalyzer:
                                      lookback_hours: int) -> List[Dict]:
         """Recherche des commentaires sur r/stocks avec le ticker"""
         try:
-            # Recherche avec le ticker - Utiliser old.reddit.com
-            url = f"https://old.reddit.com/r/{subreddit}/search.json"
+            # Utiliser oauth.reddit.com si on a un token, sinon old.reddit.com
+            if self.reddit_token:
+                url = f"https://oauth.reddit.com/r/{subreddit}/search"
+            else:
+                url = f"https://old.reddit.com/r/{subreddit}/search.json"
+
             params = {
                 'q': f'${search_term}' if subreddit == 'stocks' else search_term,
                 'restrict_sr': 'on',

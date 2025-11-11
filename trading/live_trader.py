@@ -13,6 +13,7 @@ import discord
 from .portfolio import Portfolio
 from analyzers import TechnicalAnalyzer, HistoricalNewsAnalyzer, RedditSentimentAnalyzer
 from config import WATCHLIST, VALIDATION_THRESHOLD
+import os
 
 logger = logging.getLogger('TradingBot')
 
@@ -45,7 +46,14 @@ class LiveTrader:
         # Initialiser les analyseurs
         self.tech_analyzer = TechnicalAnalyzer()
         self.news_analyzer = HistoricalNewsAnalyzer()
-        self.reddit_analyzer = RedditSentimentAnalyzer()
+
+        # RedditSentimentAnalyzer avec OAuth pour contourner le blocage IP Azure
+        reddit_client_id = os.getenv('REDDIT_CLIENT_ID')
+        reddit_client_secret = os.getenv('REDDIT_CLIENT_SECRET')
+        self.reddit_analyzer = RedditSentimentAnalyzer(
+            reddit_client_id=reddit_client_id,
+            reddit_client_secret=reddit_client_secret
+        )
 
         # Configuration du trading
         self.validation_threshold = VALIDATION_THRESHOLD  # Score minimum pour trader

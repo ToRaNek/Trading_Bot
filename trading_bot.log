@@ -7693,3 +7693,93 @@ client_session: <aiohttp.client.ClientSession object at 0x000001EC0420D1D0>
 client_session: <aiohttp.client.ClientSession object at 0x000002A205A72FD0>
 2025-11-09 19:55:02,218 - asyncio - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x000002A205A73ED0>
+2025-11-11 10:13:06,879 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-11-11 10:13:06,880 - TradingBot - WARNING - [Init] Aucun fichier CSV Reddit trouvé - Les requêtes API seront utilisées
+2025-11-11 10:13:06,881 - TradingBot - INFO - [APIKeyRotator] 3 clés API chargées depuis C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\api_keys.csv
+2025-11-11 10:13:06,881 - TradingBot - INFO - [NewsAPI] Rotateur initialisé: 3/3 clés actives
+2025-11-11 10:13:06,882 - TradingBot - INFO - ================================================================================
+2025-11-11 10:13:06,882 - TradingBot - INFO - 🚀 TRADING BOT - ARCHITECTURE MODULAIRE
+2025-11-11 10:13:06,882 - TradingBot - INFO - ================================================================================
+2025-11-11 10:13:06,882 - TradingBot - INFO - 📁 Modules chargés:
+2025-11-11 10:13:06,882 - TradingBot - INFO -    ✅ analyzers.TechnicalAnalyzer
+2025-11-11 10:13:06,883 - TradingBot - INFO -    ✅ analyzers.HistoricalNewsAnalyzer
+2025-11-11 10:13:06,883 - TradingBot - INFO -    ✅ analyzers.RedditSentimentAnalyzer
+2025-11-11 10:13:06,883 - TradingBot - INFO -    ✅ analyzers.AIScorer
+2025-11-11 10:13:06,883 - TradingBot - INFO -    ✅ backtest.RealisticBacktestEngine
+2025-11-11 10:13:06,883 - TradingBot - INFO -    ✅ bot.TradingBot
+2025-11-11 10:13:06,883 - TradingBot - INFO - 
+2025-11-11 10:13:06,883 - TradingBot - INFO - 📊 Configuration:
+2025-11-11 10:13:06,883 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-11 10:13:06,883 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-11 10:13:06,884 - TradingBot - INFO -    • Log: trading_bot.log
+2025-11-11 10:13:06,884 - TradingBot - INFO - ================================================================================
+2025-11-11 10:13:06,884 - TradingBot - INFO - 
+2025-11-11 10:13:06,885 - discord.client - INFO - logging in using static token
+2025-11-11 10:13:07,771 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 4e5141894ab631a2fe2b309665d28f4a).
+2025-11-11 10:13:09,782 - TradingBot - INFO - TRADING#8890 connecté!
+2025-11-11 10:13:14,412 - TradingBot - INFO - [Portfolio] Nouveau portefeuille créé avec $1000.0
+2025-11-11 10:13:14,412 - TradingBot - INFO - [APIKeyRotator] 3 clés API chargées depuis C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\api_keys.csv
+2025-11-11 10:13:14,413 - TradingBot - INFO - [NewsAPI] Rotateur initialisé: 3/3 clés actives
+2025-11-11 10:13:14,413 - TradingBot - INFO - [Discord] Bot démarré en dry-run pour 90 jours par toranek
+2025-11-11 10:13:14,413 - TradingBot - INFO - [Reddit] Session HTTP fermée - sera recréée au prochain appel
+2025-11-11 10:13:14,413 - TradingBot - INFO - 
+🚀 [LiveTrader] DÉMARRAGE DU BOT EN DRY-RUN
+2025-11-11 10:13:14,413 - TradingBot - INFO -    • Capital initial: $1000.00
+2025-11-11 10:13:14,413 - TradingBot - INFO -    • Durée: 90 jours
+2025-11-11 10:13:14,414 - TradingBot - INFO -    • Watchlist: 25 actions
+2025-11-11 10:13:14,414 - TradingBot - INFO -    • Analyses: Toutes les heures
+2025-11-11 10:13:14,414 - TradingBot - INFO -    • Seuil validation: 65/100
+2025-11-11 10:13:14,414 - TradingBot - INFO -    • Stop Loss: -4.0%
+2025-11-11 10:13:14,414 - TradingBot - INFO -    • Take Profit: 16.0%
+2025-11-11 10:13:14,633 - TradingBot - INFO - 
+================================================================================
+2025-11-11 10:13:14,655 - TradingBot - INFO - [LiveTrader] 🚀 ANALYSE HORAIRE - 2025-11-11 10:13
+2025-11-11 10:13:14,655 - TradingBot - INFO - ================================================================================
+2025-11-11 10:13:14,656 - TradingBot - INFO - 
+[LiveTrader] 📊 Analyse de AAPL
+2025-11-11 10:13:17,613 - TradingBot - INFO - [LiveTrader] AAPL: Tech Score=25/100 Signal=HOLD
+2025-11-11 10:13:17,613 - TradingBot - INFO - [LiveTrader] AAPL: Signal HOLD → pas d'action
+2025-11-11 10:13:20,614 - TradingBot - INFO - 
+[LiveTrader] 📊 Analyse de MSFT
+2025-11-11 10:13:20,689 - TradingBot - INFO - [LiveTrader] MSFT: Tech Score=78/100 Signal=SELL
+2025-11-11 10:13:20,690 - TradingBot - INFO - [Reddit] Nouvelle session HTTP créée avec User-Agent: Mozilla/5.0...
+2025-11-11 10:13:20,690 - TradingBot - INFO - [Reddit] MSFT: Récupération via API Reddit (7 derniers jours)
+2025-11-11 10:13:20,690 - TradingBot - INFO - [Reddit] MSFT: Subreddits ciblés: ['stocks']
+2025-11-11 10:13:20,890 - TradingBot - INFO - [Reddit] r/stocks (recherche 'MSFT'): 1 posts bruts récupérés
+2025-11-11 10:13:20,890 - TradingBot - INFO - [Reddit] r/stocks (recherche 'MSFT'): 1 posts gardés après filtrage
+2025-11-11 10:13:20,890 - TradingBot - INFO - [Reddit] MSFT: r/stocks (recherche 'MSFT'): 1 posts
+2025-11-11 10:13:20,927 - TradingBot - INFO - [News] MSFT: Finnhub → 77 articles bruts
+2025-11-11 10:13:20,977 - TradingBot - INFO - [News] MSFT: Finnhub → 70 news gardées après filtre
+2025-11-11 10:13:21,159 - TradingBot - INFO - [News] MSFT: NewsAPI → 99 news (clé 1)
+2025-11-11 10:13:21,159 - TradingBot - INFO - [News] MSFT: ✓ TOTAL 169 news, score=53/100
+2025-11-11 10:13:22,894 - TradingBot - INFO - [Reddit] MSFT: ✅ Score 73/100 (1 posts analysés)
+2025-11-11 10:13:22,894 - TradingBot - INFO - [LiveTrader] MSFT: News Score=53/100 (169 news)
+2025-11-11 10:13:22,894 - TradingBot - INFO - [LiveTrader] MSFT: Reddit Score=73/100 (1 posts)
+2025-11-11 10:13:22,894 - TradingBot - INFO - [LiveTrader] MSFT: Score Composite=68/100 (seuil: 65)
+2025-11-11 10:13:25,897 - TradingBot - INFO - 
+[LiveTrader] 📊 Analyse de GOOGL
+2025-11-11 10:13:25,959 - TradingBot - INFO - [LiveTrader] GOOGL: Tech Score=25/100 Signal=HOLD
+2025-11-11 10:13:25,959 - TradingBot - INFO - [LiveTrader] GOOGL: Signal HOLD → pas d'action
+2025-11-11 10:13:27,006 - TradingBot - INFO - [LiveTrader] ⏹️ Arrêt demandé par l'utilisateur
+2025-11-11 10:13:27,006 - TradingBot - INFO - 
+================================================================================
+2025-11-11 10:13:27,006 - TradingBot - INFO - [LiveTrader] ⏹️ ARRÊT DU BOT
+2025-11-11 10:13:27,006 - TradingBot - INFO - ================================================================================
+2025-11-11 10:13:27,006 - TradingBot - INFO - 
+📊 STATISTIQUES FINALES:
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Durée: 0 jours
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Capital initial: $1000.00
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Capital final: $1000.00
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Performance: +0.00%
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Trades totaux: 0
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Win Rate: 0.0%
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Profit moyen: $0.00
+2025-11-11 10:13:27,007 - TradingBot - INFO -    • Perte moyenne: $0.00
+2025-11-11 10:13:27,008 - TradingBot - ERROR - [LiveTrader] Erreur envoi Discord: Session is closed
+2025-11-11 10:13:27,008 - TradingBot - INFO - ================================================================================
+
+2025-11-11 10:13:27,082 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000176EAC1F390>
+2025-11-11 10:13:27,083 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000176EABB7E90>, 4327.7372046)])', 'deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000176EADC8230>, 4327.9344172)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000176EAC1F250>
