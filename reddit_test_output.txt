@@ -1,0 +1,37 @@
+================================================================================
+TEST: Récupération posts Reddit pour NVDA
+================================================================================
+
+1. Test avec lookback_hours=168 (7 jours)
+   Score: 60/100
+   Nombre de posts: 44
+   Posts récupérés: 44
+
+   Exemple de posts:
+   1. SoftBank sells its entire stake in Nvidia for $5.83 billion...
+      Score: 1, Date: 2025-11-11 09:54:11
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\test_reddit_nvda.py", line 98, in <module>
+    asyncio.run(test_nvda())
+    ~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Documents\BOTTTT\Trading_Bot\test_reddit_nvda.py", line 34, in test_nvda
+    print(f"   {i}. {post.get('title', '')[:80]}...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 6: character maps to <undefined>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002127A2E0EC0>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000002127A2D1EB0>, 3490.7235851)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000002127A2E1010>

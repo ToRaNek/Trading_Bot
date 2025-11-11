@@ -201,10 +201,11 @@ class RedditSentimentAnalyzer:
 
             # LIVE TRADING: Utiliser UNIQUEMENT l'API Reddit (7 derniers jours)
             # Pas de CSV, pas de Pushshift → rapide et récent
-            logger.debug(f"[Reddit] {symbol}: API Reddit (7 derniers jours)")
+            logger.info(f"[Reddit] {symbol}: Récupération via API Reddit (7 derniers jours)")
 
             # Récupérer les subreddits configurés pour ce ticker
             subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
+            logger.info(f"[Reddit] {symbol}: Subreddits ciblés: {subreddits}")
 
             for subreddit in subreddits:
                 # Utiliser API REST Reddit pour données récentes
@@ -213,10 +214,12 @@ class RedditSentimentAnalyzer:
                     posts = await self._search_reddit_comments(
                         session, subreddit, search_term, target_date, lookback_hours
                     )
+                    logger.info(f"[Reddit] {symbol}: r/{subreddit} (recherche '{search_term}'): {len(posts)} posts")
                 else:
                     posts = await self._get_subreddit_posts(
                         session, subreddit, target_date, lookback_hours
                     )
+                    logger.info(f"[Reddit] {symbol}: r/{subreddit}: {len(posts)} posts")
 
                 all_posts.extend(posts)
 
@@ -227,7 +230,7 @@ class RedditSentimentAnalyzer:
             if not all_posts:
                 result = (0.0, 0, [], [])  # Score 0 si pas de posts (personne n'en parle)
                 self.sentiment_cache[cache_key] = result
-                logger.debug(f"   [Reddit] {symbol}: Score 0/100 (aucun post)")
+                logger.info(f"[Reddit] {symbol}: ⚠️ Score 0/100 (aucun post récupéré)")
                 return result
 
             sentiments = []
@@ -264,7 +267,7 @@ class RedditSentimentAnalyzer:
             result = (sentiment_score, len(all_posts), sample_posts, all_posts)
             self.sentiment_cache[cache_key] = result
 
-            logger.debug(f"   [Reddit] {symbol}: Score {sentiment_score:.0f}/100 ({len(all_posts)} posts)")
+            logger.info(f"[Reddit] {symbol}: ✅ Score {sentiment_score:.0f}/100 ({len(all_posts)} posts analysés)")
 
             return result
 
@@ -282,16 +285,20 @@ class RedditSentimentAnalyzer:
             async with session.get(url, params=params, timeout=10) as response:
                 if response.status == 200:
                     data = await response.json()
+                    children = data.get('data', {}).get('children', [])
+                    logger.info(f"[Reddit] r/{subreddit}: {len(children)} posts bruts récupérés")
+
                     posts = []
-
                     cutoff_time = target_date - timedelta(hours=lookback_hours)
+                    # Permettre une marge de 1 heure dans le futur pour les décalages d'horloge
+                    future_margin = target_date + timedelta(hours=1)
 
-                    for post in data.get('data', {}).get('children', []):
+                    for post in children:
                         post_data = post.get('data', {})
                         created_utc = post_data.get('created_utc', 0)
                         post_date = datetime.fromtimestamp(created_utc)
 
-                        if cutoff_time <= post_date <= target_date:
+                        if cutoff_time <= post_date <= future_margin:
                             # Calculer upvotes/downvotes à partir de score et upvote_ratio
                             score = post_data.get('score', 0)
                             upvote_ratio = post_data.get('upvote_ratio', 0.5)
@@ -312,10 +319,13 @@ class RedditSentimentAnalyzer:
                                 'created': post_date
                             })
 
+                    logger.info(f"[Reddit] r/{subreddit}: {len(posts)} posts gardés après filtrage temporel")
                     return posts
+                else:
+                    logger.warning(f"[Reddit] r/{subreddit}: Status {response.status}")
 
         except Exception as e:
-            logger.debug(f"Erreur récupération subreddit {subreddit}: {e}")
+            logger.warning(f"[Reddit] Erreur récupération r/{subreddit}: {e}")
 
         return []
 
@@ -337,16 +347,20 @@ class RedditSentimentAnalyzer:
             async with session.get(url, params=params, timeout=10) as response:
                 if response.status == 200:
                     data = await response.json()
+                    children = data.get('data', {}).get('children', [])
+                    logger.info(f"[Reddit] r/{subreddit} (recherche '{search_term}'): {len(children)} posts bruts récupérés")
+
                     posts = []
-
                     cutoff_time = target_date - timedelta(hours=lookback_hours)
+                    # Permettre une marge de 1 heure dans le futur pour les décalages d'horloge
+                    future_margin = target_date + timedelta(hours=1)
 
-                    for post in data.get('data', {}).get('children', []):
+                    for post in children:
                         post_data = post.get('data', {})
                         created_utc = post_data.get('created_utc', 0)
                         post_date = datetime.fromtimestamp(created_utc)
 
-                        if cutoff_time <= post_date <= target_date:
+                        if cutoff_time <= post_date <= future_margin:
                             # Calculer upvotes/downvotes à partir de score et upvote_ratio
                             score = post_data.get('score', 0)
                             upvote_ratio = post_data.get('upvote_ratio', 0.5)
@@ -367,10 +381,13 @@ class RedditSentimentAnalyzer:
                                 'created': post_date
                             })
 
+                    logger.info(f"[Reddit] r/{subreddit} (recherche '{search_term}'): {len(posts)} posts gardés après filtrage")
                     return posts
+                else:
+                    logger.warning(f"[Reddit] r/{subreddit} (recherche '{search_term}'): Status {response.status}")
 
         except Exception as e:
-            logger.debug(f"Erreur recherche Reddit {search_term}: {e}")
+            logger.warning(f"[Reddit] Erreur recherche '{search_term}' sur r/{subreddit}: {e}")
 
         return []
 
