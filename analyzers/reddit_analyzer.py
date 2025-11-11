@@ -68,9 +68,14 @@ class RedditSentimentAnalyzer:
 
     async def get_session(self):
         if not self.session:
-            # User-Agent requis par Reddit
+            # User-Agent requis par Reddit - Utiliser un User-Agent plus réaliste
             headers = {
-                'User-Agent': 'TradingBot/1.0 (by /u/TradingBotUser)'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1'
             }
             self.session = aiohttp.ClientSession(headers=headers)
         return self.session
@@ -223,8 +228,8 @@ class RedditSentimentAnalyzer:
 
                 all_posts.extend(posts)
 
-                # Délai réduit pour rate limiting
-                await asyncio.sleep(0.5)
+                # Délai augmenté pour éviter le rate limiting Reddit (403)
+                await asyncio.sleep(2.0)
 
             # Analyser le sentiment
             if not all_posts:
@@ -279,7 +284,8 @@ class RedditSentimentAnalyzer:
                                    target_date: datetime, lookback_hours: int) -> List[Dict]:
         """Récupère les posts récents d'un subreddit"""
         try:
-            url = f"https://www.reddit.com/r/{subreddit}/new.json"
+            # Utiliser old.reddit.com qui est moins strict sur les rate limits
+            url = f"https://old.reddit.com/r/{subreddit}/new.json"
             params = {'limit': 100}
 
             async with session.get(url, params=params, timeout=10) as response:
@@ -334,8 +340,8 @@ class RedditSentimentAnalyzer:
                                      lookback_hours: int) -> List[Dict]:
         """Recherche des commentaires sur r/stocks avec le ticker"""
         try:
-            # Recherche avec le ticker
-            url = f"https://www.reddit.com/r/{subreddit}/search.json"
+            # Recherche avec le ticker - Utiliser old.reddit.com
+            url = f"https://old.reddit.com/r/{subreddit}/search.json"
             params = {
                 'q': f'${search_term}' if subreddit == 'stocks' else search_term,
                 'restrict_sr': 'on',

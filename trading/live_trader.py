@@ -337,8 +337,8 @@ class LiveTrader:
             if decision:
                 decisions.append(decision)
 
-            # Pause réduite entre chaque analyse (news et Reddit déjà en parallèle)
-            await asyncio.sleep(0.5)
+            # Pause augmentée pour éviter le rate limiting Reddit (403)
+            await asyncio.sleep(3.0)
 
         # 3. Exécuter les trades validés
         logger.info(f"\n[LiveTrader] 📝 Décisions prises: {len(decisions)}")
