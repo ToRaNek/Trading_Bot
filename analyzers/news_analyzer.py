@@ -89,10 +89,8 @@ class HistoricalNewsAnalyzer:
                         if response.status == 200:
                             data = await response.json()
                             if isinstance(data, list) and len(data) > 0:
-                                logger.info(f"[News] {symbol}: Finnhub → {len(data)} articles bruts")
                                 has_news, news_items, score = await self._parse_finnhub_news(data, target_date)
                                 all_news_items.extend(news_items)
-                                logger.info(f"[News] {symbol}: Finnhub → {len(news_items)} news gardées après filtre")
                             else:
                                 logger.warning(f"[News] {symbol}: Finnhub OK mais 0 news")
                         else:
@@ -131,7 +129,6 @@ class HistoricalNewsAnalyzer:
                                     self.newsapi_rotator.mark_current_as_success()
                                     has_news, news_items, score = await self._parse_newsapi_news(data['articles'], target_date)
                                     all_news_items.extend(news_items)
-                                    logger.info(f"[News] {symbol}: NewsAPI → {len(news_items)} news (clé {self.newsapi_rotator.current_index + 1})")
                                     break
                                 else:
                                     logger.warning(f"[News] {symbol}: NewsAPI OK mais 0 news")
@@ -141,7 +138,6 @@ class HistoricalNewsAnalyzer:
                                 self.newsapi_rotator.mark_current_as_failed()
                                 newsapi_key = self.newsapi_rotator.get_current_key()
                                 if retry < max_retries - 1:
-                                    logger.info(f"[News] {symbol}: Rotation vers clé {retry + 2}/{max_retries}")
                                     continue
                             else:
                                 logger.warning(f"[News] {symbol}: NewsAPI status {response.status}")
@@ -170,7 +166,6 @@ class HistoricalNewsAnalyzer:
                     final_score = 50.0
 
                 result = (True, all_news_items, final_score)
-                logger.info(f"[News] {symbol}: ✓ TOTAL {len(all_news_items)} news, score={final_score:.0f}/100")
                 self.news_cache[cache_key] = result
                 return result
 

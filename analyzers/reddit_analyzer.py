@@ -260,7 +260,6 @@ class RedditSentimentAnalyzer:
 
             # Récupérer les subreddits configurés pour ce ticker
             subreddits = self.ticker_subreddits.get(symbol, ['stocks'])
-            logger.info(f"[Reddit] {symbol}: Subreddits ciblés: {subreddits}")
 
             for subreddit in subreddits:
                 # Utiliser API REST Reddit pour données récentes
@@ -269,12 +268,10 @@ class RedditSentimentAnalyzer:
                     posts = await self._search_reddit_comments(
                         session, subreddit, search_term, target_date, lookback_hours
                     )
-                    logger.info(f"[Reddit] {symbol}: r/{subreddit} (recherche '{search_term}'): {len(posts)} posts")
                 else:
                     posts = await self._get_subreddit_posts(
                         session, subreddit, target_date, lookback_hours
                     )
-                    logger.info(f"[Reddit] {symbol}: r/{subreddit}: {len(posts)} posts")
 
                 all_posts.extend(posts)
 
@@ -322,8 +319,6 @@ class RedditSentimentAnalyzer:
             result = (sentiment_score, len(all_posts), sample_posts, all_posts)
             self.sentiment_cache[cache_key] = result
 
-            logger.info(f"[Reddit] {symbol}: ✅ Score {sentiment_score:.0f}/100 ({len(all_posts)} posts analysés)")
-
             return result
 
         except Exception as e:
@@ -345,7 +340,6 @@ class RedditSentimentAnalyzer:
                 if response.status == 200:
                     data = await response.json()
                     children = data.get('data', {}).get('children', [])
-                    logger.info(f"[Reddit] r/{subreddit}: {len(children)} posts bruts récupérés")
 
                     posts = []
                     cutoff_time = target_date - timedelta(hours=lookback_hours)
@@ -378,7 +372,6 @@ class RedditSentimentAnalyzer:
                                 'created': post_date
                             })
 
-                    logger.info(f"[Reddit] r/{subreddit}: {len(posts)} posts gardés après filtrage temporel")
                     return posts
                 else:
                     logger.warning(f"[Reddit] r/{subreddit}: Status {response.status}")
@@ -411,7 +404,6 @@ class RedditSentimentAnalyzer:
                 if response.status == 200:
                     data = await response.json()
                     children = data.get('data', {}).get('children', [])
-                    logger.info(f"[Reddit] r/{subreddit} (recherche '{search_term}'): {len(children)} posts bruts récupérés")
 
                     posts = []
                     cutoff_time = target_date - timedelta(hours=lookback_hours)
@@ -444,7 +436,6 @@ class RedditSentimentAnalyzer:
                                 'created': post_date
                             })
 
-                    logger.info(f"[Reddit] r/{subreddit} (recherche '{search_term}'): {len(posts)} posts gardés après filtrage")
                     return posts
                 else:
                     logger.warning(f"[Reddit] r/{subreddit} (recherche '{search_term}'): Status {response.status}")
