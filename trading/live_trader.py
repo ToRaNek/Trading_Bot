@@ -76,6 +76,39 @@ class LiveTrader:
             except Exception as e:
                 logger.error(f"[LiveTrader] Erreur envoi Discord: {e}")
 
+    async def send_heartbeat(self):
+        """Envoie un heartbeat Discord toutes les 15 minutes (sauf à :30)"""
+        if not self.discord_channel:
+            return
+
+        now = datetime.now()
+        current_prices = {}
+
+        # Récupérer les prix actuels des positions
+        for symbol in self.portfolio.positions.keys():
+            try:
+                stock = yf.Ticker(symbol)
+                current_prices[symbol] = stock.history(period='1d', interval='1m')['Close'].iloc[-1]
+            except:
+                pass
+
+        performance = self.portfolio.get_performance(current_prices)
+
+        embed = discord.Embed(
+            title="💓 Heartbeat - Bot actif",
+            description=f"Statut au {now.strftime('%H:%M')}",
+            color=0x00aaff,
+            timestamp=now
+        )
+        embed.add_field(name="Cash", value=f"${self.portfolio.cash:.2f}", inline=True)
+        embed.add_field(name="Valeur totale", value=f"${performance['total_value']:.2f}", inline=True)
+        embed.add_field(name="Performance", value=f"{performance['total_return_pct']:+.2f}%", inline=True)
+        embed.add_field(name="Positions", value=f"{len(self.portfolio.positions)}", inline=True)
+        embed.add_field(name="Trades", value=f"{performance['total_trades']}", inline=True)
+        embed.add_field(name="Win Rate", value=f"{performance['win_rate']:.1f}%" if performance['total_trades'] > 0 else "N/A", inline=True)
+
+        await self.send_discord_notification(embed)
+
     async def analyze_stock(self, symbol: str) -> Optional[Dict]:
         """
         Analyse une action en temps réel
@@ -122,6 +155,9 @@ class LiveTrader:
 
             # 3 & 4. Récupérer news et Reddit en parallèle pour gagner du temps
             now = datetime.now()
+
+            # Donner la main à la boucle d'événements avant les requêtes réseau
+            await asyncio.sleep(0)
 
             # Lancer les deux requêtes en parallèle
             news_task = self.news_analyzer.get_news_for_date(symbol, now)
@@ -191,12 +227,15 @@ class LiveTrader:
                 logger.info(f"[LiveTrader] {symbol}: Position déjà ouverte → pas d'achat")
                 return False
 
-            # Calculer le nombre d'actions à acheter
-            max_investment = portfolio_value * self.max_position_size
-            shares = int(max_investment / price)
+            # Calculer le nombre d'actions à acheter (fractional shares supportées)
+            # IMPORTANT: Utiliser le cash disponible, pas la valeur totale du portfolio
+            max_investment = min(self.portfolio.cash, portfolio_value * self.max_position_size)
 
-            if shares < 1:
-                logger.warning(f"[LiveTrader] {symbol}: Solde insuffisant pour acheter")
+            # Calculer les shares en tant que float (permet les fractions)
+            shares = max_investment / price
+
+            if shares < 0.001:  # Minimum 0.001 actions
+                logger.warning(f"[LiveTrader] {symbol}: Solde insuffisant pour acheter (cash: ${self.portfolio.cash:.2f}, prix: ${price:.2f}, max_inv: ${max_investment:.2f})")
                 return False
 
             # Acheter
@@ -338,6 +377,9 @@ class LiveTrader:
         # 1. Vérifier les stop loss / take profit
         await self.check_stop_loss_take_profit()
 
+        # Donner la main à la boucle d'événements pour éviter le blocage du heartbeat
+        await asyncio.sleep(0)
+
         # 2. Analyser chaque action de la watchlist
         decisions = []
         for symbol in self.watchlist:
@@ -346,10 +388,14 @@ class LiveTrader:
                 decisions.append(decision)
 
             # Pause augmentée pour éviter le rate limiting Reddit (403)
+            # ET pour laisser le heartbeat Discord respirer
             await asyncio.sleep(0.5)
 
         # 3. Exécuter les trades validés
         logger.info(f"\n[LiveTrader] 📝 Décisions prises: {len(decisions)}")
+
+        # Donner la main à la boucle d'événements
+        await asyncio.sleep(0)
 
         for decision in decisions:
             if decision['signal'] in ['BUY', 'SELL']:
@@ -400,7 +446,8 @@ class LiveTrader:
         logger.info(f"   • Capital initial: ${self.portfolio.initial_cash:.2f}")
         logger.info(f"   • Durée: {duration_days} jours")
         logger.info(f"   • Watchlist: {len(self.watchlist)} actions")
-        logger.info(f"   • Analyses: Toutes les heures")
+        logger.info(f"   • Heartbeat Discord: Toutes les 15 min (sauf :30)")
+        logger.info(f"   • Analyses marché: À :30 de chaque heure")
         logger.info(f"   • Seuil validation: {self.validation_threshold}/100")
         logger.info(f"   • Stop Loss: {self.stop_loss_pct}%")
         logger.info(f"   • Take Profit: {self.take_profit_pct}%")
@@ -415,6 +462,8 @@ class LiveTrader:
         embed.add_field(name="Capital", value=f"${self.portfolio.initial_cash:.2f}", inline=True)
         embed.add_field(name="Actions", value=f"{len(self.watchlist)}", inline=True)
         embed.add_field(name="Seuil", value=f"{self.validation_threshold}/100", inline=True)
+        embed.add_field(name="Heartbeat", value="Toutes les 15min", inline=True)
+        embed.add_field(name="Analyses", value="À :30 de chaque heure", inline=True)
 
         await self.send_discord_notification(embed)
 
@@ -422,12 +471,26 @@ class LiveTrader:
 
         try:
             while self.is_running and datetime.now() < end_date:
-                # Effectuer l'analyse horaire
-                await self.hourly_analysis()
+                now = datetime.now()
+                current_minute = now.minute
 
-                # Attendre 1 heure
-                logger.info(f"[LiveTrader] ⏸️ Pause d'1 heure... (prochain cycle: {(datetime.now() + timedelta(hours=1)).strftime('%H:%M')})")
-                await asyncio.sleep(3600)  # 3600 secondes = 1 heure
+                # Analyses de marché : uniquement à :30
+                if current_minute == 30:
+                    logger.info(f"\n⏰ {now.strftime('%H:%M')} - Déclenchement de l'analyse de marché")
+                    await self.hourly_analysis()
+                    # Attendre 60 secondes pour ne pas retriggerer à :30
+                    await asyncio.sleep(60)
+
+                # Heartbeat Discord : à :00, :15, :45 (PAS à :30)
+                elif current_minute in [0, 15, 45]:
+                    logger.info(f"\n💓 {now.strftime('%H:%M')} - Heartbeat Discord")
+                    await self.send_heartbeat()
+                    # Attendre 60 secondes pour ne pas retriggerer
+                    await asyncio.sleep(60)
+
+                else:
+                    # Vérifier toutes les 30 secondes si on est à la bonne minute
+                    await asyncio.sleep(30)
 
         except asyncio.CancelledError:
             logger.info("[LiveTrader] ⏹️ Arrêt demandé par l'utilisateur")
