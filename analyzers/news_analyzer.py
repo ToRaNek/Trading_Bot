@@ -10,6 +10,10 @@ import sys
 import logging
 from .ai_scorer import AIScorer
 
+# Importer TextBlob V9
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from textblob_v9_refined import score_news_v9_refined
+
 # Importer le rotateur de clés API
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.api_key_rotator import APIKeyRotator
@@ -158,20 +162,8 @@ class HistoricalNewsAnalyzer:
 
             # Combiner tous les résultats
             if all_news_items:
-                # Recalculer le score basé sur tous les articles
-                total_sentiments = []
-                for item in all_news_items:
-                    if 'sentiment' in item:
-                        importance = item.get('importance', 1.0)
-                        weighted_sentiment = item['sentiment'] * importance
-                        total_sentiments.append(weighted_sentiment)
-
-                if total_sentiments:
-                    avg_sentiment = np.mean(total_sentiments)
-                    final_score = ((avg_sentiment + 3) / 6) * 100
-                    final_score = max(0, min(100, final_score))
-                else:
-                    final_score = 50.0
+                # Utiliser TextBlob V9 pour scorer les news
+                final_score = score_news_v9_refined(all_news_items)
 
                 result = (True, all_news_items, final_score)
                 self.news_cache[cache_key] = result
@@ -278,19 +270,10 @@ class HistoricalNewsAnalyzer:
 
         has_news = len(news_items) > 0
 
-        # Calculer le score basé sur le sentiment (AMPLIFIE pour être plus tranché)
-        if sentiments and has_news:
-            avg_sentiment = np.mean(sentiments)
-
-            # NOUVEAU: Amplifier le sentiment pour être plus tranché
-            # Multiplier par 3 pour avoir des scores plus extrêmes
-            amplified_sentiment = avg_sentiment * 3.0
-
-            # Convertir en score 0-100 avec amplification
-            score = ((amplified_sentiment + 3) / 6) * 100
-            score = max(0, min(100, score))
-
-            logger.debug(f"[News] Sentiment: avg={avg_sentiment:.2f}, amplified={amplified_sentiment:.2f}, score={score:.0f}, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        # Utiliser TextBlob V9 pour le scoring
+        if has_news:
+            score = score_news_v9_refined(news_items)
+            logger.debug(f"[News] V9 Score: {score:.0f}/100, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
         else:
             score = 0.0
 
@@ -388,19 +371,10 @@ class HistoricalNewsAnalyzer:
 
         has_news = len(news_items) > 0
 
-        # Calculer le score basé sur le sentiment (AMPLIFIE pour être plus tranché)
-        if sentiments and has_news:
-            avg_sentiment = np.mean(sentiments)
-
-            # NOUVEAU: Amplifier le sentiment pour être plus tranché
-            # Multiplier par 3 pour avoir des scores plus extrêmes
-            amplified_sentiment = avg_sentiment * 3.0
-
-            # Convertir en score 0-100 avec amplification
-            score = ((amplified_sentiment + 3) / 6) * 100
-            score = max(0, min(100, score))
-
-            logger.debug(f"[News] Sentiment: avg={avg_sentiment:.2f}, amplified={amplified_sentiment:.2f}, score={score:.0f}, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        # Utiliser TextBlob V9 pour le scoring
+        if has_news:
+            score = score_news_v9_refined(news_items)
+            logger.debug(f"[News] V9 Score: {score:.0f}/100, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
         else:
             score = 0.0
 
