@@ -195,8 +195,8 @@ class RealisticBacktestEngine:
                     elif bot_decision == "SELL" and position == 1:
                         sell_price = current_price
 
-                    # Appeler HF avec TOUS les nouveaux paramètres
-                    final_score, ai_reason, reddit_score_ai, _news_score_hf = await self.news_analyzer.ask_ai_decision(
+                    # Appeler HF avec TOUS les nouveaux paramètres (Reddit removed)
+                    final_score, ai_reason, _news_score_hf = await self.news_analyzer.ask_ai_decision(
                         symbol, bot_decision, news_data, current_price, tech_confidence,
                         reddit_posts=reddit_posts_details,
                         target_date=current_date,
@@ -205,6 +205,7 @@ class RealisticBacktestEngine:
                         sell_price=sell_price
                     )
                     # Garder news_score_ai calculé par notre système de sentiment
+                    reddit_score_ai = 0.0  # Reddit disabled
 
                     # BOOST: Si les news sont POSITIF (>= 56), augmenter le score final de 15%
                     if news_score_ai >= 56:

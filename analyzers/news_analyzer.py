@@ -401,76 +401,43 @@ class HistoricalNewsAnalyzer:
     async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
                              current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None,
                              target_date: datetime = None, last_5_prices: List[float] = None,
-                             buy_price: float = None, sell_price: float = None) -> Tuple[int, str, float, float]:
+                             buy_price: float = None, sell_price: float = None) -> Tuple[int, str, float]:
         """
         Demande à l'IA HuggingFace de valider la décision du bot
 
-        NOUVEAU SYSTÈME:
-        1. Calcule d'abord les scores Reddit et News via AIScorer
-        2. Si pas de Reddit → score réduit (personne n'en parle)
-        3. Si pas de News → score réduit
-        4. Si aucun des 2 → score final = 0
-        5. Utilise les 5 derniers prix pour contexte de tendance
-        6. Inclut buy_price ou sell_price selon la décision
+        SYSTÈME SIMPLIFIÉ (Reddit removed):
+        1. Calcule le score News via AIScorer
+        2. Si pas de News → utilise score technique seul
+        3. Combine Tech (50%) + News (50%)
+        4. Utilise les 5 derniers prix pour contexte de tendance
+        5. Inclut buy_price ou sell_price selon la décision
 
-        Retourne: (SCORE FINAL, explication, reddit_score_ai, news_score_ai)
+        Retourne: (SCORE FINAL, explication, news_score_ai)
         """
         try:
             if not self.hf_token:
-                return int(tech_confidence), "Token HuggingFace manquant - utilisation tech seul", 0.0, 0.0
+                return int(tech_confidence), "Token HuggingFace manquant - utilisation tech seul", 0.0
 
-            # ÉTAPE 1: Calculer les scores Reddit et News via AIScorer
-            reddit_score_ai = 0.0
+            # ÉTAPE 1: Calculer le score News via AIScorer (Reddit disabled)
             news_score_ai = 0.0
-
-            # Calculer le score textblob pour fallback
-            reddit_score_textblob = 0.0
-            if reddit_posts and len(reddit_posts) > 0:
-                # Calculer sentiment textblob
-                from textblob import TextBlob
-                sentiments = []
-                for post in reddit_posts[:50]:
-                    text = post.get('title', '') + ' ' + post.get('body', '')
-                    if len(text) > 10:
-                        blob = TextBlob(text)
-                        sentiment = blob.sentiment.polarity
-                        score = post.get('score', 1)
-                        weight = min(score / 10, 3)
-                        sentiments.append(sentiment * weight)
-
-                if sentiments:
-                    avg_sentiment = np.mean(sentiments)
-                    reddit_score_textblob = (avg_sentiment + 1) * 50
-                    reddit_score_textblob = max(0, min(100, reddit_score_textblob))
-
-                # Essayer AI scorer avec fallback textblob
-                reddit_score_ai = await self.ai_scorer.score_reddit_posts(symbol, reddit_posts, target_date, fallback_score=reddit_score_textblob)
-            else:
-                logger.debug(f"   [AI Decision] {symbol}: Pas de Reddit → score 0")
 
             if news_data and len(news_data) > 0:
                 news_score_ai = await self.ai_scorer.score_news(symbol, news_data, target_date)
             else:
                 logger.debug(f"   [AI Decision] {symbol}: Pas de News → score 0")
 
-            # ÉTAPE 2: Calculer le score final avec moyenne pondérée intelligente
-            # Au lieu de mettre 0, on fait une moyenne selon les données disponibles
+            # ÉTAPE 2: Calculer le score final avec moyenne pondérée (Tech: 50%, News: 50%)
             scores_available = []
             weights = []
 
             # Toujours inclure le score technique
             scores_available.append(tech_confidence)
-            weights.append(0.4)  # 40% technique
-
-            # Ajouter Reddit si disponible
-            if reddit_score_ai > 0:
-                scores_available.append(reddit_score_ai)
-                weights.append(0.3)  # 30% Reddit
+            weights.append(0.5)  # 50% technique
 
             # Ajouter News si disponible
             if news_score_ai > 0:
                 scores_available.append(news_score_ai)
-                weights.append(0.3)  # 30% News
+                weights.append(0.5)  # 50% News
 
             # Normaliser les poids
             total_weight = sum(weights)
@@ -479,12 +446,12 @@ class HistoricalNewsAnalyzer:
             # Calculer le score final pondéré
             final_score = sum(s * w for s, w in zip(scores_available, normalized_weights))
 
-            # Si on n'a NI Reddit NI News, pénaliser un peu le score
-            if reddit_score_ai == 0 and news_score_ai == 0:
-                final_score = final_score * 0.7  # Réduction de 30%
-                reason = f"Tech seul ({tech_confidence:.0f}) - Pas de Reddit/News → réduit à {final_score:.0f}"
+            # Si pas de News, utiliser seulement le score technique
+            if news_score_ai == 0:
+                final_score = tech_confidence
+                reason = f"Tech seul ({tech_confidence:.0f}) - Pas de News"
                 logger.debug(f"   [AI Decision] {symbol}: {reason}")
-                return int(final_score), reason, 0.0, 0.0
+                return int(final_score), reason, 0.0
 
             # ÉTAPE 3: Construire le contexte des 5 derniers prix
             price_context = ""
@@ -505,7 +472,7 @@ class HistoricalNewsAnalyzer:
             elif sell_price:
                 price_info += f"🎯 Target Sell Price: ${sell_price:.2f}\n"
 
-            prompt = f"""TRADING DECISION VALIDATION - OPTIMIZED SYSTEM
+            prompt = f"""TRADING DECISION VALIDATION - SIMPLIFIED SYSTEM
 
 🎯 STOCK: {symbol}
 {price_info}{price_context}
@@ -514,22 +481,18 @@ class HistoricalNewsAnalyzer:
 📊 Technical Confidence: {tech_confidence:.0f}/100
 
 📊 PRE-CALCULATED SCORES (by AI Scorer):
-💬 Reddit Community Score: {reddit_score_ai:.0f}/100 ({len(reddit_posts) if reddit_posts else 0} posts analyzed)
 📰 News Sentiment Score: {news_score_ai:.0f}/100 ({len(news_data) if news_data else 0} news analyzed)
 
 ⚠️  IMPORTANT RULES:
-- If no Reddit data (score 0) → Reduce final score (nobody talking about it)
-- If no News data (score 0) → Reduce final score (no market events)
-- If BOTH are 0 → FINAL SCORE = 0 (no information available)
+- If no News data (score 0) → Use technical score only
 
 TASK: Provide the FINAL TRADING SCORE (0-100)
 
-Combine:
+Combine (50% Tech, 50% News):
 1. Technical Confidence: {tech_confidence:.0f}/100
-2. Reddit Score: {reddit_score_ai:.0f}/100
-3. News Score: {news_score_ai:.0f}/100
-4. Price trend context
-5. Decision type ({bot_decision})
+2. News Score: {news_score_ai:.0f}/100
+3. Price trend context
+4. Decision type ({bot_decision})
 
 FINAL SCORE SCALE:
 - 0-30: Bad decision or insufficient data
@@ -567,28 +530,20 @@ Respond EXACTLY: "SCORE: [number]|REASON: [short explanation]"
                                 score = int(''.join(filter(str.isdigit, score_part))[:3])
                                 score = max(0, min(100, score))
 
-                                # Réduction supplémentaire si pas de données
-                                if reddit_score_ai == 0 and news_score_ai > 0:
-                                    score = int(score * 0.7)  # Réduction 30% si pas de Reddit
-                                    reason_part += " (réduit: pas de Reddit)"
-                                elif news_score_ai == 0 and reddit_score_ai > 0:
-                                    score = int(score * 0.7)  # Réduction 30% si pas de News
-                                    reason_part += " (réduit: pas de News)"
-
-                                return score, reason_part[:200], reddit_score_ai, news_score_ai
+                                return score, reason_part[:200], news_score_ai
                         except Exception as parse_err:
                             logger.error(f"   [AI Decision] Erreur parsing: {parse_err}")
                             pass
 
             # Fallback: analyse simple basée sur le sentiment
-            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence, reddit_score_ai, news_score_ai)
+            return await self._simple_sentiment_score(news_data, bot_decision, tech_confidence, news_score_ai)
 
         except Exception as e:
             logger.error(f"Erreur AI validation: {e}")
-            return await self._simple_sentiment_score(news_data, bot_decision, reddit_posts, tech_confidence, reddit_score_ai, news_score_ai)
+            return await self._simple_sentiment_score(news_data, bot_decision, tech_confidence, news_score_ai)
 
-    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, reddit_posts: List[Dict] = None, tech_confidence: float = 50, reddit_score_ai: float = 0.0, news_score_ai: float = 0.0) -> Tuple[int, str, float, float]:
-        """Score de sentiment simple comme fallback, basé sur tech_confidence + ajustement news/reddit"""
+    async def _simple_sentiment_score(self, news_data: List[Dict], bot_decision: str, tech_confidence: float = 50, news_score_ai: float = 0.0) -> Tuple[int, str, float]:
+        """Score de sentiment simple comme fallback, basé sur tech_confidence + ajustement news (50/50)"""
         try:
             sentiments = []
 
@@ -598,59 +553,37 @@ Respond EXACTLY: "SCORE: [number]|REASON: [short explanation]"
                 sentiment = blob.sentiment.polarity
                 sentiments.append(sentiment * article['importance'])
 
-            # Sentiment des posts Reddit
-            if reddit_posts:
-                reddit_sentiments = []
-                for post in reddit_posts[:10]:
-                    text = post.get('title', '') + ' ' + post.get('body', '')
-                    if len(text) > 10:
-                        blob = TextBlob(text)
-                        sentiment = blob.sentiment.polarity
-                        upvotes = post.get('upvotes', 0)
-                        weight = min(upvotes / 10, 3)
-                        reddit_sentiments.append(sentiment * weight)
-
-                if reddit_sentiments:
-                    reddit_sentiment = np.mean(reddit_sentiments)
-                    sentiments.append(reddit_sentiment * 2)
-
             avg_sentiment = np.mean(sentiments) if sentiments else 0
 
-            # Partir de la confiance technique et ajuster selon sentiment
-            score = tech_confidence
+            # Combiner tech (50%) et news (50%)
+            if news_score_ai > 0:
+                score = (tech_confidence * 0.5) + (news_score_ai * 0.5)
+                reason = f"Tech {tech_confidence:.0f} (50%) + News {news_score_ai:.0f} (50%)"
+            else:
+                score = tech_confidence
+                reason = f"Tech {tech_confidence:.0f} (pas de News)"
 
             # Ajustement selon la décision et le sentiment
             if bot_decision == "BUY":
                 if avg_sentiment > 0.3:
-                    score = min(100, score + 15)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment très positif → BOOST"
-                elif avg_sentiment > 0.1:
-                    score = min(100, score + 8)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif → boost"
+                    score = min(100, score + 10)
+                    reason += " + Sentiment très positif"
                 elif avg_sentiment < -0.2:
-                    score = max(0, score - 15)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → PÉNALITÉ"
-                else:
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
-
+                    score = max(0, score - 10)
+                    reason += " - Sentiment négatif"
             else:  # SELL
                 if avg_sentiment < -0.3:
-                    score = min(100, score + 15)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment très négatif → BOOST SELL"
-                elif avg_sentiment < -0.1:
-                    score = min(100, score + 8)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment négatif → boost SELL"
+                    score = min(100, score + 10)
+                    reason += " + Sentiment très négatif"
                 elif avg_sentiment > 0.2:
-                    score = max(0, score - 15)
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment positif contredit SELL → PÉNALITÉ"
-                else:
-                    reason = f"Tech {tech_confidence:.0f} + Sentiment neutre"
+                    score = max(0, score - 10)
+                    reason += " - Sentiment positif"
 
             score = max(0, min(100, score))
-            return int(score), reason, reddit_score_ai, news_score_ai
+            return int(score), reason, news_score_ai
 
         except:
-            return int(tech_confidence), "Fallback: confiance technique seule", 0.0, 0.0
+            return int(tech_confidence), "Fallback: confiance technique seule", 0.0
 
     async def close(self):
         if self.session:

@@ -169,11 +169,10 @@ class LiveTrader:
             )
 
             logger.info(f"[LiveTrader] {symbol}: News Score={news_score:.0f}/100 ({len(news_items)} news)")
-            logger.info(f"[LiveTrader] {symbol}: Reddit Score={reddit_score:.0f}/100 ({reddit_count} posts)")
+            logger.info(f"[LiveTrader] {symbol}: Reddit posts: {reddit_count}")
 
-            # 5. Calculer le score composite (même pondération que le backtest)
-            # Tech: 40%, News: 35%, Reddit: 25%
-            composite_score = (tech_score * 0.40) + (news_score * 0.35) + (reddit_score * 0.25)
+            # 5. Calculer le score composite (Tech: 50%, News: 50% - Reddit removed due to API blocking)
+            composite_score = (tech_score * 0.50) + (news_score * 0.50)
 
             logger.info(f"[LiveTrader] {symbol}: Score Composite={composite_score:.0f}/100 (seuil: {self.validation_threshold})")
 
@@ -184,11 +183,9 @@ class LiveTrader:
                 'price': current_price,
                 'tech_score': tech_score,
                 'news_score': news_score,
-                'reddit_score': reddit_score,
                 'composite_score': composite_score,
                 'validated': composite_score >= self.validation_threshold,
                 'news_count': len(news_items),
-                'reddit_count': reddit_count,
                 'timestamp': now
             }
 
@@ -255,9 +252,8 @@ class LiveTrader:
                 embed.add_field(name="Prix", value=f"${price:.2f}", inline=True)
                 embed.add_field(name="Quantité", value=f"{shares}", inline=True)
                 embed.add_field(name="Coût", value=f"${price*shares:.2f}", inline=True)
-                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100", inline=True)
-                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100", inline=True)
-                embed.add_field(name="Score Reddit", value=f"{decision['reddit_score']:.0f}/100", inline=True)
+                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
                 embed.add_field(name="Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=False)
 
                 await self.send_discord_notification(embed)
@@ -292,9 +288,8 @@ class LiveTrader:
                 embed.add_field(name="Quantité", value=f"{last_trade['shares']}", inline=True)
                 embed.add_field(name="Gain", value=f"${last_trade['proceeds']:.2f}", inline=True)
                 embed.add_field(name="Profit", value=f"${last_trade['profit']:.2f} ({last_trade['profit_pct']:+.2f}%)", inline=False)
-                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100", inline=True)
-                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100", inline=True)
-                embed.add_field(name="Score Reddit", value=f"{decision['reddit_score']:.0f}/100", inline=True)
+                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
                 embed.add_field(name="Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=False)
 
                 await self.send_discord_notification(embed)
