@@ -2,9 +2,27 @@
 
 # Watchlist des actions à analyser
 WATCHLIST = [
+    # Actions US
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK-B',
     'JPM', 'V', 'JNJ', 'WMT', 'PG', 'MA', 'DIS', 'NFLX', 'ADBE',
-    'CRM', 'AMD', 'ORCL', 'INTC', 'CSCO', 'PEP', 'COST', 'AVGO'
+    'CRM', 'AMD', 'ORCL', 'INTC', 'CSCO', 'PEP', 'COST', 'AVGO',
+
+    # Actions Françaises (CAC 40)
+    'MC.PA',      # LVMH - Luxe
+    'OR.PA',      # L'Oréal - Cosmétiques
+    'AIR.PA',     # Airbus - Aéronautique
+    'SAN.PA',     # Sanofi - Pharmacie
+    'TTE.PA',     # TotalEnergies - Énergie
+    'BNP.PA',     # BNP Paribas - Banque
+    'SAF.PA',     # Safran - Aéronautique/Défense
+    'ACA.PA',     # Crédit Agricole - Banque
+    'SU.PA',      # Schneider Electric - Industrie
+    'DG.PA',      # Vinci - Construction/Concessions
+    'BN.PA',      # Danone - Agroalimentaire
+    'RMS.PA',     # Hermès - Luxe
+    'DSY.PA',     # Dassault Systèmes - Software
+    'CA.PA',      # Carrefour - Distribution
+    'EN.PA'       # Bouygues - Télécoms/Construction
 ]
 
 # Seuil de validation pour exécuter un trade

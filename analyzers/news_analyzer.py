@@ -57,6 +57,7 @@ class HistoricalNewsAnalyzer:
             to_date = target_date
 
             company_names = {
+                # US Companies
                 'AAPL': 'Apple', 'MSFT': 'Microsoft', 'GOOGL': 'Google Alphabet',
                 'AMZN': 'Amazon', 'NVDA': 'Nvidia', 'META': 'Meta Facebook',
                 'TSLA': 'Tesla', 'JPM': 'JPMorgan', 'V': 'Visa',
@@ -65,7 +66,14 @@ class HistoricalNewsAnalyzer:
                 'WMT': 'Walmart', 'PG': 'Procter Gamble', 'MA': 'Mastercard',
                 'DIS': 'Disney', 'ADBE': 'Adobe', 'CRM': 'Salesforce',
                 'ORCL': 'Oracle', 'CSCO': 'Cisco', 'PEP': 'Pepsi', 'COST': 'Costco',
-                'AVGO': 'Broadcom'
+                'AVGO': 'Broadcom',
+
+                # French Companies (CAC 40)
+                'MC.PA': 'LVMH', 'OR.PA': 'Oreal L\'Oreal', 'AIR.PA': 'Airbus',
+                'SAN.PA': 'Sanofi', 'TTE.PA': 'TotalEnergies Total', 'BNP.PA': 'BNP Paribas',
+                'SAF.PA': 'Safran', 'ACA.PA': 'Credit Agricole', 'SU.PA': 'Schneider Electric',
+                'DG.PA': 'Vinci', 'BN.PA': 'Danone', 'RMS.PA': 'Hermes',
+                'DSY.PA': 'Dassault Systemes', 'CA.PA': 'Carrefour', 'EN.PA': 'Bouygues'
             }
 
             search_term = company_names.get(symbol, symbol)
