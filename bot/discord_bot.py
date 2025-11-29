@@ -260,146 +260,51 @@ async def detail(ctx, symbol: str, months: int = 6):
 async def aide(ctx):
     """Affiche l'aide"""
     embed = discord.Embed(
-        title="📚 Guide des Commandes",
-        description="Bot de Trading avec Backtest Réaliste, Validation IA et Trading en Temps Réel\n"
-                   "**NOUVEAU**: Trading avec respect des horaires de marché !",
+        title="📚 Commandes du Bot",
+        description="Bot de Trading en Temps Réel avec IA",
         color=0x00ffff
     )
 
-    # SECTION 1: Trading en temps réel
     embed.add_field(
-        name="🚀 **TRADING EN TEMPS RÉEL**",
-        value="━━━━━━━━━━━━━━━━━━━━━━━━━",
+        name="🚀 **Commandes Principales**",
+        value="`!reel_participer` - S'inscrire pour recevoir les signaux\n"
+              "`!reel_cash 5000` - Définir ton cash disponible\n"
+              "`!reel_start` - Démarrer le bot (admin)\n"
+              "`!reel_stop` - Arrêter le bot (admin)\n"
+              "`!reel_status` - Voir les positions actuelles",
         inline=False
     )
 
     embed.add_field(
-        name="⚡ **!reel_start**",
-        value="Démarre le bot en mode temps réel\n"
-              "• Analyses automatiques pendant les horaires de marché\n"
-              "• **PING automatique** des participants sur chaque signal\n"
-              "• Vous exécutez les trades **MANUELLEMENT**\n"
-              "• Le bot garde trace des positions\n"
-              "• Tourne en continu jusqu'à `!reel_stop`\n"
-              "Exemple: `!reel_start`",
+        name="📊 **Backtests**",
+        value="`!reel_backtest 6` - Backtest sur 6 mois\n"
+              "`!reel_detail NVDA 6` - Détails d'une action",
         inline=False
     )
 
     embed.add_field(
-        name="⏹️ **!reel_stop**",
-        value="Arrête le bot en mode temps réel\n"
-              "Affiche les statistiques finales",
+        name="⚡ **Comment ça marche ?**",
+        value="1️⃣ Inscris-toi avec `!reel_participer`\n"
+              "2️⃣ Définis ton cash avec `!reel_cash 5000`\n"
+              "3️⃣ Reçois les signaux dans ton channel privé\n"
+              "4️⃣ Exécute les trades manuellement\n"
+              "5️⃣ Le bot track tes positions",
         inline=False
     )
 
     embed.add_field(
-        name="📊 **!reel_status**",
-        value="Affiche le statut du bot en temps réel\n"
-              "Performance, positions, statistiques",
+        name="🕐 **Horaires**",
+        value="**US**: 15:30-21:45 | **FR**: 09:00-17:15 (heure FR)\n"
+              "Pas de trading le week-end",
         inline=False
     )
 
     embed.add_field(
-        name="👥 **!reel_participer**",
-        value="S'enregistre comme participant\n"
-              "• Tu seras pingé sur chaque signal de trading\n"
-              "• Donne accès à la commande `!reel_cash`\n"
-              "• Une seule fois par utilisateur\n"
-              "Exemple: `!reel_participer`",
+        name="🤖 **Validation IA**",
+        value="Score = 50% Technique + 50% News\n"
+              "Signal envoyé si score ≥ 65/100",
         inline=False
     )
-
-    embed.add_field(
-        name="💰 **!reel_cash [montant]**",
-        value="Gère ton cash disponible (participants uniquement)\n"
-              "• Sans argument: affiche ton cash actuel\n"
-              "• Avec montant: définit ton cash disponible\n"
-              "• Permet au bot de te suggérer des montants\n"
-              "Exemple: `!reel_cash 5000` (tu as 5000€ disponibles)",
-        inline=False
-    )
-
-    # SECTION 2: Backtests
-    embed.add_field(
-        name="📈 **BACKTESTS HISTORIQUES**",
-        value="━━━━━━━━━━━━━━━━━━━━━━━━━",
-        inline=False
-    )
-
-    embed.add_field(
-        name="⏱️ **!reel_backtest [mois]**",
-        value="Backtest quotidien avec validation multi-sources\n"
-              "Analyse CHAQUE JOUR de trading (~20 jours/mois)\n"
-              "Score composite : Tech + IA/News + Reddit\n"
-              "Exemple: `!reel_backtest 6` (analyse ~120 jours)",
-        inline=False
-    )
-
-    embed.add_field(
-        name="📊 **!reel_detail [SYMBOL] [mois]**",
-        value="Backtest détaillé d'une action avec tous les trades\n"
-              "Affiche les scores Tech, IA et Reddit pour chaque trade\n"
-              "Exemple: `!reel_detail AAPL 6`",
-        inline=False
-    )
-
-    embed.add_field(
-        name="🤖 **Comment ça marche?**",
-        value="1️⃣ **Vérification horaires de marché**\n"
-              "   • US: 15:30-21:45 (heure FR)\n"
-              "   • France: 09:00-17:15 (heure FR)\n"
-              "   • Pas de trading hors horaires !\n"
-              "2️⃣ Analyse technique AMÉLIORÉE (système de confluence)\n"
-              "   • RSI, MACD, SMA, Bollinger, Volume (score 0-100)\n"
-              "3️⃣ Le bot décide: BUY, SELL ou HOLD\n"
-              "4️⃣ Si BUY/SELL: récupération News + Reddit\n"
-              "5️⃣ Score composite pondéré:\n"
-              "   • Technique: 50%\n"
-              "   • IA/News: 50%\n"
-              "6️⃣ Si score final > 65, le trade est exécuté ✅\n"
-              "7️⃣ Sinon, le trade est rejeté ❌",
-        inline=False
-    )
-
-    embed.add_field(
-        name="📱 **Sources Reddit**",
-        value="Subreddits dédiés (r/NVDA_Stock, r/AAPL, etc.)\n"
-              "Recherche r/stocks pour tous les tickers\n"
-              "Analyse sentiment basée sur posts et upvotes\n"
-              "Détection de confluence/conflit avec les news",
-        inline=False
-    )
-
-    embed.add_field(
-        name="💡 **Avantages**",
-        value="✅ Respect des horaires de marché (US/FR)\n"
-              "✅ Noms complets des actions (pas que les tickers)\n"
-              "✅ Système technique amélioré avec confluence\n"
-              "✅ Simulation temps réel (analyse quotidienne)\n"
-              "✅ Actualités historiques pour chaque jour\n"
-              "✅ Sentiment Reddit en temps réel\n"
-              "✅ Score composite multi-sources\n"
-              "✅ Évite les faux signaux techniques\n"
-              "✅ Compare avec Buy & Hold\n"
-              "✅ Cache intelligent pour optimiser les API",
-        inline=False
-    )
-
-    embed.add_field(
-        name="🕐 **Horaires de Trading**",
-        value="**Marchés US** (NVDA, AAPL, etc.)\n"
-              "• Ouverture: 15:30 (heure FR)\n"
-              "• Fermeture: 22:00 (heure FR)\n"
-              "• Dernière analyse: 21:45\n\n"
-              "**Marchés France** (MC.PA, OR.PA, etc.)\n"
-              "• Ouverture: 09:00 (heure FR)\n"
-              "• Fermeture: 17:30 (heure FR)\n"
-              "• Dernière analyse: 17:15\n\n"
-              "⚠️ Pas de trading le week-end !",
-        inline=False
-    )
-
-    embed.set_footer(text="🔥 Trading Bot avec IA : Backtest + Trading Temps Réel avec horaires de marché")
 
     await ctx.send(embed=embed)
 
@@ -650,57 +555,108 @@ async def update_cash(ctx, amount: float = None):
 async def participer(ctx):
     """
     S'enregistre comme participant pour recevoir les signaux de trading
-    Exemple: !participer
+    Exemple: !reel_participer
     """
     user_id = ctx.author.id
     username = ctx.author.name
+    user = ctx.author
 
     # Vérifier si l'utilisateur est déjà enregistré
     if user_id in bot.participants_manager.participants:
+        # Envoyer en DM
         embed = discord.Embed(
             title="✅ Déjà Participant",
-            description=f"Tu es déjà enregistré comme participant !",
+            description=f"Tu es déjà enregistré !",
             color=0x00ff00,
             timestamp=datetime.now()
         )
 
-        # Afficher les infos du participant
         participant = bot.participants_manager.participants[user_id]
-        embed.add_field(name="Nom", value=username, inline=True)
         embed.add_field(name="Cash", value=f"${participant['cash']:.2f}", inline=True)
         embed.add_field(name="Positions", value=f"{len(participant['positions'])}", inline=True)
 
-        await ctx.send(embed=embed)
+        # Récupérer le channel s'il existe
+        channel_id = participant.get('private_channel_id')
+        if channel_id:
+            channel = bot.get_channel(channel_id)
+            if channel:
+                embed.add_field(name="Channel", value=f"<#{channel_id}>", inline=True)
+
+        try:
+            await user.send(embed=embed)
+            await ctx.message.add_reaction('✅')
+        except:
+            await ctx.send(f"{user.mention} Je ne peux pas t'envoyer de DM. Active les messages privés.", delete_after=10)
         return
 
-    # Enregistrer le nouveau participant
-    bot.participants_manager.add_participant(user_id, username, initial_cash=0.0)
+    # Créer un channel privé pour le participant
+    guild = ctx.guild
+    category = discord.utils.get(guild.categories, name="📊 Trading Signaux")
 
-    embed = discord.Embed(
-        title="🎉 Participant Enregistré",
-        description=f"Bienvenue {username} ! Tu recevras maintenant tous les signaux de trading.",
+    # Créer la catégorie si elle n'existe pas
+    if not category:
+        category = await guild.create_category("📊 Trading Signaux")
+
+    # Créer le channel privé
+    overwrites = {
+        guild.default_role: discord.PermissionOverwrite(read_messages=False),
+        user: discord.PermissionOverwrite(read_messages=True, send_messages=True),
+        guild.me: discord.PermissionOverwrite(read_messages=True, send_messages=True)
+    }
+
+    channel = await guild.create_text_channel(
+        name=f"signals-{username.lower()}",
+        category=category,
+        overwrites=overwrites,
+        topic=f"Signaux de trading privés pour {username}"
+    )
+
+    # Enregistrer le participant avec son channel
+    bot.participants_manager.add_participant(user_id, username, initial_cash=0.0)
+    bot.participants_manager.participants[user_id]['private_channel_id'] = channel.id
+    bot.participants_manager.save_state()
+
+    # Message dans le channel privé
+    channel_embed = discord.Embed(
+        title="🎉 Bienvenue sur ton Channel Privé !",
+        description=f"Salut {username} ! C'est ici que tu recevras tous les signaux de trading.",
         color=0x00ff00,
         timestamp=datetime.now()
     )
 
-    embed.add_field(
+    channel_embed.add_field(
         name="📝 Prochaines Étapes",
-        value="1️⃣ Utilise `!reel_cash <montant>` pour définir ton cash disponible\n"
-              "2️⃣ Attends les signaux du bot (tu seras pingé)\n"
-              "3️⃣ Execute les trades manuellement sur ta plateforme\n"
-              "4️⃣ Utilise `!reel_status` pour voir les positions du bot",
+        value="1️⃣ Utilise `!reel_cash <montant>` pour définir ton cash\n"
+              "2️⃣ Attends les signaux (tu seras pingé ici)\n"
+              "3️⃣ Exécute les trades manuellement\n"
+              "4️⃣ Utilise `!reel_status` pour voir les positions",
         inline=False
     )
 
-    embed.add_field(
-        name="💡 Info",
-        value=f"Cash actuel: $0.00\n"
-              f"Tu peux le mettre à jour avec `!reel_cash <montant>`",
+    channel_embed.add_field(
+        name="💰 Cash Actuel",
+        value="$0.00 - Utilise `!reel_cash <montant>` pour le définir",
         inline=False
     )
 
-    await ctx.send(embed=embed)
-    logger.info(f"[Discord] Nouveau participant enregistré: {username} (ID: {user_id})")
+    await channel.send(f"{user.mention}", embed=channel_embed)
+
+    # Envoyer en DM aussi
+    dm_embed = discord.Embed(
+        title="✅ Inscription Réussie !",
+        description=f"Tu es maintenant participant. Ton channel privé : <#{channel.id}>",
+        color=0x00ff00
+    )
+
+    try:
+        await user.send(embed=dm_embed)
+    except:
+        pass
+
+    # Réaction dans le channel public
+    await ctx.message.add_reaction('✅')
+
+    logger.info(f"[Discord] Participant enregistré: {username} (ID: {user_id}, Channel: {channel.id})")
 
 
 # Exporter pour que main.py puisse l'utiliser

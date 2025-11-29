@@ -112,7 +112,7 @@ class LiveTrader:
         await self.send_discord_notification(embed)
 
     async def send_daily_cash_reminder(self):
-        """Envoie un rappel quotidien à 23h pour mettre à jour le cash"""
+        """Envoie un rappel quotidien à 23h et 7h pour mettre à jour le cash"""
         if not self.discord_channel or not self.participants_manager:
             return
 
@@ -124,44 +124,34 @@ class LiveTrader:
 
         # Créer le message de rappel
         embed = discord.Embed(
-            title="💰 Rappel Quotidien - Mise à jour du Cash",
-            description=f"⏰ **Il est {datetime.now().strftime('%H')}h !** Mettez à jour votre cash disponible avec `!reel_cash <montant>`",
+            title="💰 Rappel - Mise à jour du Cash",
+            description=f"⏰ **Il est {datetime.now().strftime('%H')}h !** Met à jour ton cash avec `!reel_cash <montant>`",
             color=0xffa500,
             timestamp=datetime.now()
         )
 
-        # Lister les participants qui doivent update
-        participants_text = ""
-        mentions = []
-        for user_id, username, reason in participants_needing_update[:10]:  # Max 10
-            participants_text += f"• **{username}**: {reason}\n"
-            mentions.append(f"<@{user_id}>")
-
-        if len(participants_needing_update) > 10:
-            participants_text += f"\n... et {len(participants_needing_update) - 10} autres participants"
-
-        embed.add_field(
-            name=f"👥 {len(participants_needing_update)} participant(s) à jour à faire",
-            value=participants_text,
-            inline=False
-        )
-
         embed.add_field(
             name="📝 Instructions",
-            value="Utilisez `!reel_cash <montant>` pour mettre à jour votre cash disponible\n"
-                  "Exemple: `!reel_cash 5000`\n\n"
-                  "⚠️ **Important**: Si vous ne mettez pas à jour dans les 24h:\n"
-                  "• Rappel à nouveau demain à 23h\n"
-                  "• Encore un rappel à 7h le lendemain\n"
-                  "• Après ça, on continue avec votre ancien cash",
+            value="Utilise `!reel_cash 5000` pour définir ton cash\n\n"
+                  "⚠️ **Important**: Si tu ne mets pas à jour:\n"
+                  "• Rappel demain à 23h puis 7h\n"
+                  "• On continue avec ton ancien cash après",
             inline=False
         )
 
-        # Ping les participants
-        mentions_text = " ".join(mentions) + "\n\n"
+        # Envoyer dans le channel privé de chaque participant
+        for user_id, username, reason in participants_needing_update:
+            participant = self.participants_manager.participants[user_id]
+            channel_id = participant.get('private_channel_id')
 
-        await self.discord_channel.send(content=mentions_text, embed=embed)
-        logger.info(f"[LiveTrader] Rappel cash envoyé à {len(participants_needing_update)} participants")
+            if channel_id:
+                private_channel = self.discord_channel.guild.get_channel(channel_id)
+                if private_channel:
+                    embed_copy = embed.copy()
+                    embed_copy.add_field(name="Raison", value=reason, inline=False)
+                    await private_channel.send(content=f"<@{user_id}>", embed=embed_copy)
+
+        logger.info(f"[LiveTrader] Rappel cash envoyé à {len(participants_needing_update)} participants dans leurs channels privés")
 
     async def analyze_stock(self, symbol: str) -> Optional[Dict]:
         """
@@ -328,35 +318,23 @@ class LiveTrader:
                     inline=False
                 )
 
-                # Ping uniquement les participants avec du cash > 0
-                participants_ping = ""
-                participants_without_cash = []
+                # Envoyer dans les channels privés des participants avec cash > 0
                 if self.participants_manager:
                     participants_with_cash = self.participants_manager.get_participants_with_cash()
 
-                    if participants_with_cash:
-                        mentions = [f"<@{user_id}>" for user_id in participants_with_cash]
-                        participants_ping = " ".join(mentions) + "\n\n"
+                    for user_id in participants_with_cash:
+                        participant = self.participants_manager.participants[user_id]
+                        channel_id = participant.get('private_channel_id')
 
-                        # Marquer qu'ils ont maintenant cette position
-                        for user_id in participants_with_cash:
-                            self.participants_manager.add_position_to_participant(user_id, symbol)
+                        if channel_id:
+                            private_channel = self.discord_channel.guild.get_channel(channel_id)
+                            if private_channel:
+                                # Marquer qu'ils ont maintenant cette position
+                                self.participants_manager.add_position_to_participant(user_id, symbol)
 
-                    # Identifier les participants sans cash
-                    for user_id, participant in self.participants_manager.participants.items():
-                        if participant['cash'] <= 0:
-                            participants_without_cash.append(participant['username'])
-
-                # Ajouter une note si certains participants n'ont pas de cash
-                if participants_without_cash:
-                    embed.add_field(
-                        name="⚠️ Participants non pingés",
-                        value=f"Cash = 0: {', '.join(participants_without_cash[:5])}" +
-                              (f" et {len(participants_without_cash)-5} autres" if len(participants_without_cash) > 5 else ""),
-                        inline=False
-                    )
-
-                await self.discord_channel.send(content=participants_ping, embed=embed)
+                                # Envoyer dans leur channel privé
+                                await private_channel.send(content=f"<@{user_id}>", embed=embed)
+                                logger.info(f"[LiveTrader] Signal ACHAT envoyé à {participant['username']} dans son channel privé")
 
                 return True
 
@@ -404,35 +382,23 @@ class LiveTrader:
                     inline=False
                 )
 
-                # Ping uniquement les participants qui ont cette position
-                participants_ping = ""
-                participants_without_position = []
+                # Envoyer dans les channels privés des participants qui ont la position
                 if self.participants_manager:
                     participants_with_position = self.participants_manager.get_participants_with_position(symbol)
 
-                    if participants_with_position:
-                        mentions = [f"<@{user_id}>" for user_id in participants_with_position]
-                        participants_ping = " ".join(mentions) + "\n\n"
+                    for user_id in participants_with_position:
+                        participant = self.participants_manager.participants[user_id]
+                        channel_id = participant.get('private_channel_id')
 
-                        # Retirer la position de ces participants
-                        for user_id in participants_with_position:
-                            self.participants_manager.remove_position_from_participant(user_id, symbol)
+                        if channel_id:
+                            private_channel = self.discord_channel.guild.get_channel(channel_id)
+                            if private_channel:
+                                # Retirer la position de ce participant
+                                self.participants_manager.remove_position_from_participant(user_id, symbol)
 
-                    # Identifier les participants sans cette position
-                    for user_id, participant in self.participants_manager.participants.items():
-                        if symbol not in participant.get('positions', {}):
-                            participants_without_position.append(participant['username'])
-
-                # Ajouter une note si certains participants n'ont pas la position
-                if participants_without_position:
-                    embed.add_field(
-                        name="ℹ️ Participants non pingés",
-                        value=f"Pas de position sur {stock_name}: {', '.join(participants_without_position[:5])}" +
-                              (f" et {len(participants_without_position)-5} autres" if len(participants_without_position) > 5 else ""),
-                        inline=False
-                    )
-
-                await self.discord_channel.send(content=participants_ping, embed=embed)
+                                # Envoyer dans leur channel privé
+                                await private_channel.send(content=f"<@{user_id}>", embed=embed)
+                                logger.info(f"[LiveTrader] Signal VENTE envoyé à {participant['username']} dans son channel privé")
 
                 return True
 
