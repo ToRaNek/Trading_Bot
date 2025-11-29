@@ -9,7 +9,9 @@
       "Bash(reddit_test_output.txt)",
       "Bash(powershell -Command \"Get-Content trading_bot.log -Tail 100\")",
       "Bash(del:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

@@ -66,7 +66,7 @@ class TradingBot(commands.Bot):
 bot = TradingBot()
 
 
-@bot.command(name='backtest')
+@bot.command(name='reel_backtest')
 async def backtest(ctx, months: int = 6):
     """
     Backtest réaliste avec validation IA + Sentiment Reddit - ANALYSE QUOTIDIENNE
@@ -158,7 +158,7 @@ async def backtest(ctx, months: int = 6):
         await message.edit(content=f"❌ Erreur: {str(e)}")
 
 
-@bot.command(name='detail')
+@bot.command(name='reel_detail')
 async def detail(ctx, symbol: str, months: int = 6):
     """
     Backtest détaillé d'une action avec tous les trades
@@ -256,7 +256,7 @@ async def detail(ctx, symbol: str, months: int = 6):
         await message.edit(content=f"❌ Erreur: {str(e)}")
 
 
-@bot.command(name='aide')
+@bot.command(name='reel_aide')
 async def aide(ctx):
     """Affiche l'aide"""
     embed = discord.Embed(
@@ -274,48 +274,48 @@ async def aide(ctx):
     )
 
     embed.add_field(
-        name="⚡ **!start**",
+        name="⚡ **!reel_start**",
         value="Démarre le bot en mode temps réel\n"
               "• Analyses automatiques pendant les horaires de marché\n"
               "• **PING automatique** des participants sur chaque signal\n"
               "• Vous exécutez les trades **MANUELLEMENT**\n"
               "• Le bot garde trace des positions\n"
-              "• Tourne en continu jusqu'à `!stop`\n"
-              "Exemple: `!start`",
+              "• Tourne en continu jusqu'à `!reel_stop`\n"
+              "Exemple: `!reel_start`",
         inline=False
     )
 
     embed.add_field(
-        name="⏹️ **!stop**",
-        value="Arrête le bot en mode dry-run\n"
+        name="⏹️ **!reel_stop**",
+        value="Arrête le bot en mode temps réel\n"
               "Affiche les statistiques finales",
         inline=False
     )
 
     embed.add_field(
-        name="📊 **!status**",
+        name="📊 **!reel_status**",
         value="Affiche le statut du bot en temps réel\n"
               "Performance, positions, statistiques",
         inline=False
     )
 
     embed.add_field(
-        name="👥 **!participer**",
+        name="👥 **!reel_participer**",
         value="S'enregistre comme participant\n"
               "• Tu seras pingé sur chaque signal de trading\n"
-              "• Donne accès à la commande `!cash`\n"
+              "• Donne accès à la commande `!reel_cash`\n"
               "• Une seule fois par utilisateur\n"
-              "Exemple: `!participer`",
+              "Exemple: `!reel_participer`",
         inline=False
     )
 
     embed.add_field(
-        name="💰 **!cash [montant]**",
+        name="💰 **!reel_cash [montant]**",
         value="Gère ton cash disponible (participants uniquement)\n"
               "• Sans argument: affiche ton cash actuel\n"
               "• Avec montant: définit ton cash disponible\n"
               "• Permet au bot de te suggérer des montants\n"
-              "Exemple: `!cash 5000` (tu as 5000€ disponibles)",
+              "Exemple: `!reel_cash 5000` (tu as 5000€ disponibles)",
         inline=False
     )
 
@@ -327,19 +327,19 @@ async def aide(ctx):
     )
 
     embed.add_field(
-        name="⏱️ **!backtest [mois]**",
+        name="⏱️ **!reel_backtest [mois]**",
         value="Backtest quotidien avec validation multi-sources\n"
               "Analyse CHAQUE JOUR de trading (~20 jours/mois)\n"
               "Score composite : Tech + IA/News + Reddit\n"
-              "Exemple: `!backtest 6` (analyse ~120 jours)",
+              "Exemple: `!reel_backtest 6` (analyse ~120 jours)",
         inline=False
     )
 
     embed.add_field(
-        name="📊 **!detail [SYMBOL] [mois]**",
+        name="📊 **!reel_detail [SYMBOL] [mois]**",
         value="Backtest détaillé d'une action avec tous les trades\n"
               "Affiche les scores Tech, IA et Reddit pour chaque trade\n"
-              "Exemple: `!detail AAPL 6`",
+              "Exemple: `!reel_detail AAPL 6`",
         inline=False
     )
 
@@ -404,7 +404,7 @@ async def aide(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(name='start')
+@bot.command(name='reel_start')
 async def start(ctx):
     """
     Démarre le bot en mode temps réel (signaux manuels)
@@ -442,7 +442,7 @@ async def start(ctx):
     if num_participants == 0:
         embed.add_field(
             name="⚠️ Attention",
-            value="Aucun participant enregistré ! Utilisez `!participer` pour vous inscrire.",
+            value="Aucun participant enregistré ! Utilisez `!reel_participer` pour vous inscrire.",
             inline=False
         )
 
@@ -465,7 +465,7 @@ async def start(ctx):
     logger.info(f"[Discord] Bot démarré en temps réel par {ctx.author}")
 
 
-@bot.command(name='stop')
+@bot.command(name='reel_stop')
 async def stop_trading(ctx):
     """
     Arrête le bot en mode dry-run
@@ -495,7 +495,7 @@ async def stop_trading(ctx):
     logger.info(f"[Discord] Bot arrêté par {ctx.author}")
 
 
-@bot.command(name='status')
+@bot.command(name='reel_status')
 async def status(ctx):
     """
     Affiche le statut du bot en dry-run
@@ -592,7 +592,7 @@ async def status(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(name='cash')
+@bot.command(name='reel_cash')
 async def update_cash(ctx, amount: float = None):
     """
     Met à jour ton cash disponible (réservé aux participants)
@@ -605,7 +605,7 @@ async def update_cash(ctx, amount: float = None):
     if user_id not in bot.participants_manager.participants:
         embed = discord.Embed(
             title="❌ Non Participant",
-            description="Tu dois d'abord t'enregistrer avec `!participer`",
+            description="Tu dois d'abord t'enregistrer avec `!reel_participer`",
             color=0xff0000
         )
         await ctx.send(embed=embed)
@@ -646,7 +646,7 @@ async def update_cash(ctx, amount: float = None):
     logger.info(f"[Discord] Cash mis à jour pour {username}: ${amount:.2f}")
 
 
-@bot.command(name='participer')
+@bot.command(name='reel_participer')
 async def participer(ctx):
     """
     S'enregistre comme participant pour recevoir les signaux de trading
@@ -685,17 +685,17 @@ async def participer(ctx):
 
     embed.add_field(
         name="📝 Prochaines Étapes",
-        value="1️⃣ Utilise `!cash <montant>` pour définir ton cash disponible\n"
+        value="1️⃣ Utilise `!reel_cash <montant>` pour définir ton cash disponible\n"
               "2️⃣ Attends les signaux du bot (tu seras pingé)\n"
               "3️⃣ Execute les trades manuellement sur ta plateforme\n"
-              "4️⃣ Utilise `!status` pour voir les positions du bot",
+              "4️⃣ Utilise `!reel_status` pour voir les positions du bot",
         inline=False
     )
 
     embed.add_field(
         name="💡 Info",
         value=f"Cash actuel: $0.00\n"
-              f"Tu peux le mettre à jour avec `!cash <montant>`",
+              f"Tu peux le mettre à jour avec `!reel_cash <montant>`",
         inline=False
     )
 

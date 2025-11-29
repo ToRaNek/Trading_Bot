@@ -125,7 +125,7 @@ class LiveTrader:
         # Créer le message de rappel
         embed = discord.Embed(
             title="💰 Rappel Quotidien - Mise à jour du Cash",
-            description=f"⏰ **Il est 23h !** Mettez à jour votre cash disponible avec `!cash <montant>`",
+            description=f"⏰ **Il est {datetime.now().strftime('%H')}h !** Mettez à jour votre cash disponible avec `!reel_cash <montant>`",
             color=0xffa500,
             timestamp=datetime.now()
         )
@@ -148,8 +148,8 @@ class LiveTrader:
 
         embed.add_field(
             name="📝 Instructions",
-            value="Utilisez `!cash <montant>` pour mettre à jour votre cash disponible\n"
-                  "Exemple: `!cash 5000`\n\n"
+            value="Utilisez `!reel_cash <montant>` pour mettre à jour votre cash disponible\n"
+                  "Exemple: `!reel_cash 5000`\n\n"
                   "⚠️ **Important**: Si vous ne mettez pas à jour dans les 24h:\n"
                   "• Rappel à nouveau demain à 23h\n"
                   "• Encore un rappel à 7h le lendemain\n"
