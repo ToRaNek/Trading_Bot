@@ -8,7 +8,8 @@
       "Bash(mkdir:*)",
       "Bash(reddit_test_output.txt)",
       "Bash(powershell -Command \"Get-Content trading_bot.log -Tail 100\")",
-      "Bash(del:*)"
+      "Bash(del:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

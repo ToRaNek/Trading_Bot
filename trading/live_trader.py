@@ -13,6 +13,7 @@ import discord
 from .portfolio import Portfolio
 from analyzers import TechnicalAnalyzer, HistoricalNewsAnalyzer, RedditSentimentAnalyzer
 from config import WATCHLIST, VALIDATION_THRESHOLD
+from utils import MarketHours, StockInfo
 import os
 
 logger = logging.getLogger('TradingBot')
@@ -42,6 +43,7 @@ class LiveTrader:
         self.watchlist = watchlist or WATCHLIST
         self.discord_channel = discord_channel
         self.is_running = False
+        self.participants_manager = None  # Sera défini par le bot Discord
 
         # Initialiser les analyseurs
         self.tech_analyzer = TechnicalAnalyzer()
@@ -109,6 +111,58 @@ class LiveTrader:
 
         await self.send_discord_notification(embed)
 
+    async def send_daily_cash_reminder(self):
+        """Envoie un rappel quotidien à 23h pour mettre à jour le cash"""
+        if not self.discord_channel or not self.participants_manager:
+            return
+
+        participants_needing_update = self.participants_manager.get_participants_needing_cash_update()
+
+        if not participants_needing_update:
+            logger.info("[LiveTrader] Tous les participants ont un cash à jour ✅")
+            return
+
+        # Créer le message de rappel
+        embed = discord.Embed(
+            title="💰 Rappel Quotidien - Mise à jour du Cash",
+            description=f"⏰ **Il est 23h !** Mettez à jour votre cash disponible avec `!cash <montant>`",
+            color=0xffa500,
+            timestamp=datetime.now()
+        )
+
+        # Lister les participants qui doivent update
+        participants_text = ""
+        mentions = []
+        for user_id, username, reason in participants_needing_update[:10]:  # Max 10
+            participants_text += f"• **{username}**: {reason}\n"
+            mentions.append(f"<@{user_id}>")
+
+        if len(participants_needing_update) > 10:
+            participants_text += f"\n... et {len(participants_needing_update) - 10} autres participants"
+
+        embed.add_field(
+            name=f"👥 {len(participants_needing_update)} participant(s) à jour à faire",
+            value=participants_text,
+            inline=False
+        )
+
+        embed.add_field(
+            name="📝 Instructions",
+            value="Utilisez `!cash <montant>` pour mettre à jour votre cash disponible\n"
+                  "Exemple: `!cash 5000`\n\n"
+                  "⚠️ **Important**: Si vous ne mettez pas à jour dans les 24h:\n"
+                  "• Rappel à nouveau demain à 23h\n"
+                  "• Encore un rappel à 7h le lendemain\n"
+                  "• Après ça, on continue avec votre ancien cash",
+            inline=False
+        )
+
+        # Ping les participants
+        mentions_text = " ".join(mentions) + "\n\n"
+
+        await self.discord_channel.send(content=mentions_text, embed=embed)
+        logger.info(f"[LiveTrader] Rappel cash envoyé à {len(participants_needing_update)} participants")
+
     async def analyze_stock(self, symbol: str) -> Optional[Dict]:
         """
         Analyse une action en temps réel
@@ -117,7 +171,14 @@ class LiveTrader:
             Dict avec les scores et la décision, ou None si erreur
         """
         try:
-            logger.info(f"\n[LiveTrader] 📊 Analyse de {symbol}")
+            # Vérifier si le marché est ouvert et si on peut trader
+            can_trade, reason = MarketHours.can_trade_now(symbol)
+
+            if not can_trade:
+                logger.info(f"[LiveTrader] {symbol} ({StockInfo.get_full_name(symbol)}): {reason}")
+                return None
+
+            logger.info(f"\n[LiveTrader] 📊 Analyse de {symbol} ({StockInfo.get_full_name(symbol)})")
 
             # 1. Récupérer les données de prix récentes (14 jours pour avoir assez de points horaires)
             stock = yf.Ticker(symbol)
@@ -242,21 +303,60 @@ class LiveTrader:
                 self.validated_trades += 1
                 logger.info(f"[LiveTrader] ✅ ACHAT VALIDÉ: {shares} {symbol} @ ${price:.2f}")
 
-                # Notification Discord
+                # Notification Discord avec ping des participants
+                stock_name = StockInfo.get_full_name(symbol)
                 embed = discord.Embed(
-                    title=f"🟢 ACHAT: {symbol}",
-                    description=f"Trade validé par l'IA",
+                    title=f"🟢 SIGNAL ACHAT: {stock_name}",
+                    description=f"✅ **Signal validé par l'IA** | Ticker: {symbol}\n\n"
+                               f"⚠️ **Exécutez ce trade MANUELLEMENT sur votre plateforme**",
                     color=0x00ff00,
                     timestamp=decision['timestamp']
                 )
-                embed.add_field(name="Prix", value=f"${price:.2f}", inline=True)
-                embed.add_field(name="Quantité", value=f"{shares}", inline=True)
-                embed.add_field(name="Coût", value=f"${price*shares:.2f}", inline=True)
-                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=False)
+                embed.add_field(name="📌 Action", value=f"**ACHETER {stock_name}**", inline=False)
+                embed.add_field(name="💰 Prix actuel", value=f"${price:.2f}", inline=True)
+                embed.add_field(name="📊 Quantité suggérée (bot)", value=f"{shares:.4f}", inline=True)
+                embed.add_field(name="💵 Coût total (bot)", value=f"${price*shares:.2f}", inline=True)
+                embed.add_field(name="🔍 Score Technique", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="⭐ Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=True)
+                embed.add_field(
+                    name="📝 Instructions",
+                    value=f"1️⃣ Ouvrez votre plateforme de trading\n"
+                          f"2️⃣ Cherchez **{stock_name}** (ticker: {symbol})\n"
+                          f"3️⃣ Achetez selon votre cash disponible\n"
+                          f"4️⃣ Le bot garde trace de la position",
+                    inline=False
+                )
 
-                await self.send_discord_notification(embed)
+                # Ping uniquement les participants avec du cash > 0
+                participants_ping = ""
+                participants_without_cash = []
+                if self.participants_manager:
+                    participants_with_cash = self.participants_manager.get_participants_with_cash()
+
+                    if participants_with_cash:
+                        mentions = [f"<@{user_id}>" for user_id in participants_with_cash]
+                        participants_ping = " ".join(mentions) + "\n\n"
+
+                        # Marquer qu'ils ont maintenant cette position
+                        for user_id in participants_with_cash:
+                            self.participants_manager.add_position_to_participant(user_id, symbol)
+
+                    # Identifier les participants sans cash
+                    for user_id, participant in self.participants_manager.participants.items():
+                        if participant['cash'] <= 0:
+                            participants_without_cash.append(participant['username'])
+
+                # Ajouter une note si certains participants n'ont pas de cash
+                if participants_without_cash:
+                    embed.add_field(
+                        name="⚠️ Participants non pingés",
+                        value=f"Cash = 0: {', '.join(participants_without_cash[:5])}" +
+                              (f" et {len(participants_without_cash)-5} autres" if len(participants_without_cash) > 5 else ""),
+                        inline=False
+                    )
+
+                await self.discord_channel.send(content=participants_ping, embed=embed)
 
                 return True
 
@@ -277,22 +377,62 @@ class LiveTrader:
                 # Calculer le profit pour la notification
                 last_trade = self.portfolio.trades_history[-1]
 
-                # Notification Discord
+                # Notification Discord avec ping des participants
+                stock_name = StockInfo.get_full_name(symbol)
+                profit_emoji = "📈" if last_trade['profit'] > 0 else "📉"
                 embed = discord.Embed(
-                    title=f"🔴 VENTE: {symbol}",
-                    description=f"Trade validé par l'IA",
+                    title=f"🔴 SIGNAL VENTE: {stock_name}",
+                    description=f"✅ **Signal validé par l'IA** | Ticker: {symbol}\n\n"
+                               f"⚠️ **Exécutez ce trade MANUELLEMENT sur votre plateforme**",
                     color=0xff0000 if last_trade['profit'] < 0 else 0x00ff00,
                     timestamp=decision['timestamp']
                 )
-                embed.add_field(name="Prix", value=f"${price:.2f}", inline=True)
-                embed.add_field(name="Quantité", value=f"{last_trade['shares']}", inline=True)
-                embed.add_field(name="Gain", value=f"${last_trade['proceeds']:.2f}", inline=True)
-                embed.add_field(name="Profit", value=f"${last_trade['profit']:.2f} ({last_trade['profit_pct']:+.2f}%)", inline=False)
-                embed.add_field(name="Score Tech", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=False)
+                embed.add_field(name="📌 Action", value=f"**VENDRE {stock_name}**", inline=False)
+                embed.add_field(name="💰 Prix actuel", value=f"${price:.2f}", inline=True)
+                embed.add_field(name="📊 Quantité (bot)", value=f"{last_trade['shares']:.4f}", inline=True)
+                embed.add_field(name="💵 Valeur totale", value=f"${last_trade['proceeds']:.2f}", inline=True)
+                embed.add_field(name=f"{profit_emoji} Profit (bot)", value=f"**${last_trade['profit']:.2f}** ({last_trade['profit_pct']:+.2f}%)", inline=False)
+                embed.add_field(name="🔍 Score Technique", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="⭐ Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=True)
+                embed.add_field(
+                    name="📝 Instructions",
+                    value=f"1️⃣ Ouvrez votre plateforme de trading\n"
+                          f"2️⃣ Cherchez **{stock_name}** (ticker: {symbol})\n"
+                          f"3️⃣ Vendez votre position complète\n"
+                          f"4️⃣ Le bot ferme également sa position",
+                    inline=False
+                )
 
-                await self.send_discord_notification(embed)
+                # Ping uniquement les participants qui ont cette position
+                participants_ping = ""
+                participants_without_position = []
+                if self.participants_manager:
+                    participants_with_position = self.participants_manager.get_participants_with_position(symbol)
+
+                    if participants_with_position:
+                        mentions = [f"<@{user_id}>" for user_id in participants_with_position]
+                        participants_ping = " ".join(mentions) + "\n\n"
+
+                        # Retirer la position de ces participants
+                        for user_id in participants_with_position:
+                            self.participants_manager.remove_position_from_participant(user_id, symbol)
+
+                    # Identifier les participants sans cette position
+                    for user_id, participant in self.participants_manager.participants.items():
+                        if symbol not in participant.get('positions', {}):
+                            participants_without_position.append(participant['username'])
+
+                # Ajouter une note si certains participants n'ont pas la position
+                if participants_without_position:
+                    embed.add_field(
+                        name="ℹ️ Participants non pingés",
+                        value=f"Pas de position sur {stock_name}: {', '.join(participants_without_position[:5])}" +
+                              (f" et {len(participants_without_position)-5} autres" if len(participants_without_position) > 5 else ""),
+                        inline=False
+                    )
+
+                await self.discord_channel.send(content=participants_ping, embed=embed)
 
                 return True
 
@@ -328,9 +468,10 @@ class LiveTrader:
                     self.portfolio.sell(symbol, current_price, timestamp=datetime.now())
 
                     # Notification Discord
+                    stock_name = StockInfo.get_full_name(symbol)
                     embed = discord.Embed(
-                        title=f"⛔ STOP LOSS: {symbol}",
-                        description=f"Position fermée automatiquement",
+                        title=f"⛔ STOP LOSS: {stock_name}",
+                        description=f"Position fermée automatiquement | Ticker: {symbol}",
                         color=0xff0000,
                         timestamp=datetime.now()
                     )
@@ -346,9 +487,10 @@ class LiveTrader:
                     self.portfolio.sell(symbol, current_price, timestamp=datetime.now())
 
                     # Notification Discord
+                    stock_name = StockInfo.get_full_name(symbol)
                     embed = discord.Embed(
-                        title=f"💰 TAKE PROFIT: {symbol}",
-                        description=f"Position fermée automatiquement",
+                        title=f"💰 TAKE PROFIT: {stock_name}",
+                        description=f"Position fermée automatiquement | Ticker: {symbol}",
                         color=0x00ff00,
                         timestamp=datetime.now()
                     )
@@ -425,24 +567,28 @@ class LiveTrader:
 
         logger.info("\n" + "="*80 + "\n")
 
-    async def start(self, duration_days: int = 90):
+    async def start(self, duration_days: int = None):
         """
         Démarre le trading en temps réel
 
         Args:
-            duration_days: Durée du dry-run en jours (par défaut: 90 jours = 3 mois)
+            duration_days: Durée du dry-run en jours (None = en continu jusqu'à !stop)
         """
         self.is_running = True
 
         # Forcer la recréation de la session Reddit avec les nouveaux headers
         await self.reddit_analyzer.reset_session()
 
-        logger.info(f"\n🚀 [LiveTrader] DÉMARRAGE DU BOT EN DRY-RUN")
-        logger.info(f"   • Capital initial: ${self.portfolio.initial_cash:.2f}")
-        logger.info(f"   • Durée: {duration_days} jours")
+        mode_text = f"{duration_days} jours" if duration_days else "en continu (jusqu'à !stop)"
+
+        logger.info(f"\n🚀 [LiveTrader] DÉMARRAGE DU BOT EN TEMPS RÉEL")
+        logger.info(f"   • Capital bot: ${self.portfolio.initial_cash:.2f}")
+        logger.info(f"   • Positions sauvegardées: {len(self.portfolio.positions)}")
+        logger.info(f"   • Mode: {mode_text}")
         logger.info(f"   • Watchlist: {len(self.watchlist)} actions")
         logger.info(f"   • Heartbeat Discord: Toutes les 15 min (sauf :30)")
         logger.info(f"   • Analyses marché: À :30 de chaque heure")
+        logger.info(f"   • Horaires: US 15:30-21:45 / FR 09:00-17:15")
         logger.info(f"   • Seuil validation: {self.validation_threshold}/100")
         logger.info(f"   • Stop Loss: {self.stop_loss_pct}%")
         logger.info(f"   • Take Profit: {self.take_profit_pct}%")
@@ -450,34 +596,43 @@ class LiveTrader:
         # Notification Discord de démarrage
         embed = discord.Embed(
             title="🚀 BOT DÉMARRÉ",
-            description=f"Trading en dry-run pendant {duration_days} jours",
+            description=f"Trading en temps réel {mode_text}\n\n"
+                       f"✅ Positions restaurées: {len(self.portfolio.positions)}",
             color=0x00ff00,
             timestamp=datetime.now()
         )
-        embed.add_field(name="Capital", value=f"${self.portfolio.initial_cash:.2f}", inline=True)
+        embed.add_field(name="Capital (bot)", value=f"${self.portfolio.initial_cash:.2f}", inline=True)
         embed.add_field(name="Actions", value=f"{len(self.watchlist)}", inline=True)
         embed.add_field(name="Seuil", value=f"{self.validation_threshold}/100", inline=True)
         embed.add_field(name="Heartbeat", value="Toutes les 15min", inline=True)
         embed.add_field(name="Analyses", value="À :30 de chaque heure", inline=True)
+        embed.add_field(name="Mode", value=mode_text, inline=True)
 
         await self.send_discord_notification(embed)
 
-        end_date = datetime.now() + timedelta(days=duration_days)
+        end_date = datetime.now() + timedelta(days=duration_days) if duration_days else None
 
         try:
-            while self.is_running and datetime.now() < end_date:
+            while self.is_running and (end_date is None or datetime.now() < end_date):
                 now = datetime.now()
                 current_minute = now.minute
+                current_hour = now.hour
+
+                # Rappel cash quotidien à 23:00 et 7:00
+                if (current_hour == 23 or current_hour == 7) and current_minute == 0:
+                    logger.info(f"\n💰 {now.strftime('%H:%M')} - Rappel cash")
+                    await self.send_daily_cash_reminder()
+                    await asyncio.sleep(60)
 
                 # Analyses de marché : uniquement à :30
-                if current_minute == 30:
+                elif current_minute == 30:
                     logger.info(f"\n⏰ {now.strftime('%H:%M')} - Déclenchement de l'analyse de marché")
                     await self.hourly_analysis()
                     # Attendre 60 secondes pour ne pas retriggerer à :30
                     await asyncio.sleep(60)
 
                 # Heartbeat Discord : à :00, :15, :45 (PAS à :30)
-                elif current_minute in [0, 15, 45]:
+                elif current_minute in [0, 15, 45] and current_hour != 23:  # Pas à 23h (déjà utilisé)
                     logger.info(f"\n💓 {now.strftime('%H:%M')} - Heartbeat Discord")
                     await self.send_heartbeat()
                     # Attendre 60 secondes pour ne pas retriggerer

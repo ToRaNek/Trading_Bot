@@ -1,0 +1,14 @@
+{
+  "participants": {
+    "123": {
+      "username": "TestUser",
+      "cash": 0,
+      "positions": {},
+      "total_invested": 0.0,
+      "total_profit": 0.0,
+      "last_cash_update": null,
+      "needs_cash_update": true
+    }
+  },
+  "current_cash_pool": 0.0
+}

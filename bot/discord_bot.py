@@ -14,6 +14,8 @@ from datetime import datetime
 from backtest import RealisticBacktestEngine
 from config import WATCHLIST
 from trading import LiveTrader
+from trading.participants import ParticipantsManager
+from utils import StockInfo
 
 logger = logging.getLogger('TradingBot')
 
@@ -46,6 +48,9 @@ class TradingBot(commands.Bot):
         # Live trader pour le mode dry-run
         self.live_trader = None
         self.live_trader_task = None
+
+        # Gestionnaire de participants pour le trading manuel
+        self.participants_manager = ParticipantsManager()
 
     async def on_ready(self):
         logger.info(f'{self.user} connecté!')
@@ -256,25 +261,27 @@ async def aide(ctx):
     """Affiche l'aide"""
     embed = discord.Embed(
         title="📚 Guide des Commandes",
-        description="Bot de Trading avec Backtest Réaliste, Validation IA et Trading en Temps Réel",
+        description="Bot de Trading avec Backtest Réaliste, Validation IA et Trading en Temps Réel\n"
+                   "**NOUVEAU**: Trading avec respect des horaires de marché !",
         color=0x00ffff
     )
 
     # SECTION 1: Trading en temps réel
     embed.add_field(
-        name="🚀 **TRADING EN TEMPS RÉEL (DRY-RUN)**",
+        name="🚀 **TRADING EN TEMPS RÉEL**",
         value="━━━━━━━━━━━━━━━━━━━━━━━━━",
         inline=False
     )
 
     embed.add_field(
-        name="⚡ **!start [jours]**",
-        value="Démarre le bot en mode trading simulé\n"
-              "• Capital initial: $1000\n"
-              "• Analyses automatiques toutes les heures\n"
-              "• News + Reddit + Technique\n"
-              "• Notifications pour chaque trade\n"
-              "Exemple: `!start 90` (3 mois)",
+        name="⚡ **!start**",
+        value="Démarre le bot en mode temps réel\n"
+              "• Analyses automatiques pendant les horaires de marché\n"
+              "• **PING automatique** des participants sur chaque signal\n"
+              "• Vous exécutez les trades **MANUELLEMENT**\n"
+              "• Le bot garde trace des positions\n"
+              "• Tourne en continu jusqu'à `!stop`\n"
+              "Exemple: `!start`",
         inline=False
     )
 
@@ -289,6 +296,26 @@ async def aide(ctx):
         name="📊 **!status**",
         value="Affiche le statut du bot en temps réel\n"
               "Performance, positions, statistiques",
+        inline=False
+    )
+
+    embed.add_field(
+        name="👥 **!participer**",
+        value="S'enregistre comme participant\n"
+              "• Tu seras pingé sur chaque signal de trading\n"
+              "• Donne accès à la commande `!cash`\n"
+              "• Une seule fois par utilisateur\n"
+              "Exemple: `!participer`",
+        inline=False
+    )
+
+    embed.add_field(
+        name="💰 **!cash [montant]**",
+        value="Gère ton cash disponible (participants uniquement)\n"
+              "• Sans argument: affiche ton cash actuel\n"
+              "• Avec montant: définit ton cash disponible\n"
+              "• Permet au bot de te suggérer des montants\n"
+              "Exemple: `!cash 5000` (tu as 5000€ disponibles)",
         inline=False
     )
 
@@ -318,16 +345,19 @@ async def aide(ctx):
 
     embed.add_field(
         name="🤖 **Comment ça marche?**",
-        value="1️⃣ Analyse technique AMÉLIORÉE (système de confluence)\n"
+        value="1️⃣ **Vérification horaires de marché**\n"
+              "   • US: 15:30-21:45 (heure FR)\n"
+              "   • France: 09:00-17:15 (heure FR)\n"
+              "   • Pas de trading hors horaires !\n"
+              "2️⃣ Analyse technique AMÉLIORÉE (système de confluence)\n"
               "   • RSI, MACD, SMA, Bollinger, Volume (score 0-100)\n"
-              "2️⃣ Le bot décide: BUY, SELL ou HOLD\n"
-              "3️⃣ Si BUY/SELL: récupération News + Reddit\n"
-              "4️⃣ Score composite pondéré:\n"
-              "   • Technique: 40%\n"
-              "   • IA/News: 35%\n"
-              "   • Reddit: 25%\n"
-              "5️⃣ Si score final > 65, le trade est exécuté ✅\n"
-              "6️⃣ Sinon, le trade est rejeté ❌",
+              "3️⃣ Le bot décide: BUY, SELL ou HOLD\n"
+              "4️⃣ Si BUY/SELL: récupération News + Reddit\n"
+              "5️⃣ Score composite pondéré:\n"
+              "   • Technique: 50%\n"
+              "   • IA/News: 50%\n"
+              "6️⃣ Si score final > 65, le trade est exécuté ✅\n"
+              "7️⃣ Sinon, le trade est rejeté ❌",
         inline=False
     )
 
@@ -342,7 +372,9 @@ async def aide(ctx):
 
     embed.add_field(
         name="💡 **Avantages**",
-        value="✅ Système technique amélioré avec confluence\n"
+        value="✅ Respect des horaires de marché (US/FR)\n"
+              "✅ Noms complets des actions (pas que les tickers)\n"
+              "✅ Système technique amélioré avec confluence\n"
               "✅ Simulation temps réel (analyse quotidienne)\n"
               "✅ Actualités historiques pour chaque jour\n"
               "✅ Sentiment Reddit en temps réel\n"
@@ -353,61 +385,84 @@ async def aide(ctx):
         inline=False
     )
 
-    embed.set_footer(text="🔥 Trading Bot avec IA : Backtest + Trading en Temps Réel")
+    embed.add_field(
+        name="🕐 **Horaires de Trading**",
+        value="**Marchés US** (NVDA, AAPL, etc.)\n"
+              "• Ouverture: 15:30 (heure FR)\n"
+              "• Fermeture: 22:00 (heure FR)\n"
+              "• Dernière analyse: 21:45\n\n"
+              "**Marchés France** (MC.PA, OR.PA, etc.)\n"
+              "• Ouverture: 09:00 (heure FR)\n"
+              "• Fermeture: 17:30 (heure FR)\n"
+              "• Dernière analyse: 17:15\n\n"
+              "⚠️ Pas de trading le week-end !",
+        inline=False
+    )
+
+    embed.set_footer(text="🔥 Trading Bot avec IA : Backtest + Trading Temps Réel avec horaires de marché")
 
     await ctx.send(embed=embed)
 
 
 @bot.command(name='start')
-async def start(ctx, days: int = 90):
+async def start(ctx):
     """
-    Démarre le bot en mode dry-run (trading simulé)
-    Le bot va analyser les actions toutes les heures et trader automatiquement
-    Exemple: !start 90 (démarre pour 90 jours = 3 mois)
+    Démarre le bot en mode temps réel (signaux manuels)
+    Le bot analyse les actions et envoie des signaux aux participants
+    Exemple: !start
     """
     if bot.live_trader and bot.live_trader.is_running:
         await ctx.send("❌ Le bot est déjà en cours d'exécution. Utilisez `!stop` pour l'arrêter d'abord.")
         return
 
-    if days < 1 or days > 365:
-        await ctx.send("❌ Durée invalide. Utilisez entre 1 et 365 jours.")
-        return
+    # Compter les participants
+    num_participants = len(bot.participants_manager.participants)
 
     embed = discord.Embed(
-        title="🚀 Démarrage du Bot en Dry-Run",
-        description=f"Le bot va trader automatiquement pendant **{days} jours**",
+        title="🚀 Démarrage du Bot en Temps Réel",
+        description=f"Le bot va analyser le marché et envoyer des signaux de trading",
         color=0x00ff00
     )
-    embed.add_field(name="💰 Capital initial", value="$1000", inline=True)
+    embed.add_field(name="👥 Participants", value=f"{num_participants}", inline=True)
     embed.add_field(name="📊 Watchlist", value=f"{len(WATCHLIST)} actions", inline=True)
-    embed.add_field(name="⏰ Fréquence", value="Toutes les heures", inline=True)
-    embed.add_field(name="🤖 Analyses", value="Tech + News + Reddit", inline=True)
-    embed.add_field(name="🎯 Seuil validation", value="65/100", inline=True)
-    embed.add_field(name="📈 Stop Loss / Take Profit", value="-4% / +16%", inline=True)
+    embed.add_field(name="⏰ Analyses", value="Toutes les heures", inline=True)
+    embed.add_field(name="🕐 Horaires", value="US: 15:30-21:45\nFR: 09:00-17:15", inline=True)
+    embed.add_field(name="🤖 Sources", value="Tech + News + Reddit", inline=True)
+    embed.add_field(name="🎯 Seuil", value="65/100", inline=True)
     embed.add_field(
-        name="ℹ️ Informations",
-        value="Le bot va:\n"
-              "• Analyser chaque action toutes les heures\n"
-              "• Récupérer les news et posts Reddit du jour\n"
-              "• Prendre des décisions d'achat/vente automatiquement\n"
-              "• Gérer un portefeuille simulé de $1000\n"
-              "• Envoyer des notifications pour chaque trade",
+        name="ℹ️ Fonctionnement",
+        value="• Le bot analyse chaque action pendant les horaires de marché\n"
+              "• Quand un signal BUY/SELL est validé, **tous les participants sont pingés**\n"
+              "• Vous exécutez les trades **manuellement** sur votre plateforme\n"
+              "• Le bot garde une trace des positions pour les prochains signaux\n"
+              "• Vous pouvez redémarrer le bot sans perdre les positions",
         inline=False
     )
 
+    if num_participants == 0:
+        embed.add_field(
+            name="⚠️ Attention",
+            value="Aucun participant enregistré ! Utilisez `!participer` pour vous inscrire.",
+            inline=False
+        )
+
     await ctx.send(embed=embed)
 
-    # Créer et démarrer le live trader
+    # Créer et démarrer le live trader avec restauration de l'état
     bot.live_trader = LiveTrader(
         initial_cash=1000.0,
         watchlist=WATCHLIST,
-        discord_channel=ctx.channel
+        discord_channel=ctx.channel,
+        portfolio_file='portfolio_temps_reel.json'  # Fichier de persistance
     )
 
-    # Lancer le trader dans une tâche asynchrone
-    bot.live_trader_task = bot.loop.create_task(bot.live_trader.start(duration_days=days))
+    # Connecter le participants manager au trader
+    bot.live_trader.participants_manager = bot.participants_manager
 
-    logger.info(f"[Discord] Bot démarré en dry-run pour {days} jours par {ctx.author}")
+    # Lancer le trader dans une tâche asynchrone (en continu, pas de durée)
+    bot.live_trader_task = bot.loop.create_task(bot.live_trader.start(duration_days=None))
+
+    logger.info(f"[Discord] Bot démarré en temps réel par {ctx.author}")
 
 
 @bot.command(name='stop')
@@ -535,6 +590,117 @@ async def status(ctx):
         )
 
     await ctx.send(embed=embed)
+
+
+@bot.command(name='cash')
+async def update_cash(ctx, amount: float = None):
+    """
+    Met à jour ton cash disponible (réservé aux participants)
+    Exemple: !cash 5000 (définit que tu as 5000€ disponibles)
+    """
+    user_id = ctx.author.id
+    username = ctx.author.name
+
+    # Vérifier que l'utilisateur est un participant
+    if user_id not in bot.participants_manager.participants:
+        embed = discord.Embed(
+            title="❌ Non Participant",
+            description="Tu dois d'abord t'enregistrer avec `!participer`",
+            color=0xff0000
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if amount is None:
+        # Afficher le cash actuel de l'utilisateur
+        participant = bot.participants_manager.participants[user_id]
+        embed = discord.Embed(
+            title="💰 Ton Cash",
+            description=f"Voici ton cash disponible",
+            color=0x00ff00
+        )
+        embed.add_field(name="Cash disponible", value=f"${participant['cash']:.2f}", inline=True)
+        embed.add_field(name="Positions", value=f"{len(participant['positions'])}", inline=True)
+        embed.add_field(name="Profit total", value=f"${participant['total_profit']:+.2f}", inline=True)
+
+        await ctx.send(embed=embed)
+        return
+
+    if amount < 0:
+        await ctx.send("❌ Le montant doit être positif.")
+        return
+
+    # Mettre à jour le cash de l'utilisateur
+    bot.participants_manager.update_cash(user_id, amount)
+
+    embed = discord.Embed(
+        title="💰 Cash Mis à Jour",
+        description=f"Ton cash a été défini à **${amount:.2f}**",
+        color=0x00ff00,
+        timestamp=datetime.now()
+    )
+    embed.add_field(name="Participant", value=ctx.author.mention, inline=True)
+    embed.add_field(name="Nouveau cash", value=f"${amount:.2f}", inline=True)
+
+    await ctx.send(embed=embed)
+    logger.info(f"[Discord] Cash mis à jour pour {username}: ${amount:.2f}")
+
+
+@bot.command(name='participer')
+async def participer(ctx):
+    """
+    S'enregistre comme participant pour recevoir les signaux de trading
+    Exemple: !participer
+    """
+    user_id = ctx.author.id
+    username = ctx.author.name
+
+    # Vérifier si l'utilisateur est déjà enregistré
+    if user_id in bot.participants_manager.participants:
+        embed = discord.Embed(
+            title="✅ Déjà Participant",
+            description=f"Tu es déjà enregistré comme participant !",
+            color=0x00ff00,
+            timestamp=datetime.now()
+        )
+
+        # Afficher les infos du participant
+        participant = bot.participants_manager.participants[user_id]
+        embed.add_field(name="Nom", value=username, inline=True)
+        embed.add_field(name="Cash", value=f"${participant['cash']:.2f}", inline=True)
+        embed.add_field(name="Positions", value=f"{len(participant['positions'])}", inline=True)
+
+        await ctx.send(embed=embed)
+        return
+
+    # Enregistrer le nouveau participant
+    bot.participants_manager.add_participant(user_id, username, initial_cash=0.0)
+
+    embed = discord.Embed(
+        title="🎉 Participant Enregistré",
+        description=f"Bienvenue {username} ! Tu recevras maintenant tous les signaux de trading.",
+        color=0x00ff00,
+        timestamp=datetime.now()
+    )
+
+    embed.add_field(
+        name="📝 Prochaines Étapes",
+        value="1️⃣ Utilise `!cash <montant>` pour définir ton cash disponible\n"
+              "2️⃣ Attends les signaux du bot (tu seras pingé)\n"
+              "3️⃣ Execute les trades manuellement sur ta plateforme\n"
+              "4️⃣ Utilise `!status` pour voir les positions du bot",
+        inline=False
+    )
+
+    embed.add_field(
+        name="💡 Info",
+        value=f"Cash actuel: $0.00\n"
+              f"Tu peux le mettre à jour avec `!cash <montant>`",
+        inline=False
+    )
+
+    await ctx.send(embed=embed)
+    logger.info(f"[Discord] Nouveau participant enregistré: {username} (ID: {user_id})")
 
 
 # Exporter pour que main.py puisse l'utiliser
