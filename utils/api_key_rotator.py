@@ -11,13 +11,15 @@ logger = logging.getLogger('TradingBot')
 class APIKeyRotator:
     """Gère la rotation des clés API depuis un fichier CSV"""
 
-    def __init__(self, csv_path: str = None):
+    def __init__(self, csv_path: str = None, key_column: str = 'newsapi_key', env_var: str = 'NEWSAPI_KEY'):
         """
         Initialise le rotateur de clés API
 
         Args:
             csv_path: Chemin vers le fichier CSV contenant les clés
-                     Format: une colonne 'newsapi_key' avec une clé par ligne
+                     Format: une colonne avec une clé par ligne
+            key_column: Nom de la colonne contenant les clés (ex: 'newsapi_key', 'finnhub_key')
+            env_var: Nom de la variable d'environnement comme fallback (ex: 'NEWSAPI_KEY', 'FINNHUB_KEY')
         """
         if csv_path is None:
             # Par défaut, chercher api_keys.csv dans le dossier Trading_Bot
@@ -25,6 +27,8 @@ class APIKeyRotator:
             csv_path = os.path.join(base_dir, 'api_keys.csv')
 
         self.csv_path = csv_path
+        self.key_column = key_column
+        self.env_var = env_var
         self.keys: List[str] = []
         self.current_index = 0
         self.failed_keys = set()  # Ensemble des clés qui ont échoué
@@ -35,9 +39,9 @@ class APIKeyRotator:
         """Charge les clés depuis le fichier CSV"""
         try:
             if not os.path.exists(self.csv_path):
-                logger.warning(f"[APIKeyRotator] Fichier CSV non trouvé: {self.csv_path}")
-                logger.info(f"[APIKeyRotator] Utilisation de la clé d'environnement NEWSAPI_KEY comme fallback")
-                env_key = os.getenv('NEWSAPI_KEY', '')
+                logger.warning(f"[APIKeyRotator:{self.key_column}] Fichier CSV non trouvé: {self.csv_path}")
+                logger.info(f"[APIKeyRotator:{self.key_column}] Utilisation de la clé d'environnement {self.env_var} comme fallback")
+                env_key = os.getenv(self.env_var, '')
                 if env_key:
                     self.keys = [env_key]
                 return
@@ -45,23 +49,24 @@ class APIKeyRotator:
             with open(self.csv_path, 'r', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    key = row.get('newsapi_key', '').strip()
-                    if key and key not in ['YOUR_NEWSAPI_KEY_1', 'YOUR_NEWSAPI_KEY_2', 'YOUR_NEWSAPI_KEY_3']:
+                    key = row.get(self.key_column, '').strip()
+                    # Ignorer les clés d'exemple
+                    if key and not key.startswith('YOUR_'):
                         self.keys.append(key)
 
             if not self.keys:
-                logger.warning(f"[APIKeyRotator] Aucune clé valide trouvée dans {self.csv_path}")
-                logger.info(f"[APIKeyRotator] Utilisation de la clé d'environnement NEWSAPI_KEY comme fallback")
-                env_key = os.getenv('NEWSAPI_KEY', '')
+                logger.warning(f"[APIKeyRotator:{self.key_column}] Aucune clé valide trouvée dans {self.csv_path}")
+                logger.info(f"[APIKeyRotator:{self.key_column}] Utilisation de la clé d'environnement {self.env_var} comme fallback")
+                env_key = os.getenv(self.env_var, '')
                 if env_key:
                     self.keys = [env_key]
             else:
-                logger.info(f"[APIKeyRotator] {len(self.keys)} clés API chargées depuis {self.csv_path}")
+                logger.info(f"[APIKeyRotator:{self.key_column}] {len(self.keys)} clés API chargées depuis {self.csv_path}")
 
         except Exception as e:
-            logger.error(f"[APIKeyRotator] Erreur lors du chargement des clés: {e}")
+            logger.error(f"[APIKeyRotator:{self.key_column}] Erreur lors du chargement des clés: {e}")
             # Fallback sur la variable d'environnement
-            env_key = os.getenv('NEWSAPI_KEY', '')
+            env_key = os.getenv(self.env_var, '')
             if env_key:
                 self.keys = [env_key]
 
@@ -77,7 +82,7 @@ class APIKeyRotator:
 
         # Si toutes les clés ont échoué, réinitialiser
         if len(self.failed_keys) >= len(self.keys):
-            logger.warning("[APIKeyRotator] Toutes les clés ont échoué, réinitialisation")
+            logger.warning(f"[APIKeyRotator:{self.key_column}] Toutes les clés ont échoué, réinitialisation")
             self.failed_keys.clear()
 
         # Trouver la prochaine clé non échouée
@@ -101,7 +106,7 @@ class APIKeyRotator:
 
         old_index = self.current_index
         self.current_index = (self.current_index + 1) % len(self.keys)
-        logger.info(f"[APIKeyRotator] Rotation: clé {old_index + 1} -> clé {self.current_index + 1}")
+        logger.info(f"[APIKeyRotator:{self.key_column}] Rotation: clé {old_index + 1} -> clé {self.current_index + 1}")
 
     def mark_current_as_failed(self):
         """Marque la clé courante comme ayant échoué (limite atteinte)"""
@@ -110,7 +115,7 @@ class APIKeyRotator:
 
         current_key = self.keys[self.current_index]
         self.failed_keys.add(current_key)
-        logger.warning(f"[APIKeyRotator] Clé {self.current_index + 1} marquée comme épuisée")
+        logger.warning(f"[APIKeyRotator:{self.key_column}] Clé {self.current_index + 1} marquée comme épuisée")
 
         # Passer automatiquement à la suivante
         self.rotate()
@@ -123,7 +128,7 @@ class APIKeyRotator:
         current_key = self.keys[self.current_index]
         if current_key in self.failed_keys:
             self.failed_keys.discard(current_key)
-            logger.info(f"[APIKeyRotator] Clé {self.current_index + 1} fonctionne à nouveau")
+            logger.info(f"[APIKeyRotator:{self.key_column}] Clé {self.current_index + 1} fonctionne à nouveau")
 
     def get_stats(self) -> dict:
         """

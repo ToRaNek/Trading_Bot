@@ -6,7 +6,7 @@ Analyse les actions chaque heure et prend des décisions autonomes
 import asyncio
 import logging
 import yfinance as yf
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Optional
 import discord
 
@@ -17,6 +17,13 @@ from utils import MarketHours, StockInfo
 import os
 
 logger = logging.getLogger('TradingBot')
+
+# Timezone France (UTC+1)
+FRANCE_TZ = timezone(timedelta(hours=1))
+
+def get_france_time():
+    """Retourne l'heure actuelle en timezone France (UTC+1)"""
+    return datetime.now(FRANCE_TZ)
 
 
 class LiveTrader:
@@ -60,7 +67,7 @@ class LiveTrader:
         # Configuration du trading
         self.validation_threshold = VALIDATION_THRESHOLD  # Score minimum pour trader
         self.max_position_size = 0.2  # 20% du portfolio max par position
-        self.stop_loss_pct = -4.0  # Stop loss à -4%
+        self.stop_loss_pct = -6.0  # Stop loss à -6% (augmenté de -4% pour éviter stops prématurés)
         self.take_profit_pct = 16.0  # Take profit à +16%
 
         # Statistiques de session
@@ -83,7 +90,7 @@ class LiveTrader:
         if not self.discord_channel:
             return
 
-        now = datetime.now()
+        now = get_france_time()
         current_prices = {}
 
         # Récupérer les prix actuels des positions
@@ -125,9 +132,9 @@ class LiveTrader:
         # Créer le message de rappel
         embed = discord.Embed(
             title="💰 Rappel - Mise à jour du Cash",
-            description=f"⏰ **Il est {datetime.now().strftime('%H')}h !** Met à jour ton cash avec `!reel_cash <montant>`",
+            description=f"⏰ **Il est {get_france_time().strftime('%H')}h !** Met à jour ton cash avec `!reel_cash <montant>`",
             color=0xffa500,
-            timestamp=datetime.now()
+            timestamp=get_france_time()
         )
 
         embed.add_field(
@@ -172,7 +179,7 @@ class LiveTrader:
 
             # 1. Récupérer les données de prix récentes (14 jours pour avoir assez de points horaires)
             stock = yf.Ticker(symbol)
-            end_date = datetime.now()
+            end_date = get_france_time()
             start_date = end_date - timedelta(days=14)
 
             df = stock.history(start=start_date, end=end_date, interval='1h')
@@ -194,6 +201,20 @@ class LiveTrader:
             tech_signal, tech_score, tech_details = self.tech_analyzer.get_technical_score(latest_row)
             logger.info(f"[LiveTrader] {symbol}: Tech Score={tech_score:.0f}/100 Signal={tech_signal}")
 
+            # Vérifier le filtre anti-FOMO pour les signaux BUY
+            if tech_signal == 'BUY':
+                is_fomo, fomo_reason = self.tech_analyzer.check_fomo_filter(latest_row)
+                if is_fomo:
+                    logger.warning(f"[LiveTrader] {symbol}: {fomo_reason}")
+                    return {
+                        'symbol': symbol,
+                        'signal': 'HOLD',
+                        'tech_score': tech_score,
+                        'price': current_price,
+                        'fomo_blocked': True,
+                        'fomo_reason': fomo_reason
+                    }
+
             # Si le signal technique n'est pas BUY ou SELL, ne pas continuer
             if tech_signal not in ['BUY', 'SELL']:
                 logger.info(f"[LiveTrader] {symbol}: Signal HOLD → pas d'action")
@@ -205,7 +226,7 @@ class LiveTrader:
                 }
 
             # 3 & 4. Récupérer news et Reddit en parallèle pour gagner du temps
-            now = datetime.now()
+            now = get_france_time()
 
             # Donner la main à la boucle d'événements avant les requêtes réseau
             await asyncio.sleep(0)
@@ -215,17 +236,76 @@ class LiveTrader:
             reddit_task = self.reddit_analyzer.get_reddit_sentiment(symbol=symbol, target_date=now)
 
             # Attendre les résultats en parallèle
-            (has_news, news_items, news_score), (reddit_score, reddit_count, reddit_samples, reddit_posts) = await asyncio.gather(
+            (has_news, news_items, news_score, news_direction), (reddit_score, reddit_count, reddit_samples, reddit_posts) = await asyncio.gather(
                 news_task, reddit_task
             )
 
-            logger.info(f"[LiveTrader] {symbol}: News Score={news_score:.0f}/100 ({len(news_items)} news)")
+            logger.info(f"[LiveTrader] {symbol}: News Score={news_score:.0f}/100 {news_direction} ({len(news_items)} news)")
             logger.info(f"[LiveTrader] {symbol}: Reddit posts: {reddit_count}")
 
-            # 5. Calculer le score composite (Tech: 50%, News: 50% - Reddit removed due to API blocking)
-            composite_score = (tech_score * 0.50) + (news_score * 0.50)
+            # 5. Calculer le score composite INTELLIGENT basé sur la direction des news
+            #
+            # LOGIQUE:
+            # - Si ACHAT + news POSITIVES → boost (on veut acheter avant la montée)
+            # - Si ACHAT + news NÉGATIVES → malus fort (éviter d'acheter avant la chute)
+            # - Si VENTE + news NÉGATIVES → boost (on veut vendre avant la chute)
+            # - Si VENTE + news POSITIVES → malus (ne pas vendre avant la montée)
 
-            logger.info(f"[LiveTrader] {symbol}: Score Composite={composite_score:.0f}/100 (seuil: {self.validation_threshold})")
+            base_composite = (tech_score * 0.50) + (news_score * 0.50)
+            composite_score = base_composite
+            adjustment_reason = ""
+
+            # Pour les signaux BUY
+            if tech_signal == 'BUY':
+                if news_direction == "POSITIF":
+                    # News positives + signal achat = EXCELLENT
+                    # Donner plus de poids aux news (70% news, 30% tech)
+                    composite_score = (tech_score * 0.30) + (news_score * 0.70)
+                    adjustment_reason = "News POSITIVES favorisent l'achat"
+
+                elif news_direction == "NÉGATIF":
+                    # News négatives + signal achat = DANGER
+                    # Si news très négatives (>75), bloquer complètement
+                    if news_score > 75:
+                        composite_score = 0  # Bloquer l'achat
+                        adjustment_reason = "News TRÈS NÉGATIVES bloquent l'achat"
+                    else:
+                        # Sinon, appliquer un gros malus
+                        composite_score = (tech_score * 0.70) + (news_score * 0.30)
+                        composite_score = max(0, composite_score - 25)  # Malus de -25 points
+                        adjustment_reason = "News NÉGATIVES pénalisent l'achat"
+                else:
+                    # News neutres = on fait confiance au score technique
+                    composite_score = (tech_score * 0.70) + (news_score * 0.30)
+                    adjustment_reason = "News NEUTRES, priorité au technique"
+
+            # Pour les signaux SELL
+            elif tech_signal == 'SELL':
+                if news_direction == "NÉGATIF":
+                    # News négatives + signal vente = EXCELLENT (vendre avant la chute)
+                    # Donner plus de poids aux news (70% news, 30% tech)
+                    composite_score = (tech_score * 0.30) + (news_score * 0.70)
+                    adjustment_reason = "News NÉGATIVES favorisent la vente"
+
+                elif news_direction == "POSITIF":
+                    # News positives + signal vente : adapter selon l'intensité
+                    if news_score >= 80:  # News vraiment excellentes
+                        composite_score = 0  # Bloquer la vente
+                        adjustment_reason = "News TRÈS POSITIVES (≥80) bloquent la vente"
+                    elif news_score >= 75:  # News assez positives (75-79)
+                        composite_score = (tech_score * 0.70) + (news_score * 0.30)
+                        composite_score = max(0, composite_score - 5)  # Petit malus -5
+                        adjustment_reason = "News POSITIVES (75-79) léger malus"
+                    else:  # News modérément positives (<75)
+                        # Laisser le signal technique décider, pas de malus
+                        composite_score = (tech_score * 0.70) + (news_score * 0.30)
+                        adjustment_reason = "News POSITIVES modérées (<75), priorité au technique"
+                else:
+                    # News neutres = on fait confiance au score technique
+                    composite_score = (tech_score * 0.70) + (news_score * 0.30)
+                    adjustment_reason = "News NEUTRES, priorité au technique"
+
+            logger.info(f"[LiveTrader] {symbol}: Score Composite={composite_score:.0f}/100 (base: {base_composite:.0f}) - {adjustment_reason}")
 
             # 6. Décision finale
             decision = {
@@ -234,6 +314,7 @@ class LiveTrader:
                 'price': current_price,
                 'tech_score': tech_score,
                 'news_score': news_score,
+                'news_direction': news_direction,  # NOUVEAU: direction du sentiment (POSITIF/NÉGATIF/NEUTRE)
                 'composite_score': composite_score,
                 'validated': composite_score >= self.validation_threshold,
                 'news_count': len(news_items),
@@ -307,7 +388,7 @@ class LiveTrader:
                 embed.add_field(name="📊 Quantité suggérée (bot)", value=f"{shares:.4f}", inline=True)
                 embed.add_field(name="💵 Coût total (bot)", value=f"${price*shares:.2f}", inline=True)
                 embed.add_field(name="🔍 Score Technique", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 **{decision['news_direction']}** (50%)", inline=True)
                 embed.add_field(name="⭐ Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=True)
                 embed.add_field(
                     name="📝 Instructions",
@@ -371,7 +452,7 @@ class LiveTrader:
                 embed.add_field(name="💵 Valeur totale", value=f"${last_trade['proceeds']:.2f}", inline=True)
                 embed.add_field(name=f"{profit_emoji} Profit (bot)", value=f"**${last_trade['profit']:.2f}** ({last_trade['profit_pct']:+.2f}%)", inline=False)
                 embed.add_field(name="🔍 Score Technique", value=f"{decision['tech_score']:.0f}/100 (50%)", inline=True)
-                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 (50%)", inline=True)
+                embed.add_field(name="📰 Score News", value=f"{decision['news_score']:.0f}/100 **{decision['news_direction']}** (50%)", inline=True)
                 embed.add_field(name="⭐ Score Final", value=f"**{decision['composite_score']:.0f}/100**", inline=True)
                 embed.add_field(
                     name="📝 Instructions",
@@ -431,40 +512,72 @@ class LiveTrader:
                 # Vérifier stop loss
                 if profit_pct <= self.stop_loss_pct:
                     logger.warning(f"[LiveTrader] {symbol}: ⚠️ STOP LOSS atteint ({profit_pct:+.2f}% <= {self.stop_loss_pct}%)")
-                    self.portfolio.sell(symbol, current_price, timestamp=datetime.now())
+                    self.portfolio.sell(symbol, current_price, timestamp=get_france_time())
 
-                    # Notification Discord
+                    # Notification Discord AVEC PING
                     stock_name = StockInfo.get_full_name(symbol)
                     embed = discord.Embed(
                         title=f"⛔ STOP LOSS: {stock_name}",
                         description=f"Position fermée automatiquement | Ticker: {symbol}",
                         color=0xff0000,
-                        timestamp=datetime.now()
+                        timestamp=get_france_time()
                     )
                     embed.add_field(name="Prix d'entrée", value=f"${avg_price:.2f}", inline=True)
                     embed.add_field(name="Prix de sortie", value=f"${current_price:.2f}", inline=True)
                     embed.add_field(name="Perte", value=f"**{profit_pct:+.2f}%**", inline=True)
 
-                    await self.send_discord_notification(embed)
+                    # Envoyer avec ping dans les channels privés des participants qui avaient la position
+                    if self.participants_manager:
+                        participants_with_position = self.participants_manager.get_participants_with_position(symbol)
+
+                        for user_id in participants_with_position:
+                            participant = self.participants_manager.participants[user_id]
+                            channel_id = participant.get('private_channel_id')
+
+                            if channel_id:
+                                private_channel = self.discord_channel.guild.get_channel(channel_id)
+                                if private_channel:
+                                    # Retirer la position de ce participant
+                                    self.participants_manager.remove_position_from_participant(user_id, symbol)
+
+                                    # Envoyer avec ping
+                                    await private_channel.send(content=f"<@{user_id}>", embed=embed)
+                                    logger.info(f"[LiveTrader] STOP LOSS envoyé à {participant['username']} dans son channel privé")
 
                 # Vérifier take profit
                 elif profit_pct >= self.take_profit_pct:
                     logger.info(f"[LiveTrader] {symbol}: ✅ TAKE PROFIT atteint ({profit_pct:+.2f}% >= {self.take_profit_pct}%)")
-                    self.portfolio.sell(symbol, current_price, timestamp=datetime.now())
+                    self.portfolio.sell(symbol, current_price, timestamp=get_france_time())
 
-                    # Notification Discord
+                    # Notification Discord AVEC PING
                     stock_name = StockInfo.get_full_name(symbol)
                     embed = discord.Embed(
                         title=f"💰 TAKE PROFIT: {stock_name}",
                         description=f"Position fermée automatiquement | Ticker: {symbol}",
                         color=0x00ff00,
-                        timestamp=datetime.now()
+                        timestamp=get_france_time()
                     )
                     embed.add_field(name="Prix d'entrée", value=f"${avg_price:.2f}", inline=True)
                     embed.add_field(name="Prix de sortie", value=f"${current_price:.2f}", inline=True)
                     embed.add_field(name="Profit", value=f"**{profit_pct:+.2f}%**", inline=True)
 
-                    await self.send_discord_notification(embed)
+                    # Envoyer avec ping dans les channels privés des participants qui avaient la position
+                    if self.participants_manager:
+                        participants_with_position = self.participants_manager.get_participants_with_position(symbol)
+
+                        for user_id in participants_with_position:
+                            participant = self.participants_manager.participants[user_id]
+                            channel_id = participant.get('private_channel_id')
+
+                            if channel_id:
+                                private_channel = self.discord_channel.guild.get_channel(channel_id)
+                                if private_channel:
+                                    # Retirer la position de ce participant
+                                    self.participants_manager.remove_position_from_participant(user_id, symbol)
+
+                                    # Envoyer avec ping
+                                    await private_channel.send(content=f"<@{user_id}>", embed=embed)
+                                    logger.info(f"[LiveTrader] TAKE PROFIT envoyé à {participant['username']} dans son channel privé")
 
             except Exception as e:
                 logger.error(f"[LiveTrader] Erreur vérification SL/TP pour {symbol}: {e}")
@@ -472,7 +585,7 @@ class LiveTrader:
     async def hourly_analysis(self):
         """Analyse complète de la watchlist (appelée chaque heure)"""
         logger.info("\n" + "="*80)
-        logger.info(f"[LiveTrader] 🚀 ANALYSE HORAIRE - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+        logger.info(f"[LiveTrader] 🚀 ANALYSE HORAIRE - {get_france_time().strftime('%Y-%m-%d %H:%M')}")
         logger.info("="*80)
 
         self.analysis_count += 1
@@ -565,7 +678,7 @@ class LiveTrader:
             description=f"Trading en temps réel {mode_text}\n\n"
                        f"✅ Positions restaurées: {len(self.portfolio.positions)}",
             color=0x00ff00,
-            timestamp=datetime.now()
+            timestamp=get_france_time()
         )
         embed.add_field(name="Capital (bot)", value=f"${self.portfolio.initial_cash:.2f}", inline=True)
         embed.add_field(name="Actions", value=f"{len(self.watchlist)}", inline=True)
@@ -576,11 +689,11 @@ class LiveTrader:
 
         await self.send_discord_notification(embed)
 
-        end_date = datetime.now() + timedelta(days=duration_days) if duration_days else None
+        end_date = get_france_time() + timedelta(days=duration_days) if duration_days else None
 
         try:
-            while self.is_running and (end_date is None or datetime.now() < end_date):
-                now = datetime.now()
+            while self.is_running and (end_date is None or get_france_time() < end_date):
+                now = get_france_time()
                 current_minute = now.minute
                 current_hour = now.hour
 
@@ -651,7 +764,7 @@ class LiveTrader:
             title="⏹️ BOT ARRÊTÉ",
             description=f"Statistiques finales du dry-run",
             color=0x00ff00 if performance['total_return'] > 0 else 0xff0000,
-            timestamp=datetime.now()
+            timestamp=get_france_time()
         )
         embed.add_field(name="Durée", value=f"{performance['days_running']} jours", inline=True)
         embed.add_field(name="Performance", value=f"**{performance['total_return_pct']:+.2f}%**", inline=True)

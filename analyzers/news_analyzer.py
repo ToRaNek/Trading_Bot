@@ -10,9 +10,9 @@ import sys
 import logging
 from .ai_scorer import AIScorer
 
-# Importer TextBlob V9
+# Importer TextBlob V11 (Intensity + Direction)
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from textblob_v9_refined import score_news_v9_refined
+from textblob_v11_intensity_direction import score_news_v11_intensity_direction
 
 # Importer le rotateur de clés API
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -27,23 +27,32 @@ class HistoricalNewsAnalyzer:
     def __init__(self, api_keys_csv_path: str = None):
         self.session = None
         # Initialiser le système de rotation des clés NewsAPI
-        self.newsapi_rotator = APIKeyRotator(csv_path=api_keys_csv_path)
-        self.finnhub_key = os.getenv('FINNHUB_KEY', '')
+        self.newsapi_rotator = APIKeyRotator(csv_path=api_keys_csv_path, key_column='newsapi_key', env_var='NEWSAPI_KEY')
+        # Initialiser le système de rotation des clés Finnhub
+        self.finnhub_rotator = APIKeyRotator(csv_path=api_keys_csv_path, key_column='finnhub_key', env_var='FINNHUB_KEY')
         self.hf_token = os.getenv('HUGGINGFACE_TOKEN', '')
         self.news_cache = {}  # Cache pour éviter appels API répétés
         self.ai_scorer = AIScorer(self.hf_token)  # Scorer pour Reddit et News
 
-        # Log des stats du rotateur
-        stats = self.newsapi_rotator.get_stats()
-        logger.info(f"[NewsAPI] Rotateur initialisé: {stats['active_keys']}/{stats['total_keys']} clés actives")
+        # Log des stats des rotateurs
+        newsapi_stats = self.newsapi_rotator.get_stats()
+        finnhub_stats = self.finnhub_rotator.get_stats()
+        logger.info(f"[NewsAPI] Rotateur initialisé: {newsapi_stats['active_keys']}/{newsapi_stats['total_keys']} clés actives")
+        logger.info(f"[Finnhub] Rotateur initialisé: {finnhub_stats['active_keys']}/{finnhub_stats['total_keys']} clés actives")
 
     async def get_session(self):
         if not self.session:
             self.session = aiohttp.ClientSession()
         return self.session
 
-    async def get_news_for_date(self, symbol: str, target_date: datetime) -> Tuple[bool, List[Dict], float]:
-        """Récupère les actualités pour une date précise (simulation temps réel)"""
+    async def get_news_for_date(self, symbol: str, target_date: datetime) -> Tuple[bool, List[Dict], float, str]:
+        """
+        Récupère les actualités pour une date précise (simulation temps réel)
+
+        Returns:
+            (has_news, news_items, intensity_score, direction)
+            direction: "POSITIF", "NÉGATIF", ou "NEUTRE"
+        """
         try:
             # Normaliser la date en timezone-naive
             if hasattr(target_date, 'tz') and target_date.tz is not None:
@@ -86,14 +95,21 @@ class HistoricalNewsAnalyzer:
             all_news_items = []
             all_sentiments = []
 
-            # 1. Essayer Finnhub
-            if self.finnhub_key:
+            # 1. Essayer Finnhub avec rotation des clés
+            finnhub_key = self.finnhub_rotator.get_current_key()
+            max_finnhub_retries = self.finnhub_rotator.get_stats()['total_keys']
+
+            for retry in range(max_finnhub_retries):
+                if not finnhub_key:
+                    logger.debug(f"[News] {symbol}: Aucune clé Finnhub disponible")
+                    break
+
                 url = "https://finnhub.io/api/v1/company-news"
                 params = {
                     'symbol': symbol,
                     'from': from_date.strftime('%Y-%m-%d'),
                     'to': to_date.strftime('%Y-%m-%d'),
-                    'token': self.finnhub_key
+                    'token': finnhub_key
                 }
 
                 try:
@@ -101,14 +117,25 @@ class HistoricalNewsAnalyzer:
                         if response.status == 200:
                             data = await response.json()
                             if isinstance(data, list) and len(data) > 0:
-                                has_news, news_items, score = await self._parse_finnhub_news(data, target_date)
+                                self.finnhub_rotator.mark_current_as_success()
+                                has_news, news_items = await self._parse_finnhub_news(data, target_date)
                                 all_news_items.extend(news_items)
+                                break
                             else:
-                                logger.warning(f"[News] {symbol}: Finnhub OK mais 0 news")
+                                logger.debug(f"[News] {symbol}: Finnhub OK mais 0 news")
+                                break
+                        elif response.status == 429 or response.status == 403:
+                            logger.warning(f"[News] {symbol}: Finnhub clé {self.finnhub_rotator.current_index + 1} limite atteinte ({response.status})")
+                            self.finnhub_rotator.mark_current_as_failed()
+                            finnhub_key = self.finnhub_rotator.get_current_key()
+                            if retry < max_finnhub_retries - 1:
+                                continue
                         else:
                             logger.warning(f"[News] {symbol}: Finnhub status {response.status}")
+                            break
                 except Exception as e:
                     logger.warning(f"[News] {symbol}: Finnhub erreur {e}")
+                    break
 
             # 2. Essayer NewsAPI avec rotation des clés (seulement si date < 30 jours)
             days_ago = (datetime.now() - target_date).days
@@ -139,7 +166,7 @@ class HistoricalNewsAnalyzer:
                                 data = await response.json()
                                 if 'articles' in data and data['articles']:
                                     self.newsapi_rotator.mark_current_as_success()
-                                    has_news, news_items, score = await self._parse_newsapi_news(data['articles'], target_date)
+                                    has_news, news_items = await self._parse_newsapi_news(data['articles'], target_date)
                                     all_news_items.extend(news_items)
                                     break
                                 else:
@@ -162,17 +189,18 @@ class HistoricalNewsAnalyzer:
 
             # Combiner tous les résultats
             if all_news_items:
-                # Utiliser TextBlob V9 pour scorer les news
-                final_score = score_news_v9_refined(all_news_items)
+                # Utiliser TextBlob V11 pour scorer les news (intensity + direction)
+                intensity, direction, explanation = score_news_v11_intensity_direction(all_news_items)
 
-                result = (True, all_news_items, final_score)
+                result = (True, all_news_items, intensity, direction)
                 self.news_cache[cache_key] = result
+                logger.debug(f"[News] {symbol}: V11 Score: {intensity:.0f}/100 {direction} ({explanation})")
                 return result
 
             # Aucune news trouvée
             stats = self.newsapi_rotator.get_stats()
             logger.info(f"[News] {symbol} @ {target_date.strftime('%Y-%m-%d')}: ⚠️ Aucune news trouvée (Finnhub={'✓' if self.finnhub_key else '✗'}, NewsAPI={stats['active_keys']}/{stats['total_keys']} clés)")
-            result = (False, [], 0.0)
+            result = (False, [], 0.0, "NEUTRE")
             self.news_cache[cache_key] = result
             return result
 
@@ -180,9 +208,9 @@ class HistoricalNewsAnalyzer:
             logger.error(f"[News] Erreur news historiques {symbol} @ {target_date}: {e}")
             import traceback
             traceback.print_exc()
-            return False, [], 0.0
+            return False, [], 0.0, "NEUTRE"
 
-    async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+    async def _parse_finnhub_news(self, data: List, target_date: datetime) -> Tuple[bool, List[Dict]]:
         """Parse les actualités Finnhub avec analyse de sentiment"""
         news_items = []
 
@@ -269,17 +297,10 @@ class HistoricalNewsAnalyzer:
                 continue
 
         has_news = len(news_items) > 0
+        logger.debug(f"[News] Finnhub: {len(news_items)} news, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        return has_news, news_items
 
-        # Utiliser TextBlob V9 pour le scoring
-        if has_news:
-            score = score_news_v9_refined(news_items)
-            logger.debug(f"[News] V9 Score: {score:.0f}/100, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
-        else:
-            score = 0.0
-
-        return has_news, news_items, score
-
-    async def _parse_newsapi_news(self, articles: List, target_date: datetime) -> Tuple[bool, List[Dict], float]:
+    async def _parse_newsapi_news(self, articles: List, target_date: datetime) -> Tuple[bool, List[Dict]]:
         """Parse les actualités NewsAPI avec analyse de sentiment"""
         news_items = []
 
@@ -370,15 +391,8 @@ class HistoricalNewsAnalyzer:
                 continue
 
         has_news = len(news_items) > 0
-
-        # Utiliser TextBlob V9 pour le scoring
-        if has_news:
-            score = score_news_v9_refined(news_items)
-            logger.debug(f"[News] V9 Score: {score:.0f}/100, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
-        else:
-            score = 0.0
-
-        return has_news, news_items, score
+        logger.debug(f"[News] NewsAPI: {len(news_items)} news, pos={positive_count}, neg={negative_count}, neu={neutral_count}")
+        return has_news, news_items
 
     async def ask_ai_decision(self, symbol: str, bot_decision: str, news_data: List[Dict],
                              current_price: float, tech_confidence: float, reddit_posts: List[Dict] = None,

@@ -14,7 +14,7 @@ import time
 # Import des analyzers DEPUIS le module analyzers/
 from analyzers.technical_analyzer import TechnicalAnalyzer
 from analyzers.news_analyzer import HistoricalNewsAnalyzer
-from analyzers.reddit_analyzer import RedditSentimentAnalyzer
+# Reddit désactivé: from analyzers.reddit_analyzer import RedditSentimentAnalyzer
 
 logger = logging.getLogger('TradingBot')
 
@@ -32,14 +32,12 @@ class RealisticBacktestEngine:
     def __init__(self, reddit_csv_file: str = None, data_dir: str = 'data'):
         # Utiliser les classes depuis analyzers/ (version modulaire)
         self.news_analyzer = HistoricalNewsAnalyzer()
-        self.reddit_analyzer = RedditSentimentAnalyzer(
-            csv_file=reddit_csv_file,
-            data_dir=data_dir
-        )
+        # Reddit désactivé (API bloquée, ne fonctionne plus)
+        # self.reddit_analyzer = RedditSentimentAnalyzer(csv_file=reddit_csv_file, data_dir=data_dir)
         self.tech_analyzer = TechnicalAnalyzer()
 
         # Configuration stop loss / take profit
-        self.stop_loss_pct = -4.0  # -4%
+        self.stop_loss_pct = -6.0  # -6% (augmenté de -4% pour éviter stops prématurés)
         self.take_profit_pct = 14.0  # +14%
 
     async def backtest_with_news_validation(self, symbol: str, months: int = 6) -> Optional[Dict]:
@@ -102,8 +100,12 @@ class RealisticBacktestEngine:
                 if position == 1:
                     profit_pct = (current_price - entry_price) / entry_price * 100
 
-                    # Stop loss prioritaire (-4%)
-                    if profit_pct <= self.stop_loss_pct:
+                    # Stop loss dynamique basé sur l'ATR
+                    dynamic_sl = self.tech_analyzer.get_dynamic_stop_loss(row, abs(self.stop_loss_pct))
+                    stop_loss_threshold = -dynamic_sl
+
+                    # Stop loss prioritaire (dynamique selon volatilité)
+                    if profit_pct <= stop_loss_threshold:
                         position = 0
                         exit_price = current_price
                         hold_hours = (current_date - entry_date).total_seconds() / 3600
@@ -124,7 +126,7 @@ class RealisticBacktestEngine:
                         })
 
                         logger.info(f"   🛑 STOP LOSS @ ${exit_price:.2f} | "
-                                  f"Perte: {profit_pct:.2f}% | Durée: {hold_hours:.1f}h")
+                                  f"Perte: {profit_pct:.2f}% (SL: {stop_loss_threshold:.1f}%) | Durée: {hold_hours:.1f}h")
                         continue
 
                     # Take profit prioritaire (+14%)
@@ -156,24 +158,18 @@ class RealisticBacktestEngine:
                 tech_decision, tech_confidence, tech_reasons = self.tech_analyzer.get_technical_score(row)
                 bot_decision = tech_decision
 
-                # Récupérer les actualités
-                has_news, news_data, news_score = await self.news_analyzer.get_news_for_date(
+                # Récupérer les actualités (avec direction V11)
+                has_news, news_data, news_score, news_direction = await self.news_analyzer.get_news_for_date(
                     symbol, current_date
                 )
 
                 sleep(0.3)
 
-                # Récupérer le sentiment Reddit
-                reddit_score = 0  # Défaut = 0 si pas de posts
+                # REDDIT DÉSACTIVÉ (ne fonctionne plus, API bloquée)
+                reddit_score = 0
                 reddit_post_count = 0
                 reddit_samples = []
                 reddit_posts_details = []
-
-                if bot_decision in ["BUY", "SELL"]:
-                    reddit_score, reddit_post_count, reddit_samples, reddit_posts_details = await self.reddit_analyzer.get_reddit_sentiment(
-                        symbol, current_date, lookback_hours=48
-                    )
-                    await asyncio.sleep(0.3)
 
                 # Validation IA
                 final_score = tech_confidence
@@ -207,32 +203,75 @@ class RealisticBacktestEngine:
                     # Garder news_score_ai calculé par notre système de sentiment
                     reddit_score_ai = 0.0  # Reddit disabled
 
-                    # BOOST: Si les news sont POSITIF (>= 56), augmenter le score final de 15%
-                    if news_score_ai >= 56:
-                        final_score = min(100, final_score * 1.15)
-                        logger.debug(f"   [BOOST] News POSITIF ({news_score_ai:.0f}) → Final score boosted to {final_score:.0f}")
+                    # LOGIQUE SCORE COMPOSITE INTELLIGENT (comme live_trader.py)
+                    # Appliquer la même logique basée sur la direction des news
+                    base_final = final_score
+                    adjustment_reason = ""
+
+                    if bot_decision == 'BUY':
+                        if news_direction == "POSITIF":
+                            # News positives + signal achat = EXCELLENT
+                            final_score = (tech_confidence * 0.30) + (news_score_ai * 0.70)
+                            adjustment_reason = "News POSITIVES favorisent l'achat"
+                        elif news_direction == "NÉGATIF":
+                            # News négatives + signal achat = DANGER
+                            if news_score_ai > 75:
+                                final_score = 0  # Bloquer l'achat
+                                adjustment_reason = "News TRÈS NÉGATIVES bloquent l'achat"
+                            else:
+                                final_score = (tech_confidence * 0.70) + (news_score_ai * 0.30)
+                                final_score = max(0, final_score - 25)
+                                adjustment_reason = "News NÉGATIVES pénalisent l'achat"
+                        else:
+                            # News neutres
+                            final_score = (tech_confidence * 0.70) + (news_score_ai * 0.30)
+                            adjustment_reason = "News NEUTRES, priorité au technique"
+
+                    elif bot_decision == 'SELL':
+                        if news_direction == "NÉGATIF":
+                            # News négatives + signal vente = EXCELLENT
+                            final_score = (tech_confidence * 0.30) + (news_score_ai * 0.70)
+                            adjustment_reason = "News NÉGATIVES favorisent la vente"
+                        elif news_direction == "POSITIF":
+                            # News positives + signal vente : adapter selon l'intensité
+                            if news_score_ai >= 80:  # News vraiment excellentes
+                                final_score = 0  # Bloquer la vente
+                                adjustment_reason = "News TRÈS POSITIVES (≥80) bloquent la vente"
+                            elif news_score_ai >= 75:  # News assez positives (75-79)
+                                final_score = (tech_confidence * 0.70) + (news_score_ai * 0.30)
+                                final_score = max(0, final_score - 5)  # Petit malus -5
+                                adjustment_reason = "News POSITIVES (75-79) léger malus"
+                            else:  # News modérément positives (<75)
+                                # Laisser le signal technique décider, pas de malus
+                                final_score = (tech_confidence * 0.70) + (news_score_ai * 0.30)
+                                adjustment_reason = "News POSITIVES modérées (<75), priorité au technique"
+                        else:
+                            # News neutres
+                            final_score = (tech_confidence * 0.70) + (news_score_ai * 0.30)
+                            adjustment_reason = "News NEUTRES, priorité au technique"
+
+                    if adjustment_reason:
+                        logger.debug(f"   [Score Ajusté] {base_final:.0f} → {final_score:.0f}/100 ({adjustment_reason})")
 
                 # Logs - Afficher les scores AI si disponibles, sinon 0
                 if bot_decision != "HOLD" or idx % 20 == 0:
-                    # Determiner si news positif ou negatif
-                    news_sentiment_label = ""
-                    if news_score_ai > 0:
-                        if news_score_ai >= 56:
-                            news_sentiment_label = " POSITIF"
-                        elif news_score_ai <= 45:
-                            news_sentiment_label = " NEGATIF"
-                        else:
-                            news_sentiment_label = " NEUTRE"
+                    # Utiliser la direction calculée par V11
+                    news_label = f" {news_direction}" if news_direction else ""
 
-                    logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] Decision: {bot_decision} | "
+                    logger.info(f"   [{current_date.strftime('%Y-%m-%d')}] ${current_price:.2f} | Decision: {bot_decision} | "
                               f"Tech: {tech_confidence:.0f}/100 | "
-                              f"Reddit: {reddit_score_ai:.0f}/100 ({reddit_post_count}p) | "
-                              f"News: {news_score_ai:.0f}/100{news_sentiment_label} | "
+                              f"News: {news_score_ai:.0f}/100{news_label} | "
                               f"FINAL: {final_score:.0f}/100")
 
                 # Exécuter le trade si score >= 65
                 if bot_decision == "BUY" and position == 0:
-                    if final_score >= 65:
+                    # Vérifier le filtre anti-FOMO
+                    is_fomo, fomo_reason = self.tech_analyzer.check_fomo_filter(row)
+
+                    if is_fomo:
+                        rejected_buys += 1
+                        logger.info(f"   ❌ BUY bloqué par filtre FOMO: {fomo_reason}")
+                    elif final_score >= 65:
                         position = 1
                         entry_price = current_price
                         entry_date = current_date

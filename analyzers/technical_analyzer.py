@@ -44,6 +44,24 @@ class TechnicalAnalyzer:
         df['volume_sma'] = df['Volume'].rolling(window=min(20, data_size//2)).mean()
         df['volume_ratio'] = df['Volume'] / df['volume_sma'].replace(0, 1)
 
+        # Distance au plus haut récent (ATH = All Time High sur les dernières 20-50 heures)
+        lookback_short = min(20, data_size)  # ~3 jours
+        lookback_long = min(50, data_size)   # ~7 jours
+        df['high_20h'] = df['High'].rolling(window=lookback_short).max()
+        df['high_50h'] = df['High'].rolling(window=lookback_long).max()
+        df['dist_from_high_20h'] = ((df['Close'] - df['high_20h']) / df['high_20h'] * 100)
+        df['dist_from_high_50h'] = ((df['Close'] - df['high_50h']) / df['high_50h'] * 100)
+
+        # ATR (Average True Range) - Mesure de volatilité
+        atr_period = min(14, data_size)
+        high_low = df['High'] - df['Low']
+        high_close = abs(df['High'] - df['Close'].shift())
+        low_close = abs(df['Low'] - df['Close'].shift())
+        true_range = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+        df['atr'] = true_range.rolling(window=atr_period).mean()
+        # ATR en % du prix (pour comparer entre actions)
+        df['atr_pct'] = (df['atr'] / df['Close']) * 100
+
         return df
 
     def get_technical_score(self, row: pd.Series) -> Tuple[str, float, List[str]]:
@@ -304,3 +322,64 @@ class TechnicalAnalyzer:
 
         confidence = max(0, min(100, confidence))
         return decision, confidence, reasons
+
+    def check_fomo_filter(self, row: pd.Series) -> Tuple[bool, str]:
+        """
+        Filtre anti-FOMO: Bloque les achats dangereux
+
+        Returns:
+            Tuple[is_blocked, reason]
+            - is_blocked: True si l'achat doit être bloqué
+            - reason: Raison du blocage
+        """
+        # 1. Check RSI - Bloquer si >70 (overbought)
+        if pd.notna(row.get('rsi')):
+            rsi = row['rsi']
+            if rsi >= 70:
+                return True, f"🚫 FOMO: RSI suracheté ({rsi:.1f}/100) - Risque de chute"
+
+        # 2. Check distance au plus haut récent
+        if pd.notna(row.get('dist_from_high_20h')):
+            dist_20h = row['dist_from_high_20h']
+            # Si on est à moins de 2% du plus haut des 3 derniers jours = DANGER
+            if dist_20h >= -2.0:
+                return True, f"🚫 FOMO: Trop proche du sommet 3j ({dist_20h:+.1f}%) - Attendre pullback"
+
+        # 3. Check Bollinger Bands - Bloquer si >85% (très haut)
+        if pd.notna(row.get('bb_lower')) and pd.notna(row.get('bb_upper')):
+            bb_range = row['bb_upper'] - row['bb_lower']
+            if bb_range > 0:
+                price = row['Close']
+                bb_position = (price - row['bb_lower']) / bb_range
+                if bb_position >= 0.85:
+                    return True, f"🚫 FOMO: Prix très haut dans BB ({bb_position*100:.0f}%) - Surachat"
+
+        return False, ""
+
+    def get_dynamic_stop_loss(self, row: pd.Series, default_sl: float = 0.04) -> float:
+        """
+        Calcule un stop loss dynamique basé sur la volatilité (ATR)
+
+        Args:
+            row: Ligne de données avec ATR
+            default_sl: Stop loss par défaut (4%)
+
+        Returns:
+            Stop loss ajusté (ex: 0.06 pour -6%)
+        """
+        if pd.notna(row.get('atr_pct')):
+            atr_pct = row['atr_pct']
+
+            # Si ATR > 3% (très volatile) → augmenter le stop loss
+            if atr_pct > 3.0:
+                # ATR 3-5% → SL 6%
+                # ATR 5-7% → SL 8%
+                # ATR >7% → SL 10%
+                if atr_pct > 7.0:
+                    return 0.10  # -10%
+                elif atr_pct > 5.0:
+                    return 0.08  # -8%
+                else:
+                    return 0.06  # -6%
+
+        return default_sl  # -4% par défaut

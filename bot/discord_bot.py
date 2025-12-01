@@ -67,33 +67,50 @@ bot = TradingBot()
 
 
 @bot.command(name='reel_backtest')
-async def backtest(ctx, months: int = 6):
+async def backtest(ctx, symbol: str = None, months: int = 6):
     """
-    Backtest réaliste avec validation IA + Sentiment Reddit - ANALYSE QUOTIDIENNE
-    Analyse chaque jour de trading avec les actualités + sentiment Reddit
-    Exemple: !backtest 6 (analyse ~120 jours de trading)
+    Backtest réaliste avec validation IA (News only, Reddit désactivé)
+    Analyse chaque jour de trading avec les actualités
+
+    Exemples:
+    !reel_backtest MSFT 6 (backtest MSFT sur 6 mois)
+    !reel_backtest AAPL (backtest AAPL sur 6 mois par défaut)
+    !reel_backtest 3 (backtest toute la watchlist sur 3 mois)
     """
+    # Si le premier paramètre est un nombre, c'est months sans symbole
+    if symbol and symbol.isdigit():
+        months = int(symbol)
+        symbol = None
+
     if months < 1 or months > 24:
         await ctx.send("❌ Période invalide. Utilisez entre 1 et 24 mois.")
         return
 
+    # Déterminer les symboles à tester
+    if symbol:
+        symbols = [symbol.upper()]
+        watchlist_str = f"1 action ({symbol.upper()})"
+    else:
+        symbols = WATCHLIST
+        watchlist_str = f"{len(WATCHLIST)} actions"
+
     embed = discord.Embed(
         title="⏳ Backtest Réaliste en cours...",
-        description=f"Analyse QUOTIDIENNE sur {months} mois (~{months*20} jours)\n"
+        description=f"Analyse sur {months} mois (~{months*20} jours)\n"
                    f"✅ Validation IA (News)\n"
-                   f"✅ Sentiment Reddit\n"
-                   f"✅ Analyse technique améliorée\n"
-                   f"⚠️ Cela peut prendre 15-40 minutes...",
+                   f"✅ Analyse technique V11\n"
+                   f"✅ Score composite intelligent\n"
+                   f"⚠️ Cela peut prendre quelques minutes...",
         color=0xffff00
     )
     embed.add_field(
-        name="📋 Watchlist",
-        value=f"{len(WATCHLIST)} actions",
+        name="📋 Actions",
+        value=watchlist_str,
         inline=True
     )
     embed.add_field(
         name="🤖 Sources",
-        value="News + Reddit + Tech",
+        value="News + Tech",
         inline=True
     )
     message = await ctx.send(embed=embed)
@@ -101,7 +118,7 @@ async def backtest(ctx, months: int = 6):
     start_time = time.time()
 
     try:
-        results = await bot.backtest_engine.backtest_watchlist(WATCHLIST, months)
+        results = await bot.backtest_engine.backtest_watchlist(symbols, months)
         elapsed = time.time() - start_time
 
         if not results:
