@@ -2,7 +2,7 @@
 
 import aiohttp
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from textblob import TextBlob
 from typing import Dict, List, Tuple, Optional
 import os
@@ -138,7 +138,9 @@ class HistoricalNewsAnalyzer:
                     break
 
             # 2. Essayer NewsAPI avec rotation des clés (seulement si date < 30 jours)
-            days_ago = (datetime.now() - target_date).days
+            # S'assurer que les deux datetime ont la même timezone
+            now = datetime.now(timezone.utc) if target_date.tzinfo else datetime.now()
+            days_ago = (now - target_date.replace(tzinfo=None) if target_date.tzinfo else target_date).days
 
             if days_ago <= 30:
                 newsapi_key = self.newsapi_rotator.get_current_key()
