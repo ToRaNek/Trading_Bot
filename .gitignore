@@ -1,1 +1,3 @@
 .env
+api_keys.csv
+trading_bot.log
