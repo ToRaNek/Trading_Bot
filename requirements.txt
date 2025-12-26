@@ -1,0 +1,33 @@
+# Trading Bot - Dependencies
+# 100% Gratuit
+
+# Data
+yfinance>=0.2.36
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Technical Analysis
+pandas-ta>=0.3.14b0
+
+# Database
+sqlalchemy>=2.0.0
+
+# Dashboard
+streamlit>=1.31.0
+plotly>=5.18.0
+
+# Live Trading (Alpaca - gratuit pour US)
+alpaca-trade-api>=3.0.0
+
+# Notifications
+requests>=2.31.0  # Pour Discord webhooks
+
+# Utilities
+python-dotenv>=1.0.0
+schedule>=1.2.0
+
+# Backtesting
+vectorbt>=0.26.0
+
+# Optional but recommended
+ta>=0.11.0  # Alternative indicators
