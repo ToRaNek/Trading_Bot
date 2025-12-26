@@ -174,3 +174,120 @@ BACKTEST_CONFIG = {
     "slippage": 0.001,      # 0.1% slippage
     "initial_capital": INITIAL_CAPITAL,
 }
+
+# =============================================================================
+# STRATEGY SELECTION (Multi-Strategy Support)
+# =============================================================================
+# Strategies disponibles: swing, wyckoff, elliott, ichimoku, volume_profile, combined
+ACTIVE_STRATEGY = os.getenv("ACTIVE_STRATEGY", "combined")
+
+# Strategies activees pour le mode combine
+ENABLED_STRATEGIES = {
+    "swing": True,
+    "wyckoff": True,
+    "elliott": True,
+    "ichimoku": True,
+    "volume_profile": True,
+}
+
+# Poids des strategies dans le vote combine (plus eleve = plus d'influence)
+STRATEGY_WEIGHTS = {
+    "swing": 1.0,
+    "wyckoff": 0.9,
+    "elliott": 0.7,
+    "ichimoku": 0.8,
+    "volume_profile": 0.85,
+}
+
+# Score de consensus minimum pour signal combine
+MIN_CONSENSUS_SCORE = 0.6
+
+# =============================================================================
+# WYCKOFF METHOD (PARTIE XIII du MASTER_TRADING_SKILL)
+# =============================================================================
+WYCKOFF_CONFIG = {
+    # Detection des phases
+    "min_range_periods": 10,      # Minimum 10 periodes pour un trading range
+    "range_threshold": 0.05,      # 5% de variation max pour considerer un range
+
+    # Volume analysis
+    "volume_spike_multiplier": 2.0,   # Volume > 2x moyenne = spike
+    "volume_dry_threshold": 0.5,      # Volume < 50% moyenne = dry up
+
+    # Spring/Upthrust
+    "spring_penetration_max": 0.02,   # Max 2% de penetration sous support
+    "upthrust_penetration_max": 0.02, # Max 2% de penetration au-dessus resistance
+
+    # Effort vs Result
+    "effort_result_threshold": 1.5,   # Ratio effort/result pour divergence
+
+    # Signal strength
+    "min_confidence": 0.6,
+}
+
+# =============================================================================
+# ELLIOTT WAVE (PARTIE XIV du MASTER_TRADING_SKILL)
+# =============================================================================
+ELLIOTT_CONFIG = {
+    # Swing detection
+    "swing_lookback": 5,          # Periodes pour identifier un pivot
+
+    # Wave validation
+    "wave2_max_retrace": 1.0,     # Vague 2 ne retrace pas plus de 100%
+    "wave4_min_retrace": 0.236,   # Vague 4 retrace au minimum 23.6%
+    "wave4_max_retrace": 0.50,    # Vague 4 ne depasse pas 50%
+
+    # Fibonacci ratios
+    "fib_tolerance": 0.02,        # 2% de tolerance sur les niveaux Fib
+
+    # Targets
+    "wave3_extension_target": 1.618,  # Target typique pour vague 3
+    "wave5_extension_target": 1.0,    # Target typique pour vague 5
+
+    # Signal strength
+    "min_confidence": 0.6,
+}
+
+# =============================================================================
+# ICHIMOKU (PARTIE XV du MASTER_TRADING_SKILL)
+# =============================================================================
+ICHIMOKU_CONFIG = {
+    # Periodes standard (Hosoda)
+    "tenkan_period": 9,
+    "kijun_period": 26,
+    "senkou_span_b_period": 52,
+    "chikou_displacement": 26,
+    "senkou_displacement": 26,
+
+    # Signal strength requirements
+    "require_price_above_kumo": True,     # Prix doit etre au-dessus du nuage (achat)
+    "require_tk_cross": True,             # Tenkan doit croiser Kijun
+    "require_chikou_confirmation": False, # Chikou Span confirmation (optionnel)
+
+    # Cloud thickness threshold
+    "thin_kumo_threshold": 0.01,  # Kumo < 1% = nuage fin (faible)
+
+    # Signal strength
+    "min_confidence": 0.6,
+}
+
+# =============================================================================
+# VOLUME PROFILE (PARTIE XVI du MASTER_TRADING_SKILL)
+# =============================================================================
+VOLUME_PROFILE_CONFIG = {
+    # Profile calculation
+    "num_bins": 50,               # Nombre de niveaux de prix
+    "lookback_periods": 30,       # Periodes pour calculer le profil
+    "value_area_percent": 0.70,   # 70% du volume = Value Area
+
+    # HVN/LVN detection
+    "hvn_threshold": 1.5,         # > 1.5x volume moyen = HVN
+    "lvn_threshold": 0.5,         # < 0.5x volume moyen = LVN
+
+    # Trading signals
+    "poc_bounce_tolerance": 0.005,    # 0.5% de tolerance pour rebond sur POC
+    "va_breakout_confirmation": 2,    # 2 bougies pour confirmer breakout VA
+
+    # Signal strength
+    "min_confidence": 0.6,
+}

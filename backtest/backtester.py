@@ -9,15 +9,31 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 import logging
 
-from config.settings import (
-    INITIAL_CAPITAL, RISK_PER_TRADE, MIN_RISK_REWARD,
-    MAX_OPEN_POSITIONS, TAKE_PROFIT_CONFIG
-)
+# Charger les settings utilisateur (modifiables depuis le dashboard)
+try:
+    from config.user_settings import load_user_settings
+    _settings = load_user_settings()
+    INITIAL_CAPITAL = _settings.get("INITIAL_CAPITAL", 10000)
+    RISK_PER_TRADE = _settings.get("RISK_PER_TRADE", 0.02)
+    MIN_RISK_REWARD = _settings.get("MIN_RISK_REWARD", 3.0)
+    MAX_OPEN_POSITIONS = _settings.get("MAX_OPEN_POSITIONS", 5)
+    TAKE_PROFIT_CONFIG = _settings.get("TAKE_PROFIT_CONFIG", {
+        "tp1_percent": 0.25,
+        "tp2_percent": 0.50,
+        "move_to_breakeven": True
+    })
+except ImportError:
+    # Fallback sur settings.py si user_settings n'existe pas
+    from config.settings import (
+        INITIAL_CAPITAL, RISK_PER_TRADE, MIN_RISK_REWARD,
+        MAX_OPEN_POSITIONS, TAKE_PROFIT_CONFIG
+    )
 from data.fetcher import get_fetcher
 from analysis.indicators import get_indicators
 from analysis.zones import get_zone_detector, find_swing_points, detect_breakout
 from analysis.patterns import get_pattern_detector
 from strategy.position_sizing import PositionSizer
+from strategy.strategy_selector import get_strategy_selector, StrategyType
 
 logger = logging.getLogger(__name__)
 
@@ -101,30 +117,63 @@ class Backtester:
 
     def __init__(
         self,
-        initial_capital: float = INITIAL_CAPITAL,
+        initial_capital: float = None,
         commission: float = 0.001,  # 0.1%
         slippage: float = 0.0005    # 0.05%
     ):
-        self.initial_capital = initial_capital
+        # Initialiser avec les settings utilisateur
+        self.initial_capital = initial_capital or INITIAL_CAPITAL
         self.commission = commission
         self.slippage = slippage
+
+        # Attributs qui seront charges par _reload_settings
+        self.risk_per_trade = RISK_PER_TRADE
+        self.min_risk_reward = MIN_RISK_REWARD
+        self.max_positions = MAX_OPEN_POSITIONS
+        self.take_profit_config = TAKE_PROFIT_CONFIG
 
         self.fetcher = get_fetcher()
         self.indicators = get_indicators()
         self.zones = get_zone_detector()
         self.patterns = get_pattern_detector()
-        self.position_sizer = PositionSizer(initial_capital)
+        self.position_sizer = PositionSizer(self.initial_capital)
 
-        # State
+        # State - reset() va recharger les settings
         self.reset()
 
     def reset(self):
-        """Reset le backtester"""
+        """Reset le backtester et recharge les settings"""
+        # Recharger les settings utilisateur a chaque reset
+        self._reload_settings()
+
         self.capital = self.initial_capital
         self.positions: Dict[str, BacktestTrade] = {}
         self.trades: List[BacktestTrade] = []
         self.equity_curve = []
         self.dates = []
+
+    def _reload_settings(self):
+        """Recharge les settings depuis user_settings.json"""
+        try:
+            from config.user_settings import load_user_settings
+            settings = load_user_settings()
+
+            self.initial_capital = settings.get("INITIAL_CAPITAL", 10000)
+            self.risk_per_trade = settings.get("RISK_PER_TRADE", 0.02)
+            self.min_risk_reward = settings.get("MIN_RISK_REWARD", 3.0)
+            self.max_positions = settings.get("MAX_OPEN_POSITIONS", 5)
+            self.take_profit_config = settings.get("TAKE_PROFIT_CONFIG", {
+                "tp1_percent": 0.25,
+                "tp2_percent": 0.50,
+                "move_to_breakeven": True
+            })
+
+            # Mettre a jour le position sizer
+            self.position_sizer = PositionSizer(self.initial_capital)
+
+            logger.info(f"Settings reloaded: Capital=${self.initial_capital}, Risk={self.risk_per_trade*100}%, R:R={self.min_risk_reward}")
+        except Exception as e:
+            logger.warning(f"Could not reload settings: {e}")
 
     # =========================================================================
     # MAIN BACKTEST
@@ -135,35 +184,35 @@ class Backtester:
         symbols: List[str],
         start_date: str,
         end_date: str = None,
-        strategy: str = "swing_trading"
+        strategy: str = "swing_trading",
+        timeframe: str = "1d"
     ) -> BacktestResult:
         """
-        Execute le backtest
+        Execute le backtest (OPTIMIZED VERSION)
 
         Args:
             symbols: Liste des symboles a tester
             start_date: Date de debut (YYYY-MM-DD)
             end_date: Date de fin (defaut: aujourd'hui)
             strategy: Strategie a utiliser
+            timeframe: Timeframe des donnees (1d, 1h, 15m, 5m, etc.)
 
         Returns:
             BacktestResult avec toutes les metriques
         """
+        import time
+        start_time = time.time()
+
         logger.info(f"Starting backtest from {start_date} to {end_date or 'today'}")
         logger.info(f"Symbols: {symbols}")
         logger.info(f"Strategy: {strategy}")
+        logger.info(f"Timeframe: {timeframe}")
 
         self.reset()
+        self.current_timeframe = timeframe
 
-        # Recuperer les donnees
-        all_data = {}
-        for symbol in symbols:
-            df = self.fetcher.get_daily_data(symbol, days=730)  # ~2 ans
-            if df is not None and len(df) > 50:
-                all_data[symbol] = self._prepare_data(df)
-                logger.info(f"Loaded {len(df)} bars for {symbol}")
-            else:
-                logger.warning(f"Insufficient data for {symbol}")
+        # Recuperer les donnees selon le timeframe (avec batch fetching)
+        all_data = self._fetch_all_data_batch(symbols, timeframe, start_date, end_date)
 
         if not all_data:
             logger.error("No data available for backtest")
@@ -174,34 +223,342 @@ class Backtester:
             if all_data[symbol].index.tz is not None:
                 all_data[symbol].index = all_data[symbol].index.tz_localize(None)
 
+        # Precalculer les swing points et breakouts pour chaque symbole (OPTIMISATION)
+        precomputed = self._precompute_signals(all_data, strategy)
+
+        fetch_time = time.time()
+        logger.info(f"Data fetching + precompute: {fetch_time - start_time:.1f}s")
+
         # Trouver les dates communes
         start = pd.Timestamp(start_date)
         end = pd.Timestamp(end_date) if end_date else pd.Timestamp.now()
 
-        # Simuler jour par jour
+        # Simuler bar par bar avec index numerique (OPTIMISATION: evite df.loc[:date])
         first_df = list(all_data.values())[0]
         dates = first_df.loc[start:end].index
+
+        # Verifier qu'on a des dates
+        if len(dates) == 0:
+            logger.warning(f"No data in date range {start_date} to {end_date}")
+            return self._empty_result()
+
+        # Creer un mapping date -> index pour chaque symbole
+        date_to_idx = {}
+        for symbol, df in all_data.items():
+            date_to_idx[symbol] = {date: i for i, date in enumerate(df.index)}
 
         for date in dates:
             # Mettre a jour positions existantes
             self._update_positions(all_data, date)
 
-            # Chercher nouveaux signaux
-            if len(self.positions) < MAX_OPEN_POSITIONS:
+            # Chercher nouveaux signaux (utilise les signaux precalcules)
+            if len(self.positions) < self.max_positions:
                 for symbol, df in all_data.items():
                     if symbol not in self.positions and date in df.index:
-                        signal = self._check_signal(df.loc[:date], strategy)
-                        if signal:
-                            self._open_position(symbol, df.loc[date], signal)
+                        idx = date_to_idx[symbol].get(date)
+                        if idx is not None and idx >= 50:
+                            # Utiliser signal precalcule si disponible
+                            signal = self._get_precomputed_signal(
+                                precomputed, symbol, idx, df, strategy
+                            )
+                            if signal:
+                                self._open_position(symbol, df.loc[date], signal)
 
             # Enregistrer equity
             self._record_equity(date, all_data)
 
         # Fermer positions restantes
-        self._close_all_positions(dates[-1], all_data)
+        if len(dates) > 0:
+            self._close_all_positions(dates[-1], all_data)
+
+        total_time = time.time() - start_time
+        logger.info(f"Backtest completed in {total_time:.1f}s")
 
         # Calculer resultats
         return self._calculate_results()
+
+    def _fetch_all_data_batch(
+        self,
+        symbols: List[str],
+        timeframe: str,
+        start_date: str,
+        end_date: str
+    ) -> Dict[str, pd.DataFrame]:
+        """
+        Telecharge toutes les donnees en batch (OPTIMISATION)
+        Utilise yf.download() pour telecharger plusieurs symboles en parallele
+        """
+        import yfinance as yf
+
+        all_data = {}
+
+        # Config timeframe
+        timeframe_config = {
+            '1d': {'interval': '1d', 'max_days': 3650},
+            '1h': {'interval': '1h', 'max_days': 729},
+            '30m': {'interval': '30m', 'max_days': 60},
+            '15m': {'interval': '15m', 'max_days': 60},
+            '5m': {'interval': '5m', 'max_days': 60},
+            '1m': {'interval': '1m', 'max_days': 7},
+        }
+        config = timeframe_config.get(timeframe, timeframe_config['1d'])
+
+        try:
+            # Batch download - beaucoup plus rapide que des appels individuels
+            logger.info(f"Batch downloading {len(symbols)} symbols...")
+
+            df_all = yf.download(
+                symbols,
+                start=start_date,
+                end=end_date or datetime.now().strftime('%Y-%m-%d'),
+                interval=config['interval'],
+                group_by='ticker',
+                progress=False,
+                threads=True  # Telecharger en parallele
+            )
+
+            if df_all.empty:
+                logger.warning("Batch download returned empty, falling back to sequential")
+                return self._fetch_all_data_sequential(symbols, timeframe, start_date, end_date)
+
+            # Extraire les donnees par symbole
+            for symbol in symbols:
+                try:
+                    if len(symbols) == 1:
+                        # Si un seul symbole, pas de multi-index
+                        df = df_all.copy()
+                        df.columns = [str(c).lower() for c in df.columns]
+                    else:
+                        # Gerer MultiIndex ou colonnes groupees
+                        if isinstance(df_all.columns, pd.MultiIndex):
+                            # Essayer d'extraire par symbole
+                            try:
+                                df = df_all[symbol].copy()
+                            except KeyError:
+                                df = df_all.xs(symbol, axis=1, level=0).copy()
+                        else:
+                            df = df_all[symbol].copy()
+
+                        # Nettoyer les colonnes
+                        df.columns = [str(c).lower() for c in df.columns]
+
+                    if df.empty or len(df) < 50:
+                        logger.warning(f"Insufficient data for {symbol}")
+                        continue
+
+                    df = df.dropna()
+
+                    # Garder OHLCV - chercher les colonnes avec differents noms possibles
+                    col_mapping = {}
+                    for col in df.columns:
+                        col_lower = col.lower()
+                        if 'open' in col_lower:
+                            col_mapping[col] = 'open'
+                        elif 'high' in col_lower:
+                            col_mapping[col] = 'high'
+                        elif 'low' in col_lower:
+                            col_mapping[col] = 'low'
+                        elif 'close' in col_lower and 'adj' not in col_lower:
+                            col_mapping[col] = 'close'
+                        elif 'volume' in col_lower:
+                            col_mapping[col] = 'volume'
+
+                    df = df.rename(columns=col_mapping)
+                    required_cols = ['open', 'high', 'low', 'close', 'volume']
+                    missing = [c for c in required_cols if c not in df.columns]
+                    if missing:
+                        logger.warning(f"Missing columns for {symbol}: {missing}")
+                        continue
+
+                    df = df[required_cols]
+                    df['symbol'] = symbol
+
+                    # Ajouter indicateurs
+                    df = self._prepare_data(df)
+                    all_data[symbol] = df
+                    logger.info(f"Loaded {len(df)} bars for {symbol}")
+
+                except Exception as e:
+                    logger.warning(f"Error processing {symbol}: {e}")
+                    continue
+
+        except Exception as e:
+            logger.warning(f"Batch download failed: {e}, falling back to sequential")
+            return self._fetch_all_data_sequential(symbols, timeframe, start_date, end_date)
+
+        return all_data
+
+    def _fetch_all_data_sequential(
+        self,
+        symbols: List[str],
+        timeframe: str,
+        start_date: str,
+        end_date: str
+    ) -> Dict[str, pd.DataFrame]:
+        """Fallback: telecharge sequentiellement si batch echoue"""
+        all_data = {}
+        for symbol in symbols:
+            df = self._fetch_data_for_timeframe(symbol, timeframe, start_date, end_date)
+            if df is not None and len(df) > 50:
+                all_data[symbol] = self._prepare_data(df)
+                logger.info(f"Loaded {len(df)} bars for {symbol} ({timeframe})")
+            else:
+                logger.warning(f"Insufficient data for {symbol}")
+        return all_data
+
+    def _precompute_signals(
+        self,
+        all_data: Dict[str, pd.DataFrame],
+        strategy: str
+    ) -> Dict[str, Dict]:
+        """
+        Precalcule les swing points et signaux pour chaque symbole (OPTIMISATION V2)
+        Version vectorisee - evite les boucles Python lentes
+        """
+        precomputed = {}
+
+        for symbol, df in all_data.items():
+            try:
+                # Calculer swing points une seule fois pour tout le DataFrame
+                swing_highs, swing_lows = find_swing_points(df)
+
+                # Version OPTIMISEE: detecter les breakouts de maniere vectorisee
+                breakouts = self._detect_breakouts_vectorized(df, swing_highs, swing_lows)
+
+                precomputed[symbol] = {
+                    'swing_highs': swing_highs,
+                    'swing_lows': swing_lows,
+                    'breakouts': breakouts
+                }
+
+            except Exception as e:
+                logger.warning(f"Error precomputing for {symbol}: {e}")
+                precomputed[symbol] = {'swing_highs': [], 'swing_lows': [], 'breakouts': {}}
+
+        return precomputed
+
+    def _detect_breakouts_vectorized(
+        self,
+        df: pd.DataFrame,
+        swing_highs: List[Dict],
+        swing_lows: List[Dict]
+    ) -> Dict[int, Dict]:
+        """
+        Detection vectorisee des breakouts (OPTIMISATION)
+        Evite de slicer le DataFrame a chaque iteration
+
+        Args:
+            swing_highs: Liste de dicts {'index': i, 'price': p, 'date': d}
+            swing_lows: Liste de dicts {'index': i, 'price': p, 'date': d}
+        """
+        breakouts = {}
+
+        if not swing_highs or not swing_lows:
+            return breakouts
+
+        # Convertir en arrays numpy pour performance
+        highs = df['high'].values
+        lows = df['low'].values
+        closes = df['close'].values
+
+        # Extraire indices et prix des swing points
+        swing_high_indices = np.array([sh['index'] for sh in swing_highs])
+        swing_high_prices = np.array([sh['price'] for sh in swing_highs])
+        swing_low_indices = np.array([sl['index'] for sl in swing_lows])
+        swing_low_prices = np.array([sl['price'] for sl in swing_lows])
+
+        # Pour chaque barre apres le minimum requis
+        for i in range(50, len(df)):
+            # Filtrer swing points visibles a cette barre (lookback)
+            lookback = 20
+            valid_high_mask = (swing_high_indices < i) & (swing_high_indices >= i - lookback)
+            valid_low_mask = (swing_low_indices < i) & (swing_low_indices >= i - lookback)
+
+            if not np.any(valid_high_mask) or not np.any(valid_low_mask):
+                continue
+
+            # Trouver le dernier swing high/low dans la fenetre
+            valid_high_idx = np.where(valid_high_mask)[0]
+            valid_low_idx = np.where(valid_low_mask)[0]
+
+            last_swing_high = swing_high_prices[valid_high_idx[-1]]
+            last_swing_low = swing_low_prices[valid_low_idx[-1]]
+
+            current_close = closes[i]
+            current_high = highs[i]
+            current_low = lows[i]
+
+            # Detecter breakout haussier
+            if current_close > last_swing_high and current_high > last_swing_high:
+                breakouts[i] = {
+                    'direction': 'buy',
+                    'level': last_swing_high,
+                    'strength': (current_close - last_swing_high) / last_swing_high
+                }
+            # Detecter breakout baissier
+            elif current_close < last_swing_low and current_low < last_swing_low:
+                breakouts[i] = {
+                    'direction': 'sell',
+                    'level': last_swing_low,
+                    'strength': (last_swing_low - current_close) / last_swing_low
+                }
+
+        return breakouts
+
+    def _get_precomputed_signal(
+        self,
+        precomputed: Dict,
+        symbol: str,
+        idx: int,
+        df: pd.DataFrame,
+        strategy: str
+    ) -> Optional[Dict]:
+        """
+        Recupere un signal precalcule ou calcule si necessaire
+        """
+        # Pour swing trading, utiliser les breakouts precalcules
+        if strategy.lower() in ['swing_trading', 'swing']:
+            if symbol not in precomputed:
+                return None
+
+            breakout = precomputed[symbol]['breakouts'].get(idx)
+            if not breakout:
+                return None
+
+            # Construire le signal a partir du breakout precalcule
+            direction = breakout['direction']
+            current_price = df['close'].iloc[idx]
+            atr = df['atr'].iloc[idx] if 'atr' in df.columns else current_price * 0.02
+            rsi = df['rsi'].iloc[idx] if 'rsi' in df.columns else 50
+
+            if direction == 'buy':
+                if rsi > 70:
+                    return None
+                stop_loss = current_price - (atr * 2)
+                take_profit = current_price + (atr * 2 * self.min_risk_reward)
+            else:
+                if rsi < 30:
+                    return None
+                stop_loss = current_price + (atr * 2)
+                take_profit = current_price - (atr * 2 * self.min_risk_reward)
+
+            risk = abs(current_price - stop_loss)
+            reward = abs(take_profit - current_price)
+            rr = reward / risk if risk > 0 else 0
+
+            if rr < self.min_risk_reward:
+                return None
+
+            return {
+                'direction': direction,
+                'entry': current_price,
+                'stop_loss': stop_loss,
+                'take_profit': take_profit,
+                'risk_reward': rr
+            }
+
+        # Pour autres strategies, utiliser la methode originale (avec slice optimise)
+        return self._check_signal(df.iloc[:idx+1], strategy, symbol)
 
     def _prepare_data(self, df: pd.DataFrame) -> pd.DataFrame:
         """Prepare les donnees avec indicateurs"""
@@ -209,9 +566,89 @@ class Backtester:
         df = self.indicators.add_all_indicators(df)
         return df
 
-    def _check_signal(self, df: pd.DataFrame, strategy: str) -> Optional[Dict]:
+    def _fetch_data_for_timeframe(
+        self,
+        symbol: str,
+        timeframe: str,
+        start_date: str,
+        end_date: str
+    ) -> Optional[pd.DataFrame]:
         """
-        Verifie si un signal est present
+        Recupere les donnees pour un timeframe specifique
+
+        Args:
+            symbol: Symbole
+            timeframe: Timeframe (1d, 1h, 15m, 5m, etc.)
+            start_date: Date debut
+            end_date: Date fin
+
+        Returns:
+            DataFrame avec les donnees OHLCV
+        """
+        # Calculer la periode necessaire
+        start = pd.Timestamp(start_date)
+        end = pd.Timestamp(end_date) if end_date else pd.Timestamp.now()
+        days_needed = (end - start).days + 30  # Marge pour indicateurs
+
+        # Mapper timeframe vers yfinance interval et period
+        timeframe_config = {
+            '1d': {'interval': '1d', 'max_days': 3650, 'period': '5y'},
+            '1h': {'interval': '1h', 'max_days': 729, 'period': '2y'},
+            '30m': {'interval': '30m', 'max_days': 60, 'period': '60d'},
+            '15m': {'interval': '15m', 'max_days': 60, 'period': '60d'},
+            '5m': {'interval': '5m', 'max_days': 60, 'period': '60d'},
+            '1m': {'interval': '1m', 'max_days': 7, 'period': '7d'},
+        }
+
+        config = timeframe_config.get(timeframe, timeframe_config['1d'])
+
+        # Limiter selon les contraintes yfinance
+        if days_needed > config['max_days']:
+            logger.warning(f"Requested {days_needed} days but {timeframe} limited to {config['max_days']} days")
+            days_needed = config['max_days']
+
+        try:
+            # Utiliser yfinance directement pour avoir plus de controle
+            import yfinance as yf
+            ticker = yf.Ticker(symbol)
+
+            # Pour les timeframes intraday, utiliser period car start/end ne fonctionne pas bien
+            if timeframe in ['1m', '5m', '15m', '30m']:
+                df = ticker.history(period=config['period'], interval=config['interval'])
+            else:
+                # Pour daily et hourly, on peut utiliser start/end
+                df = ticker.history(
+                    start=start_date,
+                    end=end_date or datetime.now().strftime('%Y-%m-%d'),
+                    interval=config['interval']
+                )
+
+            if df.empty:
+                logger.warning(f"No data for {symbol} ({timeframe})")
+                return None
+
+            # Nettoyer les colonnes
+            df.columns = [col.lower() for col in df.columns]
+
+            # Garder OHLCV
+            required_cols = ['open', 'high', 'low', 'close', 'volume']
+            df = df[[col for col in required_cols if col in df.columns]]
+            df['symbol'] = symbol
+
+            return df
+
+        except Exception as e:
+            logger.error(f"Error fetching {symbol} ({timeframe}): {e}")
+            return None
+
+    def _check_signal(self, df: pd.DataFrame, strategy: str, symbol: str = "UNKNOWN") -> Optional[Dict]:
+        """
+        Verifie si un signal est present en utilisant le StrategySelector
+
+        Args:
+            df: DataFrame avec les donnees OHLCV et indicateurs
+            strategy: Nom de la strategie ('swing_trading', 'wyckoff', 'elliott', 'ichimoku', 'volume_profile', 'combined')
+            symbol: Symbole du titre
 
         Returns:
             Dict avec direction, entry, sl, tp si signal
@@ -219,11 +656,66 @@ class Backtester:
         if len(df) < 50:
             return None
 
-        # Trouver swing points
-        swing_highs, swing_lows = find_swing_points(df)
+        # Swing Trading utilise la logique de base (breakout) car il telecharge ses propres donnees
+        if strategy.lower() in ['swing_trading', 'swing']:
+            return self._check_signal_fallback(df)
 
-        # Detecter breakout
+        # Mapper le nom de strategie vers StrategyType
+        strategy_map = {
+            'wyckoff': StrategyType.WYCKOFF,
+            'elliott': StrategyType.ELLIOTT,
+            'ichimoku': StrategyType.ICHIMOKU,
+            'volume_profile': StrategyType.VOLUME_PROFILE,
+            'combined': StrategyType.COMBINED
+        }
+
+        strategy_type = strategy_map.get(strategy.lower())
+        if not strategy_type:
+            return self._check_signal_fallback(df)
+
+        # Utiliser le StrategySelector pour analyser
+        selector = get_strategy_selector()
+
+        # Sauvegarder la config actuelle
+        prev_strategy = selector.active_strategy
+        prev_combination = selector.combination_mode
+
+        try:
+            # Configurer la strategie demandee
+            selector.set_active_strategy(strategy_type)
+
+            # Analyser avec la strategie choisie
+            signal = selector.analyze(symbol, df, None)
+
+            if signal and signal.direction != 'neutral':
+                return {
+                    'direction': signal.direction,
+                    'entry': signal.entry_price,
+                    'stop_loss': signal.stop_loss,
+                    'take_profit': signal.take_profit,
+                    'risk_reward': signal.risk_reward
+                }
+
+            return None
+
+        except Exception as e:
+            logger.warning(f"Error in strategy analysis: {e}")
+            # Fallback: utiliser la logique de base si erreur
+            return self._check_signal_fallback(df)
+        finally:
+            # Restaurer la config precedente
+            if prev_combination:
+                selector.combination_mode = True
+                selector.active_strategy = None
+            else:
+                selector.active_strategy = prev_strategy
+                selector.combination_mode = False
+
+    def _check_signal_fallback(self, df: pd.DataFrame) -> Optional[Dict]:
+        """Logique de signal de fallback (swing trading basique)"""
+        swing_highs, swing_lows = find_swing_points(df)
         breakout = detect_breakout(df, swing_highs, swing_lows)
+
         if not breakout:
             return None
 
@@ -231,27 +723,25 @@ class Backtester:
         current_price = df['close'].iloc[-1]
         atr = df['atr'].iloc[-1] if 'atr' in df.columns else current_price * 0.02
 
-        # Verifier indicateurs
         latest = df.iloc[-1]
         rsi = latest.get('rsi', 50)
 
         if direction == 'buy':
-            if rsi > 70:  # Surachat
+            if rsi > 70:
                 return None
             stop_loss = current_price - (atr * 2)
-            take_profit = current_price + (atr * 2 * MIN_RISK_REWARD)
+            take_profit = current_price + (atr * 2 * self.min_risk_reward)
         else:
-            if rsi < 30:  # Survente
+            if rsi < 30:
                 return None
             stop_loss = current_price + (atr * 2)
-            take_profit = current_price - (atr * 2 * MIN_RISK_REWARD)
+            take_profit = current_price - (atr * 2 * self.min_risk_reward)
 
-        # Verifier R:R
         risk = abs(current_price - stop_loss)
         reward = abs(take_profit - current_price)
         rr = reward / risk if risk > 0 else 0
 
-        if rr < MIN_RISK_REWARD:
+        if rr < self.min_risk_reward:
             return None
 
         return {
